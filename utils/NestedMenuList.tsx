@@ -1,7 +1,7 @@
 import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs';
 import { GiReceiveMoney } from 'react-icons/gi';
 import { HiUserGroup } from 'react-icons/hi';
-import { IoMdArrowDropright } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDropright } from 'react-icons/io';
 import React from 'react';
 
 interface NestedMenuItem {
@@ -11,84 +11,89 @@ interface NestedMenuItem {
 }
 
 interface NestedMenuType {
-  id: string;
+  id: number;
   title: string;
-  path: string;
+
   icon: React.ReactNode;
+  icon1: React.ReactNode;
+  icon2: React.ReactNode;
   list: NestedMenuItem[];
 }
 
 const NestedMenuList: NestedMenuType[] = [
   {
-    id: "1",
+    id: 1,
     title: "My team",
-    path: "",
     icon: <HiUserGroup />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
     list: [
       {
         title: "Direct Team",
-        path: "/directteam",
+        path: "/dashboard/directteam",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Team",
-        path: "/tierteam",
+        path: "/dashboard/tierteam",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Upline Team",
-        path: "/tieruplineteam",
+        path: "/dashboard/tieruplineteam",
         icon: <IoMdArrowDropright />,
       },
     ],
   },
   {
-    id: "2",
+    id: 2,
     title: "Activation",
-    path: "/bncoin",
     icon: <BsReverseLayoutTextSidebarReverse />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
     list: [
       {
         title: "Plan Transaction History",
-        path: "/plantranxhistory",
+        path: "/dashboard/plantranxhistory",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Create New Believer",
-        path: "/createnewbeliever",
+        path: "/dashboard/createnewbeliever",
         icon: <IoMdArrowDropright />,
       },
     ],
   },
   {
-    id: "3",
+    id: 3,
     title: "My Earnings",
-    path: "/bncoin",
     icon: <GiReceiveMoney />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
     list: [
       {
         title: "Direct Earnings",
-        path: "/directearnings",
+        path: "/dashboard/directearnings",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Earnings",
-        path: "/tierearnings",
+        path: "/dashboard/tierearnings",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Planet Upgrade Earnings",
-        path: "/planetupearnings",
+        path: "/dashboard/planetupearnings",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "BN Coin Earnings",
-        path: "/bncoinearnings",
+        path: "/dashboard/bncoinearnings",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Auto Pool Earnings",
-        path: "/autopoolearnings",
+        path: "/dashboard/autopoolearnings",
         icon: <IoMdArrowDropright />,
       },
     ],

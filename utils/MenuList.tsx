@@ -21,25 +21,25 @@ const MenuList = [
   {
     id: "2",
     title: "BN System",
-    path: "/bnsystem",
+    path: "/dashboard/bnsystem",
     icon: <LuSun />,
   },
   {
     id: "3",
     title: "Universe",
-    path: "/universe",
+    path: "/dashboard/universe",
     icon: <TbUniverse />,
   },
   {
     id: "4",
     title: "BN coin",
-    path: "/bncoin",
+    path: "/dashboard/bncoin",
     icon: <SiBitcoinsv />,
   },
   {
     id: "5",
     title: "Live Planet Status",
-    path: "/live-planet-status", // Corrected path to make it unique
+    path: "/dashboard/liveplanetstatus", // Corrected path to make it unique
     icon: <FaChartLine />,
   },
 ];
