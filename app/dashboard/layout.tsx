@@ -6,11 +6,11 @@ import React from 'react'
 
 const Dashboardlayout = ({children}:{children:React.ReactNode}) => {
   return (
-    <div className='flex flex-row'>
+    <div className='flex flex-row '>
         <div>
             <Sidebar/>
         </div>
-        <div className=''>
+        <div className='w-full'>
             <DashboardNavbar/>
             {children}
         </div>
