@@ -62,9 +62,7 @@ const UserInfo = () => {
                         <span className='text-zinc-500 text-xl font-bold'>Direct Team: </span>
                         <span>BNO52767</span>
                     </div>
-                    <div>
-                        <FaRegCopy />
-                    </div>
+                   
                 </div>
                 <hr />
                 <div className='flex items-center justify-between pt-1'>
@@ -73,9 +71,7 @@ const UserInfo = () => {
                         <span className='text-zinc-500 text-xl font-bold'>Total Team : </span>
                         <span>4191</span>
                     </div>
-                    <div>
-                        <FaRegCopy />
-                    </div>
+                    
                 </div>
             </div>
         </>

@@ -42,7 +42,7 @@ const Sidebar = () => {
         />
       </div>
 
-      <div className='mt-4'>
+      <div className='mt-2'>
         <ul className='flex flex-col p-3 pl-5 text-stone-400 text-md font-medium'>
           {
             MenuList.map((menu) => (

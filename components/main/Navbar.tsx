@@ -61,8 +61,8 @@ const Navbar = () => {
                 </div>
             ))
            }
-           <div className='ml-auto flex items-center gap-5'>
-           <div className='bg-yellow-500 px-3 py-1 rounded-md'>
+           <div className='ml-auto flex items-center gap-5 '>
+           <div className='bg-yellow-500 px-3  py-2.5 rounded-md'>
             Connect Wallet
            </div>
            <div className='bg-gray-800 px-3 py-1 rounded-md'>
