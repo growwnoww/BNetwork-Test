@@ -21,7 +21,7 @@ const Planetupgradediv = () => {
 
           
         </div>
-        <BtnWrapper text='show' height='py-2' width='px-10'/>
+        <BtnWrapper text='show' height='py-2' width='px-10' path='/dashboard/bnsystem/planetupgrade'/>
        </div>
 
         
