@@ -74,3 +74,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.circle_img{
+  background: url('../public/circle1.svg') 50%/100% no-repeat;
+}

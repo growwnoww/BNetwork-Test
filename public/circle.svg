@@ -1,0 +1,11 @@
+<svg width="755" height="736" viewBox="0 0 755 736" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M233.184 223.185C271.592 184.777 323.684 163.2 378 163.2C432.316 163.2 484.408 184.777 522.815 223.185L468.542 277.457C444.529 253.444 411.96 239.954 378 239.954C344.04 239.954 311.471 253.444 287.457 277.458L233.184 223.185Z" fill="#333333" stroke="#333333" stroke-linejoin="round"/>
+    
+    <!-- Inner Circles -->
+    <circle cx="378" cy="368" r="128" fill="none" stroke="#4D4D4D" stroke-linejoin="round"/>
+    <circle cx="378" cy="368" r="204.8" fill="none" stroke="#4D4D4D" stroke-linejoin="round"/>
+    <circle cx="378" cy="368" r="281.6" fill="none" stroke="#333333" stroke-linejoin="round"/>
+    <circle cx="378" cy="368" r="358.4" fill="none" stroke="#333333" stroke-linejoin="round"/>
+    <circle cx="378" cy="368" r="435.2" fill="none" stroke="#333333" stroke-linejoin="round"/>
+    <circle cx="378" cy="368" r="512" fill="none" stroke="#333333" stroke-linejoin="round"/>
+</svg>

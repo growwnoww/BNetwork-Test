@@ -8,7 +8,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:2,
@@ -18,7 +21,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:3,
@@ -28,7 +34,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
 
     {
@@ -39,7 +48,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:5,
@@ -49,7 +61,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:6,
@@ -59,7 +74,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:7,
@@ -69,7 +87,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },   {
         id:8,
         packageName:"Uranus",
@@ -78,7 +99,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:9,
@@ -88,7 +112,10 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
     {
         id:10,
@@ -98,6 +125,9 @@ export const ClubAPackageList = [
         centerImage:'/yellow.png',
         orangeImage:'/orange.png',
         sil1Image:'/silver.png',
-        sil2Image:'/silver.png'
+        sil2Image:'/silver.png',
+        redImage:'/Red.png',
+        green1Image:'/Green.png',
+        green2Image:'/Green.png'
     },
 ]

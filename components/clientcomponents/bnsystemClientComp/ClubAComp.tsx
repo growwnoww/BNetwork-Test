@@ -48,7 +48,7 @@ const ClubAComp = ({PlanetName,PlanetPrice,Members,centerImg,orangeImg,sil1Img,s
 
           <div className='py-3 px-2 relative'>
             <Progress  value={value}/>
-            <div className={`absolute top-1 left-[${value}%]`}>{value}%</div>
+            <div className={`absolute top-1 right-[1%]`}>{value}%</div>
            </div>
 
     </div>
