@@ -1,0 +1,800 @@
+{
+	"knownSymbols": {
+		"React": [
+			{
+				"name": "React",
+				"module": "react",
+				"isDefault": true,
+				"asDefinition": "* as React"
+			}
+		],
+		"BsCoin": [
+			{
+				"name": "BsCoin",
+				"module": "react-icons/bs",
+				"isDefault": false
+			}
+		],
+		"MdOutlineOfflineBolt": [
+			{
+				"name": "MdOutlineOfflineBolt",
+				"module": "react-icons/md",
+				"isDefault": false
+			}
+		],
+		"RiBitCoinLine": [
+			{
+				"name": "RiBitCoinLine",
+				"module": "react-icons/ri",
+				"isDefault": false
+			}
+		],
+		"TbCoin": [
+			{
+				"name": "TbCoin",
+				"module": "react-icons/tb",
+				"isDefault": false
+			}
+		],
+		"PlanetUpPackageList": [
+			{
+				"name": "PlanetUpPackageList",
+				"module": "@/utils/PackageList",
+				"isDefault": true
+			},
+			{
+				"name": "PlanetUpPackageList",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\PackageList.ts",
+				"isDefault": true
+			}
+		],
+		"BsReverseLayoutTextSidebarReverse": [
+			{
+				"name": "BsReverseLayoutTextSidebarReverse",
+				"module": "react-icons/bs",
+				"isDefault": false
+			}
+		],
+		"GiReceiveMoney": [
+			{
+				"name": "GiReceiveMoney",
+				"module": "react-icons/gi",
+				"isDefault": false
+			}
+		],
+		"HiUserGroup": [
+			{
+				"name": "HiUserGroup",
+				"module": "react-icons/hi",
+				"isDefault": false
+			}
+		],
+		"IoIosArrowDown": [
+			{
+				"name": "IoIosArrowDown",
+				"module": "react-icons/io",
+				"isDefault": false
+			}
+		],
+		"IoIosArrowUp": [
+			{
+				"name": "IoIosArrowUp",
+				"module": "react-icons/io",
+				"isDefault": false
+			}
+		],
+		"IoMdArrowDropright": [
+			{
+				"name": "IoMdArrowDropright",
+				"module": "react-icons/io",
+				"isDefault": false
+			}
+		],
+		"slideInFromLeft": [
+			{
+				"name": "slideInFromLeft",
+				"module": "@/utils/motion",
+				"isDefault": false
+			},
+			{
+				"name": "slideInFromLeft",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\motion.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"slideInFromRight": [
+			{
+				"name": "slideInFromRight",
+				"module": "@/utils/motion",
+				"isDefault": false
+			},
+			{
+				"name": "slideInFromRight",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\motion.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"slideInFromTop": [
+			{
+				"name": "slideInFromTop",
+				"module": "@/utils/motion",
+				"isDefault": false
+			},
+			{
+				"name": "slideInFromTop",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\motion.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"FaChartLine": [
+			{
+				"name": "FaChartLine",
+				"module": "react-icons/fa",
+				"isDefault": false
+			}
+		],
+		"IoHomeOutline": [
+			{
+				"name": "IoHomeOutline",
+				"module": "react-icons/io5",
+				"isDefault": false
+			}
+		],
+		"LuSun": [
+			{
+				"name": "LuSun",
+				"module": "react-icons/lu",
+				"isDefault": false
+			}
+		],
+		"SiBitcoinsv": [
+			{
+				"name": "SiBitcoinsv",
+				"module": "react-icons/si",
+				"isDefault": false
+			}
+		],
+		"TbUniverse": [
+			{
+				"name": "TbUniverse",
+				"module": "react-icons/tb",
+				"isDefault": false
+			}
+		],
+		"ClubAStructureData": [
+			{
+				"name": "ClubAStructureData",
+				"module": "@/utils/ClubAStructureList",
+				"isDefault": false
+			},
+			{
+				"name": "ClubAStructureData",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\ClubAStructureList.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"ClubAPackageList": [
+			{
+				"name": "ClubAPackageList",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\utils\\CLubAPackages.ts",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"config": [
+			{
+				"name": "config",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\tailwind.config.ts",
+				"isDefault": true
+			}
+		],
+		"type { Config": [
+			{
+				"name": "type { Config",
+				"module": "tailwindcss",
+				"isDefault": true
+			}
+		],
+		"cn": [
+			{
+				"name": "cn",
+				"module": "@/lib/utils",
+				"isDefault": false
+			},
+			{
+				"name": "cn",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\lib\\utils.ts",
+				"type": "function",
+				"isDefault": false
+			}
+		],
+		"type ClassValue": [
+			{
+				"name": "type ClassValue",
+				"module": "clsx",
+				"isDefault": false
+			}
+		],
+		"clsx": [
+			{
+				"name": "clsx",
+				"module": "clsx",
+				"isDefault": false
+			}
+		],
+		"twMerge": [
+			{
+				"name": "twMerge",
+				"module": "tailwind-merge",
+				"isDefault": false
+			}
+		],
+		"useCountry": [
+			{
+				"name": "useCountry",
+				"module": "@/Hooks/useCountry",
+				"isDefault": true
+			},
+			{
+				"name": "useCountry",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\Hooks\\useCountry.ts",
+				"isDefault": true
+			}
+		],
+		"{ useEffect": [
+			{
+				"name": "{ useEffect",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useState": [
+			{
+				"name": "useState",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"HeadingWrapper": [
+			{
+				"name": "HeadingWrapper",
+				"module": "@/components/WrapperComponent/HeadingWrapper",
+				"isDefault": true
+			},
+			{
+				"name": "HeadingWrapper",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\WrapperComponent\\HeadingWrapper.tsx",
+				"isDefault": true
+			}
+		],
+		"BtnWrapper": [
+			{
+				"name": "BtnWrapper",
+				"module": "@/components/WrapperComponent/BtnWrapper",
+				"isDefault": true
+			},
+			{
+				"name": "BtnWrapper",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\WrapperComponent\\BtnWrapper.tsx",
+				"isDefault": true
+			}
+		],
+		"Link": [
+			{
+				"name": "Link",
+				"module": "next/link",
+				"isDefault": true
+			}
+		],
+		"{ memo": [
+			{
+				"name": "{ memo",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"ProgressPrimitive": [
+			{
+				"name": "ProgressPrimitive",
+				"module": "@radix-ui/react-progress",
+				"isDefault": true,
+				"asDefinition": "* as ProgressPrimitive"
+			}
+		],
+		"HeroContent": [
+			{
+				"name": "HeroContent",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\sub\\HeroContent.tsx",
+				"isDefault": true
+			}
+		],
+		"motion": [
+			{
+				"name": "motion",
+				"module": "framer-motion",
+				"isDefault": false
+			}
+		],
+		"SparklesIcon": [
+			{
+				"name": "SparklesIcon",
+				"module": "@heroicons/react/24/solid",
+				"isDefault": false
+			}
+		],
+		"Image": [
+			{
+				"name": "Image",
+				"module": "next/image",
+				"isDefault": true
+			}
+		],
+		"StarsCanvas": [
+			{
+				"name": "StarsCanvas",
+				"module": "@/components/main/StarBackground",
+				"isDefault": true
+			},
+			{
+				"name": "StarsCanvas",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\main\\StarBackground.tsx",
+				"isDefault": true
+			}
+		],
+		"{ useState": [
+			{
+				"name": "{ useState",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"useRef": [
+			{
+				"name": "useRef",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"Suspense": [
+			{
+				"name": "Suspense",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"Canvas": [
+			{
+				"name": "Canvas",
+				"module": "@react-three/fiber",
+				"isDefault": false
+			}
+		],
+		"useFrame": [
+			{
+				"name": "useFrame",
+				"module": "@react-three/fiber",
+				"isDefault": false
+			}
+		],
+		"Points": [
+			{
+				"name": "Points",
+				"module": "@react-three/drei",
+				"isDefault": false
+			}
+		],
+		"PointMaterial": [
+			{
+				"name": "PointMaterial",
+				"module": "@react-three/drei",
+				"isDefault": false
+			}
+		],
+		"Preload": [
+			{
+				"name": "Preload",
+				"module": "@react-three/drei",
+				"isDefault": false
+			}
+		],
+		"random": [
+			{
+				"name": "random",
+				"module": "maath/random/dist/maath-random.esm",
+				"isDefault": true,
+				"asDefinition": "* as random"
+			}
+		],
+		"Navbar": [
+			{
+				"name": "Navbar",
+				"module": "@/components/main/Navbar",
+				"isDefault": true
+			},
+			{
+				"name": "Navbar",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\main\\Navbar.tsx",
+				"isDefault": true
+			}
+		],
+		"Hero": [
+			{
+				"name": "Hero",
+				"module": "@/components/main/Hero",
+				"isDefault": true
+			},
+			{
+				"name": "Hero",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\main\\Hero.tsx",
+				"isDefault": true
+			}
+		],
+		"ProfileAvatar": [
+			{
+				"name": "ProfileAvatar",
+				"module": "@/components/dashboardComponents/userProfile/ProfileAvatar",
+				"isDefault": true
+			},
+			{
+				"name": "ProfileAvatar",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\dashboardComponents\\userProfile\\ProfileAvatar.tsx",
+				"isDefault": true
+			}
+		],
+		"UserInfo": [
+			{
+				"name": "UserInfo",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\UserInfo.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "UserInfo",
+				"module": "@/components/clientcomponents/UserInfo",
+				"isDefault": true
+			}
+		],
+		"FaRegCopy": [
+			{
+				"name": "FaRegCopy",
+				"module": "react-icons/fa",
+				"isDefault": false
+			}
+		],
+		"Sidebar": [
+			{
+				"name": "Sidebar",
+				"module": "@/components/dashboardComponents/sidebar/Sidebar",
+				"isDefault": true
+			},
+			{
+				"name": "Sidebar",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\dashboardComponents\\sidebar\\Sidebar.tsx",
+				"isDefault": true
+			}
+		],
+		"MenuList": [
+			{
+				"name": "MenuList",
+				"module": "@/utils/MenuList",
+				"isDefault": false
+			}
+		],
+		"NestedMenuList": [
+			{
+				"name": "NestedMenuList",
+				"module": "@/utils/NestedMenuList",
+				"isDefault": false
+			}
+		],
+		"usePathname": [
+			{
+				"name": "usePathname",
+				"module": "next/navigation",
+				"isDefault": false
+			}
+		],
+		"MdOutlineTipsAndUpdates": [
+			{
+				"name": "MdOutlineTipsAndUpdates",
+				"module": "react-icons/md",
+				"isDefault": false
+			}
+		],
+		"DashboardNavbar": [
+			{
+				"name": "DashboardNavbar",
+				"module": "@/components/dashboardComponents/navbar/DashboardNavbar",
+				"isDefault": true
+			},
+			{
+				"name": "DashboardNavbar",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\dashboardComponents\\navbar\\DashboardNavbar.tsx",
+				"isDefault": true
+			}
+		],
+		"CurrentBalanceComp": [
+			{
+				"name": "CurrentBalanceComp",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\CurrentBalanceComp.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "CurrentBalanceComp",
+				"module": "@/components/clientcomponents/CurrentBalanceComp",
+				"isDefault": true
+			}
+		],
+		"CurrentRouteHeading": [
+			{
+				"name": "CurrentRouteHeading",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\CurrentRouteHeading.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "CurrentRouteHeading",
+				"module": "@/components/clientcomponents/CurrentRouteHeading",
+				"isDefault": true
+			}
+		],
+		"LanguageSelector": [
+			{
+				"name": "LanguageSelector",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\LanguageSelector.tsx",
+				"isDefault": true
+			},
+			{
+				"name": "LanguageSelector",
+				"module": "@/components/clientcomponents/LanguageSelector",
+				"isDefault": true
+			}
+		],
+		"LevelIcon": [
+			{
+				"name": "LevelIcon",
+				"module": "@/components/dashboardComponents/LevelIcon",
+				"isDefault": true
+			},
+			{
+				"name": "LevelIcon",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\dashboardComponents\\LevelIcon.tsx",
+				"isDefault": true
+			}
+		],
+		"FaDirections": [
+			{
+				"name": "FaDirections",
+				"module": "react-icons/fa",
+				"isDefault": false
+			}
+		],
+		"GiTeamDowngrade": [
+			{
+				"name": "GiTeamDowngrade",
+				"module": "react-icons/gi",
+				"isDefault": false
+			}
+		],
+		"Protfolio": [
+			{
+				"name": "Protfolio",
+				"module": "@/components/clientcomponents/Protfolio",
+				"isDefault": true
+			},
+			{
+				"name": "Protfolio",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\Protfolio.tsx",
+				"isDefault": true
+			}
+		],
+		"portfolioData": [
+			{
+				"name": "portfolioData",
+				"module": "@/utils/ProtfolioData",
+				"isDefault": false
+			}
+		],
+		"Select": [
+			{
+				"name": "Select",
+				"module": "react-select",
+				"isDefault": true
+			}
+		],
+		"{ useMemo": [
+			{
+				"name": "{ useMemo",
+				"module": "react",
+				"isDefault": true
+			}
+		],
+		"AiTwotoneDollarCircle": [
+			{
+				"name": "AiTwotoneDollarCircle",
+				"module": "react-icons/ai",
+				"isDefault": false
+			}
+		],
+		"TbCoinBitcoin": [
+			{
+				"name": "TbCoinBitcoin",
+				"module": "react-icons/tb",
+				"isDefault": false
+			}
+		],
+		"UniverseDiv": [
+			{
+				"name": "UniverseDiv",
+				"module": "@/components/clientcomponents/bnsystemClientComp/UniverseDiv",
+				"isDefault": true
+			},
+			{
+				"name": "UniverseDiv",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\UniverseDiv.tsx",
+				"isDefault": true
+			}
+		],
+		"Progressbar": [
+			{
+				"name": "Progressbar",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\Progressbar.tsx",
+				"isDefault": true
+			}
+		],
+		"PlanetUpPackage": [
+			{
+				"name": "PlanetUpPackage",
+				"module": "@/components/clientcomponents/bnsystemClientComp/PlanetUpPackage",
+				"isDefault": true
+			},
+			{
+				"name": "PlanetUpPackage",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\PlanetUpPackage.tsx",
+				"isDefault": true
+			}
+		],
+		"Planetupgradediv": [
+			{
+				"name": "Planetupgradediv",
+				"module": "@/components/clientcomponents/bnsystemClientComp/Planetupgradediv",
+				"isDefault": true
+			},
+			{
+				"name": "Planetupgradediv",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\Planetupgradediv.tsx",
+				"isDefault": true
+			}
+		],
+		"NFTRoyalityDiv": [
+			{
+				"name": "NFTRoyalityDiv",
+				"module": "@/components/clientcomponents/bnsystemClientComp/NFTRoyalityDiv",
+				"isDefault": true
+			},
+			{
+				"name": "NFTRoyalityDiv",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\NFTRoyalityDiv.tsx",
+				"isDefault": true
+			}
+		],
+		"ClubAStructure": [
+			{
+				"name": "ClubAStructure",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\ClubAStructure.tsx",
+				"isDefault": true
+			}
+		],
+		"ClubAComp": [
+			{
+				"name": "ClubAComp",
+				"module": "@/components/clientcomponents/bnsystemClientComp/ClubAComp",
+				"isDefault": true
+			},
+			{
+				"name": "ClubAComp",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\components\\clientcomponents\\bnsystemClientComp\\ClubAComp.tsx",
+				"isDefault": true
+			}
+		],
+		"RiGroupLine": [
+			{
+				"name": "RiGroupLine",
+				"module": "react-icons/ri",
+				"isDefault": false
+			}
+		],
+		"Progress": [
+			{
+				"name": "Progress",
+				"module": "@/components/ui/progress",
+				"isDefault": false
+			}
+		],
+		"Home": [
+			{
+				"name": "Home",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\app\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"metadata": [
+			{
+				"name": "metadata",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\app\\layout.tsx",
+				"type": "const",
+				"isDefault": false
+			}
+		],
+		"RootLayout": [
+			{
+				"name": "RootLayout",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\app\\layout.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"type { Metadata": [
+			{
+				"name": "type { Metadata",
+				"module": "next",
+				"isDefault": true
+			}
+		],
+		"Inter": [
+			{
+				"name": "Inter",
+				"module": "next/font/google",
+				"isDefault": false
+			}
+		],
+		"page": [
+			{
+				"name": "page",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\app\\dashboard\\bncoin\\page.tsx",
+				"type": "function",
+				"isDefault": true
+			}
+		],
+		"Dashboardlayout": [
+			{
+				"name": "Dashboardlayout",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\app\\dashboard\\layout.tsx",
+				"isDefault": true
+			}
+		],
+		"PageProps": [
+			{
+				"name": "PageProps",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\.next\\types\\app\\dashboard\\bnsystem\\page.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"LayoutProps": [
+			{
+				"name": "LayoutProps",
+				"path": "d:\\Web Development(Win)\\BN_Network\\frontend\\.next\\types\\app\\dashboard\\bnsystem\\page.ts",
+				"type": "interface",
+				"isDefault": false
+			}
+		],
+		"type { ResolvingMetadata": [
+			{
+				"name": "type { ResolvingMetadata",
+				"module": "next/dist/lib/metadata/types/metadata-interface.js",
+				"isDefault": true
+			}
+		],
+		"ResolvingViewport": [
+			{
+				"name": "ResolvingViewport",
+				"module": "next/dist/lib/metadata/types/metadata-interface.js",
+				"isDefault": true
+			}
+		]
+	}
+}

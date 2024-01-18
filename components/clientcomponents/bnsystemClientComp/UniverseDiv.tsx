@@ -25,7 +25,7 @@ const UniverseDiv = () => {
 
       
     </div>
-    <BtnWrapper text='show' height='py-2' width='px-10'/>
+    <BtnWrapper text='show' height='py-2' width='px-10' path='/dashboard/bnsystem/universeclub-a'/>
    </div>
    
    <div className='text-center py-3'>Club B Global Matrix</div>
@@ -44,7 +44,7 @@ const UniverseDiv = () => {
 
       
     </div>
-    <BtnWrapper text='show' height='py-2' width='px-10'/>
+    <BtnWrapper text='show' height='py-2' width='px-10'path='/dashboard/bnsystem/universeclub-b'/>
    </div>
    
    <div className='text-center py-3'>Club C Global Matrix</div>
