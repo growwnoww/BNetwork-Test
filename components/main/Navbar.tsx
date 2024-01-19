@@ -1,6 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 interface NavItem {
@@ -63,8 +64,9 @@ const Navbar = () => {
            }
            <div className='ml-auto flex items-center gap-5 '>
            <div className='bg-yellow-500 px-3  py-2.5 rounded-md'>
-            Connect Wallet
+            <p>Connect Wallet</p>
            </div>
+         
            <div className='bg-gray-800 px-3 py-1 rounded-md'>
             ENG 
            </div>
