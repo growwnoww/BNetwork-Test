@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
 
 interface NavItem {
     title: string;

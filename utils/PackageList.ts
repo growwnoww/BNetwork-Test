@@ -12,7 +12,7 @@ interface PlanetUpPackageTypes{
 const PlanetUpPackageList:PlanetUpPackageTypes[] = [
     {
         id:1,
-        imgURL:'/earth.png',
+        imgURL:'/Earth.png',
         packageName:"Earth",
         packagePrice:5,
         treePath:'/dashboard/bnsystem/planetupgrade/planteuptree',
