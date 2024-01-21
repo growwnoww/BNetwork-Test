@@ -1,3 +1,4 @@
+import Planetupgradediv from "@/components/clientcomponents/bnsystemClientComp/Planetupgradediv";
 import Hero from "@/components/main/Hero";
 import Navbar from "@/components/main/Navbar";
 import StarsCanvas from "@/components/main/StarBackground";
@@ -10,6 +11,8 @@ export default function Home() {
                 <StarsCanvas />
                 <Navbar />
                 <Hero />
+
+                
             </div>
         </main>
     );

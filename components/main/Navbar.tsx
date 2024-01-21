@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
+
 interface NavItem {
     title: string;
     link: string;
@@ -48,7 +49,7 @@ const Navbar = () => {
         <div className="w-full h-[70px] fixed top-0 shadow-lg shadow-[#2A0E61]/50  bg-[#03001417] backdrop-blur-md z-50 px-10">
             <div className="w-full h-full flex flex-row items-center text-xs font-semibold">
                 <div>
-                    <Image src="/logo.png" alt="logo" loading="lazy" width={100} height={50} />
+                  <Link href="/"><Image src="/logo.png" alt="logo" loading="lazy" width={100} height={50} /></Link>  
                 </div>
                 {navList.map((NavRoute, index) => (
                     <div key={index} className={`px-3 ${activeNav === NavRoute.link ? "text-yellow-400" : ""}`}>
