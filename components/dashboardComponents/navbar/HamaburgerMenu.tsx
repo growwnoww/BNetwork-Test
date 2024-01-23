@@ -88,9 +88,8 @@ const HamaburgerMenu = ({isOpen}:{isOpen:boolean}) => {
 
             <ul className="grid grid-cols-1 gap-2 place-items-center mt-2">
               {NestedMenuList.map((item) => (
-                <li className=" w-full py-2  bg-stone-800 rounded-md ">
-                  <div
-                    key={item.id}
+                <li key={item.id} className=" w-full py-2  bg-stone-800 rounded-md ">
+                  <div 
                     onClick={() => toggleMenu(item.id)}
                     className=" flex items-center justify-between px-4  "
                   >
