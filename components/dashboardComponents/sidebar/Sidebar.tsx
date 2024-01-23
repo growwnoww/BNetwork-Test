@@ -30,7 +30,7 @@ const Sidebar = () => {
   };
   
   return (
-    <div className='h-screen w-72 border-r-[.5px] border-r-slate-800'>
+    <div className='hidden md:block   h-screen w-72 border-r-[.5px] border-r-slate-800'>
 
       <div className='flex items-center border-b-[.5px] border-b-slate-800 h-16'>
         <Image

@@ -56,11 +56,7 @@ const page = () => {
               <SelectItem value="level_3">Level 3</SelectItem>
               <SelectItem value="level_4">Level 4</SelectItem>
               <SelectItem value="level_5">Level 5</SelectItem>
-              <SelectItem value="level_6">Level 6</SelectItem>
-              <SelectItem value="level_7">Level 7</SelectItem>
-              <SelectItem value="level_8">Level 8</SelectItem>
-              <SelectItem value="level_9">Level 9</SelectItem>
-              <SelectItem value="level_10">Level 10</SelectItem>
+              
             </SelectContent>
           </Select>
         </div>

@@ -37,15 +37,15 @@ import { Button } from '@/components/ui/button'
 
 const page = () => {
   return (
-    <div className='w-full h-full  flex flex-col items-center gap-y-10'>
+    <div className='w-full h-full  flex flex-col items-center gap-y-'>
 
       <div className='w-full my-10'>
         <HeadingWrapper text='Club A Tier Earnings' />
       </div>
          
-      <div>
+      <div className='flex items-center px-60 w-full'>
         
-        <div className='flex items-center justify-around w-full py-10'>
+         <div className='flex items-center gap-x-4 w-full py-10'>
           <div>
           <p>Levels</p>
           <Select>
@@ -65,9 +65,9 @@ const page = () => {
               <SelectItem value="level_10">Level 10</SelectItem>
             </SelectContent>
           </Select>
-        </div>
+          </div>
 
-        <div className='flex items-center gap-x-3 '>
+          <div className='flex items-center gap-x-3 '>
           <div>
           <p>Packages</p>
           <Select>
@@ -75,30 +75,33 @@ const page = () => {
               <SelectValue placeholder="" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Earth">Earth 5$</SelectItem>
-              <SelectItem value="Moon">Moon 10$</SelectItem>
-              <SelectItem value="Mars">Mars 25$</SelectItem>
-              <SelectItem value="Venus">Venus 50$</SelectItem>
-              <SelectItem value="Mercury">Mercury 100$</SelectItem>
-              <SelectItem value="Jupiter">Jupiter 250$</SelectItem>
-              <SelectItem value="Saturn">Saturn 500$</SelectItem>
-              <SelectItem value="Uranus">Uranus 1000$</SelectItem>
-              <SelectItem value="Neptune">Neptune 2500$</SelectItem>
-              <SelectItem value="Pluto">Pluto 5000$</SelectItem>
+              <SelectItem value="Earth">Earth 10$</SelectItem>
+              <SelectItem value="Moon">Moon 25$</SelectItem>
+              <SelectItem value="Mars">Mars 50$</SelectItem>
+              <SelectItem value="Venus">Mercury 100$</SelectItem>
+              <SelectItem value="Mercury">Venus 250$</SelectItem>
+              <SelectItem value="Jupiter">Jupiter 500$</SelectItem>
+              <SelectItem value="Saturn">Saturn 1000$</SelectItem>
+              <SelectItem value="Uranus">Uranus 2500$</SelectItem>
+              <SelectItem value="Neptune">Neptune 5000$</SelectItem>
+              <SelectItem value="Pluto">Pluto 10000$</SelectItem>
             </SelectContent>
           </Select>
           </div>
-
+ 
           <Button variant={'custom_yellow'} className='mt-6'>Submit</Button>
         </div>
 
           </div>
-       </div>
 
-        <div>
+          <div>
           <p>Search ID</p>
           <Input placeholder='Enter BN ID' />
-        </div>
+         </div>
+
+       </div>
+
+      
 
        
 

@@ -6,7 +6,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className='flex overflow-y-visible'>
+    <div className='flex flex-col md:flex-row overflow-y-visible'>
     <div className='flex flex-col items-center justify-cente rounded-md bg-[#262626] px-5 py-4 m-5'>
     <ProfileAvatar/>
     </div>
