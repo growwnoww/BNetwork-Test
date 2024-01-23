@@ -45,7 +45,7 @@ const DashboardNavbar = () => {
       {/* side menu for mobile device and  */}
       {
         isOpen? 
-        <div className='absolute top-[100%] bg-zinc-700 gap-x-6  text-red-500  w-full'>
+        <div className='absolute top-[100%] bg-zinc-700 gap-x-6 w-full'>
           <CurrentBalanceComp/>
         </div>
         :
