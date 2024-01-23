@@ -7,15 +7,15 @@ const Protfolio = () => {
       {
         portfolioData.map((data) =>(
             <div key={data.id} className='flex items-center justify-between w-full px-2  py-6 border-b-[.5px] border-b-zinc-600 md:border-r md:border-r-zinc-600'>
-          <div className='flex gap-x-2'>
+          <div className='flex items-center gap-x-2'>
           <span className="text-yellow-500 text-3xl">{data.icon}</span>
-           <span className='text-md md:text-xl first-letter: font-normal '>{data.title}</span>
+           <span className='text-md  md:text-sm first-letter: font-normal '>{data.title}</span>
           </div>
            <div>
-           <span className='text-sm text-stone-400'>{data.value}</span>
+           <span className='text-sm md:text-xs text-stone-400'>{data.value}</span>
            </div>
            
-            </div>
+            </div> 
         ))
       }
         

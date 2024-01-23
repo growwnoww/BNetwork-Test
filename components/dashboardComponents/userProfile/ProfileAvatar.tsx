@@ -17,10 +17,11 @@ const ProfileAvatar = () => {
         />
     </div>
 
-    <div>
-         <BtnWrapper text="Copy Referral Link" height="py-2" width="px-24" icon={<FaRegCopy />}/>
+    <div className='flex  items-center gap-x-3 bg-yellow-500 px-8 rounded-md sm:px-24   py-1'>
+      <p>Copy Referrel link </p> 
+      <span><FaRegCopy /></span>
     </div>
-    <div className='pt-5'>
+    <div className='pt-5 '>
       <UserInfo/>
     </div>
   </>

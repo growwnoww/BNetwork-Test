@@ -8,7 +8,7 @@ import { IoCloseSharp, IoMenu } from 'react-icons/io5'
 
 const DashboardNavbar = () => {
     
-  const[isOpen,setOpen] = useState<boolean>(true)
+  const[isOpen,setOpen] = useState<boolean>(false)
 
   const toogleBtn = ()=>{
     setOpen(!isOpen)

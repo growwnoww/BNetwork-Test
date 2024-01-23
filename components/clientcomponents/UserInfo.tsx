@@ -4,13 +4,13 @@ import { GiTeamDowngrade } from 'react-icons/gi'
 
 const UserInfo = () => {
     return (
-        <>
-            <div className='bg-black py-4 my-2  w-96 px-3 rounded-md'>
+        <div className=''>
+            <div className='bg-black py-4 my-2 sm:w-96  md:w-96 px-3 rounded-md'>
                 <div className='flex items-center justify-between pb-1'>
                     <div >
                         <span className='text-zinc-500'>My BN ID: </span>
                         <span>BNO91287</span>
-                    </div>
+                     </div>
                     <div>
                         <FaRegCopy />
                     </div>
@@ -74,7 +74,7 @@ const UserInfo = () => {
                     
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
