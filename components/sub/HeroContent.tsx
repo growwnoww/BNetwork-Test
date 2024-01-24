@@ -5,6 +5,7 @@ import {motion} from "framer-motion"
 import { slideInFromLeft, slideInFromRight, slideInFromTop } from '@/utils/motion'
 import {SparklesIcon} from '@heroicons/react/24/solid'
 import Image from 'next/image';
+import Link from 'next/link';
 
 
 
@@ -46,9 +47,9 @@ const HeroContent = () => {
         </motion.p>
         <motion.a
           variants={slideInFromLeft(1)}
-          className="py-2 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
+          className="py-2 bg-yellow-500 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
         >
-          Learn More!
+          <Link href='/registration'>Registration</Link>
         </motion.a>
       </div>
 

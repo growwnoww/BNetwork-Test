@@ -12,7 +12,7 @@ interface BtnWrapperType{
 
 const BtnWrapper = memo(({text,height,width,icon,path}:BtnWrapperType) => {
   return (
-    <div className={`bg-yellow-500 flex items-center gap-3  ${height} ${width} font-semibold rounded-md cursor-pointer hover:bg-yellow-600 duration-300`}>
+    <div className={`bg-yellow-500 flex items-center gap-3  md:${height} md:${width} px-4 text-[10px] xl:text-lg  w-20 md:w-fit py-1  font-semibold rounded-md cursor-pointer hover:bg-yellow-600 duration-300`}>
          {
           path ? <Link href={path}>{text}</Link>:<span>{text}</span>
          }

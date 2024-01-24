@@ -32,64 +32,17 @@ import {
 
 import { Input } from "@/components/ui/input"
 import HeadingWrapper from '@/components/WrapperComponent/HeadingWrapper'
-import { Button } from '@/components/ui/button'
 
 
 const page = () => {
   return (
-    <div className='w-full h-full  flex flex-col items-center '>
+    <div className='w-full h-full  flex flex-col items-center gap-y-10'>
 
       <div className='w-full my-10'>
-        <HeadingWrapper text='Tier Team' />
-      </div>
-      
-      <div className='flex items-center justify-around   w-full'>
-      <div>
-          <p>Levels</p>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="level_1">Level 1</SelectItem>
-              <SelectItem value="level_2">Level 2</SelectItem>
-              <SelectItem value="level_3">Level 3</SelectItem>
-              <SelectItem value="level_4">Level 4</SelectItem>
-              <SelectItem value="level_5">Level 5</SelectItem>
-              
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className='flex items-center gap-x-3 '>
-          <div>
-          <p>Packages</p>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Earth">Earth 5$</SelectItem>
-              <SelectItem value="Moon">Moon 10$</SelectItem>
-              <SelectItem value="Mars">Mars 25$</SelectItem>
-              <SelectItem value="Venus">Venus 50$</SelectItem>
-              <SelectItem value="Mercury">Mercury 100$</SelectItem>
-              <SelectItem value="Jupiter">Jupiter 250$</SelectItem>
-              <SelectItem value="Saturn">Saturn 500$</SelectItem>
-              <SelectItem value="Uranus">Uranus 1000$</SelectItem>
-              <SelectItem value="Neptune">Neptune 2500$</SelectItem>
-              <SelectItem value="Pluto">Pluto 5000$</SelectItem>
-            </SelectContent>
-          </Select>
-          </div>
-
-          <Button variant={'custom_yellow'} className='mt-6'>Submit</Button>
-        </div>
-
+        <HeadingWrapper text='Plan Transaction History' />
       </div>
 
-
-      <div className='flex items-center justify-around w-full py-4 gap-x-10'>
+      <div className='flex items-center justify-around w-full py-10'>
         <div>
           <p>Show Entries</p>
           <Select>
@@ -117,79 +70,92 @@ const page = () => {
 
           <TableHeader >
             <TableRow className='text-yellow-400 '>
-              <TableHead className="w-[100px] px-3 text-center">Tier No</TableHead>
+              <TableHead className="w-[100px] px-3">BN ID</TableHead>
               <TableHead className='text-center'>Date and Time</TableHead>
-              <TableHead className='text-center'>ID No</TableHead>
-              <TableHead className='text-center'>Upline Id</TableHead>
-              <TableHead className='text-center'>Current Planet Pool</TableHead>
+              <TableHead className='text-center'>Packages</TableHead>
               <TableHead className="text-center ">Addresses</TableHead>
+              <TableHead className="text-center ">Transaction Hash</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell className="font-medium">1</TableCell>
+              <TableCell className="font-medium">BN091287</TableCell>
               <TableCell> Nov 29 2023 8:04PM</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="font-medium">BN091287</TableCell>
-              <TableCell className="text-center">Earth ( 10 )</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
               <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
             </TableRow>
-           
+            <TableRow>
+              <TableCell className="font-medium">BN091287</TableCell>
+              <TableCell> Nov 29 2023 8:04PM</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">BN091287</TableCell>
+              <TableCell> Nov 29 2023 8:04PM</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell className="font-medium">BN091287</TableCell>
+              <TableCell> Nov 29 2023 8:04PM</TableCell>
+              <TableCell className='text-center'>5.0</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+              <TableCell className="text-center">0x9ab0196e92556c409f.....00d737f</TableCell>
+            </TableRow>
+
 
           </TableBody>
         </Table>
 
       </div>
       
-     <div className='w-full flex items-center justify-evenly mt-5'>
+     <div className='w-full flex items-center justify-evenly'>
         <div >
         <p>Show 1 to 10 of 5,076 Entries</p>
         </div>

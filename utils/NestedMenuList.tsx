@@ -66,7 +66,7 @@ const NestedMenuList: NestedMenuType[] = [
   },
   {
     id: 3,
-    title: "My Earnings",
+    title: "P Upgrade Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,
     icon2:<IoIosArrowUp />,
@@ -82,8 +82,8 @@ const NestedMenuList: NestedMenuType[] = [
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "Planet Upgrade Earnings",
-        path: "/dashboard/planetupearnings",
+        title: "Upgrade Earnings",
+        path: "/dashboard/upgradeearnings",
         icon: <IoMdArrowDropright />,
       },
       {
@@ -96,6 +96,27 @@ const NestedMenuList: NestedMenuType[] = [
         path: "/dashboard/autopoolearnings",
         icon: <IoMdArrowDropright />,
       },
+    ],
+  },
+  {
+    id: 4,
+    title: "U Club A Earnings",
+    icon: <GiReceiveMoney />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
+    list: [
+      {
+        title: "Club A Global Earnings",
+        path: "/dashboard/clubAglobalearn",
+        icon: <IoMdArrowDropright />,
+      },
+      {
+        title: "Club A Tier Earnings",
+        path: "/dashboard/clubAtierearn",
+        icon: <IoMdArrowDropright />,
+      },
+     
+    
     ],
   },
 ];
