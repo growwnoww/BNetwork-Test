@@ -1,8 +1,9 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
-import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
+import { Context } from "../Context";
 
 interface NavItem {
     title: string;
@@ -16,7 +17,7 @@ const navList: NavItem[] = [
     },
     {
         title: "All Services",
-        link: "#allservice",
+        link: "/dashboard",
     },
     {
         title: "Roadmap",
@@ -42,8 +43,7 @@ const navList: NavItem[] = [
 
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
-    const [userAddress, setUserAddress] = useState<String>();
-    console.log(userAddress);
+    const { userAddress, setUserAddress } = useContext(Context);
     return (
         <div className="w-full h-[70px] fixed top-0 shadow-lg shadow-[#2A0E61]/50  bg-[#03001417] backdrop-blur-md z-50 px-10">
             <div className="w-full h-full flex flex-row items-center text-xs font-semibold">
@@ -52,9 +52,9 @@ const Navbar = () => {
                 </div>
                 {navList.map((NavRoute, index) => (
                     <div key={index} className={`px-3 ${activeNav === NavRoute.link ? "text-yellow-400" : ""}`}>
-                        <a href={NavRoute.link} onClick={() => setActiveNav(NavRoute.link)}>
+                        <Link href={NavRoute.link} onClick={() => setActiveNav(NavRoute.link)}>
                             {NavRoute.title}
-                        </a>
+                        </Link>
                     </div>
                 ))}
                 <div className="ml-auto flex items-center gap-5 ">
@@ -119,7 +119,7 @@ const Navbar = () => {
                                                 <button
                                                     onClick={() => {
                                                         openAccountModal();
-                                                        setUserAddress(() => account.address);
+                                                        setUserAddress(() => account?.address);
                                                     }}
                                                     type="button"
                                                     className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
