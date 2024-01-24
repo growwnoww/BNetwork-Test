@@ -26,7 +26,7 @@ const ClubAComp = ({PlanetName,PlanetPrice,Members,centerImg,orangeImg,sil1Img,s
 
 
   return (
-    <div className='w-[22rem]  bg-[#262626] rounded-md  '>
+    <div className='w-[21rem] md:w-[16rem] xl:[15rem] 2xl:w-[95%] bg-[#262626] rounded-md  '>
         <div className='flex items-center justify-between py-2 px-2'>
           <span>{PlanetName} {PlanetPrice}$</span>
            <span className='mr-5'>1 Cycles</span>

@@ -17,11 +17,11 @@ const ProfileAvatar = () => {
         />
     </div>
 
-    <div className='flex  items-center gap-x-3 bg-yellow-500 px-8 rounded-md sm:px-24   py-1'>
+    <div className='flex  items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%]  sm:px-28 md:px-16   py-1'>
       <p>Copy Referrel link </p> 
       <span><FaRegCopy /></span>
     </div>
-    <div className='pt-5 '>
+    <div className='pt-5 lg:w-full'>
       <UserInfo/>
     </div>
   </>

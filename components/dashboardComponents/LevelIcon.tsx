@@ -17,8 +17,8 @@ const LevelIcon = ({ level }: levelType) => {
   };
 
   return (
-    <div className="relative w-fit flex items-center justify-center">
-      <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="relative w-fit  flex items-center justify-center">
+      <svg width="56 " height="56 " viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <rect width="56" height="56" rx="28" style={svgStyles}></rect>
                  <path
                     d="M28 2C32.564 2 37.0475 3.20136 41 5.48334C44.9525 7.76531 48.2347 11.0475 50.5167 15L47.1392 16.95C45.1995 13.5904 42.4096 10.8005 39.05 8.86084C35.6904 6.92116 31.8794 5.9 28 5.9V2Z"

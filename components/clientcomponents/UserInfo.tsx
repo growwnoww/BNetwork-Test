@@ -4,8 +4,8 @@ import { GiTeamDowngrade } from 'react-icons/gi'
 
 const UserInfo = () => {
     return (
-        <div className=''>
-            <div className='bg-black py-4 my-2 sm:w-96  md:w-96 px-3 rounded-md'>
+        <div className='md:text-sm'>
+            <div className='bg-black py-4 my-2 sm:w-96  md:w-auto  px-3  rounded-md md:text-sm'>
                 <div className='flex items-center justify-between pb-1'>
                     <div >
                         <span className='text-zinc-500'>My BN ID: </span>
@@ -19,7 +19,7 @@ const UserInfo = () => {
                 <div className='flex items-center justify-between pt-1'>
                     <div>
                         <span className='text-zinc-500'>Current Package : </span>
-                        <span>$ 5000(Pluto)</span>
+                        <span className='md:text-xs'>$ 5000(Pluto)</span>
                     </div>
                     <div>
                         <FaRegCopy />
@@ -32,8 +32,8 @@ const UserInfo = () => {
             </div>
              
             <p className='py-2'>My Upline: </p>
-            <div className='bg-black py-4   px-3 rounded-md'>
-                <div className='flex items-center justify-between pb-1'>
+            <div className='bg-black py-4   px-3 rounded-md '>
+                <div className='flex items-center justify-between pb-1 '>
                     <div >
                         <span className='text-zinc-500'>Upline BN ID: </span>
                         <span>BNO52767</span>
@@ -46,9 +46,9 @@ const UserInfo = () => {
                 <div className='flex items-center justify-between pt-1'>
                     <div>
                         <span className='text-zinc-500'>Upline Wallet : </span>
-                        <span>0xf5e03452f0...e7412831bc</span>
+                        <span className='md:text-xs'>0xf5e03452f0...e7412831bc</span>
                     </div>
-                    <div>
+                    <div className='mt-5 lg:mt-0'>
                         <FaRegCopy />
                     </div>
                 </div>
@@ -59,8 +59,8 @@ const UserInfo = () => {
                 <div className='flex items-center justify-between pb-1'>
                     <div className='flex items-center gap-x-2'>
                         <span><FaDirections/></span>
-                        <span className='text-zinc-500 text-xl font-bold'>Direct Team: </span>
-                        <span>BNO52767</span>
+                        <span className='text-zinc-500 text-xl md:text-sm lg:text-xl font-bold'>Direct Team: </span>
+                        <span className='md:text-sm '>BNO52767</span>
                     </div>
                    
                 </div>

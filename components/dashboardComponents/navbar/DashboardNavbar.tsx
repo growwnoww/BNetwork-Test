@@ -4,23 +4,15 @@ import CurrentRouteHeading from "@/components/clientcomponents/CurrentRouteHeadi
 import LanguageSelector from "@/components/clientcomponents/LanguageSelector";
 import React, { useState } from "react";
 import Image from "next/image";
-import { IoCloseSharp, IoGitMerge, IoMenu } from "react-icons/io5";
-import { MenuList } from "@/utils/MenuList";
-import { GrLanguage } from "react-icons/gr";
-import Link from "next/link";
-import { NestedMenuList } from "@/utils/NestedMenuList";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { languageList } from "@/utils/languagelist";
+import { IoCloseSharp, IoMenu } from "react-icons/io5";
 import HamaburgerMenu from "./HamaburgerMenu";
+import { useRecoilState } from "recoil";
+import { hamaburgerAtom } from "@/store/atom";
 
 const DashboardNavbar = () => {
-  const [isOpen, setOpen] = useState<boolean>(false);
+
+
+  const [isOpen,setOpen] = useRecoilState(hamaburgerAtom);
 
  
   const toogleBtn = () => {
@@ -49,13 +41,13 @@ const DashboardNavbar = () => {
         onClick={toogleBtn}
       >
         {isOpen ? (
-          <IoCloseSharp />
+          <IoCloseSharp className="text-xl text-stone-400" />
         ) : (
           <IoMenu className="text-xl text-stone-400" />
         )}
       </div>
 
-      {isOpen&&  <HamaburgerMenu isOpen={isOpen}/>}
+      {isOpen&&  <HamaburgerMenu/>}
     </div>
   );
 };

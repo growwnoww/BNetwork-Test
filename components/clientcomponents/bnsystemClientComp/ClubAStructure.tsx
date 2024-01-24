@@ -12,7 +12,7 @@ interface ClubAType{
 const ClubAStructure = ({centerImg, ornageImg,sil1Img,sil2Img}:ClubAType) => {
 
   return (
-    <div className="w-full relative">
+    <div className="w-full  relative">
       <svg width="100%" viewBox="0 90 380 228" fill="none" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink">
         <rect width="776" height="776" transform="matrix(0.866044 0.499967 -0.866044 0.499967 187.081 -188.021)" fill="#1A1A1A" />
         <circle r="97" transform="matrix(0.866044 0.499967 -0.866044 0.499967 187.081 199.953)" stroke="#4D4D4D" strokeLinejoin="round" />
@@ -29,7 +29,7 @@ const ClubAStructure = ({centerImg, ornageImg,sil1Img,sil2Img}:ClubAType) => {
       </svg>
         
 
-        <div className='absolute top-[29%] right-[40%]'>
+        <div className='absolute top-[29%] md:top-[25%]  right-[40%] md:right-[38%]'>
             <Image
             src={centerImg}
             alt={centerImg}

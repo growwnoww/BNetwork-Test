@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link';
 import React from 'react'
 
 interface ClubBType{
@@ -14,7 +15,9 @@ interface ClubBType{
 
 const ClubBStructure = ({centerImg, ornageImg,sil1Img,sil2Img,redImg,green1Img,green2Img}:ClubBType) => {
     return (
-        <div className='w-96 relative'>
+        <div className='w-96  xl:w-80 2xl:w-96 relative'>
+            <Link href='/dashboard/bnsystem/universeclub-b/club-b-struct'>
+           
             <div data-v-3265f81b="" className="system_circle_levels"><svg width="100%" viewBox="0 90 380 228"
                 fill="none" xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink">
@@ -63,10 +66,10 @@ const ClubBStructure = ({centerImg, ornageImg,sil1Img,sil2Img,redImg,green1Img,g
                 </path>
     
             </svg>
-            </div>
+            </div></Link>
 
 
-            <div className='absolute top-[26%] left-[35%]'>
+            <div className='absolute top-[26%]  left-[35%]'>
                 <Image
                 src={centerImg}
                 alt='yellow'
