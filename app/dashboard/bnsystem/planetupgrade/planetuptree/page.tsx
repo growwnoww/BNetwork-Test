@@ -12,7 +12,9 @@ const page = () => (
         src='/concentriccircle1.png'
         alt='concentriccircle'
         height={800}
-        width={800} />
+        width={800}
+        className='2xl:'
+        />
 
 
 

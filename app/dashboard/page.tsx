@@ -7,7 +7,7 @@ import React from 'react'
 const page = () => {
   return (
     <div className='flex flex-col md:flex-row overflow-y-visible'>
-    <div className='flex flex-col items-center md:w-2/4 lg:w-2/4 xl:w-1/3 2xl:w-1/4 justify-cente rounded-md bg-[#262626] px-5 m-5 sm:px-2  py-4 sm:mt-5 md:m-2'>
+    <div className='flex flex-col items-center md:w-2/4 lg:w-2/4 xl:w-1/3 2xl:w-1/3 justify-cente rounded-md bg-[#262626] px-5 m-5 sm:px-2  py-4 sm:mt-5 md:m-2'>
     <ProfileAvatar/>
     </div>
     <div className='bg-[rgb(26,27,27)] sm:w-2/3  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md'>
