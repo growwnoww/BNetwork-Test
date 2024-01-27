@@ -26,10 +26,10 @@ const ClubBStructure = ({centerImg, ornageImg,sil1Img,sil2Img,redImg,green1Img,g
                     fill="#1A1A1A"></rect>
                 <path
                     d="M187.081 111.174C227.879 111.174 267.007 120.53 295.856 137.185C324.705 153.839 340.912 176.427 340.912 199.98L283.26 199.98C283.26 185.254 273.127 171.132 255.09 160.719C237.053 150.306 212.589 144.456 187.081 144.456L187.081 111.174Z"
-                    fill="white" fill-opacity="0.1" stroke="#1A1A1A" stroke-linejoin="round"></path>
+                    fill="white" fillOpacity="0.1" stroke="#1A1A1A" stroke-linejoin="round"></path>
                 <path
                     d="M187.081 288.787C146.282 288.787 107.154 279.431 78.3054 262.776C49.4564 246.122 33.2492 223.534 33.2492 199.98L90.9011 199.98C90.9011 214.706 101.034 228.829 119.071 239.242C137.109 249.655 161.572 255.505 187.081 255.505L187.081 288.787Z"
-                    fill="white" fill-opacity="0.1" stroke="#1A1A1A" stroke-linejoin="round"></path>
+                    fill="white" fillOpacity="0.1" stroke="#1A1A1A" stroke-linejoin="round"></path>
                 <circle r="78.5"
                     transform="matrix(0.866044 0.499967 -0.866044 0.499967 187.081 199.981)"
                     stroke="#4D4D4D" stroke-linejoin="round"></circle>
