@@ -1,5 +1,4 @@
 "use client";
-import HeadingWrapper from "@/components/WrapperComponent/HeadingWrapper";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import classNames from "classnames";
@@ -16,7 +15,7 @@ import {
 
 import React, { useState } from "react";
 
-const page = () => {
+const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Registration");
 
   const handleOptionChange = (option: string) => {
@@ -122,4 +121,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

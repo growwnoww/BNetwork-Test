@@ -6,7 +6,7 @@ import Top10Rec from '@/components/dashboardComponents/userProfile/Top10Rec'
 import Link from 'next/link'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <div className='flex flex-col md:flex-row overflow-y-visible'>
     <div className='flex flex-col items-center md:w-2/4 lg:w-2/4 xl:w-1/3 2xl:w-1/3 justify-cente rounded-md bg-[#151515] px-5 m-5 sm:px-2  py-4 sm:mt-5 md:m-2'>
@@ -30,4 +30,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page
