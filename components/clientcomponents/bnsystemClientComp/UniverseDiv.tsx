@@ -8,7 +8,7 @@ const UniverseDiv = () => {
       <div className="text-2xl lg:text-3xl  px-3"> Universe Matrix System</div>
 
       <div>
-        <div className="text-center py-3">Club A Global Matrix</div>
+        <div className="text-center py-3">Club A  Matrix</div>
         <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-center gap-x-9 mx-10">
           <div className="h-fit grid grid-cols-5 w-fit gap-x-2 ">
             <LevelIcon level={1} />
@@ -30,7 +30,7 @@ const UniverseDiv = () => {
           />
         </div>
 
-        <div className="text-center py-3">Club B Global Matrix</div>
+        <div className="text-center py-3">Club B  Matrix</div>
         <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-center gap-x-9 mx-10">
           <div className="h-fit grid grid-cols-5 w-fit gap-x-2 ">
             <LevelIcon level={1} />
@@ -52,7 +52,7 @@ const UniverseDiv = () => {
           />
         </div>
 
-        <div className="text-center py-3">Club C Global Matrix</div>
+        <div className="text-center py-3">Club C  Matrix</div>
         <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-center gap-x-9 mx-10">
           <div className="h-fit grid grid-cols-5 w-fit gap-x-2 ">
             <LevelIcon level={1} />

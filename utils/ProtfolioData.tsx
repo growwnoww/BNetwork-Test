@@ -20,71 +20,82 @@ const portfolioData:ProfolioType[] = [
     },
     {
         id:2,
+        title:"Direct Earning",
+        value:"4619.30 / 5000 BN Coin",
+        icon:<BsCoin />
+    },
+    {
+        id:3,
         title:"BN AIRDROP COINS",
         value:"4619.30 / 5000 BN Coin",
         icon:<RiBitCoinLine />
 
     },
     {
-        id:3,
-        title:"BN ENERGY TOKENS",
-        value:"11996.330",
-        icon:<MdOutlineOfflineBolt />
-
-    },
-    {
         id:4,
-        title:"Direct Income",
+        title:"Tier Earning",
         value:"$ 82.50",
         icon:<BsCoin />
     },
     {
         id:5,
-        title:"Planet Upgrade Income",
+        title:"Airdrop Coin",
         value:"$ 2182.50 ",
-        icon: <BsCoin />
+        icon: <RiBitCoinLine />
     },
     {
         id:6,
-        title:"Tier Income",
+        title:"Planet Upgrade Earning",      
         value:"$ 2182.50",
         icon:<BsCoin />
     },
     {
         id:7,
-        title:"Autopool Planet Income",
+        title:"BN Reward Coin",
         value:"$ 2182.50",
-        icon:<BsCoin />
+        icon:<RiBitCoinLine />
     },
     {
         id:8,
-        title:"Total Income",
+        title:"Planet Autopool Earning",
         value:"$ 2182.50",
         icon:<BsCoin />
     },
     {
         id:9,
-        title:"Airdrop Coin",
+        title:"BN Airdrop Refer Coin",
         value:"$ 2182.50",
         icon: <RiBitCoinLine />
     },
     {
         id:10,
-        title:"Airdrop Refer Coin",
+        title:"Universe Club A Global Earning",
         value:"$ 2182.50",
-        icon: <RiBitCoinLine />
+        icon: <BsCoin />
     },
     {
         id:11,
-        title:"BN Coin Reward",
+        title:"Total BN Coin",
         value:"$ 2182.50",
         icon: <RiBitCoinLine />
     },
     {
         id:12,
-        title:"Total BN Coin",
+        title:"Universe Club A Tier Earning",
+        value:"$ 2182.50",
+        icon: <BsCoin />
+    },
+    {
+        id:13,
+        title:"My Laps/Lost Earning",
         value:"$ 2182.50",
         icon: <RiBitCoinLine />
+    },
+    {
+        id:14,
+        title:"My Total Eanring",
+        value:"$ 2182.50",
+        icon: <BsCoin />
     },
     
 ]

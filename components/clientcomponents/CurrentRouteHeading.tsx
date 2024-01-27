@@ -3,6 +3,7 @@ import { MenuList } from "@/utils/MenuList";
 import { NestedMenuList } from "@/utils/NestedMenuList";
 import { usePathname } from "next/navigation";
 import React, { useMemo } from "react";
+import { IoIosArrowForward } from "react-icons/io";
 
 const CurrentRouteHeading = () => {
     const pathname = usePathname();
@@ -37,15 +38,15 @@ const CurrentRouteHeading = () => {
 
     return (
         <>
-            <div className="text-zinc-300">
-                {topLevelTitle && <span className="text-xl">{topLevelTitle}</span>}
-                {outerTitle && <span className="text-xl">{outerTitle}</span>}
+            <div className="text-zinc-300 flex items-center justify-center">
+                {topLevelTitle && <span className="text-sm lg:text-xl">{topLevelTitle}</span>}
+                {outerTitle && <span className="text-sm lg:text-xl">{outerTitle}</span>}
 
                 {
                     nestedTitle &&
                     <>
-                        <span className="text-sm"> - </span>
-                        <span className="text-md text-yellow-400">{nestedTitle}</span>
+                        <span className="text-sm"> <IoIosArrowForward /> </span>
+                        <span className="text-[12px] mt-0.5 lg:text-lg text-yellow-400">{nestedTitle}</span>
                     </>
 
                 }

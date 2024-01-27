@@ -1,16 +1,19 @@
 import BtnWrapper from '@/components/WrapperComponent/BtnWrapper'
 import Protfolio from '@/components/dashboardComponents/Protfolio'
+import PlatformLatestAct from '@/components/dashboardComponents/userProfile/PlatformLatestAct'
 import ProfileAvatar from '@/components/dashboardComponents/userProfile/ProfileAvatar'
+import Top10Rec from '@/components/dashboardComponents/userProfile/Top10Rec'
 import Link from 'next/link'
 import React from 'react'
 
 const page = () => {
   return (
     <div className='flex flex-col md:flex-row overflow-y-visible'>
-    <div className='flex flex-col items-center md:w-2/4 lg:w-2/4 xl:w-1/3 2xl:w-1/3 justify-cente rounded-md bg-[#262626] px-5 m-5 sm:px-2  py-4 sm:mt-5 md:m-2'>
+    <div className='flex flex-col items-center md:w-2/4 lg:w-2/4 xl:w-1/3 2xl:w-1/3 justify-cente rounded-md bg-[#151515] px-5 m-5 sm:px-2  py-4 sm:mt-5 md:m-2'>
     <ProfileAvatar/>
+    <Top10Rec/>
     </div>
-    <div className='bg-[rgb(26,27,27)] sm:w-2/3  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md'>
+    <div className='bg-[#151515] sm:w-2/3  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md'>
       <div className='w-full bg-zinc-800 py-4 rounded-md text-2xl px-2'>Portfolio</div>
      <Protfolio/>
 
@@ -20,6 +23,8 @@ const page = () => {
         <BtnWrapper text='More Info' height='py-3 xl:py-2' width='px-5 xl:px-10'/>
       </Link>
      </div>
+
+     <PlatformLatestAct/>
     </div>
     </div>
   )

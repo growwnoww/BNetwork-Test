@@ -20,8 +20,8 @@ const DashboardNavbar = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-between  px-5 h-16 border-b-[.5px] border-b-slate-800">
-      <div className="block md:hidden">
+    <div className="relative flex items-center justify-between   h-16 border-b-[.5px] border-b-slate-800">
+      <div className="block lg:hidden">
         <Image src="/BNSymbol.png" alt="BNSymbol" height={70} width={70} />
       </div>
 
@@ -29,7 +29,7 @@ const DashboardNavbar = () => {
         <CurrentRouteHeading />
       </div>
 
-      <div className="hidden md:flex gap-x-5">
+      <div className="hidden lg:flex gap-x-5">
         <CurrentBalanceComp />
         <LanguageSelector />
       </div>
@@ -37,7 +37,7 @@ const DashboardNavbar = () => {
       {/* hamaburger menu */}
 
       <div
-        className="md:hidden border border-zinc-600 p-1 rounded-md bg-zinc-800"
+        className="lg:hidden border border-zinc-600 p-1 rounded-md bg-zinc-800 mr-4"
         onClick={toogleBtn}
       >
         {isOpen ? (

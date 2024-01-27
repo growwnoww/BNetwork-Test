@@ -1,6 +1,7 @@
 import BtnWrapper from '@/components/WrapperComponent/BtnWrapper'
 import UserInfo from '@/components/clientcomponents/UserInfo'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 import { FaRegCopy } from 'react-icons/fa'
 
@@ -23,6 +24,7 @@ const ProfileAvatar = () => {
     </div>
     <div className='pt-5 lg:w-full'>
       <UserInfo/>
+                  
     </div>
   </>
 
