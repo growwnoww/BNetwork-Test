@@ -1,12 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaDirections, FaRegCopy } from "react-icons/fa";
 import { GiTeamDowngrade } from "react-icons/gi";
 import { Context } from "../Context";
+import { bNetwork } from "@/contract/Web3_Instance";
+import Token_ABI from "@/contract/Token_ABI.json";
 
 const UserInfo = () => {
     const { userAddress } = useContext(Context);
+    const [userRegisterDetail, setUserRegisterDetail] = useState<any>();
+    const [userExisit, setUserExisit] = useState<boolean>();
 
-    const copyToClipboard = (text: string) => {
+    const copyToClipboard = (text: any): void => {
         try {
             navigator.clipboard.writeText(text);
             alert("Copied");
@@ -15,16 +19,48 @@ const UserInfo = () => {
         }
     };
 
+    const address = "0x4DA21707a86F29033F26c0adBd70E9D105299467";
+
+    const getUserRegisterDetails = async () => {
+        try {
+            const myContract = bNetwork();
+            const detail = await myContract.RegisterUserDetails(address);
+            setUserRegisterDetail(detail);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getUserRegister = async () => {
+        try {
+            const myContract = bNetwork();
+            const detail = await myContract.UserRegister(address);
+            setUserExisit(detail);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    console.log(userRegisterDetail, "userRegisterDetail");
+
+    useEffect(() => {
+        getUserRegisterDetails();
+        getUserRegister();
+    }, []);
+
     return (
         <div className="">
             <div className="bg-black py-4 my-2 sm:w-96  md:w-96 px-3 rounded-md">
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">My BN ID: </span>
-                        <span>BNO91287</span>
+                        <span>BN{userExisit ? Number(userRegisterDetail?.regId?._hex) : "null"}</span>
                     </div>
                     <div>
-                        <FaRegCopy />
+                        <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() => copyToClipboard(Number(userRegisterDetail?.regId?._hex))}
+                        />
                     </div>
                 </div>
                 <hr />
@@ -34,7 +70,10 @@ const UserInfo = () => {
                         <span>$ 5000(Pluto)</span>
                     </div>
                     <div>
-                        <FaRegCopy />
+                        <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() => copyToClipboard(Number(userRegisterDetail?.regId?._hex))}
+                        />
                     </div>
                 </div>
             </div>
@@ -44,10 +83,10 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">Upline BN ID: </span>
-                        <span>BNO52767</span>
+                        <span>BN{userExisit ? Number(userRegisterDetail?.regReferalId?._hex) : "null"}</span>
                     </div>
                     <div>
-                        <FaRegCopy />
+                        <FaRegCopy className="cursor-pointer" onClick={() => copyToClipboard(userAddress)} />
                     </div>
                 </div>
                 <hr />

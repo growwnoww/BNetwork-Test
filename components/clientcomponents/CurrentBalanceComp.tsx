@@ -1,15 +1,17 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import { TbCoinBitcoin } from "react-icons/tb";
 import { Context } from "../Context";
-import { bNetwork } from "@/contract/Web3_Instance";
+import { etToken, usdtToken } from "@/contract/Web3_Instance";
 import { ethers } from "ethers";
 import { useBalance } from "wagmi";
 import { MdOutlineOfflineBolt } from "react-icons/md";
 
 const CurrentBalanceComp = () => {
     const { userAddress, userBalance, setUserBalance } = useContext(Context);
+    const [etTokenBalance, setEtTokenBalance] = useState<string>("");
+    const [usdtTokenBalance, setUsdtTokenBalance] = useState<string>("");
 
     const result = useBalance({
         address: userAddress,
@@ -17,20 +19,32 @@ const CurrentBalanceComp = () => {
 
     setUserBalance(result?.data?.formatted);
 
-    const getBalance = async (address: string) => {
+    const etBalance = async () => {
         try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const balance = await provider.getBalance(address);
-            const balanceInEth = ethers.utils.formatEther(balance);
-            console.log({ balanceInEth });
+            const myContract = etToken();
+            const balance = await myContract.balanceOf(userAddress);
+            const balanceInET = ethers.utils.formatEther(balance);
+            setEtTokenBalance(balanceInET);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const usdtBalance = async () => {
+        try {
+            const myContract = usdtToken();
+            const balance = await myContract.balanceOf(userAddress);
+            const balanceInUSDT = ethers.utils.formatEther(balance);
+            setUsdtTokenBalance(balanceInUSDT);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        // getBalance(address);
-        // bnbBalance();
+        etBalance();
+        usdtBalance();
+        // eslint-disable-next-line
     }, []);
 
     return (
@@ -40,21 +54,21 @@ const CurrentBalanceComp = () => {
                     <span className="inline-block text-2xl ">
                         <AiTwotoneDollarCircle className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
-                    <span className="">5.456 </span>
+                    <span className="">{userAddress ? Number(usdtTokenBalance).toFixed(2) : "0"}</span>
                     <span className="text-yellow-400">USDT</span>
                 </div>
                 <div className="flex items-center gap-x-1">
                     <span className="inline-block text-2xl ">
                         <TbCoinBitcoin className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
-                    <span>{Number(userBalance).toFixed(2)} BNB </span>
+                    <span>{userAddress ? Number(userBalance).toFixed(2) : "0"} BNB </span>
                     <span className="text-yellow-400">(BEP20)</span>
                 </div>
                 <div className="flex items-center gap-x-1">
                     <span className="inline-block text-2xl ">
                         <MdOutlineOfflineBolt className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
-                    <span>10 ET </span>
+                    <span>{userAddress ? Number(etTokenBalance).toFixed(2) : "0"}</span>
                     <span className="text-yellow-400">ET </span>
                 </div>
             </div>
