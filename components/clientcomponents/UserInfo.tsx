@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaDirections, FaRegCopy } from "react-icons/fa";
 import { GiTeamDowngrade } from "react-icons/gi";
 import { Context } from "../Context";
-import { bNetwork } from "@/contract/Web3_Instance";
+import { bNetwork, signer } from "@/contract/Web3_Instance";
 import Token_ABI from "@/contract/Token_ABI.json";
 
 const UserInfo = () => {
@@ -19,12 +19,10 @@ const UserInfo = () => {
         }
     };
 
-    const address = "0x4DA21707a86F29033F26c0adBd70E9D105299467";
-
     const getUserRegisterDetails = async () => {
         try {
             const myContract = bNetwork();
-            const detail = await myContract.RegisterUserDetails(address);
+            const detail = await myContract.RegisterUserDetails(userAddress);
             setUserRegisterDetail(detail);
         } catch (error) {
             console.log(error);
@@ -34,23 +32,38 @@ const UserInfo = () => {
     const getUserRegister = async () => {
         try {
             const myContract = bNetwork();
-            const detail = await myContract.UserRegister(address);
+            const detail = await myContract.UserRegister(userAddress);
             setUserExisit(detail);
         } catch (error) {
             console.log(error);
         }
     };
 
-    console.log(userRegisterDetail, "userRegisterDetail");
+    // const registerUser = async () => {
+    //     try {
+    //         const signers = signer;
+    //         const gasPrice = await signers.getGasPrice();
+
+    //         const myContract = bNetwork();
+    //         const res = await myContract.registrations(userAddress, {
+    //             gasPrice: gasPrice,
+    //             gasLimit: "200000",
+    //         });
+    //         console.log(res);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     useEffect(() => {
         getUserRegisterDetails();
         getUserRegister();
+        // eslint-disable-next-line
     }, []);
 
     return (
-        <div className="">
-            <div className="bg-black py-4 my-2 sm:w-96  md:w-96 px-3 rounded-md">
+        <div className="md:text-sm">
+            <div className="bg-black py-4 my-2 sm:w-96 md:w-auto  px-3 rounded-md md:text-sm">
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">My BN ID: </span>
@@ -67,7 +80,7 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Current Package : </span>
-                        <span>$ 5000(Pluto)</span>
+                        <span className="md:text-xs">$ 5000(Pluto)</span>
                     </div>
                     <div>
                         <FaRegCopy
@@ -79,7 +92,7 @@ const UserInfo = () => {
             </div>
 
             <p className="py-2">My Upline: </p>
-            <div className="bg-black py-4   px-3 rounded-md">
+            <div className="bg-black py-4 px-3 rounded-md">
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">Upline BN ID: </span>
@@ -93,7 +106,7 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Upline Wallet : </span>
-                        <span>{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
+                        <span className="md:text-xs">{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
                             userAddress?.length - 8,
                             userAddress?.length
                         )}`}</span>
@@ -104,14 +117,14 @@ const UserInfo = () => {
                 </div>
             </div>
 
-            <div className="bg-black py-4  px-3 mt-4 rounded-md">
+            <div className="bg-black py-4 px-3 mt-4 rounded-md">
                 <div className="flex items-center justify-between pb-1">
                     <div className="flex items-center gap-x-2">
                         <span>
                             <FaDirections />
                         </span>
-                        <span className="text-zinc-500 text-xl font-bold">Direct Team: </span>
-                        <span>BNO52767</span>
+                        <span className="text-zinc-500 text-xl md:text-sm lg:text-xl font-bold">Direct Team: </span>
+                        <span className="md:text-sm">BNO52767</span>
                     </div>
                 </div>
                 <hr />

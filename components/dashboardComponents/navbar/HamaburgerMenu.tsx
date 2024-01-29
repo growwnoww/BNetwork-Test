@@ -13,10 +13,12 @@ import { languageList } from "@/utils/languagelist";
 import { GrLanguage } from 'react-icons/gr';
 import CurrentBalanceComp from '@/components/clientcomponents/CurrentBalanceComp';
 import { MenuList } from '@/utils/MenuList';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { hamaburgerAtom } from '@/store/atom';
 
-const HamaburgerMenu = ({isOpen}:{isOpen:boolean}) => {
+const HamaburgerMenu = () => {
    
-   
+   const [isOpen,setOpen] = useRecoilState(hamaburgerAtom);
 
     const [menuState, setMenuState] = useState<{
       [id: number]: { isOpen: boolean; isArrowUp: boolean };
@@ -39,7 +41,7 @@ const HamaburgerMenu = ({isOpen}:{isOpen:boolean}) => {
   return (
     <>
          {isOpen ? (
-        <div className="absolute top-[100%] left-[1%]  mr-3 px-4 right-[1%] bg-black py-3 my-3  w-full">
+        <div className="absolute top-[100%] left-[1%]  mr-3 px-4 right-[1%] bg-black py-3 my-3  w-full z-50">
           <div>
             <CurrentBalanceComp />
           </div>
@@ -68,6 +70,7 @@ const HamaburgerMenu = ({isOpen}:{isOpen:boolean}) => {
             <ul className="grid grid-cols-2 gap-2">
               {MenuList.map((item) => (
                 <li
+                  onClick={()=>setOpen(!isOpen)}
                   key={item.id}
                   className="bg-stone-800 rounded-md  flex items-center justify-center"
                 >
@@ -102,7 +105,7 @@ const HamaburgerMenu = ({isOpen}:{isOpen:boolean}) => {
                   {menuState[item.id]?.isOpen && (
                     <ul>
                       {item.list.map((menu, index) => (
-                        <li key={index} className="ml-5 py-2">
+                        <li key={index} onClick={()=>setOpen(!isOpen)} className="ml-5 py-2">
                           <Link href={menu.path} className="flex items-center">
                             <span>{menu.icon}</span>
                             <span>{menu.title}</span>

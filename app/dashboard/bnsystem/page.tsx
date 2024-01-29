@@ -1,3 +1,5 @@
+import GalaxySystem from '@/components/clientcomponents/bnsystemClientComp/GalaxySystem'
+import GlobalSystem from '@/components/clientcomponents/bnsystemClientComp/GlobalSystem'
 import NFTRoyalityDiv from '@/components/clientcomponents/bnsystemClientComp/NFTRoyalityDiv'
 import Planetupgradediv from '@/components/clientcomponents/bnsystemClientComp/Planetupgradediv'
 import UniverseDiv from '@/components/clientcomponents/bnsystemClientComp/UniverseDiv'
@@ -10,6 +12,8 @@ const page = () => {
         <Planetupgradediv/>
         <NFTRoyalityDiv/>
         <UniverseDiv/>
+        <GlobalSystem/>
+        <GalaxySystem/>
       </div>
     </div>
   )

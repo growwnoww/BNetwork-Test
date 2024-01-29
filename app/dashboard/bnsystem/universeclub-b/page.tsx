@@ -16,7 +16,7 @@ const page = () => {
            <HeadingWrapper text="Club B Matrix"/>
           </div>
          
-          <div className='grid grid-cols-4 place-items-center gap-y-4 mt-4 mx-3'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 3xl:grid-cols-4 place-items-center gap-y-4 mt-4 mx-3'>
           {
             ClubAPackageList.map((item) =>(
                 <div key={item.id}>

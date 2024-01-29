@@ -3,8 +3,15 @@ import React from 'react'
 import LevelIcon from '@/components/dashboardComponents/LevelIcon';
 
 const page = () => (
-  <div className=''>
-    <div>
+  <div className='m-5 w-fit'>
+    <div className='h-24 w-full bg-zinc-800 '>
+      <div className='flex'>
+        <p className='text-xl'>Earth</p>
+        <p>5$</p>
+      </div>
+      <div>
+
+      </div>
     </div>
 
     <div className='bg-[#111010] w-fit relative'>
@@ -12,7 +19,9 @@ const page = () => (
         src='/concentriccircle1.png'
         alt='concentriccircle'
         height={800}
-        width={800} />
+        width={800}
+        className=''
+        />
 
 
 

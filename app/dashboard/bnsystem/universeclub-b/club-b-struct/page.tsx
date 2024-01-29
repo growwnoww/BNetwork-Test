@@ -10,21 +10,21 @@ const page = () => {
 
   return (
     <div className='w-fit m-5'>
-      <div className='w-full flex items-center justify-between bg-neutral-800 py-10 px-3 rounded-tr-md rounded-tl-md'>
+      <div className='w-full flex items-center justify-between bg-neutral-800 py-2 lg:py-8 px-3 rounded-tr-md rounded-tl-md'>
         <div>
-          <div className='flex gap-x-5 text-2xl'>
+          <div className='flex gap-x-5 text-lg lg:text-xl'>
             <p className=''>Level 1</p>
             <span className=''> 5 $</span>
           </div>
           <div>33% completed</div>
         </div>
-        <div className='flex gap-x-8'>
+        <div className='hidden lg:flex gap-x-8'>
           <div className='text-center'>
             <span className='text-yellow-400 opacity-60'>Net Profit per cycle </span>
             <p className='font-semibold text-xl'>15 $</p>
           </div>
 
-          <div>
+          <div className='hidden lg:block'>
             <span className='text-yellow-400 opacity-60'>Level Revenue</span>
             <p className='font-semibold text-xl'>32211.0 $</p>
           </div>
@@ -32,12 +32,12 @@ const page = () => {
       </div>
 
 
-      <div className='relative w-full  h-fit' >
+      <div className='relative w-full  h-fit mt-5' >
         <Image
           src='/circle1.svg'
           alt='circle'
-          height={500}
-          width={500}
+          height={700}
+          width={700}
           loading='lazy'
           layout='responsive'
           className='w-full px-12'

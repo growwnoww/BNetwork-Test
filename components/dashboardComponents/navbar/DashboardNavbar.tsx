@@ -4,23 +4,15 @@ import CurrentRouteHeading from "@/components/clientcomponents/CurrentRouteHeadi
 import LanguageSelector from "@/components/clientcomponents/LanguageSelector";
 import React, { useState } from "react";
 import Image from "next/image";
-import { IoCloseSharp, IoGitMerge, IoMenu } from "react-icons/io5";
-import { MenuList } from "@/utils/MenuList";
-import { GrLanguage } from "react-icons/gr";
-import Link from "next/link";
-import { NestedMenuList } from "@/utils/NestedMenuList";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { languageList } from "@/utils/languagelist";
+import { IoCloseSharp, IoMenu } from "react-icons/io5";
 import HamaburgerMenu from "./HamaburgerMenu";
+import { useRecoilState } from "recoil";
+import { hamaburgerAtom } from "@/store/atom";
 
 const DashboardNavbar = () => {
-  const [isOpen, setOpen] = useState<boolean>(false);
+
+
+  const [isOpen,setOpen] = useRecoilState(hamaburgerAtom);
 
  
   const toogleBtn = () => {
@@ -28,8 +20,8 @@ const DashboardNavbar = () => {
   };
 
   return (
-    <div className="relative flex items-center justify-between  px-5 h-16 border-b-[.5px] border-b-slate-800">
-      <div className="block md:hidden">
+    <div className="relative flex items-center justify-between   h-16 border-b-[.5px] border-b-slate-800">
+      <div className="block lg:hidden">
         <Image src="/BNSymbol.png" alt="BNSymbol" height={70} width={70} />
       </div>
 
@@ -37,7 +29,7 @@ const DashboardNavbar = () => {
         <CurrentRouteHeading />
       </div>
 
-      <div className="hidden md:flex gap-x-5">
+      <div className="hidden lg:flex gap-x-5">
         <CurrentBalanceComp />
         <LanguageSelector />
       </div>
@@ -45,17 +37,17 @@ const DashboardNavbar = () => {
       {/* hamaburger menu */}
 
       <div
-        className="md:hidden border border-zinc-600 p-1 rounded-md bg-zinc-800"
+        className="lg:hidden border border-zinc-600 p-1 rounded-md bg-zinc-800 mr-4"
         onClick={toogleBtn}
       >
         {isOpen ? (
-          <IoCloseSharp />
+          <IoCloseSharp className="text-xl text-stone-400" />
         ) : (
           <IoMenu className="text-xl text-stone-400" />
         )}
       </div>
 
-      {isOpen&&  <HamaburgerMenu isOpen={isOpen}/>}
+      {isOpen&&  <HamaburgerMenu/>}
     </div>
   );
 };

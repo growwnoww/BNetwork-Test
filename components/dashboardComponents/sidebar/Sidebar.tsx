@@ -30,16 +30,18 @@ const Sidebar = () => {
   };
   
   return (
-    <div className='hidden md:block   h-screen w-72 border-r-[.5px] border-r-slate-800'>
+    <div className='hidden lg:block   h-screen w-72 border-r-[.5px] border-r-slate-800'>
 
       <div className='flex items-center border-b-[.5px] border-b-slate-800 h-16'>
-        <Image
+       <Link href='/dashboard'>
+       <Image
           src='/BNSymbol.png'
           alt='BNSymbol'
           height={60}
           width={60}
           loading='lazy'
         />
+       </Link>
       </div>
 
       <div className='mt-2'>

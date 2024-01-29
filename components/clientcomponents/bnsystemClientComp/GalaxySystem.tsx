@@ -1,11 +1,12 @@
-import LevelIcon from "@/components/dashboardComponents/LevelIcon";
-import React from "react";
-import BtnWrapper from "@/components/WrapperComponent/BtnWrapper";
+import BtnWrapper from '@/components/WrapperComponent/BtnWrapper'
+import LevelIcon from '@/components/dashboardComponents/LevelIcon'
+import React from 'react'
+import { IoIosUnlock } from 'react-icons/io'
 
-const Planetupgradediv = () => {
+const GalaxySystem = () => {
   return (
     <div className="bg-[#1f1f1f] flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-between py-8 m-3 rounded-md">
-      <div className="text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl  px-3"> Planet Upgrade System</div>
+      <div className="text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl  px-3"> Galaxy System &#40;comming soon&#41;</div>
       <div className="flex flex-col lg:flex-row gap-y-6  items-center justify-center gap-x-9 mx-10">
         <div className="h-fit grid grid-cols-5 w-fit  gap-x-2 ">
           <LevelIcon level={1} />
@@ -19,15 +20,18 @@ const Planetupgradediv = () => {
           <LevelIcon level={9} />
           <LevelIcon level={10} />
         </div>
+        <div className='flex items-center relative'>
         <BtnWrapper
-          text="show"
+          text="soon"
           height="py-2"
           width="px-10"
           path="/dashboard/bnsystem/planetupgrade"
         />
+        <IoIosUnlock  className='absolute right-[10%]' />
+        </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Planetupgradediv;
+export default GalaxySystem
