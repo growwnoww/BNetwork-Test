@@ -29,6 +29,16 @@ const NestedMenuList: NestedMenuType[] = [
     icon2:<IoIosArrowUp />,
     list: [
       {
+        title: "Direct Team",
+        path: "/dashboard/directteam",
+        icon: <IoMdArrowDropright />,
+      },
+      {
+        title: "Tier Team",
+        path: "/dashboard/tierteam",
+        icon: <IoMdArrowDropright />,
+      },
+      {
         title: "Tier Upline Team",
         path: "/dashboard/tieruplineteam",
         icon: <IoMdArrowDropright />,
@@ -44,7 +54,7 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Plan Transaction History",
-        path: "/dashboard/plantranxhistory",
+        path: "/dashboard/planetranxhistory",
         icon: <IoMdArrowDropright />,
       },
       {

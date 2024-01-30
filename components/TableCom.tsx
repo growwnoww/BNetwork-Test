@@ -1,17 +1,10 @@
 "use client";
 import Image from "next/image";
 import React, { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
-import {  tableData } from "@/utils/DirectTeamData";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
 import {
   Table,
@@ -24,6 +17,14 @@ import {
 } from "@/components/ui/table";
 
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -32,11 +33,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { tableData } from "@/utils/DirectTeamData";
 
+const TableCom = () => {
+  
 
-const page = () => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -52,7 +53,7 @@ const page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-          Direct Team
+          Tier Upline Team
         </p>
       </div>
 
@@ -119,12 +120,6 @@ const page = () => {
                       className=" py-3 text-center tracking-wider"
                     >
                       Status
-                    </TableHead>
-                    <TableHead
-                      scope="col"
-                      className=" py-3 text-center tracking-wider"
-                    >
-                      Action
                     </TableHead>
                   </TableRow>
                 </TableHeader>
@@ -262,4 +257,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TableCom;
