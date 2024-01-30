@@ -36,7 +36,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 
-const page = () => {
+const Page = () => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -262,4 +262,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

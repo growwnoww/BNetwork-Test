@@ -36,7 +36,7 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { tableData } from "@/utils/DirectTeamData";
 
-const page = () => {
+const Page = () => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -292,4 +292,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

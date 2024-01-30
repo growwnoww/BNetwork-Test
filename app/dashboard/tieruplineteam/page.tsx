@@ -34,7 +34,7 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 
-const page = () => {
+const Page = () => {
  
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
@@ -221,4 +221,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
