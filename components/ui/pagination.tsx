@@ -7,6 +7,7 @@ import {
 
 import { cn } from "@/lib/utils"
 import { ButtonProps, buttonVariants } from "@/components/ui/button"
+import { MdKeyboardDoubleArrowLeft, MdKeyboardDoubleArrowRight } from "react-icons/md"
 
 const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
   <nav
@@ -56,7 +57,7 @@ const PaginationLink = ({
         variant: isActive ? "outline" : "ghost",
         size,
       }),
-      "hover:bg-yellow-400 duration-300",
+      "hover:bg-yellow-400 duration-300 border border-yellow-400",
       className
     )}
     {...props}
@@ -71,11 +72,14 @@ const PaginationPrevious = ({
   <PaginationLink
     aria-label="Go to previous page"
     size="default"
-    className={cn("gap-1 pl-2.5 hover:bg-yellow-400 duration-300", className)}
+    className={cn("gap-1 pl-2.5 hover:bg-yellow-400 duration-300 border", className)}
     {...props}
   >
-    <ChevronLeftIcon className="h-4 w-4 " />
-    <span >Previous</span>
+   
+    <span >
+      <MdKeyboardDoubleArrowLeft className="h-4 w-4 "/>
+    </span>
+    
   </PaginationLink>
 )
 PaginationPrevious.displayName = "PaginationPrevious"
@@ -87,12 +91,12 @@ const PaginationNext = ({
   <PaginationLink
     aria-label="Go to next page"
     size="default"
-    className={cn("gap-1 pr-2.5 hover:bg-yellow-400 duration-300", className)}
+    className={cn("gap-1 pr-2.5   hover:bg-yellow-400 duration-300 border", className)}
     {...props}
   >
-    <span>Next</span>
-    <ChevronRightIcon className="h-4 w-4" />
-  </PaginationLink>
+    
+    <span><MdKeyboardDoubleArrowRight  className="h-4 w-4 text-xl"  /></span>
+   </PaginationLink>
 )
 PaginationNext.displayName = "PaginationNext"
 
@@ -102,7 +106,7 @@ const PaginationEllipsis = ({
 }: React.ComponentProps<"span">) => (
   <span
     aria-hidden
-    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    className={cn("flex h-9 w-9 items-center justify-center border rounded-md border-yellow-400", className)}
     {...props}
   >
     <DotsHorizontalIcon className="h-4 w-4" />

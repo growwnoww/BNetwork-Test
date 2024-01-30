@@ -1,4 +1,6 @@
+import { title } from 'process';
 import { FaChartLine } from 'react-icons/fa';
+import { GrUserNew } from 'react-icons/gr';
 import { IoHomeOutline } from 'react-icons/io5';
 import { LuSun   } from 'react-icons/lu';
 import { SiBitcoinsv } from 'react-icons/si';
@@ -31,13 +33,20 @@ const MenuList = [
     icon: <TbUniverse />,
   },
   {
-    id: "4",
+    id:'4',
+    title:"Create New Believer",
+    path:"/dashboard/createnewbeliever",
+    icon:<GrUserNew />
+
+  },
+  {
+    id: "5",
     title: "BN coin",
     path: "/dashboard/bncoin",
     icon: <SiBitcoinsv />,
   },
   {
-    id: "5",
+    id: "6",
     title: "Live Planet Status",
     path: "/dashboard/liveplanetstatus", // Corrected path to make it unique
     icon: <FaChartLine />,

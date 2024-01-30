@@ -47,19 +47,19 @@ const NestedMenuList: NestedMenuType[] = [
   },
   {
     id: 2,
-    title: "Activation",
+    title: "Activation History",
     icon: <BsReverseLayoutTextSidebarReverse />,
     icon1: <IoIosArrowDown />,
     icon2:<IoIosArrowUp />,
     list: [
       {
-        title: "Plan Transaction History",
+        title: "Planet Upgrade History",
         path: "/dashboard/planetranxhistory",
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "Create New Believer",
-        path: "/dashboard/createnewbeliever",
+        title: "U Club A Upgrade History",
+        path: "/dashboard/clubAupgradehistory",
         icon: <IoMdArrowDropright />,
       },
     ],

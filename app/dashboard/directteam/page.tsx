@@ -65,7 +65,7 @@ const Page = () => {
               <Input
                 type="text"
                 placeholder="Enter BN Id or Address"
-                className="w-[140px] h-8"
+                className="w-[180px] h-8"
               />
               </div>
             
@@ -214,7 +214,7 @@ const Page = () => {
               </Table>
             </div>
 
-            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  ">
+            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  gap-y-4">
               <div className="order-2 lg:order-1">
                 <Pagination>
                   <PaginationContent>
