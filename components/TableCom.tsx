@@ -1,5 +1,11 @@
-'use client'
+"use client";
+import Image from "next/image";
 import React, { useState } from "react";
+import { Button } from "./ui/button";
+import { Input } from "./ui/input";
+import { FaRegCopy } from "react-icons/fa";
+import { HiArrowTopRightOnSquare } from "react-icons/hi2";
+
 import {
   Table,
   TableBody,
@@ -27,17 +33,9 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-
-import { Input } from "@/components/ui/input";
-import { FaRegCopy } from "react-icons/fa";
-import { HiArrowTopRightOnSquare } from "react-icons/hi2";
-import { MdOutlineSortByAlpha } from "react-icons/md";
 import { tableData } from "@/utils/DirectTeamData";
-import { Button } from "@/components/ui/button";
 
-const Page = () => {
-
-
+const TableCom = () => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -53,7 +51,7 @@ const Page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-             BN Coin Earnings
+          Planet Upgrade History
         </p>
       </div>
 
@@ -62,82 +60,81 @@ const Page = () => {
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
             <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
               <div className=" w-full flex flex-col items-end md:items-start ">
-              <label className="">Filter</label>
-              <Input
-                type="text"
-                placeholder="Enter BN Id or Address"
-                className="w-[140px] h-8"
-              />
+                <label className="">Filter</label>
+                <Input
+                  type="text"
+                  placeholder="Enter BN Id or Address"
+                  className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
+                />
               </div>
-            
-
-             
             </div>
 
             <div className="w-3/4">
               <Table className=" divide-y divide-gray-600 rounded-lg">
                 <TableHeader className="bg-stone-900  ">
                   <TableRow className="text-yellow-400 text-[10px] lg:text-[13px] uppercase text-center">
-                     
-                  <TableHead
-                      scope="col"
-                      className=" px-5 lg:px-0 py-5 text-center "
-                    >
-                     Sr No
-                    </TableHead>
-
-                   
                     <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
+                    >
+                      Sr No
+                    </TableHead>
+
+                    <TableHead
+                      scope="col"
+                      className=" px-5 lg:px-0 py-5 text-center "
+                    >
+                      Planet
+                    </TableHead>
+                    <TableHead
+                      scope="col"
+                      className=" py-3 text-center tracking-wider"
                     >
                       BN Id
                     </TableHead>
+
                     <TableHead
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
-                      Date & time
+                      Date & Time
                     </TableHead>
-                    
-                    <TableHead
-                      scope="col"
-                      className=" py-3 text-center tracking-wider"
-                    >
-                      Earning
-                    </TableHead>
-                    
 
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                      Earing Through
+                      Package
                     </TableHead>
 
-              
-                    
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
                       Action
                     </TableHead>
-               
-                   
-                   
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
                   {tableData.map((user, index) => (
                     <React.Fragment key={user.id}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
-
-                      <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
                           {user.id}
                         </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                        <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
+                          <Image
+                            className="h-12 w-12  rounded-full"
+                            width={20}
+                            height={20}
+                            loading="lazy"
+                            src={user.imgURL}
+                            alt="Avatar"
+                          />
+                        </TableCell>
+
+                        <TableCell className=" py-2  whitespace-nowrap ">
                           {user.BNId}
                         </TableCell>
 
@@ -149,11 +146,6 @@ const Page = () => {
                           {user.incomeFromTier}
                         </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.earningThrough}
-                        </TableCell>
-
-
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
                           <Button onClick={() => handleToggle(user.id)}>
                             {expanded[user.id] ? "Hide" : "Show"}
@@ -161,26 +153,35 @@ const Page = () => {
                         </TableCell>
                       </TableRow>
                       {expanded[user.id] && (
-                      <tr className="text-white text-center">
-                        {/* Notice the colSpan should be equal to the number of columns in the table */}
-                        <td
-                          colSpan={8}
-                          className="px-3 py-2 whitespace-nowrap text-sm"
-                        >
-                          <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                            <div className="flex gap-x-2">
-                              <p className="w-fit ">Transaction Hash: {user.address}</p>
-                              <div className="flex items-center gap-x-2 ">
-                                <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                        <tr className="text-white text-center">
+                          {/* Notice the colSpan should be equal to the number of columns in the table */}
+                          <td
+                            colSpan={8}
+                            className="px-3 py-2 whitespace-nowrap text-sm"
+                          >
+                            <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  Address: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
+                              </div>
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  Transaction Hash: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
                               </div>
                             </div>
-
-                          
-                          </div>
-                        </td>
-                      </tr>
-                    )}
+                          </td>
+                        </tr>
+                      )}
                     </React.Fragment>
                   ))}
                 </TableBody>
@@ -233,6 +234,6 @@ const Page = () => {
       </div>
     </div>
   );
-}
+};
 
-export default Page;
+export default TableCom;
