@@ -10,7 +10,7 @@ declare global {
 
 const ETToken_Address = "0x939fDf8d411a0f110Bbec4a98220cBc01553d01b";
 const USDTToken_Address = "0x939fDf8d411a0f110Bbec4a98220cBc01553d01b";
-const B_Network_Address = "0xAE521258c29B67262F5128c10c25741C7327ee5a";
+const B_Network_Address = "0xe34603D9A35A1117edd66901B022b0b5388d034F";
 
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 export const signer = provider.getSigner();

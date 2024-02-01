@@ -281,6 +281,19 @@
         "type": "fallback"
     },
     {
+        "inputs": [],
+        "name": "EnergyDistPercentage",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "uint256",
@@ -395,6 +408,11 @@
                 "internalType": "uint256",
                 "name": "regReferalId",
                 "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "teamCount",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -436,6 +454,25 @@
         ],
         "name": "SetRoyaltyNFTSC",
         "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_perc",
+                "type": "uint256"
+            }
+        ],
+        "name": "UpdateEnergyPercentage",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
         "stateMutability": "nonpayable",
         "type": "function"
     },
@@ -536,6 +573,11 @@
             },
             {
                 "internalType": "uint256",
+                "name": "user_id",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
                 "name": "upline",
                 "type": "uint256"
             },
@@ -545,14 +587,34 @@
                 "type": "address"
             },
             {
+                "internalType": "uint256",
+                "name": "originalUser_id",
+                "type": "uint256"
+            },
+            {
                 "internalType": "address",
                 "name": "teamone",
                 "type": "address"
             },
             {
+                "internalType": "uint256",
+                "name": "teamone_id",
+                "type": "uint256"
+            },
+            {
                 "internalType": "address",
                 "name": "teamtwo",
                 "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "teamtwo_id",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "lastbuy",
+                "type": "uint256"
             }
         ],
         "stateMutability": "view",
@@ -873,6 +935,11 @@
             {
                 "internalType": "uint256",
                 "name": "_referal",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_teamcount",
                 "type": "uint256"
             }
         ],

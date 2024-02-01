@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { FaDirections, FaRegCopy } from "react-icons/fa";
 import { GiTeamDowngrade } from "react-icons/gi";
 import { Context } from "../Context";
-import { bNetwork, signer } from "@/contract/Web3_Instance";
-import Token_ABI from "@/contract/Token_ABI.json";
+import { bNetwork } from "@/contract/Web3_Instance";
+import { ethers } from "ethers";
 
 const UserInfo = () => {
     const { userAddress } = useContext(Context);
     const [userRegisterDetail, setUserRegisterDetail] = useState<any>();
     const [userExisit, setUserExisit] = useState<boolean>();
+    const [packageFee, setPackageFee] = useState<any>();
 
     const copyToClipboard = (text: any): void => {
         try {
@@ -39,25 +40,22 @@ const UserInfo = () => {
         }
     };
 
-    // const registerUser = async () => {
-    //     try {
-    //         const signers = signer;
-    //         const gasPrice = await signers.getGasPrice();
-
-    //         const myContract = bNetwork();
-    //         const res = await myContract.registrations(userAddress, {
-    //             gasPrice: gasPrice,
-    //             gasLimit: "200000",
-    //         });
-    //         console.log(res);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
+    const userPlanet = async () => {
+        try {
+            const myContract = bNetwork();
+            const planet = await myContract.UserPlannet(userAddress);
+            const num = Number(planet?._hex);
+            const plannetDetails = await myContract.MatrixDetails(num);
+            setPackageFee(Number(ethers.utils.formatEther(plannetDetails?.fee?._hex)).toFixed(0));
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
         getUserRegisterDetails();
         getUserRegister();
+        userPlanet();
         // eslint-disable-next-line
     }, []);
 
@@ -72,7 +70,7 @@ const UserInfo = () => {
                     <div>
                         <FaRegCopy
                             className="cursor-pointer"
-                            onClick={() => copyToClipboard(Number(userRegisterDetail?.regId?._hex))}
+                            onClick={() => copyToClipboard(`BN${Number(userRegisterDetail?.regId?._hex)}`)}
                         />
                     </div>
                 </div>
@@ -80,12 +78,60 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Current Package : </span>
-                        <span className="md:text-xs">$ 5000(Pluto)</span>
+                        <span className="md:text-xs">{`$ ${packageFee}(${
+                            packageFee === "5"
+                                ? "Earth"
+                                : packageFee === "10"
+                                ? "Moon"
+                                : packageFee === "25"
+                                ? "Mars"
+                                : packageFee === "50"
+                                ? "Mercury"
+                                : packageFee === "100"
+                                ? "Venus"
+                                : packageFee === "250"
+                                ? "Jupiter"
+                                : packageFee === "500"
+                                ? "Saturn"
+                                : packageFee === "1000"
+                                ? "Uranus"
+                                : packageFee === "2500"
+                                ? "Neptune"
+                                : packageFee === "5000"
+                                ? "Pluto"
+                                : "NO"
+                        })`}</span>
                     </div>
                     <div>
                         <FaRegCopy
                             className="cursor-pointer"
-                            onClick={() => copyToClipboard(Number(userRegisterDetail?.regId?._hex))}
+                            onClick={() =>
+                                copyToClipboard(
+                                    `$ ${packageFee}(${
+                                        packageFee === "5"
+                                            ? "Earth"
+                                            : packageFee === "10"
+                                            ? "Moon"
+                                            : packageFee === "25"
+                                            ? "Mars"
+                                            : packageFee === "50"
+                                            ? "Mercury"
+                                            : packageFee === "100"
+                                            ? "Venus"
+                                            : packageFee === "250"
+                                            ? "Jupiter"
+                                            : packageFee === "500"
+                                            ? "Saturn"
+                                            : packageFee === "1000"
+                                            ? "Uranus"
+                                            : packageFee === "2500"
+                                            ? "Neptune"
+                                            : packageFee === "5000"
+                                            ? "Pluto"
+                                            : "NO"
+                                    })`
+                                )
+                            }
                         />
                     </div>
                 </div>
@@ -99,7 +145,10 @@ const UserInfo = () => {
                         <span>BN{userExisit ? Number(userRegisterDetail?.regReferalId?._hex) : "null"}</span>
                     </div>
                     <div>
-                        <FaRegCopy className="cursor-pointer" onClick={() => copyToClipboard(userAddress)} />
+                        <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() => copyToClipboard(`BN${Number(userRegisterDetail?.regReferalId?._hex)}`)}
+                        />
                     </div>
                 </div>
                 <hr />
@@ -124,7 +173,9 @@ const UserInfo = () => {
                             <FaDirections />
                         </span>
                         <span className="text-zinc-500 text-xl md:text-sm lg:text-xl font-bold">Direct Team: </span>
-                        <span className="md:text-sm">BNO52767</span>
+                        <span className="md:text-sm">
+                            BNO52767{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}
+                        </span>
                     </div>
                 </div>
                 <hr />
@@ -134,7 +185,7 @@ const UserInfo = () => {
                             <GiTeamDowngrade />
                         </span>
                         <span className="text-zinc-500 text-xl font-bold">Total Team : </span>
-                        <span>4191</span>
+                        <span>{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}</span>
                     </div>
                 </div>
             </div>
