@@ -56,7 +56,7 @@ const Page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-          Planet Upgrade History
+          Live Planet Status
         </p>
       </div>
 
@@ -103,12 +103,7 @@ const Page = () => {
                       Total Planet
                     </TableHead>
 
-                    <TableHead
-                      scope="col"
-                      className=" text-center r"
-                    >
-                      Just bought Planet
-                    </TableHead>
+                  
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
@@ -143,9 +138,7 @@ const Page = () => {
                           {user.incomeFromTier}
                         </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
-                        </TableCell>
+                        
                       </TableRow>
                   
                     </React.Fragment>

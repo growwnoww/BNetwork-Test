@@ -4,6 +4,8 @@ import Image from "next/image";
 import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
+import { Button } from "../ui/button";
+import { Outlines } from "@react-three/drei";
 
 
 
@@ -240,7 +242,12 @@ const Navbar = () => {
                                 }}
                             </ConnectButton.Custom>
                 <div className="bg-gray-800 px-3 py-1 rounded-md">ENG</div>
+                <div>
+                 <Link href='/dashboard'> <Button variant={'secondary'}>Dashboard</Button></Link>
+                 </div>
             </div>
+
+            
         </div>
         </div>
     );

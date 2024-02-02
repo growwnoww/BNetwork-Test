@@ -9,14 +9,62 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 
-
-
-import React, { useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
+import { SelectData } from "@/utils/SelectData";
 
 const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Registration");
+
+  const [registrationData, setRegistrationData] = useState({
+    yourAddress: "",
+    referralAddress: "",
+    newBelieverAddress: "",
+  });
+
+  // States for "Buy Planet"
+  const [buyPlanetData, setBuyPlanetData] = useState({
+    yourAddress: "",
+    believerAddress: "",
+    selectedPackage: "Earth",
+  });
+
+  const registrationChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRegistrationData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const buyPlanetChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setBuyPlanetData((prevState) => ({
+      ...prevState,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const handleRegistration = (event: FormEvent) => {
+    event.preventDefault();
+    console.log(registrationData);
+  };
+
+  const handlebuyPlanet = (event: FormEvent) => {
+    event.preventDefault();
+    console.log(buyPlanetData);
+  };
+
+  const handleSelectPackageChange = (selectedValue: string) => {
+    setBuyPlanetData(prevState => ({
+      ...prevState,
+      selectedPackage: selectedValue,
+    }));
+    console.log(buyPlanetData.selectedPackage)
+  };
 
   const handleOptionChange = (option: string) => {
     setSelectedOption(option);
@@ -31,10 +79,11 @@ const Page = () => {
       </div>
 
       <div className="w-full flex flex-col items-center justify-center mt-5">
-        <Button variant='custom_yellow'>Approve</Button>
-        <p className="text-zinc-500 mt-2">Please, Approve the wallet before proceeding further</p>
+        <Button variant="custom_yellow">Approve</Button>
+        <p className="text-zinc-500 mt-2">
+          Please, Approve the wallet before proceeding further
+        </p>
       </div>
-
 
       <div className="w-full h-full items-center justify-center flex flex-col my-4  ">
         <div className="w-fit  flex flex-col  ">
@@ -63,55 +112,96 @@ const Page = () => {
             <form
               action=""
               className="flex flex-col gap-y-5 bg-zinc-900 py-4 px-6 rounded-lg"
+              onSubmit={(e) => handleRegistration(e)}
             >
               <label htmlFor="">Your Address</label>
               <Input
+                name="yourAddress"
                 type="text"
                 placeholder="Enter your address"
                 className="w-96"
+                value={registrationData.yourAddress}
+                onChange={(e) => registrationChangeHandler(e)}
               />
               <label htmlFor="">Referral Address</label>
-              <Input type="text" placeholder="Enter your referral address" />
+              <Input
+                name="referralAddress"
+                type="text"
+                placeholder="Enter your referral address"
+                value={registrationData.referralAddress}
+                onChange={(e) => registrationChangeHandler(e)}
+              />
               <label htmlFor="">New Believer Address</label>
-              <Input type="text" placeholder="Enter new believer address" />
+              <Input
+                name="newBelieverAddress"
+                type="text"
+                placeholder="Enter new believer address"
+                value={registrationData.newBelieverAddress}
+                onChange={(e) => registrationChangeHandler(e)}
+              />
 
               <div className="w-full flex items-center justify-center">
-              <Button type="submit" variant= 'custom_yellow' className="w-fit px-6">Submit</Button>
+                <Button
+                  type="submit"
+                  variant="custom_yellow"
+                  className="w-fit px-6"
+                >
+                  Submit
+                </Button>
               </div>
             </form>
           ) : (
-            <form action=""
-            className="flex flex-col gap-y-5 bg-zinc-900 py-4 px-6 rounded-lg"
+            <form
+              action=""
+              className="flex flex-col gap-y-5 bg-zinc-900 py-4 px-6 rounded-lg"
+              onSubmit={(e) => handlebuyPlanet(e)}
             >
               <label htmlFor="">Your Address</label>
               <Input
+                name="yourAddress"
                 type="text"
                 placeholder="Enter your address"
                 className="w-96"
+                value={buyPlanetData.yourAddress}
+                onChange={(e) => buyPlanetChangeHandler(e)}
               />
               <label htmlFor="">Believer Address</label>
-              <Input type="text" placeholder="Enter  believer address" />
+              <Input
+                name="believerAddress"
+                type="text"
+                placeholder="Enter  believer address"
+                value={buyPlanetData.believerAddress}
+                onChange={(e) => buyPlanetChangeHandler(e)}
+              />
               <label>Select Package</label>
-              <Select>
+              <Select
+                // options={perPageDropDownOptions}
+                // onValueChange={onValueChange}
+                // defaultValue={value}
+                name="selectedPackage"
+                value={buyPlanetData.selectedPackage}
+                onValueChange={handleSelectPackageChange}
+              >
                 <SelectTrigger className="w-[180px] border border-yellow-400">
-                  <SelectValue placeholder="" />
+                  <SelectValue placeholder=""  />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Earth">Earth 5$</SelectItem>
-                  <SelectItem value="Moon">Moon 10$</SelectItem>
-                  <SelectItem value="Mars">Mars 25$</SelectItem>
-                  <SelectItem value="Venus">Venus 50$</SelectItem>
-                  <SelectItem value="Mercury">Mercury 100$</SelectItem>
-                  <SelectItem value="Jupiter">Jupiter 250$</SelectItem>
-                  <SelectItem value="Saturn">Saturn 500$</SelectItem>
-                  <SelectItem value="Uranus">Uranus 1000$</SelectItem>
-                  <SelectItem value="Neptune">Neptune 2500$</SelectItem>
-                  <SelectItem value="Pluto">Pluto 5000$</SelectItem>
+                <SelectContent defaultValue="Earth">
+                  {SelectData.map((item) => (
+                    <SelectItem key={item.id} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
               <div className="w-full flex items-center justify-center">
-              <Button type="submit" variant= 'custom_yellow' className="w-fit px-6">Submit</Button>
+                <Button
+                  type="submit"
+                  variant="custom_yellow"
+                  className="w-fit px-6"
+                >
+                  Submit
+                </Button>
               </div>
             </form>
           )}

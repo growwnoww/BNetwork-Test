@@ -5,7 +5,7 @@ import { TbCoinBitcoin } from 'react-icons/tb'
 
 const CurrentBalanceComp = () => {
     return (
-        <div className='flex justify-between px-4 gapx-5 text-sm lg:text-lg'>
+        <div className='flex justify-between px-4 gap-x-7 text-sm lg:text-lg'>
             <div className='flex items-center  lg:text-md gap-x-1'>
                 <span className='inline-block text-2xl '><AiTwotoneDollarCircle className='text-sm text-yellow-500 lg:text-lg xl:text-lg'/></span>
                 <span className=''>5.456 </span>
@@ -18,7 +18,7 @@ const CurrentBalanceComp = () => {
             </div>
             <div className='flex items-center gap-x-1'>
                 <span className='inline-block text-2xl '><MdOutlineOfflineBolt className='text-sm text-yellow-500 lg:text-lg xl:text-lg'/></span>
-                <span>10 ET </span>
+                <span>10  </span>
                 <span className='text-yellow-400'>ET </span>
             </div>
         </div>

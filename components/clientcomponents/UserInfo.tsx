@@ -1,11 +1,25 @@
+'use client'
 import React from 'react'
 import { FaDirections, FaRegCopy } from 'react-icons/fa'
 import { GiTeamDowngrade } from 'react-icons/gi'
+import { useAccount } from 'wagmi'
 
 const UserInfo = () => {
+       const{address} = useAccount();
+
     return (
         <div className='md:text-sm'>
             <div className='bg-black py-4 my-2 sm:w-96  md:w-auto  px-3  rounded-md md:text-sm'>
+                 <div className='flex items-center justify-between pb-1'>
+                    <div >
+                        <span className='text-zinc-500'>My Address: </span>
+                        <span className='text-xs'>{address}</span>
+                     </div>
+                    <div>
+                        <FaRegCopy />
+                    </div>
+                </div>
+                 
                 <div className='flex items-center justify-between pb-1'>
                     <div >
                         <span className='text-zinc-500'>My BN ID: </span>

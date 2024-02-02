@@ -1,6 +1,7 @@
 import { title } from 'process';
 import { FaChartLine } from 'react-icons/fa';
 import { GrUserNew } from 'react-icons/gr';
+import { IoIosLock } from 'react-icons/io';
 import { IoHomeOutline } from 'react-icons/io5';
 import { LuSun   } from 'react-icons/lu';
 import { SiBitcoinsv } from 'react-icons/si';
@@ -11,6 +12,7 @@ interface MenuItem {
   title: string;
   path: string;
   icon: React.ReactNode;
+  icon2?:React.ReactNode;
 }
 
 const MenuList = [
@@ -44,6 +46,8 @@ const MenuList = [
     title: "BN coin",
     path: "/dashboard/bncoin",
     icon: <SiBitcoinsv />,
+    icon2:<IoIosLock />
+
   },
   {
     id: "6",
