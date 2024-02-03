@@ -38,8 +38,7 @@ const Page = () => {
     const registerUser = async (e: any) => {
         e.preventDefault();
         try {
-            const signers = signer;
-            const gasPrice = await signers.getGasPrice();
+            const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
             const userExisit = await myContract.isUserExists(userAddress);
@@ -68,39 +67,36 @@ const Page = () => {
 
     const approveUSDT = async () => {
         try {
-            const signers = signer;
-            const gasPrice = await signers.getGasPrice();
+            const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
             const getFeeTokenAddress = await myContract.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
-            const approve = await secondInstance.approve(
-                myContract.address,
+            const planetName =
                 value.package === "Earth"
-                    ? "5"
+                    ? "5000000000000000000"
                     : value.package === "Moon"
-                    ? "10"
+                    ? "10000000000000000000"
                     : value.package === "Mars"
-                    ? "25"
+                    ? "25000000000000000000"
                     : value.package === "Mercury"
-                    ? "50"
+                    ? "50000000000000000000"
                     : value.package === "Venus"
-                    ? "100"
+                    ? "100000000000000000000"
                     : value.package === "Jupiter"
-                    ? "250"
+                    ? "250000000000000000000"
                     : value.package === "Saturn"
-                    ? "500"
+                    ? "500000000000000000000"
                     : value.package === "Uranus"
-                    ? "1000"
+                    ? "1000000000000000000000"
                     : value.package === "Neptune"
-                    ? "2500"
+                    ? "2500000000000000000000"
                     : value.package === "Pluto"
-                    ? "5000"
-                    : "5",
-                {
-                    gasPrice: gasPrice,
-                    gasLimit: "200000",
-                }
-            );
+                    ? "5000000000000000000000"
+                    : "5000000000000000000";
+            const approve = await secondInstance.approve(myContract.address, planetName, {
+                gasPrice: gasPrice,
+                gasLimit: "200000",
+            });
             await approve.wait();
             console.log(approve);
         } catch (error) {
@@ -110,8 +106,7 @@ const Page = () => {
 
     const checkApproveUSDT = async () => {
         try {
-            const signers = signer;
-            const gasPrice = await signers.getGasPrice();
+            const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
             const getFeeTokenAddress = await myContract.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
@@ -126,8 +121,7 @@ const Page = () => {
     const buyPlanetUser = async (e: any) => {
         e.preventDefault();
         try {
-            const signers = signer;
-            const gasPrice = await signers.getGasPrice();
+            const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
             if (value.package && value.beliverAddress) {

@@ -5,6 +5,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { Context } from "../Context";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
+import { Button } from "../ui/button";
 
 interface NavItem {
     title: string;
@@ -259,6 +260,12 @@ const Navbar = () => {
                         }}
                     </ConnectButton.Custom>
                     <div className="bg-gray-800 px-3 py-1 rounded-md">ENG</div>
+                    <div>
+                        <Link href="/dashboard">
+                            {" "}
+                            <Button variant={"secondary"}>Dashboard</Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

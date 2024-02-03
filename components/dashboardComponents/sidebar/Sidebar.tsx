@@ -1,21 +1,20 @@
-'use client'
-import { MenuList } from '@/utils/MenuList'
-import { NestedMenuList } from '@/utils/NestedMenuList'
-import Image from 'next/image'
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+"use client";
+import { MenuList } from "@/utils/MenuList";
+import { NestedMenuList } from "@/utils/NestedMenuList";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import React, { useState } from 'react'
-import { MdOutlineTipsAndUpdates } from 'react-icons/md'
-
-
+import React, { useState } from "react";
+import { MdOutlineTipsAndUpdates } from "react-icons/md";
+import { RiLogoutCircleLine } from "react-icons/ri";
 
 const Sidebar = () => {
- 
-
   const pathname = usePathname();
 
-  const [menuState, setMenuState] = useState<{ [id: number]: { isOpen: boolean; isArrowUp: boolean } }>({});
+  const [menuState, setMenuState] = useState<{
+    [id: number]: { isOpen: boolean; isArrowUp: boolean };
+  }>({});
 
   const toggleMenu = (menuId: number) => {
     setMenuState((prev) => {
@@ -28,72 +27,110 @@ const Sidebar = () => {
       return updatedMenuState;
     });
   };
-  
-  return (
-    <div className='hidden lg:block   h-screen w-72 border-r-[.5px] border-r-slate-800'>
 
-      <div className='flex items-center border-b-[.5px] border-b-slate-800 h-16'>
-       <Link href='/dashboard'>
-       <Image
-          src='/BNSymbol.png'
-          alt='BNSymbol'
-          height={60}
-          width={60}
-          loading='lazy'
-        />
-       </Link>
+  return (
+    <div className="hidden lg:block   h-screen w-72 border-r-[.5px] border-r-slate-800">
+      <div className="flex items-center border-b-[.5px] border-b-slate-800 h-16">
+        <Link href="/dashboard">
+          <Image
+            src="/BNSymbol.png"
+            alt="BNSymbol"
+            height={60}
+            width={60}
+            loading="lazy"
+          />
+        </Link>
       </div>
 
-      <div className='mt-2'>
-        <ul className='flex flex-col p-3 pl-5 text-stone-400 text-md font-medium'>
-          {
-            MenuList.map((menu) => (
-              <li key={menu.id} className=' pb-3  cursor-pointer '>
-              <Link href={menu.path} className={`flex items-center ${pathname == menu.path ? `bg-zinc-800`:'hover:bg-zinc-900 duration-400'} px-2 py-2 rounded-md mr-4 gap-x-3`}>
-               <span className='text-lg'>{menu.icon}</span>
-                <p className=''>{menu.title}</p>
+      <div className="mt-2">
+        <ul className="flex flex-col p-3 pl-5 text-stone-400 text-md font-medium">
+          {MenuList.map((menu) => (
+            <li key={menu.id} className=" pb-3  cursor-pointer ">
+              <Link
+                href={menu.path}
+                className={`flex items-center ${
+                  pathname == menu.path
+                    ? `bg-zinc-800`
+                    : "hover:bg-zinc-900 duration-400"
+                } px-2 py-2 rounded-md mr-4 gap-x-3`}
+              >
+                <span className="text-lg">{menu.icon}</span>
+                <p className="">{menu.title}</p>
+                {menu.icon2 ? <span>{menu.icon2}</span> : ""}
               </Link>
-              </li>
+            </li>
+          ))}
 
-            ))
-          }
-
-          {
-          NestedMenuList.map((menu) => (
-            <li key={menu.id} className='pb-3 cursor-pointer'>
-              <div onClick={() =>toggleMenu(menu.id) }  className={`flex items-center px-2 py-2 rounded-md mr-4 gap-x-3 hover:bg-zinc-900 duration-400`}>
-                <span className='text-lg'>{menu.icon}</span>
+          {NestedMenuList.map((menu) => (
+            <li key={menu.id} className="pb-3 cursor-pointer">
+              <div
+                onClick={() => toggleMenu(menu.id)}
+                className={`flex items-center px-2 py-2 rounded-md mr-4 gap-x-3 hover:bg-zinc-900 duration-400`}
+              >
+                <span className="text-lg">{menu.icon}</span>
                 <p>{menu.title}</p>
-              
-                  <p>{menuState[menu.id]?.isArrowUp? menu.icon2 : menu.icon1}</p>
-                
-               
+
+                <p>{menuState[menu.id]?.isArrowUp ? menu.icon2 : menu.icon1}</p>
               </div>
-              {menuState[menu.id]?.isOpen&& (
-                <ul className='pt-2 pl-4'>
+              {menuState[menu.id]?.isOpen && (
+                <ul className="pt-2 pl-4">
                   {menu.list.map((item, index) => (
-                    <li key={index} className=' pb-2'>
-                      <div className={`flex items-center ${pathname == item.path ? `bg-zinc-800`:'hover:bg-zinc-900 duration-400'} gap-x-3 py-1`}>
-                      <span>{item.icon}</span>
-                      <Link href={item.path}>{item.title}</Link>
+                    <li key={index} className=" pb-2">
+                      <div
+                        className={`flex items-center ${
+                          pathname == item.path
+                            ? `bg-zinc-800`
+                            : "hover:bg-zinc-900 duration-400"
+                        } gap-x-3 py-1`}
+                      >
+                        <span>{item.icon}</span>
+                        <Link href={item.path}>{item.title}</Link>
                       </div>
                     </li>
                   ))}
                 </ul>
               )}
             </li>
-          ))
-          }
+          ))}
           <li>
-            <Link href="/dashboard/updateprofile" className={`flex items-center ${pathname == `/dashboard/updateprofile` ? `bg-zinc-800`:'hover:bg-zinc-900 duration-400'} px-2 py-2 rounded-md mr-4 gap-x-3`}>
-            <span><MdOutlineTipsAndUpdates /></span>
-            <p>Update Profile</p>
+            <Link
+              href="/dashboard/updateprofile"
+              className={`flex items-center ${
+                pathname == `/dashboard/updateprofile`
+                  ? `bg-zinc-800`
+                  : "hover:bg-zinc-900 duration-400"
+              } px-2 py-2 rounded-md mr-4 gap-x-3`}
+            >
+              <span>
+                <MdOutlineTipsAndUpdates />
+              </span>
+              <p>Update Profile</p>
             </Link>
           </li>
+
+          <li>
+          <div>
+          <Link
+            href="/"
+            className={`flex items-center ${
+              pathname == `/dashboard/updateprofile`
+                ? `bg-zinc-800`
+                : "hover:bg-zinc-900 duration-400"
+            } px-2 py-2 rounded-md mr-4 gap-x-3`}
+          >
+            <span>
+              <RiLogoutCircleLine />
+            </span>
+            <p>Log out</p>
+          </Link>
+        </div>
+          </li>
         </ul>
+
+      
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Sidebar
+export default Sidebar;

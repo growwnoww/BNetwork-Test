@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import "../../../app/globals.css";
 import Link from "next/link";
 import { bNetwork, signer } from "@/contract/Web3_Instance";
+import { FaUnlockAlt, FaUserLock } from "react-icons/fa";
+import { FcLock, FcUnlock } from "react-icons/fc";
+import { ethers } from "ethers";
+import Token_ABI from "@/contract/Token_ABI.json";
 
 interface PlanetUpPropsTypes {
     imgURL: string;
@@ -14,14 +18,79 @@ interface PlanetUpPropsTypes {
 }
 
 const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPath }: PlanetUpPropsTypes) => {
-    const [value, setValue] = useState<string>();
+    const [isApprove, setApprove] = useState<boolean>(false);
+    const [planetBuy, setPlanetBuy] = useState<boolean>(false);
+
+    const approveUSDT = async () => {
+        try {
+            const gasPrice = await signer.getGasPrice();
+            const myContract = bNetwork();
+            const getFeeTokenAddress = await myContract.getFeeToken();
+            const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
+            const planetName =
+                packageName === "Earth"
+                    ? "5000000000000000000"
+                    : packageName === "Moon"
+                    ? "10000000000000000000"
+                    : packageName === "Mars"
+                    ? "25000000000000000000"
+                    : packageName === "Mercury"
+                    ? "50000000000000000000"
+                    : packageName === "Venus"
+                    ? "100000000000000000000"
+                    : packageName === "Jupiter"
+                    ? "250000000000000000000"
+                    : packageName === "Saturn"
+                    ? "500000000000000000000"
+                    : packageName === "Uranus"
+                    ? "1000000000000000000000"
+                    : packageName === "Neptune"
+                    ? "2500000000000000000000"
+                    : packageName === "Pluto"
+                    ? "5000000000000000000000"
+                    : "5000000000000000000";
+            const approve = await secondInstance.approve(myContract.address, planetName, {
+                gasPrice: gasPrice,
+                gasLimit: "200000",
+            });
+            await approve.wait();
+            console.log(approve);
+            setApprove(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     const buyPlanetUser = async () => {
         try {
-            const signers = signer;
-            const gasPrice = await signers.getGasPrice();
+            const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
-            const buyPlanet = await myContract.buyPlannet(value, {
+
+            const planetId =
+                packageName === "Earth"
+                    ? "1"
+                    : packageName === "Moon"
+                    ? "2"
+                    : packageName === "Mars"
+                    ? "3"
+                    : packageName === "Mercury"
+                    ? "4"
+                    : packageName === "Venus"
+                    ? "5"
+                    : packageName === "Jupiter"
+                    ? "6"
+                    : packageName === "Saturn"
+                    ? "7"
+                    : packageName === "Uranus"
+                    ? "8"
+                    : packageName === "Neptune"
+                    ? "9"
+                    : packageName === "Pluto"
+                    ? "10"
+                    : "null";
+            console.log(planetId);
+            const buyPlanet = await myContract.buyPlannet(planetId, {
                 gasPrice: gasPrice,
                 gasLimit: "200000",
             });
@@ -43,40 +112,37 @@ const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPat
             </div>
 
             <div className="z-10 absolute top-[39%] right-[30%] flex flex-col items-center text-xl font-semibold">
-                <span className="text-3xl">{packagePrice}$</span>
-                <button
-                    className="bg-yellow-500 py-2 px-8  rounded-md hover:bg-yellow-600 duration-300"
-                    onClick={() => {
-                        setValue(
-                            `${
-                                packageName === "Earth"
-                                    ? "1"
-                                    : packageName === "Moon"
-                                    ? "2"
-                                    : packageName === "Mars"
-                                    ? "3"
-                                    : packageName === "Mercury"
-                                    ? "4"
-                                    : packageName === "Venus"
-                                    ? "5"
-                                    : packageName === "Jupiter"
-                                    ? "6"
-                                    : packageName === "Saturn"
-                                    ? "7"
-                                    : packageName === "Uranus"
-                                    ? "8"
-                                    : packageName === "Neptune"
-                                    ? "9"
-                                    : packageName === "Pluto"
-                                    ? "10"
-                                    : "NO"
-                            }`
-                        );
-                        buyPlanetUser();
-                    }}
-                >
-                    Activate
-                </button>
+                {planetBuy ? (
+                    ""
+                ) : (
+                    <span className="text-3xl">
+                        <FaUserLock />
+                    </span>
+                )}
+
+                {planetBuy ? (
+                    ""
+                ) : (
+                    <div>
+                        {isApprove ? (
+                            <button className="bg-yellow-500 py-1 px-5  rounded-md hover:bg-yellow-600 duration-300">
+                                <span
+                                    className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
+                                    onClick={buyPlanetUser}
+                                >
+                                    Upgrade
+                                </span>
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-yellow-500 py-1 px-5  rounded-md hover:bg-yellow-600 duration-300"
+                                onClick={approveUSDT}
+                            >
+                                Approve
+                            </button>
+                        )}
+                    </div>
+                )}
             </div>
             <div className="flex items-center justify-center bg-black  py-10 px-10 opacity-40 blur-[2px]">
                 <Image
@@ -89,13 +155,19 @@ const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPat
                 />
             </div>
 
-            <div className="flex items-center justify-between px-4 w-full gap-x-3 py-3  text-md">
-                <Link href={chartPath} className="bg-yellow-500 py-2 px-5  rounded-md hover:bg-yellow-600 duration-300">
-                    View Chart
-                </Link>
-                <Link href={treePath} className="bg-yellow-500 py-2 px-5 rounded-md hover:bg-yellow-600 duration-300">
-                    View Tree
-                </Link>
+            <div className="flex items-center justify-center py-3">
+                {planetBuy ? (
+                    <div className="flex flex-col items-center gap-y-1">
+                        <Link
+                            href={chartPath}
+                            className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
+                        >
+                            <span>View tree</span>
+                        </Link>
+                    </div>
+                ) : (
+                    <div className="flex  items-center gap-y-1 gap-x-2"></div>
+                )}
             </div>
         </div>
     );

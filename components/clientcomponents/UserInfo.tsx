@@ -64,6 +64,18 @@ const UserInfo = () => {
             <div className="bg-black py-4 my-2 sm:w-96 md:w-auto  px-3 rounded-md md:text-sm">
                 <div className="flex items-center justify-between pb-1">
                     <div>
+                        <span className="text-zinc-500">My Address: </span>
+                        <span className="text-xs">{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
+                            userAddress?.length - 8,
+                            userAddress?.length
+                        )}`}</span>
+                    </div>
+                    <div>
+                        <FaRegCopy className="cursor-pointer" onClick={() => copyToClipboard(userAddress)} />
+                    </div>
+                </div>
+                <div className="flex items-center justify-between pb-1">
+                    <div>
                         <span className="text-zinc-500">My BN ID: </span>
                         <span>BN{userExisit ? Number(userRegisterDetail?.regId?._hex) : "null"}</span>
                     </div>
@@ -128,7 +140,7 @@ const UserInfo = () => {
                                             ? "Neptune"
                                             : packageFee === "5000"
                                             ? "Pluto"
-                                            : "NO"
+                                            : "Null"
                                     })`
                                 )
                             }
