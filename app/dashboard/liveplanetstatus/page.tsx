@@ -38,14 +38,11 @@ const Page = () => {
     const userPlanet = async () => {
         const resultsArray = [];
         try {
-            console.log("start");
             for (let i = 1; i <= 10; i++) {
                 const myContract = bNetwork();
                 const plannetDetails = await myContract.MatrixDetails(i); // Pass 'i' to matrixDetails()
-                const value = Number(ethers.utils.formatEther(plannetDetails?.fee?._hex)).toFixed(0).toString();
-                resultsArray.push({ iteration: i, value });
+                resultsArray.push({ plannetDetails });
                 setPlanetFee(resultsArray);
-                console.log("end");
             }
         } catch (error) {
             console.log(error);
@@ -113,13 +110,23 @@ const Page = () => {
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
-                                                    {planetFee.find((entry: any) => entry.iteration === user.id)
-                                                        ?.value || "Loading..."}
+                                                    {planetFee[index]
+                                                        ? Number(
+                                                              ethers.utils.formatEther(
+                                                                  planetFee[index].plannetDetails.fee._hex
+                                                              )
+                                                          )
+                                                              .toFixed(0)
+                                                              .toString()
+                                                        : "Loading..."}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
-                                                    {planetFee.find((entry: any) => entry.iteration === user.id)
-                                                        ?.value || "Loading..."}
+                                                    {planetFee[index]
+                                                        ? Number(
+                                                              planetFee[index].plannetDetails.universalslot._hex
+                                                          ).toString()
+                                                        : "Loading..."}
                                                 </TableCell>
                                             </TableRow>
                                         </React.Fragment>
