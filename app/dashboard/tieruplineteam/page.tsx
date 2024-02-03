@@ -72,7 +72,7 @@ const Page = () => {
              
             </div>
 
-            <div className="w-3/4">
+            <div className="w-3/4 mb-5">
               <Table className=" divide-y divide-gray-600 rounded-lg">
                 <TableHeader className="bg-stone-900  ">
                   <TableRow className="text-yellow-400 text-[10px] lg:text-[13px] uppercase text-center">
@@ -88,11 +88,19 @@ const Page = () => {
                     >
                       Date & time
                     </TableHead>
+
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                      Income from Tier
+                      Tier No
+                    </TableHead>
+
+                    <TableHead
+                      scope="col"
+                      className=" text-center tracking-wider"
+                    >
+                      Planet
                     </TableHead>
 
                     <TableHead
@@ -118,12 +126,17 @@ const Page = () => {
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
                           {user.id}
                         </TableCell>
+
                         <TableCell className=" py-2  whitespace-nowrap ">
                           {user.Date}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
+                          {user.tierNo}
+                        </TableCell>
+
+                        <TableCell className=" py-2  whitespace-nowrap ">
+                          {user.planetName}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap  ">
@@ -153,17 +166,21 @@ const Page = () => {
                             colSpan={8}
                             className="px-3 py-2 whitespace-nowrap text-sm"
                           >
-                            <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                              <div className="flex gap-x-2">
-                                <p className="w-fit ">
-                                  Address: {user.address}
-                                </p>
-                                <div className="flex items-center gap-x-2 ">
-                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                </div>
+                       <div className="w-full  flex flex-col    gap-x-5   p-4 text-md">
+                            <div className="flex gap-x-2">
+                              <p className="w-fit ">Address: {user.address}</p>
+                              <div className="flex items-center gap-x-2 ">
+                                <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
                               </div>
                             </div>
+
+                            <div className="w-fit flex flex-col gap-y-1 text-left">
+                              <p>Name : {user.name}</p>
+                              <p>Mobile No: +{user.mobile}</p>
+                              <p>Email Id: {user.emailId}</p>
+                            </div>
+                          </div>
                           </TableCell>
                         </TableRow>
                       )}
@@ -173,47 +190,7 @@ const Page = () => {
               </Table>
             </div>
 
-            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  ">
-              <div className="order-2 lg:order-1">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext href="#" />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-
-              <div className="order-1 lg:order-2 text-sm ">
-                <p>Show Entries</p>
-                <Select>
-                  <SelectTrigger className="w-[80px] lg:w-[90px]">
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ten">10</SelectItem>
-                    <SelectItem value="twenty_five">25</SelectItem>
-                    <SelectItem value="fifty">50</SelectItem>
-                    <SelectItem value="hundred">100</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+           
           </div>
         </div>
       </div>

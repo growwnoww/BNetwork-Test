@@ -94,7 +94,7 @@ const Page = () => {
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                      BN Id
+                      From Id
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -152,13 +152,13 @@ const Page = () => {
                             width={20}
                             height={20}
                             loading="lazy"
-                            src={user.imgURL}
+                            src='/Earth.png'
                             alt="Avatar"
                           />
                         </TableCell>
 
 
-                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm  ">
                           {user.BNId}
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap ">
@@ -170,7 +170,7 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.planetName}
+                          Earth
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
@@ -192,17 +192,26 @@ const Page = () => {
                           colSpan={8}
                           className="px-3 py-2 whitespace-nowrap text-sm"
                         >
-                          <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                            <div className="flex gap-x-2">
-                              <p className="w-fit ">Transaction Hash: {user.address}</p>
-                              <div className="flex items-center gap-x-2 ">
-                                <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                        <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  Address: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
+                              </div>
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  Transaction Hash: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
                               </div>
                             </div>
-
-                          
-                          </div>
                         </td>
                       </tr>
                     )}

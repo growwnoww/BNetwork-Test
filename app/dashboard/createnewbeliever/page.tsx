@@ -185,7 +185,7 @@ const Page = () => {
                 <SelectTrigger className="w-[180px] border border-yellow-400">
                   <SelectValue placeholder=""  />
                 </SelectTrigger>
-                <SelectContent defaultValue="Earth">
+                <SelectContent >
                   {SelectData.map((item) => (
                     <SelectItem key={item.id} value={item.value}>
                       {item.label}

@@ -74,7 +74,7 @@ const UserInfo = () => {
                     <div className='flex items-center gap-x-2'>
                         <span><FaDirections/></span>
                         <span className='text-zinc-500 text-xl md:text-sm lg:text-xl font-bold'>Direct Team: </span>
-                        <span className='md:text-sm '>BNO52767</span>
+                        <span className='md:text-sm '>40</span>
                     </div>
                    
                 </div>

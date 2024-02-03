@@ -3,6 +3,7 @@ import { GiReceiveMoney } from 'react-icons/gi';
 import { HiUserGroup } from 'react-icons/hi';
 import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDropright } from 'react-icons/io';
 import React from 'react';
+import { FaChartLine } from 'react-icons/fa';
 
 interface NestedMenuItem {
   title: string;
@@ -23,6 +24,26 @@ interface NestedMenuType {
 const NestedMenuList: NestedMenuType[] = [
   {
     id: 1,
+    title: "Live Planet Status",
+    icon: <FaChartLine />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
+    list: [
+      {
+        title: "P Upgrade Live Status",
+        path: "/dashboard/planetuplive",
+        icon: <IoMdArrowDropright />,
+      },
+      {
+        title: "U Club A Live Status",
+        path: "/dashboard/clubAlive",
+        icon: <IoMdArrowDropright />,
+      },
+    
+    ],
+  },
+  {
+    id: 2,
     title: "My team",
     icon: <HiUserGroup />,
     icon1: <IoIosArrowDown />,
@@ -46,7 +67,7 @@ const NestedMenuList: NestedMenuType[] = [
     ],
   },
   {
-    id: 2,
+    id: 3,
     title: "Activation History",
     icon: <BsReverseLayoutTextSidebarReverse />,
     icon1: <IoIosArrowDown />,
@@ -65,7 +86,7 @@ const NestedMenuList: NestedMenuType[] = [
     ],
   },
   {
-    id: 3,
+    id: 4,
     title: "P Upgrade Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,
@@ -87,7 +108,7 @@ const NestedMenuList: NestedMenuType[] = [
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "BN Coin Earnings",
+        title: "BN Coin Earned",
         path: "/dashboard/bncoinearnings",
         icon: <IoMdArrowDropright />,
       },
@@ -99,7 +120,7 @@ const NestedMenuList: NestedMenuType[] = [
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "U Club A Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,

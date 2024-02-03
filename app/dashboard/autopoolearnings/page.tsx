@@ -149,7 +149,7 @@ const Page = () => {
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
-                      From Id
+                      From BN Id
                     </TableHead>
                     
 
@@ -157,7 +157,7 @@ const Page = () => {
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                        Amount
+                        Earned
                     </TableHead>
 
               
@@ -166,7 +166,7 @@ const Page = () => {
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                      On Package
+                      Planet Package
                     </TableHead>
                
                     <TableHead

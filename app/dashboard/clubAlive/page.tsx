@@ -11,33 +11,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
-
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-
-
-import { Input } from "@/components/ui/input"
-import HeadingWrapper from '@/components/WrapperComponent/HeadingWrapper'
 import { tableData } from '@/utils/DirectTeamData'
-import { Button } from '@/components/ui/button'
-import { HiArrowTopRightOnSquare } from 'react-icons/hi2'
-import { FaRegCopy } from 'react-icons/fa'
+
 
 
 const Page = () => {
@@ -56,7 +32,7 @@ const Page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-          Live Planet Status
+           Club A Live Status
         </p>
       </div>
 

@@ -53,7 +53,7 @@ const Page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-             BN Coin Earnings
+             BN Coin Earned
         </p>
       </div>
 
@@ -91,7 +91,7 @@ const Page = () => {
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                      BN Id
+                      Form Id
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -104,7 +104,7 @@ const Page = () => {
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
-                      Earning
+                      Earned
                     </TableHead>
                     
 

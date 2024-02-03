@@ -156,7 +156,7 @@ const Page = () => {
                           <td
                             colSpan={8}
                             className="px-3 py-2 whitespace-nowrap text-sm"
-                          >
+                           >
                             <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
                               <div className="flex gap-x-2">
                                 <p className="w-fit ">
@@ -177,7 +177,7 @@ const Page = () => {
                                 </div>
                               </div>
                             </div>
-                          </td>
+                         </td>
                         </tr>
                       )}
                     </React.Fragment>

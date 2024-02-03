@@ -22,10 +22,10 @@ const GalaxySystem = () => {
         </div>
         <div className='flex items-center relative'>
         <BtnWrapper
-          text="soon"
+          text="Soon"
           height="py-2"
           width="px-10"
-          path="/dashboard/bnsystem/planetupgrade"
+          // path="/dashboard/bnsystem/planetupgrade"
         />
         <IoIosUnlock  className='absolute right-[10%]' />
         </div>

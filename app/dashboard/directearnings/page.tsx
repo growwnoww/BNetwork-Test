@@ -90,7 +90,7 @@ const Page = () => {
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                      BN Id
+                      Form Id
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -103,7 +103,7 @@ const Page = () => {
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
-                      Package
+                      Planet
                     </TableHead>
 
                     <TableHead
@@ -135,7 +135,7 @@ const Page = () => {
                             width={20}
                             height={20}
                             loading="lazy"
-                            src={user.imgURL}
+                            src='/Earth.png'
                             alt="Avatar"
                           />
                         </TableCell>
@@ -148,7 +148,7 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.planetName}
+                          Earth
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">

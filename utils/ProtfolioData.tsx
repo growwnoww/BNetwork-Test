@@ -15,7 +15,7 @@ const portfolioData:ProfolioType[] = [
     {
         id:1,
         title:"BN REWARD COINS",
-        value:"27948.70 / 30,000 BN Coin",
+        value:"4,948 / 10,000 BN Coin",
         icon: <RiBitCoinLine />
     },
     {

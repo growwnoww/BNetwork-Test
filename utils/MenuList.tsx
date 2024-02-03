@@ -10,7 +10,7 @@ import { TbUniverse } from 'react-icons/tb';
 interface MenuItem {
   id: string;
   title: string;
-  path: string;
+  path?: string;
   icon: React.ReactNode;
   icon2?:React.ReactNode;
 }
@@ -44,17 +44,12 @@ const MenuList = [
   {
     id: "5",
     title: "BN coin",
-    path: "/dashboard/bncoin",
+    path: "",
     icon: <SiBitcoinsv />,
     icon2:<IoIosLock />
 
   },
-  {
-    id: "6",
-    title: "Live Planet Status",
-    path: "/dashboard/liveplanetstatus", // Corrected path to make it unique
-    icon: <FaChartLine />,
-  },
+ 
 ];
 
 export { MenuList };
