@@ -3,10 +3,11 @@ import React, { useContext, useEffect, useState } from "react";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import { TbCoinBitcoin } from "react-icons/tb";
 import { Context } from "../Context";
-import { etToken, usdtToken } from "@/contract/Web3_Instance";
+import { bNetwork, signer } from "@/contract/Web3_Instance";
 import { ethers } from "ethers";
 import { useBalance } from "wagmi";
 import { MdOutlineOfflineBolt } from "react-icons/md";
+import TokenABI from "@/contract/Token_ABI.json";
 
 const CurrentBalanceComp = () => {
     const { userAddress, userBalance, setUserBalance } = useContext(Context);
@@ -21,8 +22,11 @@ const CurrentBalanceComp = () => {
 
     const etBalance = async () => {
         try {
-            const myContract = etToken();
-            const balance = await myContract.balanceOf(userAddress);
+            const myContract = bNetwork();
+            const getAdd = await myContract.getEnergyToken();
+
+            const instance = new ethers.Contract(getAdd, TokenABI, signer);
+            const balance = await instance.balanceOf(userAddress);
             const balanceInET = ethers.utils.formatEther(balance);
             setEtTokenBalance(balanceInET);
         } catch (error) {
@@ -32,8 +36,11 @@ const CurrentBalanceComp = () => {
 
     const usdtBalance = async () => {
         try {
-            const myContract = usdtToken();
-            const balance = await myContract.balanceOf(userAddress);
+            const myContract = bNetwork();
+            const getAdd = await myContract.getFeeToken();
+
+            const instance = new ethers.Contract(getAdd, TokenABI, signer);
+            const balance = await instance.balanceOf(userAddress);
             const balanceInUSDT = ethers.utils.formatEther(balance);
             setUsdtTokenBalance(balanceInUSDT);
         } catch (error) {

@@ -18,7 +18,7 @@ const navList: NavItem[] = [
     },
     {
         title: "All Services",
-        link: "/dashboard",
+        link: "#allservice",
     },
     {
         title: "Roadmap",

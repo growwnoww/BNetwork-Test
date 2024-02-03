@@ -4,14 +4,13 @@ import classNames from "classnames";
 import { useSearchParams } from "next/navigation";
 import { bNetwork, signer } from "@/contract/Web3_Instance";
 import { Context } from "@/components/Context";
-import { ethers } from "ethers";
 
 const Page = () => {
     const [selectedOption, setSelectedOption] = useState<string>("Yes");
     const { userAddress } = useContext(Context);
     const params = useSearchParams();
     const queryUrl = params.get("rr");
-    
+
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
@@ -24,11 +23,13 @@ const Page = () => {
 
             const myContract = bNetwork();
             const userExisit = await myContract.isUserExists(userAddress);
+            const gasFee = await myContract.gasfees();
+            const convert = Number(gasFee?._hex).toString();
             if (userExisit === false) {
                 const registration = await myContract.registrations(queryUrl, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
-                    value: ethers.utils.parseEther("0.002"),
+                    value: convert,
                 });
                 await registration.wait();
                 console.log(registration);
@@ -48,12 +49,14 @@ const Page = () => {
             const myContract = bNetwork();
             const ownerAddress = await myContract.owner();
             const userExisit = await myContract.UserRegister(userAddress);
+            const gasFee = await myContract.gasfees();
+            const convert = Number(gasFee?._hex).toString();
             console.log(userExisit);
             if (userExisit === false) {
                 const registration = await myContract.registrations(ownerAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
-                    value: ethers.utils.parseEther("0.002"),
+                    value: convert,
                 });
                 await registration.wait();
                 console.log(registration);

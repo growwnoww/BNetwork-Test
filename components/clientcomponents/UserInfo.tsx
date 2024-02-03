@@ -155,13 +155,19 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Upline Wallet : </span>
-                        <span className="md:text-xs">{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
-                            userAddress?.length - 8,
-                            userAddress?.length
+                        <span className="md:text-xs">{`${userRegisterDetail?.regReferal?.slice(
+                            0,
+                            8
+                        )}...${userRegisterDetail?.regReferal?.slice(
+                            userRegisterDetail?.regReferal?.length - 8,
+                            userRegisterDetail?.regReferal?.length
                         )}`}</span>
                     </div>
                     <div>
-                        <FaRegCopy className="cursor-pointer" onClick={() => copyToClipboard(userAddress)} />
+                        <FaRegCopy
+                            className="cursor-pointer"
+                            onClick={() => copyToClipboard(userRegisterDetail?.regReferal)}
+                        />
                     </div>
                 </div>
             </div>
@@ -174,7 +180,7 @@ const UserInfo = () => {
                         </span>
                         <span className="text-zinc-500 text-xl md:text-sm lg:text-xl font-bold">Direct Team: </span>
                         <span className="md:text-sm">
-                            BNO52767{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}
+                            BN{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}
                         </span>
                     </div>
                 </div>
@@ -185,7 +191,7 @@ const UserInfo = () => {
                             <GiTeamDowngrade />
                         </span>
                         <span className="text-zinc-500 text-xl font-bold">Total Team : </span>
-                        <span>{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}</span>
+                        <span>12</span>
                     </div>
                 </div>
             </div>

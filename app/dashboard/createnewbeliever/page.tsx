@@ -4,21 +4,32 @@ import { Input } from "@/components/ui/input";
 import classNames from "classnames";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import React, { useContext, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import { bNetwork, signer } from "@/contract/Web3_Instance";
 import { ethers } from "ethers";
 import { Context } from "@/components/Context";
+import Token_ABI from "@/contract/Token_ABI.json";
+import { SelectData } from "@/utils/SelectData";
 
 const Page = () => {
     const [selectedOption, setSelectedOption] = useState<string>("Registration");
     const { userAddress } = useContext(Context);
+    const [allow, setAllow] = useState<string>("");
     const [value, setValue] = useState<any>({
+        yourAddress: "",
         refferalAddress: "",
         beliverAddress: "",
         package: "",
     });
 
     console.log(value);
+
+    const handleSelectPackageChange = (selectedValue: string) => {
+        setValue((prevState: any) => ({
+            ...prevState,
+            package: selectedValue,
+        }));
+    };
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
@@ -32,6 +43,9 @@ const Page = () => {
 
             const myContract = bNetwork();
             const userExisit = await myContract.isUserExists(userAddress);
+            const gasFee = await myContract.gasfees();
+            const convert = Number(gasFee?._hex).toString();
+            console.log(convert);
             if (!value.refferalAddress || !value.beliverAddress) {
                 alert("Some value is missing");
                 return;
@@ -40,13 +54,70 @@ const Page = () => {
                 const registration = await myContract.registrations_user(value.refferalAddress, value.beliverAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
-                    value: ethers.utils.parseEther("0.002"),
+                    value: convert,
                 });
                 await registration.wait();
                 console.log(registration);
             } else {
                 alert("You already registered");
             }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const approveUSDT = async () => {
+        try {
+            const signers = signer;
+            const gasPrice = await signers.getGasPrice();
+            const myContract = bNetwork();
+            const getFeeTokenAddress = await myContract.getFeeToken();
+            const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
+            const approve = await secondInstance.approve(
+                myContract.address,
+                value.package === "Earth"
+                    ? "5"
+                    : value.package === "Moon"
+                    ? "10"
+                    : value.package === "Mars"
+                    ? "25"
+                    : value.package === "Mercury"
+                    ? "50"
+                    : value.package === "Venus"
+                    ? "100"
+                    : value.package === "Jupiter"
+                    ? "250"
+                    : value.package === "Saturn"
+                    ? "500"
+                    : value.package === "Uranus"
+                    ? "1000"
+                    : value.package === "Neptune"
+                    ? "2500"
+                    : value.package === "Pluto"
+                    ? "5000"
+                    : "5",
+                {
+                    gasPrice: gasPrice,
+                    gasLimit: "200000",
+                }
+            );
+            await approve.wait();
+            console.log(approve);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const checkApproveUSDT = async () => {
+        try {
+            const signers = signer;
+            const gasPrice = await signers.getGasPrice();
+            const myContract = bNetwork();
+            const getFeeTokenAddress = await myContract.getFeeToken();
+            const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
+            const checkAllowance = await secondInstance.allowance(userAddress, myContract.address);
+            const allowance = Number(checkAllowance?._hex);
+            setAllow(allowance.toString());
         } catch (error) {
             console.log(error);
         }
@@ -74,6 +145,11 @@ const Page = () => {
         }
     };
 
+    useEffect(() => {
+        checkApproveUSDT();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <div>
             <div className="flex items-center justify-center">
@@ -81,7 +157,9 @@ const Page = () => {
             </div>
 
             <div className="w-full flex flex-col items-center justify-center mt-5">
-                <Button variant="custom_yellow">Approve</Button>
+                <Button variant="custom_yellow" onClick={approveUSDT}>
+                    Approve
+                </Button>
                 <p className="text-zinc-500 mt-2">Please, Approve the wallet before proceeding further</p>
             </div>
 
@@ -114,7 +192,13 @@ const Page = () => {
                             onSubmit={registerUser}
                         >
                             <label htmlFor="">Your Address</label>
-                            <Input type="text" placeholder="Enter your address" className="w-96" value={userAddress} />
+                            <Input
+                                type="text"
+                                placeholder="Enter your address"
+                                className="w-96"
+                                value={userAddress || value?.yourAddress}
+                                onChange={(e) => setValue({ ...value, yourAddress: e.target.value })}
+                            />
                             <label htmlFor="">Referral Address</label>
                             <Input
                                 type="text"
@@ -143,7 +227,13 @@ const Page = () => {
                             onSubmit={buyPlanetUser}
                         >
                             <label htmlFor="">Your Address</label>
-                            <Input type="text" placeholder="Enter your address" className="w-96" value={userAddress} />
+                            <Input
+                                type="text"
+                                placeholder="Enter your address"
+                                className="w-96"
+                                value={userAddress || value?.yourAddress}
+                                onChange={(e) => setValue({ ...value, yourAddress: e.target.value })}
+                            />
                             <label htmlFor="">Believer Address</label>
                             <Input
                                 type="text"
@@ -152,24 +242,23 @@ const Page = () => {
                                 onChange={(e) => setValue({ ...value, beliverAddress: e.target.value })}
                             />
                             <label>Select Package</label>
-                            <Select>
+                            <Select
+                                // options={perPageDropDownOptions}
+                                // onValueChange={onValueChange}
+                                // defaultValue={value}
+                                name="selectedPackage"
+                                value={value.package}
+                                onValueChange={handleSelectPackageChange}
+                            >
                                 <SelectTrigger className="w-[180px] border border-yellow-400">
-                                    <SelectValue
-                                        placeholder=""
-                                        onChange={(e: any) => setValue({ ...value, package: e.target.value })}
-                                    />
+                                    <SelectValue placeholder="" />
                                 </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="1">Earth 5$</SelectItem>
-                                    <SelectItem value="2">Moon 10$</SelectItem>
-                                    <SelectItem value="3">Mars 25$</SelectItem>
-                                    <SelectItem value="4">Venus 50$</SelectItem>
-                                    <SelectItem value="5">Mercury 100$</SelectItem>
-                                    <SelectItem value="6">Jupiter 250$</SelectItem>
-                                    <SelectItem value="7">Saturn 500$</SelectItem>
-                                    <SelectItem value="8">Uranus 1000$</SelectItem>
-                                    <SelectItem value="9">Neptune 2500$</SelectItem>
-                                    <SelectItem value="10">Pluto 5000$</SelectItem>
+                                <SelectContent defaultValue="Earth">
+                                    {SelectData.map((item) => (
+                                        <SelectItem key={item.id} value={item.value}>
+                                            {item.label}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
 
