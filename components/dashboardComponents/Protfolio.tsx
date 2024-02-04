@@ -9,10 +9,10 @@ const Protfolio = () => {
             <div key={data.id} className='flex items-center justify-between w-full px-2  py-6  border-b-[.5px] border-b-zinc-600 md:border-r md:border-r-zinc-600'>
           <div className='flex items-center gap-x-2'>
           <span className="text-yellow-500 text-3xl">{data.icon}</span>
-           <span className='text-md  md:text-sm xl:text-md 2xl:text-lg  3xl:text-xl first-letter: font-normal '>{data.title}</span>
+           <span className='text-md  md:text-sm xl:text-sm 2xl:text-md  3xl:text-xl first-letter: font-normal '>{data.title}</span>
           </div>
            <div>
-           <span className='text-sm md:text-xs  xl:text-md 2xl:text-lg text-stone-400'>{data.value}</span>
+           <span className='text-sm md:text-xs  xl:text-md 2xl:text-[14px] text-stone-400'>{data.value}</span>
            </div>
            
             </div> 

@@ -91,12 +91,7 @@ const Page = () => {
                     >
                       Planet
                     </TableHead>
-                    <TableHead
-                      scope="col"
-                      className=" py-3 text-center tracking-wider"
-                    >
-                      BN Id
-                    </TableHead>
+                   
 
                     <TableHead
                       scope="col"
@@ -139,9 +134,7 @@ const Page = () => {
                           />
                         </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.BNId}
-                        </TableCell>
+                       
 
                         <TableCell className=" py-2  whitespace-nowrap ">
                           {user.Date}

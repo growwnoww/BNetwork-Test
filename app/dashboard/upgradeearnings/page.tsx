@@ -88,13 +88,13 @@ const Page = () => {
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                     Tier Planet
+                     Planet
                     </TableHead>
                     <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                      BN Id
+                      From Id
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -107,7 +107,7 @@ const Page = () => {
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
-                      Income From
+                      Tier No
                     </TableHead>
                     
 
@@ -115,7 +115,7 @@ const Page = () => {
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                      Tier Package
+                      Planet Name
                     </TableHead>
 
                     
@@ -174,7 +174,7 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
+                          {user.earning}
                         </TableCell>
 
 
@@ -192,17 +192,26 @@ const Page = () => {
                           colSpan={8}
                           className="px-3 py-2 whitespace-nowrap text-sm"
                         >
-                          <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                            <div className="flex gap-x-2">
-                              <p className="w-fit ">Transaction Hash: {user.address}</p>
-                              <div className="flex items-center gap-x-2 ">
-                                <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                         <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  From Address: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
+                              </div>
+                              <div className="flex gap-x-2">
+                                <p className="w-fit ">
+                                  Transaction Hash: {user.address}
+                                </p>
+                                <div className="flex items-center gap-x-2 ">
+                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                </div>
                               </div>
                             </div>
-
-                          
-                          </div>
                         </td>
                       </tr>
                     )}

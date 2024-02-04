@@ -7,13 +7,14 @@ import Image from "next/image";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
 import HamaburgerMenu from "./HamaburgerMenu";
 import { useRecoilState } from "recoil";
-import { hamaburgerAtom } from "@/store/atom";
+import { hamaburgerAtom, menuAtom } from "@/store/atom";
+import { GoSidebarCollapse } from "react-icons/go";
 
 const DashboardNavbar = () => {
 
 
   const [isOpen,setOpen] = useRecoilState(hamaburgerAtom);
-
+  const[isMenuOpen,setMenuOpen] = useRecoilState(menuAtom)
  
   const toogleBtn = () => {
     setOpen(!isOpen);
@@ -24,8 +25,9 @@ const DashboardNavbar = () => {
       <div className="block lg:hidden">
         <Image src="/BNSymbol.png" alt="BNSymbol" height={70} width={70} />
       </div>
-
-      <div className="pr-6 md:pl-4">
+      
+      <div className="flex items-center gap-x-3 pr-6 md:pl-4 ">
+      <div  className={`hidden ${isMenuOpen? 'lg:hidden':'lg:block'}`} onClick={()=>setMenuOpen(!isMenuOpen)}><GoSidebarCollapse  className="text-xl"/></div>
         <CurrentRouteHeading />
       </div>
 

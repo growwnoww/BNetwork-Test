@@ -59,14 +59,19 @@ const Page = () => {
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
-              <div className=" w-full flex flex-col items-end md:items-start ">
+            <div className="w-3/4 flex flex-col md:flex-row   justify-between">
+              <div className=" w-full flex flex-col items-end md:items-start justify-end  ">
                 <label className="">Filter</label>
                 <Input
                   type="text"
                   placeholder="Enter BN Id or Address"
                   className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
                 />
+              </div>
+
+              <div>
+              <div className="text-right my-3">
+                <p className="text-lg lg:text-xl">Business: $ 0.00 </p>
               </div>
 
               <div className="w-full flex flex-row justify-end gap-x-3 ">
@@ -126,6 +131,7 @@ const Page = () => {
                   </Button>
                 </div>
               </div>
+              </div>
             </div>
 
             <div className="w-3/4">
@@ -149,6 +155,12 @@ const Page = () => {
                       className=" py-3 text-center tracking-wider"
                     >
                       Date & time
+                    </TableHead>
+                    <TableHead
+                      scope="col"
+                      className=" text-center tracking-wider"
+                    >
+                      Tier No
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -191,6 +203,10 @@ const Page = () => {
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap ">
                           {user.Date}
+                        </TableCell>
+
+                        <TableCell className=" py-2  whitespace-nowrap ">
+                          {user.tierNo}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">

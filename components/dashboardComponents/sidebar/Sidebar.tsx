@@ -4,13 +4,17 @@ import { NestedMenuList } from "@/utils/NestedMenuList";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-
+import { GoSidebarCollapse, GoSidebarExpand } from "react-icons/go";
 import React, { useState } from "react";
 import { MdOutlineTipsAndUpdates } from "react-icons/md";
 import { RiLogoutCircleLine } from "react-icons/ri";
+import { useRecoilState } from "recoil";
+import { menuAtom } from "@/store/atom";
 
 const Sidebar = () => {
   const pathname = usePathname();
+
+  const [isOpen,setOpen] = useRecoilState(menuAtom)
 
   const [menuState, setMenuState] = useState<{
     [id: number]: { isOpen: boolean; isArrowUp: boolean };
@@ -29,20 +33,24 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="hidden lg:block   h-screen w-72 border-r-[.5px] border-r-slate-800">
-      <div className="flex items-center border-b-[.5px] border-b-slate-800 h-16">
+    <div className={ ` hidden ${isOpen? 'lg:block':'lg:hidden'} h-screen w-72  border-r-[.5px] border-r-slate-800`}>
+      <div className="flex items-center justify-between border-b-[.5px] border-b-slate-800 ">
+      <div className="flex items-center  h-16 ml-4">
         <Link href="/dashboard">
-          <Image
-            src="/BNSymbol.png"
-            alt="BNSymbol"
-            height={60}
-            width={60}
-            loading="lazy"
-          />
+        <Image src="/logo.png" alt="logo" loading="lazy" width={100} height={50} />
         </Link>
+
+        
       </div>
 
-      <div className="mt-2">
+      <div className="mr-5 cursor-pointer" onClick={()=>setOpen(!isOpen)} >
+        {
+          isOpen ? ( <GoSidebarExpand  className="text-xl"/>):('')
+        }
+       </div>
+      </div>
+
+      <div className="mt-2 ">
         <ul className="flex flex-col p-3 pl-5 text-stone-400 text-md font-medium">
           {MenuList.map((menu) => (
             <li key={menu.id} className=" pb-3  cursor-pointer ">

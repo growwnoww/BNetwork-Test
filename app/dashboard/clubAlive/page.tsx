@@ -1,10 +1,11 @@
 "use client";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import { bNetwork } from "@/contract/Web3_Instance";
+import Image from "next/image";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
 import { tableData } from "@/utils/DirectTeamData";
 import { ethers } from "ethers";
+import { bNetwork } from "@/contract/Web3_Instance";
 
 const Page = () => {
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});

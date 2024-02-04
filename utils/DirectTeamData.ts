@@ -13,6 +13,7 @@ interface tableTypes {
   tierNo:number;
   incomeFromTier:string;
   currentPlanet:string;
+  earning:string;
   earningThrough:string;
   status: string;
   address: string;
@@ -33,6 +34,7 @@ export const tableData:tableTypes [] = [
     tierNo:5,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"5$",
     earningThrough:"Airdrop Refer Coin",
     status: "Active",
     address: "0x9ab...00d737f",
@@ -52,6 +54,7 @@ export const tableData:tableTypes [] = [
     tierNo:8,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"10$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -71,6 +74,7 @@ export const tableData:tableTypes [] = [
     tierNo:4,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"25$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -90,6 +94,7 @@ export const tableData:tableTypes [] = [
     tierNo:8,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"50$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -109,6 +114,7 @@ export const tableData:tableTypes [] = [
     tierNo:3,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"100$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -128,6 +134,7 @@ export const tableData:tableTypes [] = [
     tierNo:5,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"250$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -147,6 +154,7 @@ export const tableData:tableTypes [] = [
     tierNo:7,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"500$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -166,6 +174,7 @@ export const tableData:tableTypes [] = [
     tierNo:5,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"1000$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -185,6 +194,7 @@ export const tableData:tableTypes [] = [
     tierNo:5,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"2500$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
@@ -204,6 +214,7 @@ export const tableData:tableTypes [] = [
     tierNo:5,
     incomeFromTier:'2.5000',
     currentPlanet:"Earth",
+    earning:"5000$",
     earningThrough:"Airdrop Refer Coin",
     status: "Inactive",
     address: "0x9ab...00d737f",
