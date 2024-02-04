@@ -23,7 +23,7 @@ const UserInfo = () => {
     const getUserRegisterDetails = async () => {
         try {
             const myContract = bNetwork();
-            const detail = await myContract.RegisterUserDetails(userAddress);
+            const detail = await myContract!.RegisterUserDetails(userAddress);
             setUserRegisterDetail(detail);
         } catch (error) {
             console.log(error);
@@ -33,7 +33,7 @@ const UserInfo = () => {
     const getUserRegister = async () => {
         try {
             const myContract = bNetwork();
-            const detail = await myContract.UserRegister(userAddress);
+            const detail = await myContract!.UserRegister(userAddress);
             setUserExisit(detail);
         } catch (error) {
             console.log(error);
@@ -43,9 +43,9 @@ const UserInfo = () => {
     const userPlanet = async () => {
         try {
             const myContract = bNetwork();
-            const planet = await myContract.UserPlannet(userAddress);
+            const planet = await myContract!.UserPlannet(userAddress);
             const num = Number(planet?._hex);
-            const plannetDetails = await myContract.MatrixDetails(num);
+            const plannetDetails = await myContract!.MatrixDetails(num);
             setPackageFee(Number(ethers.utils.formatEther(plannetDetails?.fee?._hex)).toFixed(0));
         } catch (error) {
             console.log(error);

@@ -8,6 +8,7 @@ import { Context } from "@/components/Context";
 const Page = () => {
     const [selectedOption, setSelectedOption] = useState<string>("Yes");
     const { userAddress } = useContext(Context);
+    const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
 
@@ -22,11 +23,11 @@ const Page = () => {
             const gasPrice = await signers.getGasPrice();
 
             const myContract = bNetwork();
-            const userExisit = await myContract.isUserExists(userAddress);
-            const gasFee = await myContract.gasfees();
+            const userExisit = await myContract!.isUserExists(userAddress || inviteAddress);
+            const gasFee = await myContract!.gasfees();
             const convert = Number(gasFee?._hex).toString();
             if (userExisit === false) {
-                const registration = await myContract.registrations(queryUrl, {
+                const registration = await myContract!.registrations(queryUrl, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -47,13 +48,12 @@ const Page = () => {
             const gasPrice = await signers.getGasPrice();
 
             const myContract = bNetwork();
-            const ownerAddress = await myContract.owner();
-            const userExisit = await myContract.UserRegister(userAddress);
-            const gasFee = await myContract.gasfees();
+            const ownerAddress = await myContract!.owner();
+            const userExisit = await myContract!.UserRegister(userAddress);
+            const gasFee = await myContract!.gasfees();
             const convert = Number(gasFee?._hex).toString();
-            console.log(userExisit);
             if (userExisit === false) {
-                const registration = await myContract.registrations(ownerAddress, {
+                const registration = await myContract!.registrations(ownerAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -103,7 +103,8 @@ const Page = () => {
                             </label>
                             <input
                                 id="bnId"
-                                value={queryUrl as string}
+                                onChange={(e) => setInviteAddress(e.target.value)}
+                                value={(queryUrl as string) || inviteAddress}
                                 type="text"
                                 className="bg-gray-800 text-white rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500"
                                 placeholder="BN Id or Address"

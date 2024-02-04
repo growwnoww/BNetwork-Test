@@ -10,7 +10,7 @@ import { Context } from "@/components/Context";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains([bsc, bscTestnet], [publicProvider()]);
 
-const projectId = "YOUR_PROJECT_ID";
+const projectId = "9d8144e157054d061c1c58a856ba0669";
 
 const { wallets } = getDefaultWallets({
     appName: "Believe Network",

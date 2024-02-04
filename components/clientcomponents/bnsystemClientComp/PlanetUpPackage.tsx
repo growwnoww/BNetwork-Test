@@ -25,7 +25,7 @@ const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPat
         try {
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
-            const getFeeTokenAddress = await myContract.getFeeToken();
+            const getFeeTokenAddress = await myContract!.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
             const planetName =
                 packageName === "Earth"
@@ -49,7 +49,7 @@ const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPat
                     : packageName === "Pluto"
                     ? "5000000000000000000000"
                     : "5000000000000000000";
-            const approve = await secondInstance.approve(myContract.address, planetName, {
+            const approve = await secondInstance.approve(myContract!.address, planetName, {
                 gasPrice: gasPrice,
                 gasLimit: "200000",
             });
@@ -90,7 +90,7 @@ const PlanetUpPackage = ({ imgURL, packageName, packagePrice, treePath, chartPat
                     ? "10"
                     : "null";
             console.log(planetId);
-            const buyPlanet = await myContract.buyPlannet(planetId, {
+            const buyPlanet = await myContract!.buyPlannet(planetId, {
                 gasPrice: gasPrice,
                 gasLimit: "200000",
             });

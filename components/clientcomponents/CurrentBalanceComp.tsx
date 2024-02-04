@@ -23,7 +23,7 @@ const CurrentBalanceComp = () => {
     const etBalance = async () => {
         try {
             const myContract = bNetwork();
-            const getAdd = await myContract.getEnergyToken();
+            const getAdd = await myContract!.getEnergyToken();
 
             const instance = new ethers.Contract(getAdd, TokenABI, signer);
             const balance = await instance.balanceOf(userAddress);
@@ -37,7 +37,7 @@ const CurrentBalanceComp = () => {
     const usdtBalance = async () => {
         try {
             const myContract = bNetwork();
-            const getAdd = await myContract.getFeeToken();
+            const getAdd = await myContract!.getFeeToken();
 
             const instance = new ethers.Contract(getAdd, TokenABI, signer);
             const balance = await instance.balanceOf(userAddress);

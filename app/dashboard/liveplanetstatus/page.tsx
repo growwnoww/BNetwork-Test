@@ -40,7 +40,7 @@ const Page = () => {
         try {
             for (let i = 1; i <= 10; i++) {
                 const myContract = bNetwork();
-                const plannetDetails = await myContract.MatrixDetails(i); // Pass 'i' to matrixDetails()
+                const plannetDetails = await myContract!.MatrixDetails(i);
                 resultsArray.push({ plannetDetails });
                 setPlanetFee(resultsArray);
             }

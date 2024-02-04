@@ -41,8 +41,8 @@ const Page = () => {
             const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
-            const userExisit = await myContract.isUserExists(userAddress);
-            const gasFee = await myContract.gasfees();
+            const userExisit = await myContract!.isUserExists(userAddress);
+            const gasFee = await myContract!.gasfees();
             const convert = Number(gasFee?._hex).toString();
             console.log(convert);
             if (!value.refferalAddress || !value.beliverAddress) {
@@ -50,7 +50,7 @@ const Page = () => {
                 return;
             }
             if (userExisit === false) {
-                const registration = await myContract.registrations_user(value.refferalAddress, value.beliverAddress, {
+                const registration = await myContract!.registrations_user(value.refferalAddress, value.beliverAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -69,7 +69,7 @@ const Page = () => {
         try {
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
-            const getFeeTokenAddress = await myContract.getFeeToken();
+            const getFeeTokenAddress = await myContract!.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
             const planetName =
                 value.package === "Earth"
@@ -93,7 +93,7 @@ const Page = () => {
                     : value.package === "Pluto"
                     ? "5000000000000000000000"
                     : "5000000000000000000";
-            const approve = await secondInstance.approve(myContract.address, planetName, {
+            const approve = await secondInstance.approve(myContract!.address, planetName, {
                 gasPrice: gasPrice,
                 gasLimit: "200000",
             });
@@ -108,9 +108,9 @@ const Page = () => {
         try {
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
-            const getFeeTokenAddress = await myContract.getFeeToken();
+            const getFeeTokenAddress = await myContract!.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
-            const checkAllowance = await secondInstance.allowance(userAddress, myContract.address);
+            const checkAllowance = await secondInstance.allowance(userAddress, myContract!.address);
             const allowance = Number(checkAllowance?._hex);
             setAllow(allowance.toString());
         } catch (error) {
@@ -125,7 +125,7 @@ const Page = () => {
 
             const myContract = bNetwork();
             if (value.package && value.beliverAddress) {
-                const buyPlanet = await myContract.buyPlannet_user(value.package, value.beliverAddress, {
+                const buyPlanet = await myContract!.buyPlannet_user(value.package, value.beliverAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                 });

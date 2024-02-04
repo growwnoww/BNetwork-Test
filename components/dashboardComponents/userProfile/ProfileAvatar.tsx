@@ -7,7 +7,7 @@ import { FaRegCopy } from "react-icons/fa";
 
 const ProfileAvatar = () => {
     const { userAddress } = useContext(Context);
-    const host = window.location.hostname;
+    // const host = window.location.hostname;
 
     const copyToClipboard = (text: string) => {
         try {
@@ -29,8 +29,8 @@ const ProfileAvatar = () => {
                 <span>
                     <FaRegCopy
                         className="cursor-pointer"
-                        // onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
-                        onClick={() => copyToClipboard(`http://${host}/registration?rr=${userAddress}`)}
+                        onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
+                        // onClick={() => copyToClipboard(`http://${host}/registration?rr=${userAddress}`)}
                     />
                 </span>
             </div>
