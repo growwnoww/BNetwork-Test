@@ -9,6 +9,7 @@ import { TbCards, TbUniverse } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
+import axios from "axios";
 
 const Page = () => {
     const [selectedOption, setSelectedOption] = useState<string>("Yes");
@@ -19,6 +20,26 @@ const Page = () => {
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
+    };
+
+    const createRegister = async () => {
+        try {
+            const payload = {
+                // Include your data here
+                reg_user_address: "0x4DA21707a86F29033F26c0adBd70E9D105299467",
+                reg_time: new Date(),
+                reg_id: "1",
+                re_referal_address: queryUrl,
+                re_referal_id: "4",
+                team_count: "1",
+            };
+
+            await axios
+                .post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, payload)
+                .then((data) => console.log(data));
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const registerUser = async (e: any) => {
@@ -196,6 +217,7 @@ const Page = () => {
                     )}
                 </div>
             </div>
+            <button onClick={createRegister}>test</button>
         </>
     );
 };
