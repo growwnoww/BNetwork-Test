@@ -1,13 +1,16 @@
 "use client";
 import { Context } from "@/components/Context";
 import UserInfo from "@/components/clientcomponents/UserInfo";
+import { WalletContext } from "@/context/WalletContext";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { FaRegCopy } from "react-icons/fa";
 
 const ProfileAvatar = () => {
-    const { userAddress } = useContext(Context);
+
     // const host = window.location.hostname;
+    const walletContext = useContext(WalletContext)
+    const userAddress = walletContext?.userAddress
 
     const copyToClipboard = (text: string) => {
         try {

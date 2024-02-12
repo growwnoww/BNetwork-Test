@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Context } from "../Context";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
 import { Button } from "../ui/button";
+import { WalletContext } from "@/context/WalletContext";
 
 interface NavItem {
     title: string;
@@ -45,7 +46,8 @@ const navList: NavItem[] = [
 
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
-    const { userAddress, setUserAddress } = useContext(Context);
+    const walletContext = useContext(WalletContext);
+    
 
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
 
@@ -155,7 +157,7 @@ const Navbar = () => {
                                                     <button
                                                         onClick={() => {
                                                             openAccountModal();
-                                                            setUserAddress(() => account?.address);
+                                                            walletContext?.setUserAddress(() => account?.address);
                                                         }}
                                                         type="button"
                                                         className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
@@ -244,7 +246,7 @@ const Navbar = () => {
                                                 <button
                                                     onClick={() => {
                                                         openAccountModal();
-                                                        setUserAddress(() => account.address);
+                                                        walletContext?.setUserAddress(() => account.address);
                                                     }}
                                                     type="button"
                                                     className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"

@@ -2,58 +2,44 @@
     {
         "inputs": [
             {
-                "internalType": "uint256",
-                "name": "fee1",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee2",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee3",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee4",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee5",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee6",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee7",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee8",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee9",
-                "type": "uint256"
-            },
-            {
-                "internalType": "uint256",
-                "name": "fee10",
-                "type": "uint256"
+                "internalType": "address",
+                "name": "target",
+                "type": "address"
             }
         ],
-        "stateMutability": "nonpayable",
-        "type": "constructor"
+        "name": "AddressEmptyCode",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
+                "name": "implementation",
+                "type": "address"
+            }
+        ],
+        "name": "ERC1967InvalidImplementation",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "ERC1967NonPayable",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "FailedInnerCall",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "InvalidInitialization",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "NotInitializing",
+        "type": "error"
     },
     {
         "inputs": [
@@ -75,6 +61,22 @@
             }
         ],
         "name": "OwnableUnauthorizedAccount",
+        "type": "error"
+    },
+    {
+        "inputs": [],
+        "name": "UUPSUnauthorizedCallContext",
+        "type": "error"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "slot",
+                "type": "bytes32"
+            }
+        ],
+        "name": "UUPSUnsupportedProxiableUUID",
         "type": "error"
     },
     {
@@ -112,62 +114,32 @@
         "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "from",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
-            },
-            {
                 "indexed": false,
-                "internalType": "uint256",
-                "name": "time",
-                "type": "uint256"
+                "internalType": "uint64",
+                "name": "version",
+                "type": "uint64"
             }
         ],
-        "name": "Generation",
+        "name": "Initialized",
         "type": "event"
     },
     {
         "anonymous": false,
         "inputs": [
             {
-                "indexed": true,
+                "indexed": false,
                 "internalType": "address",
-                "name": "from",
+                "name": "_newuseradd",
                 "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "indexed": true,
-                "internalType": "uint256",
-                "name": "amount",
-                "type": "uint256"
             },
             {
                 "indexed": false,
-                "internalType": "uint256",
-                "name": "time",
-                "type": "uint256"
+                "internalType": "address",
+                "name": "_olduseradd",
+                "type": "address"
             }
         ],
-        "name": "GlobalAutoPool",
+        "name": "Oldadd_UserEv",
         "type": "event"
     },
     {
@@ -217,7 +189,7 @@
                 "type": "uint256"
             }
         ],
-        "name": "Referal",
+        "name": "SecondEnergy",
         "type": "event"
     },
     {
@@ -226,29 +198,148 @@
             {
                 "indexed": true,
                 "internalType": "address",
-                "name": "from",
+                "name": "implementation",
                 "type": "address"
-            },
+            }
+        ],
+        "name": "Upgraded",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
             {
-                "indexed": true,
-                "internalType": "address",
-                "name": "to",
-                "type": "address"
-            },
-            {
-                "indexed": true,
+                "indexed": false,
                 "internalType": "uint256",
-                "name": "amount",
+                "name": "timestamp",
                 "type": "uint256"
             },
             {
                 "indexed": false,
                 "internalType": "uint256",
-                "name": "time",
+                "name": "level",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "receiver",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "paidFrom",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
                 "type": "uint256"
             }
         ],
-        "name": "SecondEnergy",
+        "name": "autoPoolPayEv",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "level",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "index",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint32",
+                "name": "parent",
+                "type": "uint32"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "immediateParentAddress",
+                "type": "address"
+            }
+        ],
+        "name": "autopoolPosition",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "incomeLost",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_from",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "level",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "levelEv",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "plannetId",
+                "type": "uint256"
+            }
+        ],
+        "name": "plannetBuy",
         "type": "event"
     },
     {
@@ -277,8 +368,60 @@
         "type": "event"
     },
     {
-        "stateMutability": "nonpayable",
-        "type": "fallback"
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "from_user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "to_user",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "sponsorDirectEv",
+        "type": "event"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_from",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "address",
+                "name": "_to",
+                "type": "address"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "level",
+                "type": "uint256"
+            },
+            {
+                "indexed": false,
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "upgradeEv",
+        "type": "event"
     },
     {
         "inputs": [],
@@ -455,6 +598,19 @@
         "name": "SetRoyaltyNFTSC",
         "outputs": [],
         "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "UPGRADE_INTERFACE_VERSION",
+        "outputs": [
+            {
+                "internalType": "string",
+                "name": "",
+                "type": "string"
+            }
+        ],
+        "stateMutability": "view",
         "type": "function"
     },
     {
@@ -863,6 +1019,26 @@
         "type": "function"
     },
     {
+        "inputs": [],
+        "name": "initialize",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "isDataset",
+        "outputs": [
+            {
+                "internalType": "bool",
+                "name": "",
+                "type": "bool"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
         "inputs": [
             {
                 "internalType": "address",
@@ -889,6 +1065,19 @@
                 "internalType": "address",
                 "name": "",
                 "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "proxiableUUID",
+        "outputs": [
+            {
+                "internalType": "bytes32",
+                "name": "",
+                "type": "bytes32"
             }
         ],
         "stateMutability": "view",
@@ -998,6 +1187,71 @@
     },
     {
         "inputs": [],
+        "name": "renounceOwnership",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "fee1",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee2",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee3",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee4",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee5",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee6",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee7",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee8",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee9",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "fee10",
+                "type": "uint256"
+            }
+        ],
+        "name": "setdata",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
         "name": "systemActiveInactive",
         "outputs": [],
         "stateMutability": "nonpayable",
@@ -1057,6 +1311,24 @@
         "inputs": [
             {
                 "internalType": "address",
+                "name": "newImplementation",
+                "type": "address"
+            },
+            {
+                "internalType": "bytes",
+                "name": "data",
+                "type": "bytes"
+            }
+        ],
+        "name": "upgradeToAndCall",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address",
                 "name": "",
                 "type": "address"
             }
@@ -1071,9 +1343,5 @@
         ],
         "stateMutability": "view",
         "type": "function"
-    },
-    {
-        "stateMutability": "payable",
-        "type": "receive"
     }
 ]

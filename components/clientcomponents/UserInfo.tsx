@@ -1,15 +1,33 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { FaDirections, FaRegCopy } from "react-icons/fa";
 import { GiTeamDowngrade } from "react-icons/gi";
 import { Context } from "../Context";
 import { bNetwork } from "@/contract/Web3_Instance";
 import { ethers } from "ethers";
+import { useAccount } from "wagmi";
+import useOwner from "@/Hooks/useOwner";
+import useUserDetails from "@/Hooks/useUserDetails";
+
+interface userDetailsInfo{
+    bn_id: string,
+    reg_user_address: string,
+    reg_time: string,
+    upline_referral_address: string,
+    upline_referral_BNId:string
+    direct_count: number
+}
 
 const UserInfo = () => {
-    const { userAddress } = useContext(Context);
-    const [userRegisterDetail, setUserRegisterDetail] = useState<any>();
-    const [userExisit, setUserExisit] = useState<boolean>();
+ 
+    const {address} = useAccount();
+    const userAddress = address;
+    const ownerContract = useOwner();
+    console.log(ownerContract)
+    
+
+    const [userDetails,setUserDetails] = useState<userDetailsInfo>();
+
     const [packageFee, setPackageFee] = useState<any>();
 
     const copyToClipboard = (text: any): void => {
@@ -21,25 +39,26 @@ const UserInfo = () => {
         }
     };
 
-    const getUserRegisterDetails = async () => {
-        try {
-            const myContract = bNetwork();
-            const detail = await myContract!.RegisterUserDetails(userAddress);
-            setUserRegisterDetail(detail);
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
-    const getUserRegister = async () => {
+
+    const getUserDetails = async () =>{
+
         try {
-            const myContract = bNetwork();
-            const detail = await myContract!.UserRegister(userAddress);
-            setUserExisit(detail);
+            
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getUserDetails?reg_user_address=${address}`)
+            if(response){
+                const data:userDetailsInfo = await response.json();
+                console.log("User detail from get req ",data);
+                setUserDetails(data);
+            }
+            else{
+                throw new Error(`HTTP error! status: res} $`);
+
+            }
         } catch (error) {
-            console.log(error);
+            console.log("something went wrong in getUserDetails",error)
         }
-    };
+    }
 
     const userPlanet = async () => {
         try {
@@ -54,9 +73,9 @@ const UserInfo = () => {
     };
 
     useEffect(() => {
-        getUserRegisterDetails();
-        getUserRegister();
+    
         userPlanet();
+        getUserDetails();
         // eslint-disable-next-line
     }, []);
 
@@ -66,7 +85,7 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">My Address: </span>
-                        <span className="text-xs">{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
+                        <span className="text-md">{`${userAddress?.slice(0, 8)}...${userAddress?.slice(
                             userAddress?.length - 8,
                             userAddress?.length
                         )}`}</span>
@@ -79,12 +98,12 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pb-1">
                     <div>
                         <span className="text-zinc-500">My BN ID: </span>
-                        <span>BN{userExisit ? Number(userRegisterDetail?.regId?._hex) : "null"}</span>
+                        <span>{ userDetails? `${userDetails.bn_id}` : "NA"}</span>
                     </div>
                     <div>
                         <FaRegCopy
                             className="cursor-pointer"
-                            onClick={() => copyToClipboard(`BN${Number(userRegisterDetail?.regId?._hex)}`)}
+                            onClick={() => copyToClipboard(`${userDetails?.bn_id}`)}
                         />
                     </div>
                 </div>
@@ -156,12 +175,12 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pb-1 ">
                     <div>
                         <span className="text-zinc-500">Upline BN ID: </span>
-                        <span>BN{userExisit ? Number(userRegisterDetail?.regReferalId?._hex) : "null"}</span>
+                        <span>{userDetails ? `${userDetails.upline_referral_BNId}`: "NA"}</span>
                     </div>
                     <div>
                         <FaRegCopy
                             className="cursor-pointer"
-                            onClick={() => copyToClipboard(`BN${Number(userRegisterDetail?.regReferalId?._hex)}`)}
+                            onClick={() => copyToClipboard(userDetails ? `${userDetails.upline_referral_BNId}`: "NA")}
                         />
                     </div>
                 </div>
@@ -169,18 +188,18 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Upline Wallet : </span>
-                        <span className="md:text-xs">{`${userRegisterDetail?.regReferal?.slice(
+                        <span className="text-md">{`${userDetails?.upline_referral_address?.slice(
                             0,
                             8
-                        )}...${userRegisterDetail?.regReferal?.slice(
-                            userRegisterDetail?.regReferal?.length - 8,
-                            userRegisterDetail?.regReferal?.length
+                        )}...${userDetails?.upline_referral_address?.slice(
+                            userDetails?.upline_referral_address?.length - 8,
+                            userDetails?.upline_referral_address?.length
                         )}`}</span>
                     </div>
                     <div className="mt-5 lg:mt-0">
                         <FaRegCopy
                             className="cursor-pointer"
-                            onClick={() => copyToClipboard(userRegisterDetail?.regReferal)}
+                            onClick={() => copyToClipboard(userDetails?.upline_referral_address)}
                         />
                     </div>
                 </div>
@@ -194,7 +213,7 @@ const UserInfo = () => {
                         </span>
                         <span className="text-zinc-500 text-xl md:text-sm lg:text-xl font-bold">Direct Team: </span>
                         <span className="md:text-sm ">
-                            BN{userExisit ? Number(userRegisterDetail?.teamCount?._hex) : "null"}
+                          {userDetails?.direct_count}
                         </span>
                     </div>
                 </div>
@@ -205,7 +224,7 @@ const UserInfo = () => {
                             <GiTeamDowngrade />
                         </span>
                         <span className="text-zinc-500 text-xl font-bold">Total Team : </span>
-                        <span>4191</span>
+                        <span>NA</span>
                     </div>
                 </div>
             </div>

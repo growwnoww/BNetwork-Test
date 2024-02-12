@@ -1,6 +1,8 @@
 "use client";
 import { ethers } from "ethers";
 import BNetworkABI from "./BNetwork_ABI.json";
+import USDBABI from "./USDTABI.json";
+import { sign } from "crypto";
 
 declare global {
     interface Window {
@@ -8,15 +10,18 @@ declare global {
     }
 }
 
-const B_Network_Address = "0xe34603D9A35A1117edd66901B022b0b5388d034F";
-const rpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
 
-const provider = new ethers.providers.JsonRpcProvider(rpc);
+const B_Network_Address = "0x807EC1555E54457b36CEc8c2131358830A9a58C6";
+const USDT_Address = "0xf2B0F372c7A68142C248A983f863870f37B0829a";
+const rpc = "https://data-seed-prebsc-2-s3.bnbchain.org:8545";
+
+const provider = new ethers.providers.Web3Provider(window.ethereum);
 export const signer = provider.getSigner();
 
 export const bNetwork = () => {
     try {
         if (typeof window !== "undefined") {
+
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
             const bNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
@@ -27,3 +32,16 @@ export const bNetwork = () => {
         throw error;
     }
 };
+
+export const usdtTokenSC = () =>{
+    try {
+        if(typeof window !== "undefined"){
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            const usdbContract = new ethers.Contract(USDT_Address,USDBABI,signer);
+            return usdbContract;
+        }
+    } catch (error) {
+        console.log("Error in creating USDT contract",error);
+    }
+}

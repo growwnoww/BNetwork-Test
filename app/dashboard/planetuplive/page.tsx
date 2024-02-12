@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import {
   Table,
@@ -14,17 +14,38 @@ import {
 
 import { tableData } from '@/utils/DirectTeamData'
 
+interface planetDataType{
+  planetId:number;
+  planetPackage:string;
+  planetName:string;
+  planetUniversalCount:number;
+}
+
 
 
 const Page = () => {
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  const [planetData,setPlanetData] = useState<planetDataType[]>([])
 
-  const handleToggle = (userId: number) => {
-    setExpanded((prev) => ({
-      ...prev,
-      [userId]: !prev[userId],
-    }));
-  };
+
+  const getPlanetData = async()=>{
+      try {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getPlanetsCount`)
+          
+          if(response.ok){
+              const data = await response.json();
+              setPlanetData(data);
+          }
+
+      } catch (error) {
+          
+      }
+  }
+
+  
+
+  useEffect(() => {
+         getPlanetData();
+  }, []);
 
   // Function to determine the status color
 
@@ -83,8 +104,8 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
+                  {planetData.map((user,index) => (
+                    <React.Fragment key={user? user.planetId:index}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
 
                         <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
@@ -93,25 +114,25 @@ const Page = () => {
                             width={20}
                             height={20}
                             loading="lazy"
-                            src={user.imgURL}
+                            src={`/${user.planetName}.png`}
                             alt="Avatar"
                           />
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.id}
+                          {user? user.planetId:'NA'}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.planetName}
+                          {user? user.planetName:'NA'}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.earning}
+                          {user? user.planetPackage:"NA"}
                         </TableCell>
                         
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
+                          {user? user.planetUniversalCount: "NA"}
                         </TableCell>
 
                         

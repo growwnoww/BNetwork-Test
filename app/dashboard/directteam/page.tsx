@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import {  tableData } from "@/utils/DirectTeamData";
@@ -34,10 +34,25 @@ import {
 } from "@/components/ui/pagination";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { WalletContext } from "@/context/WalletContext";
+
+interface DirectTeamType{
+  bn_id:string;
+  reg_user_address:string;
+  reg_time:string;
+  name:string;
+  emailId:string;
+  mobileNo:string;
+  latestPlanetName:string;
+  isStatus:string;
+  direct_count:number;
+  teamCount:number;
+}
 
 
 const Page = () => {
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  const [directTeamData,setDirectTeamData] = useState<DirectTeamType[]>([]);
 
   const handleToggle = (userId: number) => {
     setExpanded((prev) => ({
@@ -46,6 +61,32 @@ const Page = () => {
     }));
   };
 
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress
+
+
+  const getDirectTeamData = async()=>{
+    try {
+      
+       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam?reg_user_address=${userAddress}`);
+
+       if(response.ok){
+        const data = await response.json();
+        console.log("direct team data",data)
+        setDirectTeamData(data)
+       }
+       else{
+        console.log("Something went wrong in fetching direct team data")
+       }
+
+    } catch (error) {
+      console.log("Something went wrong in direct team",error)
+    }
+  }
+ 
+  useEffect(()=>{
+    getDirectTeamData();
+  },[])
   // Function to determine the status color
 
   return (
@@ -129,8 +170,8 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
+                  {directTeamData.map((user, index) => (
+                    <React.Fragment key={index}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
                          
                        <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
@@ -139,17 +180,18 @@ const Page = () => {
                             width={20}
                             height={20}
                             loading="lazy"
-                            src={user.imgURL}
+                            src={`${user.latestPlanetName === "" ? '/just_reg.png' : `/${user.latestPlanetName}.png`}`}
+                            // src='/just_reg.png'
                             alt="Avatar"
                           />
                         </TableCell>
 
 
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.BNId}
+                          {user.bn_id}
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
+                          {user.reg_time}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
@@ -157,34 +199,34 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.directTeam}
+                          {user.direct_count}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.totalTeam}
+                          {user.teamCount}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap  ">
                           <div className="w-full flex items-center justify-center">
                             <p
                               className={`w-fit p-1 px-2 rounded-md ${
-                                user.status === "Active"
+                                user.isStatus === "Active"
                                   ? "bg-green-500"
                                   : "bg-red-500"
                               }`}
                             >
                               {" "}
-                              {user.status}
+                              {user.isStatus}
                             </p>
                           </div>
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
+                          <Button onClick={() => handleToggle(index)}>
+                            {expanded[index] ? "Hide" : "Show"}
                           </Button>
                         </TableCell>
                       </TableRow>
-                      {expanded[user.id] && (
+                      {expanded[index] && (
                       <tr className="text-white text-center">
                         {/* Notice the colSpan should be equal to the number of columns in the table */}
                         <td
@@ -193,7 +235,7 @@ const Page = () => {
                         >
                           <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
                             <div className="flex gap-x-2">
-                              <p className="w-fit ">Address: {user.address}</p>
+                              <p className="w-fit ">Address: {user.reg_user_address}</p>
                               <div className="flex items-center gap-x-2 ">
                                 <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
                                 <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
@@ -201,7 +243,7 @@ const Page = () => {
                             </div>
 
                             <div className="w-fit flex flex-col gap-y-1 text-left">
-                              <p>Mobile No: +{user.mobile}</p>
+                              <p>Mobile No: +{user.mobileNo}</p>
                               <p>Email Id: {user.emailId}</p>
                             </div>
                           </div>
