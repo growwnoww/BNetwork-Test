@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-import { bNetwork, signer } from "@/contract/Web3_Instance";
+import { bNetwork } from "@/contract/Web3_Instance";
 import { ethers } from "ethers";
 import { Context } from "@/components/Context";
 import Token_ABI from "@/contract/Token_ABI.json";
@@ -38,6 +38,8 @@ const Page = () => {
     const registerUser = async (e: any) => {
         e.preventDefault();
         try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
@@ -67,6 +69,8 @@ const Page = () => {
 
     const approveUSDT = async () => {
         try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
             const getFeeTokenAddress = await myContract!.getFeeToken();
@@ -106,6 +110,8 @@ const Page = () => {
 
     const checkApproveUSDT = async () => {
         try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
             const getFeeTokenAddress = await myContract!.getFeeToken();
@@ -121,6 +127,8 @@ const Page = () => {
     const buyPlanetUser = async (e: any) => {
         e.preventDefault();
         try {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
 
             const myContract = bNetwork();
@@ -237,7 +245,6 @@ const Page = () => {
                             />
                             <label>Select Package</label>
                             <Select
-                             
                                 name="selectedPackage"
                                 value={value.package}
                                 onValueChange={handleSelectPackageChange}
