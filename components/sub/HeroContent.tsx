@@ -74,7 +74,7 @@ const HeroContent = () => {
           {isUserRegister && walletContext?.userAddress ? (
             <Link href="/dashboard">
               {" "}
-              <Button variant={"secondary"}>Dashboard</Button>
+              <Button >Dashboard</Button>
             </Link>
           ) : (
             <div className="z-10">
