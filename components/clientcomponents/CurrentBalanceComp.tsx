@@ -31,19 +31,7 @@ const CurrentBalanceComp = () => {
         getUserBalance();
     }, []);
 
-    // const usdtBalance = async () => {
-    //     try {
-    //         const myContract = bNetwork();
-    //         const getAdd = await myContract!.getFeeToken();
 
-    //         const instance = new ethers.Contract(getAdd, TokenABI, signer);
-    //         const balance = await instance.balanceOf(walleContext?.userAddress);
-    //         const balanceInUSDT = ethers.utils.formatEther(balance);
-    //         setUsdtTokenBalance(balanceInUSDT);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // };
 
     return (
         <>
