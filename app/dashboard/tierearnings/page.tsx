@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import {
   Table,
@@ -34,15 +34,34 @@ import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
+import { WalletContext } from "@/context/WalletContext";
+import useFetchTierEarning, {
+  tierEarningDataType,
+} from "@/Hooks/useFetchTierEarning";
 
 const Page = () => {
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress;
+  const totalTierEarning = walletContext?.planetStatus;
+  console.log(totalTierEarning);
+  let srno = 0;
+  const fetchTierEarningData: tierEarningDataType[][] =
+    useFetchTierEarning(userAddress);
 
-  const handleToggle = (userId: number) => {
+  const handleToggle = (userId: string) => {
     setExpanded((prev) => ({
       ...prev,
       [userId]: !prev[userId],
     }));
+  };
+
+  const setEarningAmount = (index: number) => {
+    if (index <= 3) return 0.09;
+    else if (index <= 8) return 0.06;
+    else if (index === 9) return 0.03;
+    else if (index <= 13) return 0.15;
+    else if (index <= 15) return 0.21;
   };
 
   // Function to determine the status color
@@ -58,37 +77,38 @@ const Page = () => {
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
+            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-around">
               <div className=" w-full flex flex-col items-end md:items-start ">
-              <label className="">Filter</label>
-              <Input
-                type="text"
-                placeholder="Enter BN Id or Address"
-                className="w-[140px] h-8"
-              />
+                <label className="">Filter</label>
+                <Input
+                  type="text"
+                  placeholder="Enter BN Id or Address"
+                  className="w-[140px] h-8"
+                />
               </div>
-            
 
-             
+              <div className="flex flex-row items-center justify-center">
+                <p>Total Tier Earning :</p>
+                <p>{totalTierEarning.tierEarningsAmount} $</p>
+              </div>
             </div>
 
             <div className="w-3/4">
               <Table className=" divide-y divide-gray-600 rounded-lg">
                 <TableHeader className="bg-stone-900  ">
                   <TableRow className="text-yellow-400 text-[10px] lg:text-[13px] uppercase text-center">
-                     
-                  <TableHead
+                    <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                     Sr No
+                      Sr No
                     </TableHead>
 
                     <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                     Current Planet
+                      Current Planet
                     </TableHead>
                     <TableHead
                       scope="col"
@@ -102,14 +122,13 @@ const Page = () => {
                     >
                       Date & time
                     </TableHead>
-                    
+
                     <TableHead
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
                       Tier No
                     </TableHead>
-                    
 
                     <TableHead
                       scope="col"
@@ -118,105 +137,106 @@ const Page = () => {
                       Package
                     </TableHead>
 
-                    
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
                       Earning
                     </TableHead>
-                    
+
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
                       Action
                     </TableHead>
-               
-                   
-                   
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
-                      <TableRow className="text-white text-center text-[12px] lg:text-md">
+                  {fetchTierEarningData &&
+                    fetchTierEarningData.map((tier, tierIndex) =>
+                      tier.map((user, userIndex) => {
+                        srno += 1;
+                        return (
+                          <React.Fragment key={`${tierIndex}-${userIndex}`}>
+                            <TableRow className="text-white text-center text-[12px] lg:text-md">
+                              <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                                {srno}
+                              </TableCell>
 
-                      <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.id}
-                        </TableCell>
-                         
-                       <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
-                          <Image
-                            className="h-12 w-12  rounded-full"
-                            width={20}
-                            height={20}
-                            loading="lazy"
-                            src='/Earth.png'
-                            alt="Avatar"
-                          />
-                        </TableCell>
+                              <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
+                                <Image
+                                  className="h-12 w-12  rounded-full"
+                                  width={20}
+                                  height={20}
+                                  loading="lazy"
+                                  src="/Earth.png"
+                                  alt="Avatar"
+                                />
+                              </TableCell>
 
+                              <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm  ">
+                                {user.bn_id}
+                              </TableCell>
+                              <TableCell className=" py-2  whitespace-nowrap ">
+                                {user.reg_time}
+                              </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm  ">
-                          {user.BNId}
-                        </TableCell>
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
-                        </TableCell>
+                              <TableCell className=" py-2  whitespace-nowrap ">
+                                {tierIndex}
+                              </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.tierNo}
-                        </TableCell>
+                              <TableCell className=" py-2  whitespace-nowrap ">
+                                Earth
+                              </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          Earth
-                        </TableCell>
+                              <TableCell className=" py-2  whitespace-nowrap ">
+                                {user.tierEarnings!
+                                  ? `${setEarningAmount(tierIndex)}$`
+                                  : "Lost"}
+                              </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
-                        </TableCell>
-
-
-                      
-                        <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      {expanded[user.id] && (
-                      <tr className="text-white text-center">
-                        {/* Notice the colSpan should be equal to the number of columns in the table */}
-                        <td
-                          colSpan={8}
-                          className="px-3 py-2 whitespace-nowrap text-sm"
-                        >
-                        <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                              <div className="flex gap-x-2">
-                                <p className="w-fit ">
-                                  Address: {user.address}
-                                </p>
-                                <div className="flex items-center gap-x-2 ">
-                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                </div>
-                              </div>
-                              <div className="flex gap-x-2">
-                                <p className="w-fit ">
-                                  Transaction Hash: {user.address}
-                                </p>
-                                <div className="flex items-center gap-x-2 ">
-                                  <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                  <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                </div>
-                              </div>
-                            </div>
-                        </td>
-                      </tr>
+                              <TableCell className=" py-2  whitespace-nowrap font-medium">
+                                <Button onClick={() => handleToggle(user._id)}>
+                                  {expanded[user._id] ? "Hide" : "Show"}
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                            {expanded[user._id] && (
+                              <tr className="text-white text-center">
+                                {/* Notice the colSpan should be equal to the number of columns in the table */}
+                                <td
+                                  colSpan={8}
+                                  className="px-3 py-2 whitespace-nowrap text-sm"
+                                >
+                                  <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                                    <div className="flex gap-x-2">
+                                      <p className="w-fit ">
+                                        Address: {user.reg_user_address}
+                                      </p>
+                                      <div className="flex items-center gap-x-2 ">
+                                        <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                        <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                      </div>
+                                    </div>
+                                    <div className="flex gap-x-2">
+                                      <p className="w-fit ">
+                                        Transaction Hash:{" "}
+                                        {user.reg_user_address}
+                                      </p>
+                                      <div className="flex items-center gap-x-2 ">
+                                        <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                        <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            )}
+                          </React.Fragment>
+                        );
+                      })
                     )}
-                    </React.Fragment>
-                  ))}
                 </TableBody>
               </Table>
             </div>
@@ -267,6 +287,6 @@ const Page = () => {
       </div>
     </div>
   );
-}
+};
 
 export default Page;

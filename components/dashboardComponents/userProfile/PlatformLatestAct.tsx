@@ -39,125 +39,18 @@ const PlatformLatestAct = () => {
 
                 <TableBody className="text-[10px]  lg:text-[10px] 2xl:text-[14px]">
                     <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
+                        <TableCell>NA </TableCell>
+                        <TableCell className="text-center px-2">NA</TableCell>
+                        <TableCell className="text-center px-2">NA</TableCell>
+                        <TableCell className="text-center px-2">NA</TableCell>
                         <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
+                            <p>NA</p>
                             <FaRegCopy className="cursor-pointer" />
                             <HiArrowTopRightOnSquare className="cursor-pointer" />
                         </TableCell>
                     </TableRow>
 
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
-
-                    <TableRow className="border-b border-b-zinc-600">
-                        <TableCell>BN091287 </TableCell>
-                        <TableCell className="text-center px-2">Direct Income</TableCell>
-                        <TableCell className="text-center px-2">500</TableCell>
-                        <TableCell className="text-center px-2">0x9f9...056ee</TableCell>
-                        <TableCell className="text-center flex items-center justify-center gap-x-3">
-                            <p>0x9ab...00d737f</p>
-                            <FaRegCopy className="cursor-pointer" />
-                            <HiArrowTopRightOnSquare className="cursor-pointer" />
-                        </TableCell>
-                    </TableRow>
+                    
                 </TableBody>
             </Table>
         </div>

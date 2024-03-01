@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import {
   Table,
@@ -35,16 +35,35 @@ import { Button } from "@/components/ui/button";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { tableData } from "@/utils/DirectTeamData";
+import userFetchTierLevels, { tierTeamDataType } from "@/Hooks/userFetchTierLevels";
+import { WalletContext } from "@/context/WalletContext";
+
 
 const Page = () => {
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress
+  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const fetchTierData:tierTeamDataType[][] = userFetchTierLevels(userAddress);
+  
 
-  const handleToggle = (userId: number) => {
+  const handleToggle = (userId: string) => {
     setExpanded((prev) => ({
       ...prev,
       [userId]: !prev[userId],
     }));
   };
+
+  const unixToTime = (_reg_time:string) =>{
+    if(fetchTierData){
+     let timeStamp =parseInt(_reg_time);
+     console.log("Time",timeStamp)
+     const date = new Date(timeStamp * 1000);
+     const istDate = date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+ 
+     return istDate
+    }
+   }
+ 
 
   // Function to determine the status color
 
@@ -184,56 +203,58 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
+                  {fetchTierData && fetchTierData.map((tier,tierIndex) => (
+                     tier.map((user,userIndex)=>(
+                    <React.Fragment key={`${tierIndex}-${userIndex}`} >
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
                         <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
-                          <Image
+                         <Image
                             className="h-12 w-12  rounded-full"
                             width={20}
                             height={20}
                             loading="lazy"
-                            src={user.imgURL}
+                            src={`${user.latestPlanetName === "" ? '/just_reg.png' : `/${user.latestPlanetName}.png`}`}
+                            // src='/just_reg.png'
                             alt="Avatar"
                           />
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.BNId}
+                          {user.bn_id}
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
-                        </TableCell>
-
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.tierNo}
+                          {unixToTime(user.reg_time)}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.uplineId}
+                          {tierIndex}
+                        </TableCell>
+
+                        <TableCell className=" py-2  whitespace-nowrap ">
+                          {user.upline_referral_BNId}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap  ">
                           <div className="w-full flex items-center justify-center">
                             <p
                               className={`w-fit p-1 px-2 rounded-md ${
-                                user.status === "Active"
+                                user.isStatus === "Active"
                                   ? "bg-green-500"
                                   : "bg-red-500"
                               }`}
                             >
                               {" "}
-                              {user.status}
+                              { user.isStatus}
                             </p>
                           </div>
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
+                          <Button onClick={() => handleToggle(user._id)}>
+                            {expanded[user._id] ? "Hide" : "Show"}
                           </Button>
                         </TableCell>
                       </TableRow>
-                      {expanded[user.id] && (
+                      {expanded[user._id] && (
                         <TableRow className="text-white text-center">
                           {/* Notice the colSpan should be equal to the number of columns in the table */}
                           <TableCell
@@ -243,7 +264,7 @@ const Page = () => {
                             <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
                               <div className="flex gap-x-2">
                                 <p className="w-fit ">
-                                  Address: {user.address}
+                                  Address: {user.reg_user_address}
                                 </p>
                                 <div className="flex items-center gap-x-2 ">
                                   <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
@@ -255,6 +276,7 @@ const Page = () => {
                         </TableRow>
                       )}
                     </React.Fragment>
+                     ))
                   ))}
                 </TableBody>
               </Table>

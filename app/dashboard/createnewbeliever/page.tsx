@@ -237,9 +237,7 @@ const Page = () => {
                             />
                             <label>Select Package</label>
                             <Select
-                                // options={perPageDropDownOptions}
-                                // onValueChange={onValueChange}
-                                // defaultValue={value}
+                             
                                 name="selectedPackage"
                                 value={value.package}
                                 onValueChange={handleSelectPackageChange}

@@ -1,5 +1,5 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { FormEvent, useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -35,17 +35,112 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { MdOutlineSortByAlpha } from "react-icons/md";
 import { tableData } from "@/utils/DirectTeamData";
+import { SelectData } from "@/utils/SelectData";
+import { SelectLevel } from "@/utils/SelectLevel";
+import { useConfig } from "wagmi";
+import { WalletContext } from "@/context/WalletContext";
+
+interface valueType {
+  recycleVal: string;
+  level: string;
+  package: string;
+}
+
+interface UserDetails {
+  _id: string;
+  bn_id: string;
+  planetName: string;
+  reg_user_address: string;
+  universeSlot: number;
+  children: string[];
+  parent: string;
+  currentLevel: number;
+  currentPosition: number;
+  autoPoolEarning: number;
+  isRoot: boolean;
+  recycle: any[];
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+interface IndexMapping {
+  userLevel: number;
+  userPosition: number;
+  userDetails: UserDetails[];
+}
+
+interface RecycleItem {
+  recycleCount: number;
+  indexMappings: IndexMapping[];
+}
+
+interface AutoPoolTableData {
+  data: RecycleItem[];
+}
 
 const Page = () => {
- 
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const [autoPoolTableData, setAutoPoolTableData] = useState<AutoPoolTableData>(
+   {data:[]}
+  );
+  const [value, setValue] = useState<valueType>({
+    recycleVal: "",
+    level: "",
+    package: "",
+  });
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress
 
-  const handleToggle = (userId: number) => {
+  const handleToggle = (userId: any) => {
     setExpanded((prev) => ({
       ...prev,
       [userId]: !prev[userId],
     }));
   };
+
+  const handleSelectPackageChange = (selectedPackage: string) => {
+    setValue((prevState: any) => ({
+      ...prevState,
+      package: selectedPackage,
+    }));
+  };
+
+  const handleSelectLevelChange = (selectedLevel: string) => {
+    setValue((prevState: any) => ({
+      ...prevState,
+      level: selectedLevel,
+    }));
+  };
+
+  const getAutoPoolData = async () => {
+    try {
+      const query = `${
+        process.env.NEXT_PUBLIC_URL
+      }/user/getAutoPoolTable/${userAddress}/${value?.package}/${value?.recycleVal}/${value?.level}`;
+      console.log("query",query)
+      const response = await fetch(query);
+
+      if (response.ok) {
+        const data: AutoPoolTableData = await response.json();
+        setAutoPoolTableData(data);
+      } else {
+        console.log("Failed to fetch auto pool table data");
+      }
+    } catch (error) {
+      console.error("Error fetching auto pool table data:", error);
+    }
+  };
+
+  const submitHandler = async (e: FormEvent) => {
+    e.preventDefault();
+    console.log("data", value);
+    await getAutoPoolData();
+  };
+
+  useEffect(() => {
+    getAutoPoolData();
+  }, []);
 
   // Function to determine the status color
 
@@ -53,14 +148,14 @@ const Page = () => {
     <div className="flex flex-col">
       <div className="w-full my-5 flex items-center justify-center">
         <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-             Auto Pool Earnings
+          Auto Pool Earnings
         </p>
       </div>
 
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-          <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
+            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
               <div className=" w-full flex flex-col items-end md:items-start ">
                 <label className="">Filter</label>
                 <Input
@@ -71,51 +166,76 @@ const Page = () => {
               </div>
 
               <div className="w-full flex flex-row justify-end gap-x-3 ">
-                <div>
-                  <p>Levels</p>
-                  <Select>
-                    <SelectTrigger className="w-[70px] h-8 lg:w-[95px] lg:h-10  ">
-                      <SelectValue placeholder="" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="level_1">Level 1</SelectItem>
-                      <SelectItem value="level_2">Level 2</SelectItem>
-                      <SelectItem value="level_3">Level 3</SelectItem>
-                      <SelectItem value="level_4">Level 4</SelectItem>
-                      <SelectItem value="level_5">Level 5</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
+                <form
+                  action=""
+                  onSubmit={submitHandler}
+                  className="w-full flex flex-row justify-end gap-x-3 "
+                >
+                  <div className="flex items-center gap-x-3 ">
+                    <div>
+                      <p>Packages</p>
+                      <Select
+                        name="selectedPackage"
+                        value={value.package}
+                        onValueChange={handleSelectPackageChange}
+                      >
+                        <SelectTrigger className="w-[180px] border border-yellow-400">
+                          <SelectValue placeholder="" />
+                        </SelectTrigger>
+                        <SelectContent defaultValue="Earth">
+                          {SelectData.map((item) => (
+                            <SelectItem key={item.id} value={item.value}>
+                              {item.label}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
 
-                <div className="flex items-center gap-x-3 ">
                   <div>
-                    <p>Packages</p>
-                    <Select>
-                      <SelectTrigger className="w-[90px] h-8 lg:w-[150px] lg:h-10">
-                        <SelectValue placeholder="" className="text-[7px]" />
+                    <p>Recycle :</p>
+                    <Input
+                      type="number"
+                      defaultValue="1"
+                      placeholder="Enter Recycle Number"
+                      className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
+                      name="recycleVal"
+                      value={value.recycleVal}
+                      onChange={(e) =>
+                        setValue({ ...value, recycleVal: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div>
+                    <p>Levels</p>
+                    <Select
+                      name="selectedLevel"
+                      value={value.level}
+                      onValueChange={handleSelectLevelChange}
+                    >
+                      <SelectTrigger className="w-[70px] h-8 lg:w-[95px] lg:h-10  ">
+                        <SelectValue placeholder="" />
                       </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Earth">Earth 5$</SelectItem>
-                        <SelectItem value="Moon">Moon 10$</SelectItem>
-                        <SelectItem value="Mars">Mars 25$</SelectItem>
-                        <SelectItem value="Venus">Venus 50$</SelectItem>
-                        <SelectItem value="Mercury">Mercury 100$</SelectItem>
-                        <SelectItem value="Jupiter">Jupiter 250$</SelectItem>
-                        <SelectItem value="Saturn">Saturn 500$</SelectItem>
-                        <SelectItem value="Uranus">Uranus 1000$</SelectItem>
-                        <SelectItem value="Neptune">Neptune 2500$</SelectItem>
-                        <SelectItem value="Pluto">Pluto 5000$</SelectItem>
+                      <SelectContent defaultValue="1">
+                        {SelectLevel.map((item) => (
+                          <SelectItem key={item.id} value={item.value}>
+                            {item.data}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
                   <Button
+                    type="submit"
                     variant={"custom_yellow"}
                     className="mt-6 h-7 md:h-10"
                   >
                     Submit
                   </Button>
-                </div>
+                </form>
               </div>
             </div>
 
@@ -123,15 +243,13 @@ const Page = () => {
               <Table className=" divide-y divide-gray-600 rounded-lg">
                 <TableHeader className="bg-stone-900  ">
                   <TableRow className="text-yellow-400 text-[10px] lg:text-[13px] uppercase text-center">
-                     
-                  <TableHead
+                    <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                     Sr No
+                      Sr No
                     </TableHead>
 
-                   
                     <TableHead
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
@@ -144,98 +262,96 @@ const Page = () => {
                     >
                       Date & time
                     </TableHead>
-                    
+
                     <TableHead
                       scope="col"
                       className=" py-3 text-center tracking-wider"
                     >
                       From BN Id
                     </TableHead>
-                    
 
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
-                        Earned
+                      Earned
                     </TableHead>
 
-              
-                    
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
                       Planet Package
                     </TableHead>
-               
+
                     <TableHead
                       scope="col"
                       className=" text-center tracking-wider"
                     >
                       Action
                     </TableHead>
-                   
                   </TableRow>
                 </TableHeader>
-                <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
-                      <TableRow className="text-white text-center text-[12px] lg:text-md">
+                <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px] lg:text-[14px]">
+                  {autoPoolTableData.data.map((recycleItem, index) =>
+                    recycleItem.indexMappings.map((mapping, mappingIndex) =>
+                      mapping.userDetails.map((user, userIndex) => (
+                        <React.Fragment key={user._id}>
+                          <TableRow className="text-white text-center text-[12px] lg:text-md">
+                            <TableCell className="py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
+                              {user._id} {/* or any other unique property */}
+                            </TableCell>
 
-                      <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.id}
-                        </TableCell>
+                            <TableCell className="py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
+                              {user.bn_id}
+                            </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.id}
-                        </TableCell>
+                            <TableCell className="py-2 whitespace-nowrap">
+                              {user.createdAt}{" "}
+                              {/* Assuming you want to display the creation date */}
+                            </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
-                        </TableCell>
+                            <TableCell className="py-2 whitespace-nowrap">
+                              {user.bn_id}
+                            </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.BNId}
-                        </TableCell>
+                            <TableCell className="py-2 whitespace-nowrap">
+                              {user.planetName}{" "}
+                              {/* Assuming `earningThrough` maps to `planetName` */}
+                            </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.earningThrough}
-                        </TableCell>
-                        
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
-                        </TableCell>
+                            <TableCell className="py-2 whitespace-nowrap">
+                              {user.autoPoolEarning}
+                            </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                      {expanded[user.id] && (
-                      <tr className="text-white text-center">
-                        {/* Notice the colSpan should be equal to the number of columns in the table */}
-                        <td
-                          colSpan={8}
-                          className="px-3 py-2 whitespace-nowrap text-sm"
-                        >
-                          <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                            <div className="flex gap-x-2">
-                              <p className="w-fit ">Transaction Hash: {user.address}</p>
-                              <div className="flex items-center gap-x-2 ">
-                                <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                              </div>
-                            </div>
-
-                          
-                          </div>
-                        </td>
-                      </tr>
-                    )}
-                    </React.Fragment>
-                  ))}
+                            <TableCell className="py-2 whitespace-nowrap font-medium">
+                              <Button onClick={() => handleToggle(user._id)}>
+                                {expanded[user._id] ? "Hide" : "Show"}
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                          {expanded[user._id] && (
+                            <tr className="text-white text-center">
+                              <td
+                                colSpan={7}
+                                className="px-3 py-2 whitespace-nowrap text-sm"
+                              >
+                                <div className="w-full flex flex-col gap-x-5 gap-y-1 p-4 text-md">
+                                  <div className="flex gap-x-2">
+                                    <p className="w-fit">
+                                      Transaction Hash: {user.reg_user_address}{" "}
+                                      {/* Assuming `address` maps to `reg_user_address` */}
+                                    </p>
+                                    {/* Icons and other interactive elements */}
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      ))
+                    )
+                  )}
                 </TableBody>
               </Table>
             </div>
@@ -289,4 +405,3 @@ const Page = () => {
 };
 
 export default Page;
-

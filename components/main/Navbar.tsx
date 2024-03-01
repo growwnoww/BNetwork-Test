@@ -5,8 +5,10 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { Context } from "../Context";
 import { IoCloseSharp, IoMenu } from "react-icons/io5";
-import { Button } from "../ui/button";
+
 import { WalletContext } from "@/context/WalletContext";
+import useUserDetails from "@/Hooks/useUserDetails";
+import { Button } from "../ui/button";
 
 interface NavItem {
     title: string;
@@ -18,10 +20,7 @@ const navList: NavItem[] = [
         title: "Home",
         link: "#home",
     },
-    {
-        title: "All Services",
-        link: "#allservice",
-    },
+
     {
         title: "Roadmap",
         link: "#roadmap",
@@ -35,7 +34,7 @@ const navList: NavItem[] = [
         link: "#howitworks",
     },
     {
-        title: "Review",
+        title: "Calculator",
         link: "#review",
     },
     {
@@ -47,7 +46,10 @@ const navList: NavItem[] = [
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
     const walletContext = useContext(WalletContext);
+    const isUserRegister = useUserDetails();
+    console.log("IS USER REGISTER",isUserRegister)
     
+
 
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
 
@@ -57,7 +59,7 @@ const Navbar = () => {
     };
 
     return (
-        <div className="w-full h-[70px] fixed top-0 shadow-lg shadow-[#2A0E61]/50 bg-[#03001417] backdrop-blur-md z-50 px-4 md:px-10">
+        <div className="w-full h-[70px] fixed top-0 bg-transparent shadow-lg backdrop-blur-md z-50 px-4 md:px-10">
             <div className="w-full h-full flex flex-row items-center justify-between text-xs font-semibold">
                 <div>
                     <Link href="/">
@@ -67,21 +69,94 @@ const Navbar = () => {
 
                 {/* Hamburger Icon */}
                 <div className="md:hidden">
-                    <button onClick={toggleMenu}>
-                        {isMenuOpen ? <IoCloseSharp className="h-6 w-6" /> : <IoMenu className="h-6 w-6" />}
-                    </button>
+                <div className="px-3  md:hidden ">
+                        {/* <div className="bg-yellow-500 px-3  py-2.5 rounded-md">Connect Wallet</div> */}
+                        <ConnectButton.Custom>
+                            {({
+                                account,
+                                chain,
+                                openAccountModal,
+                                openChainModal,
+                                openConnectModal,
+                                authenticationStatus,
+                                mounted,
+                            }) => {
+                                // Note: If your app doesn't use authentication, you
+                                // can remove all 'authenticationStatus' checks
+                                const ready = mounted && authenticationStatus !== "loading";
+                                const connected =
+                                    ready &&
+                                    account &&
+                                    chain &&
+                                    (!authenticationStatus || authenticationStatus === "authenticated");
+
+                                return (
+                                    <div
+                                        {...(!ready && {
+                                            "aria-hidden": true,
+                                            style: {
+                                                opacity: 0,
+                                                pointerEvents: "none",
+                                                userSelect: "none",
+                                            },
+                                        })}
+                                    >
+                                        {(() => {
+                                            if (!connected) {
+                                                return (
+                                                    <button
+                                                        onClick={openConnectModal}
+                                                        type="button"
+                                                        className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
+                                                    >
+                                                        Connect Wallet
+                                                    </button>
+                                                );
+                                            }
+
+                                            if (chain.unsupported) {
+                                                return (
+                                                    <button
+                                                        onClick={openChainModal}
+                                                        type="button"
+                                                        className="bg-[#FF6347] px-3  py-2.5 rounded-md whitespace-nowrap"
+                                                    >
+                                                        Wrong network
+                                                    </button>
+                                                );
+                                            }
+
+                                            return (
+                                                <div style={{ display: "flex", gap: 12 }}>
+                                                    <button
+                                                        onClick={() => {
+                                                            openAccountModal();
+                                                            walletContext?.setUserAddress(() => account?.address);
+                                                        }}
+                                                        type="button"
+                                                        className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
+                                                    >
+                                                        {account.displayName}
+                                                        {account.displayBalance ? ` (${account.displayBalance})` : ""}
+                                                    </button>
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+                                );
+                            }}
+                        </ConnectButton.Custom>
+                    </div>
                 </div>
 
                 {/* Navigation Links and additional options */}
                 <div
-                    className={`${
-                        isMenuOpen ? "flex" : "hidden"
-                    } flex-col gap-y-4  py-2 items-s md:flex md:flex-row md:items-center absolute md:static md:bg-transparent md:text-[15px] bg-indigo-950  w-fit px-10  rounded-tl-md rounded-bl-md right-[0%] top-[97%] md:top-0 md:w-auto`}
+                    className={`gap-y-4  hidden lg:flex   py-2 items-s md:flex md:flex-row md:items-center absolute md:static md:bg-transparent md:text-[15px] bg-indigo-950  w-fit px-10  rounded-tl-md rounded-bl-md right-[0%] top-[97%] md:top-0 md:w-auto `}
                 >
                     {navList.map((NavRoute, index) => (
                         <div
                             key={index}
-                            className={`px-3 ${activeNav === NavRoute.link ? "text-yellow-400" : ""} md:mx-2`}
+                            className={`px-3  ${activeNav === NavRoute.link ? "text-yellow-400" : ""} md:mx-2 text-sm`}
                         >
                             <Link
                                 href={NavRoute.link}
@@ -173,15 +248,7 @@ const Navbar = () => {
                             }}
                         </ConnectButton.Custom>
                     </div>
-                    <div className="px-3 md:hidden bg-gray-800 py-1 rounded-md w-fit ">
-                        <button
-                            onClick={() => {
-                                /* Language change logic here */
-                            }}
-                        >
-                            ENG
-                        </button>
-                    </div>
+                  
                 </div>
 
                 {/* Wallet and Language Selection for Desktop */}
@@ -261,12 +328,30 @@ const Navbar = () => {
                             );
                         }}
                     </ConnectButton.Custom>
-                    <div className="bg-gray-800 px-3 py-1 rounded-md">ENG</div>
+                  
                     <div>
-                        <Link href="/dashboard">
+                       {
+                        isUserRegister && walletContext?.userAddress?
+                        (
+                            <Link href="/dashboard">
                             {" "}
                             <Button variant={"secondary"}>Dashboard</Button>
-                        </Link>
+                          </Link>
+                        )
+                        :
+                        (
+                            <div>
+                            <Link href="/registration" passHref>
+                              <Button
+                          
+                            className=" bg-zinc-900  text-white border-none"
+                              >
+                                Registration
+                              </Button>
+                            </Link>
+                          </div> 
+                        )
+                       }
                     </div>
                 </div>
             </div>

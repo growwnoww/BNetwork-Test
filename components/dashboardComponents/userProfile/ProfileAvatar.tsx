@@ -11,6 +11,7 @@ const ProfileAvatar = () => {
     // const host = window.location.hostname;
     const walletContext = useContext(WalletContext)
     const userAddress = walletContext?.userAddress
+    const userAvatar =  walletContext?.planetStatus?.latestPlanetName || 'just_reg';
 
     const copyToClipboard = (text: string) => {
         try {
@@ -24,7 +25,7 @@ const ProfileAvatar = () => {
     return (
         <>
             <div className="">
-                <Image src="/Pluto.png" alt="Pluto.png" loading="lazy" height={300} width={300} />
+                <Image src={`/${userAvatar}.png`} alt="Pluto.png" loading="lazy" height={300} width={300} />
             </div>
 
             <div className="flex items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">

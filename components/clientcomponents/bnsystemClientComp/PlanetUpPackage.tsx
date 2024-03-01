@@ -25,14 +25,19 @@ const PlanetUpPackage = ({
   imgURL,
   packageName,
   packagePrice,
-  treePath,
-  chartPath,
+
+
 }: PlanetUpPropsTypes) => {
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
+  const planetBoughtLen =  walletContext?.planetStatus?.planets?.length || 0;
+  
+
   const [isApprove, setApprove] = useState<boolean>(false);
   const [planetBuy, setPlanetBuy] = useState<boolean>(false);
   const [tokenBuypop, setTokenpop] = useState<boolean>(false);
+  const [planetBuyStatus,setPlanetBuyStatus] = useState<Record<number,boolean>>({})
+  const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0); 
 
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
@@ -51,16 +56,19 @@ const PlanetUpPackage = ({
     return planetNames[planetId];
   };
 
-  const postPlanetBuyInfo = async (_planetId: number) => {
+  
+  const postPlanetBuyInfo = async (_planetId: number,transactionHash:string) => {
     try {
       const planetNameStr = getPlanetName(_planetId);
+      const planetNameOnly = planetNameStr?.split(" ")[0];
       const planetPack = planetNameStr?.split(" ")[1];
       console.log("Planet package ", planetPack);
       const payload = {
         reg_user_address: userAddress,
         planetId: _planetId,
-        planetName: planetNameStr,
+        planetName: planetNameOnly,
         planetPackage: planetPack,
+        transactionHash:transactionHash
       };
 
       console.log("payload",payload)
@@ -143,12 +151,24 @@ const PlanetUpPackage = ({
       });
       await buyPlanet.wait();
       console.log(buyPlanet);
-      postPlanetBuyInfo(parseInt(planetById))
+      const transactionHash = buyPlanet.hash;
+      console.log(`Transaction hash: ${transactionHash}`);
+      postPlanetBuyInfo(parseInt(planetById),transactionHash)
       setPlanetBuy(true);
+      setPlanetBuyStatus(prevStatus =>({...prevStatus,[planetId]:true}))
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(()=>{
+    const latestBought = planetBoughtLen;
+    setHighestPlanetBought(latestBought);
+    if (planetBuy) {
+    
+      setPlanetBuyStatus(prev => ({...prev, [latestBought]: true}));
+    }
+  },[userAddress])
 
   return (
     <div className="relative z-0  flex flex-col bg-zinc-800 rounded-md  m-2 mx-5">
@@ -160,63 +180,64 @@ const PlanetUpPackage = ({
         </div>
       </div>
 
-      <div className="z-10 absolute top-[39%] right-[30%] flex flex-col items-center text-xl font-semibold">
-        {planetBuy ? (
-          ""
+      <div className="z-10 absolute top-[43%] right-[44%] flex flex-col items-center text-xl font-semibold">
+        {planetId <= highestPlanetBought ? (
+        ""
+        ) : planetId === highestPlanetBought + 1 ? (
+          isApprove  ? (
+            <button
+              className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
+              onClick={buyPlanetUser}
+            >
+              Upgrade
+            </button>
+          ) : (
+            <button
+              className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
+              onClick={approveUSDT}
+            >
+              Approve
+            </button>
+          )
         ) : (
-          <span className="text-3xl">
-            <FaUserLock />
+          <span className="text-5xl">
+            <FaUserLock className="text-red-500"/>
           </span>
         )}
-
-        {planetBuy ? (
-          ""
-        ) : (
-          <div>
-            {isApprove ? (
-              <button className="bg-yellow-500 py-1 px-5  rounded-md hover:bg-yellow-600 duration-300">
-                <span
-                  className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
-                  onClick={buyPlanetUser}
-                >
-                  Upgrade
-                </span>
-              </button>
-            ) : (
-              <button
-                className="bg-yellow-500 py-1 px-5  rounded-md hover:bg-yellow-600 duration-300"
-                onClick={approveUSDT}
-              >
-                Approve
-              </button>
-            )}
-          </div>
-        )}
       </div>
-      <div className="flex items-center justify-center bg-black  py-10 px-10 opacity-40 blur-[2px]">
+      <div className={`flex items-center  justify-center bg-black  py-10 px-10 ${planetId  <= highestPlanetBought ?'' :'blur-sm' }  `}>
         <Image
           src={imgURL}
           alt={imgURL}
-          height={packageName == "Saturn" ? 250 : 150}
-          width={packageName == "Saturn" ? 250 : 150}
+          height={ 150}
+          width={ 150}
           loading="lazy"
           className={`${packageName == "Saturn" ? "" : "custom-spin"}`}
         />
       </div>
 
       <div className="flex items-center justify-center py-3">
-        {planetBuy ? (
-          <div className="flex flex-col items-center gap-y-1">
-            <Link
-              href={treePath}
-              className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
-            >
-              <span>View tree</span>
-            </Link>
-          </div>
-        ) : (
-          <div className="flex  items-center gap-y-1 gap-x-2"></div>
-        )}
+        {
+          planetBuyStatus[planetId]?
+          (
+          
+           ''
+              // <div className="flex flex-col items-center gap-y-1">
+              //   <Link
+              //     href={``}
+              //     className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
+              //   >
+              //     <span>View tree</span>
+              //   </Link>
+              // </div>
+          
+          )
+          :
+          (
+          ""
+
+          )
+        }
       </div>
     </div>
   );

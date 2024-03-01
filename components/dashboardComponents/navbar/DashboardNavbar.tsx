@@ -33,7 +33,7 @@ const DashboardNavbar = () => {
 
       <div className="hidden lg:flex gap-x-5">
         <CurrentBalanceComp />
-        <LanguageSelector />
+      
       </div>
 
       {/* hamaburger menu */}

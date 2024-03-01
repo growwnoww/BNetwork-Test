@@ -35,6 +35,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
+import { timeStamp } from "console";
+import { isDate } from "util/types";
 
 interface DirectTeamType{
   bn_id:string;
@@ -46,7 +48,7 @@ interface DirectTeamType{
   latestPlanetName:string;
   isStatus:string;
   direct_count:number;
-  teamCount:number;
+  totalTeamCount:number;
 }
 
 
@@ -64,6 +66,17 @@ const Page = () => {
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress
 
+  const unixToTime = (_reg_time:string) =>{
+   if(directTeamData){
+    let timeStamp =parseInt(_reg_time);
+    console.log("Time",timeStamp)
+    const date = new Date(timeStamp * 1000);
+    const istDate = date.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' });
+
+    return istDate
+   }
+  }
+
 
   const getDirectTeamData = async()=>{
     try {
@@ -71,9 +84,10 @@ const Page = () => {
        const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam?reg_user_address=${userAddress}`);
 
        if(response.ok){
-        const data = await response.json();
+        const data:DirectTeamType[] = await response.json();
         console.log("direct team data",data)
         setDirectTeamData(data)
+
        }
        else{
         console.log("Something went wrong in fetching direct team data")
@@ -191,7 +205,7 @@ const Page = () => {
                           {user.bn_id}
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.reg_time}
+                          {unixToTime(user.reg_time)}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
@@ -203,7 +217,7 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.teamCount}
+                          {user.totalTeamCount}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap  ">

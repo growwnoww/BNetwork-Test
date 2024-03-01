@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -10,40 +10,70 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 
 import { Input } from "@/components/ui/input";
 import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
+import { WalletContext } from "@/context/WalletContext";
+
+interface TierUplineData{
+  _id:string;
+   reg_user_address:string;
+   reg_time:string;
+   latestPlanetName:string;
+   isStatus:string;
+   name:string;
+   mobileNo:string;
+   emailId:string;
+}
+
+interface TierUplineTeam {
+   level:number;
+   details:TierUplineData
+  
+}
+
 
 const Page = () => {
- 
-  const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+  
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress;
+  const [fetchTierUpline,setFetchTierUpline] = useState<TierUplineTeam[]>()
+  const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
-  const handleToggle = (userId: number) => {
+  const handleToggle = (userId: string) => {
     setExpanded((prev) => ({
       ...prev,
       [userId]: !prev[userId],
     }));
   };
+
+  const getTierUplineTeamData = async ()=>{
+      try {
+        
+        const queryUrl = `${process.env.NEXT_PUBLIC_URL}/user/getTierUplineTeam?reg_user_address=${userAddress}`;
+
+        const response = await fetch(queryUrl);
+
+        if(response.ok){
+          const data:TierUplineTeam[] = await response.json();
+          const reverseData = data.reverse();
+          setFetchTierUpline(reverseData)
+        }
+
+      } catch (error) {
+         throw(error);
+      }
+  }
+
+  useEffect(()=>{
+    
+    if(userAddress){
+      getTierUplineTeamData();
+    }
+  },[userAddress])
 
   // Function to determine the status color
 
@@ -118,48 +148,46 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
+                  {fetchTierUpline?.map((user, index) => (
+                    <React.Fragment key={user.details._id}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
                        
 
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.id}
+                          {index+1}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
+                          {user.details.reg_time}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.tierNo}
+                          {user.level}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.planetName}
+                          {user.details.latestPlanetName}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap  ">
                           <div className="w-full flex items-center justify-center">
                             <p
                               className={`w-fit p-1 px-2 rounded-md ${
-                                user.status === "Active"
-                                  ? "bg-green-500"
-                                  : "bg-red-500"
+                                user.details.isStatus === "Active"? "bg-green-500": "bg-red-500"
                               }`}
                             >
-                              {" "}
-                              {user.status}
+                              
+                              {user.details.isStatus}
                             </p>
                           </div>
                         </TableCell>
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
+                          <Button onClick={() => handleToggle(user.details._id)}>
+                            {expanded[user.details._id] ? "Hide" : "Show"}
                           </Button>
                         </TableCell>
                       </TableRow>
-                      {expanded[user.id] && (
+                      {expanded[user.details._id] && (
                         <TableRow className="text-white text-center">
                           {/* Notice the colSpan should be equal to the number of columns in the table */}
                           <TableCell
@@ -168,7 +196,7 @@ const Page = () => {
                           >
                        <div className="w-full  flex flex-col    gap-x-5   p-4 text-md">
                             <div className="flex gap-x-2">
-                              <p className="w-fit ">Address: {user.address}</p>
+                              <p className="w-fit ">Address: {user.details.reg_user_address}</p>
                               <div className="flex items-center gap-x-2 ">
                                 <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
                                 <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
@@ -176,9 +204,9 @@ const Page = () => {
                             </div>
 
                             <div className="w-fit flex flex-col gap-y-1 text-left">
-                              <p>Name : {user.name}</p>
-                              <p>Mobile No: +{user.mobile}</p>
-                              <p>Email Id: {user.emailId}</p>
+                              <p>Name : {user.details.name}</p>
+                              <p>Mobile No: +{user.details.mobileNo}</p>
+                              <p>Email Id: {user.details.emailId}</p>
                             </div>
                           </div>
                           </TableCell>

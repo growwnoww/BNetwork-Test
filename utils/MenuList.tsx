@@ -31,14 +31,16 @@ const MenuList = [
   {
     id: "3",
     title: "Universe",
-    path: "/dashboard/universe",
+    path: "",
     icon: <TbUniverse />,
+    icon2:<IoIosLock />
   },
   {
     id:'4',
     title:"Create New Believer",
-    path:"/dashboard/createnewbeliever",
-    icon:<GrUserNew />
+    path:"",
+    icon:<GrUserNew />,
+    icon2:<IoIosLock />
 
   },
   {

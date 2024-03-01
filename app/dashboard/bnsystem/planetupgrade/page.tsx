@@ -20,13 +20,11 @@ const page = () => {
        {
         PlanetUpPackageList.map((planet) => (
           <PlanetUpPackage 
-          key={planet.id}
-          planetId={planet.id}
-          imgURL={planet.imgURL} 
-          packageName={planet.packageName}
-          packagePrice={planet.packagePrice}
-          treePath={planet.treePath}
-          chartPath={planet.chartPath}
+            key={planet.id}
+            planetId={planet.id}
+            imgURL={planet.imgURL}
+            packageName={planet.packageName}
+            packagePrice={planet.packagePrice} treePath={''} chartPath={''}          
           />
         ))
        }

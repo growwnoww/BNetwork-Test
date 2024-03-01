@@ -34,64 +34,12 @@ const Top10Rec = () => {
           </TableHeader>
           <TableBody className="text-[10px]  lg:text-[14px]">
             <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">1</TableCell>
-              <TableCell>BN091287 </TableCell>
-              <TableCell className="text-center px-2">94</TableCell>
+              <TableCell className="font-medium">NA</TableCell>
+              <TableCell>NA </TableCell>
+              <TableCell className="text-center px-2">NA</TableCell>
             </TableRow>
 
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">2</TableCell>
-              <TableCell>BN068287 </TableCell>
-              <TableCell className="text-center px-2">87</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">3</TableCell>
-              <TableCell>BN031287 </TableCell>
-              <TableCell className="text-center px-2">84</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">4</TableCell>
-              <TableCell>BN011287 </TableCell>
-              <TableCell className="text-center px-2">74</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">5</TableCell>
-              <TableCell>BN022287 </TableCell>
-              <TableCell className="text-center px-2">72</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">6</TableCell>
-              <TableCell>BN091466 </TableCell>
-              <TableCell className="text-center px-2">68</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">7</TableCell>
-              <TableCell>BN000027 </TableCell>
-              <TableCell className="text-center px-2">64</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">8</TableCell>
-              <TableCell>BN091287 </TableCell>
-              <TableCell className="text-center px-2">94</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">9</TableCell>
-              <TableCell>BN091287 </TableCell>
-              <TableCell className="text-center px-2">94</TableCell>
-            </TableRow>
-
-            <TableRow className="border-b border-b-zinc-600">
-              <TableCell className="font-medium">10</TableCell>
-              <TableCell>BN091287 </TableCell>
-              <TableCell className="text-center px-2">94</TableCell>
-            </TableRow>
+          
           </TableBody>
         </Table>
       </div>

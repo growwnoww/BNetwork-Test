@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -34,10 +34,20 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { MdOutlineSortByAlpha } from "react-icons/md";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
+import { WalletContext } from "@/context/WalletContext";
+
+interface BNCoinDataTye{
+  fromBNId:string;
+  amount:number;
+  time:Date;
+  earningThrough:string;
+}
 
 const Page = () => {
 
-
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress;
+  const [bnCoinData,setBNcoinData] = useState <BNCoinDataTye[]>([])
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -46,6 +56,30 @@ const Page = () => {
       [userId]: !prev[userId],
     }));
   };
+
+  const getBNCoinEarnedTable = async () => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getBNcoinEarnedData/${userAddress}`);
+      
+      if (response.ok) {
+        const data = await response.json(); // Assuming 'data' is already an array of BNCoinDataTye
+        console.log("BN coin data", data);
+        setBNcoinData(data); // Directly use 'data' without wrapping it in an array
+      } else {
+        // Handle error response here
+      }
+    } catch (error) {
+      console.error("Error fetching BN coin data", error);
+    }
+  };
+  
+  useEffect(()=>{
+      if(userAddress){
+        getBNCoinEarnedTable()
+
+      }
+  },[userAddress])
+
 
   // Function to determine the status color
 
@@ -129,24 +163,25 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
-                    <React.Fragment key={user.id}>
+                  {bnCoinData && bnCoinData.map((user, index) => (
+                    <React.Fragment key={index}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
 
                       <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.id}
+                          {index+1}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.BNId}
+                          {user.fromBNId}
+                        
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
+                        {new Date(user.time).toLocaleString()}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
+                          {user.amount}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
@@ -155,12 +190,12 @@ const Page = () => {
 
 
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
-                          <Button onClick={() => handleToggle(user.id)}>
-                            {expanded[user.id] ? "Hide" : "Show"}
+                          <Button onClick={() => handleToggle(index)}>
+                            {expanded[index] ? "Hide" : "Show"}
                           </Button>
                         </TableCell>
                       </TableRow>
-                      {expanded[user.id] && (
+                      {expanded[index] && (
                       <tr className="text-white text-center">
                         {/* Notice the colSpan should be equal to the number of columns in the table */}
                         <td
@@ -169,7 +204,7 @@ const Page = () => {
                         >
                           <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
                             <div className="flex gap-x-2">
-                              <p className="w-fit ">Transaction Hash: {user.address}</p>
+                              <p className="w-fit ">Transaction Hash: </p>
                               <div className="flex items-center gap-x-2 ">
                                 <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
                                 <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />

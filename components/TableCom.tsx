@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { FaRegCopy } from "react-icons/fa";
@@ -34,8 +34,13 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { tableData } from "@/utils/DirectTeamData";
+import { WalletContext } from "@/context/WalletContext";
+import { error } from "console";
+
+
 
 const TableCom = () => {
+ 
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
 
   const handleToggle = (userId: number) => {
@@ -45,7 +50,8 @@ const TableCom = () => {
     }));
   };
 
-  // Function to determine the status color
+  
+
 
   return (
     <div className="flex flex-col">

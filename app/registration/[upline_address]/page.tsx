@@ -1,20 +1,27 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import { useParams, useSearchParams } from "next/navigation";
+import { bNetwork, signer } from "@/contract/Web3_Instance";
+import { Context } from "@/components/Context";
 import { IoMdPlanet } from "react-icons/io";
 import { TbCards, TbUniverse } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { BackgroundBeams } from "@/components/ui/background-beams";
-import { bNetwork, signer } from "@/contract/Web3_Instance";
-import { WalletContext } from "@/context/WalletContext";
+import axios from "axios";
 import { useAccount } from "wagmi";
-import { ethers } from "ethers";
+
 import useOwner from "@/Hooks/useOwner";
-import { useRouter } from 'next/navigation';
+import { WalletContext } from "@/context/WalletContext";
+import { ethers } from "ethers";
+
+import { BackgroundBeams } from "@/components/ui/background-beams";
+import { Meteors } from "@/components/ui/meteors";
+import { Checkbox } from "@/components/ui/checkbox";
+import UplineInfo from "@/components/UplineInfo";
+import { useRouter } from "next/navigation";
+
 interface userDetailsType{
   regUser:string;
   regTime:string;
@@ -25,18 +32,27 @@ interface userDetailsType{
   
 }
 
-
 const Page = () => {
- 
+  const [selectedOption, setSelectedOption] = useState<string>("Yes");
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
-  const {isConnected} = useAccount()
+  const [inviteAddress, setInviteAddress] = useState<string>("");
+  const params = useSearchParams();
+  const queryUrl = params.get("rr");
+
+  const params1 = useParams()
+  console.log("params1",params1)
+  const uplineAddressStr: string = String(params1.upline_address);
+
+  console.log("upline address",uplineAddressStr)
+  const owner = useOwner();
   const [userDetails, setUserDetails] = useState<userDetailsType>();
-  const router = useRouter()
-  const ownerAddress = "0x2C7f4dB6A0B1df04EA8550c219318C7f2FF3D34C";
 
- 
+  const { isConnected } = useAccount();
 
+  const handleOptionChange = (option: string) => {
+    setSelectedOption(option);
+  };
 
   const getUserDetail = async () => {
     try {
@@ -71,40 +87,12 @@ const Page = () => {
     }
   };
 
-  const registerUserByManager = async () => {
-    
-    try {
-      const signers = signer;
-      const gasPrice = await signers.getGasPrice();
 
-      const myContract = bNetwork();
-      
-      
-      const userExisit = await myContract!.UserRegister(userAddress);
-      const gasFee = await myContract!.gasfees();
-      const convert = Number(gasFee?._hex).toString();
-      if (userExisit === false) {
-        const registration = await myContract!.registrations(ownerAddress, {
-          gasPrice: gasPrice,
-          gasLimit: "200000",
-          value: convert,
-        });
-        await registration.wait();
-        getUserDetail();
-        console.log(registration);
-      } else {
-        alert("You already registered");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   useEffect(() => {
     const createRegister = async () => {
       try {
         console.log("reg user", userDetails?.regUser);
-        const owner = ownerAddress;
         let uplineAddrLocal = "";
         let uplineBNIdLocal = "";
 
@@ -114,7 +102,7 @@ const Page = () => {
             "0x0000000000000000000000000000000000000000" ||
           !userDetails?.regReferalId
         ) {
-          uplineAddrLocal = owner
+          uplineAddrLocal = owner;
           uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
         } else {
           uplineAddrLocal = userDetails.regReferal;
@@ -146,11 +134,7 @@ const Page = () => {
           }
         );
 
-        if (res.ok) {
-          router.push('/dashboard')
-         
-        }
-        else{
+        if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
       } catch (error) {
@@ -163,65 +147,46 @@ const Page = () => {
     }
   }, [userDetails]);
 
+  const registerUser = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const signers = signer;
+      const gasPrice = await signers.getGasPrice();
+
+      const myContract = bNetwork();
+      const userExisit = await myContract!.isUserExists(
+       uplineAddressStr
+      );
+      const gasFee = await myContract!.gasfees();
+      const convert = Number(gasFee?._hex).toString();
+
+      if (userExisit === false) {
+        const registration = await myContract!.registrations(
+          uplineAddressStr  || inviteAddress,
+          {
+            gasPrice: gasPrice,
+            gasLimit: "200000",
+            value: convert,
+          }
+        );
+        await registration.wait();
+        console.log(registration);
+        getUserDetail();
+        alert("Registration Successfully");
+      } else {
+        alert("You already registered");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
       <Navbar />
       <div className=" mt-20 w-full h-full  rounded-md bg-neutral-950 relative ">
         <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-2 place-items-center    w-full h-screen ">
-          <div className=" px-5 mx-10 lg:ml-10 ">
-            <div className="py-6 flex flex-col items-start justify-start">
-              <p className=" text-3xl lg:text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center font-bold mb-6">
-                Registration for Believe Network
-              </p>
-          
-            </div>
-
-            <div className="flex items-center  gap-x-4 py-2 ">
-              <div className="text-center">
-                <Image
-                  src="/Pluto.png"
-                  alt="pluto"
-                  height={80}
-                  width={80}
-                  loading="lazy"
-                  className=""
-                />
-
-                
-              </div>
-              <div className="flex flex-col justify-center">
-              <p>Pluto</p>
-                <p className="text-md lg:text-xl">Your Upline</p>
-                <p className="text-xs">
-                0xC928c65bb83Ea7C3A4609046a114670D9fC6217B
-                </p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 h-1/4  gap-x-3 gap-y-3 ">
-              <div className="bg-zinc-800 rounded-md py-1 gap-x-1">
-                <div className="px-5 lg:text-center">
-                  <p className="text-md lg:text-xl">Direct Believer partner</p>
-                  <span className="text-md lg:text-xl ">2103</span>
-                </div>
-              </div>
-
-              <div className="bg-zinc-800 rounded-md  py-1  gap-x-1">
-                <div className="px-5 lg:text-center">
-                  <p className="text-md lg:text-xl">Registration Date</p>
-                  <span className="text-md lg:text-xl">02.02.2024</span>
-                </div>
-              </div>
-
-              <div className="bg-zinc-800 rounded-md  py-1  gap-x-1">
-                <div className="px-5 lg:text-center">
-                  <p className="text-md lg:text-xl">Total Team</p>
-                  <span className="text-md lg:text-xl">301</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          <UplineInfo uplineAddress={uplineAddressStr} />
 
           <div className="w-auto mx-10 lg:w-3/4   bg-[#121212] rounded-lg shadow-lg py-16 px-8 flex flex-col gap-y-5 z-20 ">
             <div className="flex flex-col gap-y-5">
@@ -256,7 +221,7 @@ const Page = () => {
 
             <div className="bg-yellow-600 text-center py-1 my-10 rounded-md">
              
-                <button onClick={registerUserByManager}>sign up</button>
+                <button onClick={registerUser}>sign up</button>
            
             </div>
           </div>

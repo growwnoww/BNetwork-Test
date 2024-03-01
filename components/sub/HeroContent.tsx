@@ -1,74 +1,94 @@
 "use client";
 
-import React from 'react'
-import {motion} from "framer-motion"
-import { slideInFromLeft, slideInFromRight, slideInFromTop } from '@/utils/motion'
-import {SparklesIcon} from '@heroicons/react/24/solid'
-import Image from 'next/image';
-import Link from 'next/link';
+import React, { useContext } from "react";
+import { motion } from "framer-motion";
+import { SparklesIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
+import Link from "next/link";
+import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
+import useUserDetails from "@/Hooks/useUserDetails";
+import { WalletContext } from "@/context/WalletContext";
+import { Button } from "../ui/button";
 
-
-
+const words = [
+  {
+    text: "Welcome to",
+    className: "text-xl md:text-3xl lg:text-5xl xl:6xl",
+  },
+  {
+    text: "Believe",
+    className:
+      "text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-400 text-xl md:text-3xl lg:text-5xl xl:6xl",
+  },
+  {
+    text: "Network",
+    className:
+      "text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-400  text-xl md:text-3xl lg:text-5xl xl:6xl",
+  },
+  {
+    text: "Space Ecosystem",
+    className:
+      "text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-400 text-xl md:text-3xl lg:text-5xl xl:6xl",
+  },
+];
 
 const HeroContent = () => {
+  const walletContext = useContext(WalletContext);
+  const isUserRegister = useUserDetails();
   return (
-    <motion.div
-      initial="hidden"
-      animate="visible"
-      className="flex flex-row items-center justify-center px-20 mt-40 w-full z-[20]"
-    >
-      <div className="h-full w-full flex flex-col gap-5 justify-center m-auto text-start">
-      <motion.div
-          variants={slideInFromTop}
-          className="Welcome-box py-[8px] px-[7px]  opacity-[0.9]"
+    <div className="relative flex flex-col items-center justify-center w-full h-screen">
+      <div className="absolute top-[100px] left-0 h-full w-full z-0">
+        <video
+          muted
+          autoPlay
+          loop
+          className="h-full w-full object-cover" // Ensure video covers the whole area without being cut
         >
-          <SparklesIcon className="text-[#b49bff] mr-[10px] h-5 w-5" />
-        
-        </motion.div>
-        <motion.div
-          variants={slideInFromLeft(0.5)}
-          className="flex flex-col gap-6 mt-6 text-6xl font-bold text-white max-w-[600px] w-auto h-auto"
-        >
-          <span>
-            Weclome to
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-400">
-              {" "}
-              Believe Networke Space Ecosystem {" "}
-            </span>
-          
-          </span>
-        </motion.div>
-
-        <motion.p
-          variants={slideInFromLeft(0.8)}
-          className="text-lg text-gray-400 my-5 max-w-[600px]"
-        >
-         It is Based On The BNB (Smart Chain) SMART Contract 100% Decentralized System.
-        </motion.p>
-        <motion.a
-          variants={slideInFromLeft(1)}
-          className="py-2 bg-yellow-500 button-primary text-center text-white cursor-pointer rounded-lg max-w-[200px]"
-        >
-          <Link href='/registration'>Registration</Link>
-        </motion.a>
+          <source src="/mars_back.mp4" type="video/mp4" />
+        </video>
       </div>
 
-      <div className="w-full h-full flex justify-center items-center">
-      <div>
-          <Image
-          src='/b-coin.png'
-          alt='b-coin image'
-          loading='lazy'
-          width={350}
-          height={350}
-          />
+      <div className="z-10 px-10 lg:p-20 mb-16 lg:mb-60 flex flex-col gap-5 justify-center items-center w-full">
+        {" "}
+        {/* Adjust the max-width to control the text block width */}
+        <div className="flex items-center justify-center flex-col">
+          <div className="flex flex-col items-center justify-center h-auto w-auto ">
+            <p className="text-neutral-600 text-sm md:text-lg lg:text-xl  ">
+              A Space Where You are The First Creator
+            </p>
+            <div className="hidden lg:block">
+              <TypewriterEffectSmooth words={words} />
+            </div>
+            <div className="lg:hidden text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-yellow-400 to-amber-400 text-3xl font-bold md:text-3xl lg:text-5xl ">
+              Welcome to Believe Network Ecosystem Space
+            </div>
+          </div>
         </div>
-
+        <p className="text-xs md:text-lg lg:text-lg text-white">
+          It is Based On The BNB (Smart Chain) Smart Contract 100% Decentralized
+          System.
+        </p>
+        
       </div>
-    </motion.div>
-  )
+      <div className="z-20 lg:hidden ">
+          {isUserRegister && walletContext?.userAddress ? (
+            <Link href="/dashboard">
+              {" "}
+              <Button variant={"secondary"}>Dashboard</Button>
+            </Link>
+          ) : (
+            <div className="z-10">
+            <Link href="/registration">
+            <Button>
+               Registration
+             </Button>
+            </Link>
+            </div>
+          )}
+        </div>
+     
+    </div>
+  );
 };
- 
 
-
-export default HeroContent
+export default HeroContent;
