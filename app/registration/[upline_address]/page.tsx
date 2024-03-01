@@ -1,5 +1,11 @@
 "use client";
-import React, { FormEvent, useContext, useEffect, useRef, useState } from "react";
+import React, {
+  FormEvent,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 import { useParams, useSearchParams } from "next/navigation";
 import { bNetwork } from "@/contract/Web3_Instance";
@@ -21,199 +27,227 @@ import { Meteors } from "@/components/ui/meteors";
 import { Checkbox } from "@/components/ui/checkbox";
 import UplineInfo from "@/components/UplineInfo";
 import { useRouter } from "next/navigation";
+import CustomCheckbox from "@/components/CustomeCheckbox";
 
 interface userDetailsType {
-    regUser: string;
-    regTime: string;
-    regId: number;
-    regReferal: string;
-    regReferalId: number;
-    teamCount: number;
+  regUser: string;
+  regTime: string;
+  regId: number;
+  regReferal: string;
+  regReferalId: number;
+  teamCount: number;
 }
 
 const Page = () => {
-    const [selectedOption, setSelectedOption] = useState<string>("Yes");
-    const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
-    const [inviteAddress, setInviteAddress] = useState<string>("");
-    const params = useSearchParams();
-    const queryUrl = params.get("rr");
+  const [selectedOption, setSelectedOption] = useState<string>("Yes");
+  const walletContext = useContext(WalletContext);
+  const userAddress = walletContext?.userAddress;
+  const [inviteAddress, setInviteAddress] = useState<string>("");
 
-    const params1 = useParams();
-    console.log("params1", params1);
-    const uplineAddressStr: string = String(params1.upline_address);
+  const params = useSearchParams();
+  const queryUrl = params.get("rr");
 
-    console.log("upline address", uplineAddressStr);
-    const owner = useOwner();
-    const [userDetails, setUserDetails] = useState<userDetailsType>();
+  const params1 = useParams();
+  console.log("params1", params1);
+  const uplineAddressStr: string = String(params1.upline_address);
 
-    const { isConnected } = useAccount();
+  console.log("upline address", uplineAddressStr);
+  const owner = useOwner();
+  const [userDetails, setUserDetails] = useState<userDetailsType>();
 
-    const handleOptionChange = (option: string) => {
-        setSelectedOption(option);
-    };
+  const { isConnected } = useAccount();
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
-    const getUserDetail = async () => {
-        try {
-            if (!userAddress || !isConnected) {
-                return;
-            }
+  const handleCheckboxChange = () => {
+    const newCheckedState = !termsAccepted;
+    console.log('Checkbox state before setting:', termsAccepted);
+    console.log('Checkbox new state to set:', newCheckedState);
+    setTermsAccepted(newCheckedState);
+};
 
-            const MyContract = bNetwork();
 
-            const exists = await MyContract!.isUserExists(userAddress);
+  const getUserDetail = async () => {
+    try {
+      if (!userAddress || !isConnected) {
+        return;
+      }
 
-            if (exists) {
-                const response = await MyContract!.RegisterUserDetails(userAddress);
+      const MyContract = bNetwork();
 
-                console.log("Got user details", response);
+      const exists = await MyContract!.isUserExists(userAddress);
 
-                const formattedResponse = {
-                    regUser: response.regUser,
-                    regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
-                    regId: ethers.BigNumber.from(response.regId).toNumber(),
-                    regReferal: response.regReferal,
-                    regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
-                    teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
-                };
+      if (exists) {
+        const response = await MyContract!.RegisterUserDetails(userAddress);
 
-                setUserDetails(formattedResponse);
+        console.log("Got user details", response);
 
-                console.log("Refined Data", formattedResponse);
-            }
-        } catch (error) {
-            console.log("Something wrong in userDetailsFUnc", error);
-        }
-    };
-
-    useEffect(() => {
-        const createRegister = async () => {
-            try {
-                console.log("reg user", userDetails?.regUser);
-                let uplineAddrLocal = "";
-                let uplineBNIdLocal = "";
-
-                // Use userDetails directly now, assuming it has been set by this point
-                if (
-                    userDetails?.regReferal === "0x0000000000000000000000000000000000000000" ||
-                    !userDetails?.regReferalId
-                ) {
-                    uplineAddrLocal = owner;
-                    uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
-                } else {
-                    uplineAddrLocal = userDetails.regReferal;
-                    uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
-                }
-
-                const payload = {
-                    reg_user_address: userDetails?.regUser,
-                    reg_time: userDetails?.regTime,
-                    regId: userDetails?.regId,
-                    upline_referral_address: uplineAddrLocal,
-                    upline_referralId: userDetails?.regReferalId,
-                    upline_referral_BNId: uplineBNIdLocal,
-                    direct_count: userDetails?.teamCount,
-                };
-
-                console.log("hellow", payload);
-
-                const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-            } catch (error) {
-                console.error("Error in createRegister:", error);
-            }
+        const formattedResponse = {
+          regUser: response.regUser,
+          regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
+          regId: ethers.BigNumber.from(response.regId).toNumber(),
+          regReferal: response.regReferal,
+          regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
+          teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
         };
 
-        if (userDetails) {
-            createRegister();
-        }
-    }, [userDetails]);
+        setUserDetails(formattedResponse);
 
-    const registerUser = async (e: FormEvent) => {
-        e.preventDefault();
-        try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const gasPrice = await signer.getGasPrice();
+        console.log("Refined Data", formattedResponse);
+      }
+    } catch (error) {
+      console.log("Something wrong in userDetailsFUnc", error);
+    }
+  };
 
-            const myContract = bNetwork();
-            const userExisit = await myContract!.isUserExists(uplineAddressStr);
-            const gasFee = await myContract!.gasfees();
-            const convert = Number(gasFee?._hex).toString();
+  useEffect(() => {
+      const createRegister = async () => {
+          try {
+              console.log("reg user", userDetails?.regUser);
+              let uplineAddrLocal = "";
+              let uplineBNIdLocal = "";
 
-            if (userExisit === false) {
-                const registration = await myContract!.registrations(uplineAddressStr || inviteAddress, {
-                    gasPrice: gasPrice,
-                    gasLimit: "200000",
-                    value: convert,
-                });
-                await registration.wait();
-                console.log(registration);
-                getUserDetail();
-                alert("Registration Successfully");
-            } else {
-                alert("You already registered");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+              // Use userDetails directly now, assuming it has been set by this point
+              if (
+                  userDetails?.regReferal === "0x0000000000000000000000000000000000000000" ||
+                  !userDetails?.regReferalId
+              ) {
+                  uplineAddrLocal = owner;
+                  uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
+              } else {
+                  uplineAddrLocal = userDetails.regReferal;
+                  uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
+              }
 
-    return (
-        <>
-            <Navbar />
-            <div className=" mt-20 w-full h-full  rounded-md bg-neutral-950 relative ">
-                <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-2 place-items-center    w-full h-screen ">
-                    <UplineInfo uplineAddress={uplineAddressStr} />
+              const payload = {
+                  reg_user_address: userDetails?.regUser,
+                  reg_time: userDetails?.regTime,
+                  regId: userDetails?.regId,
+                  upline_referral_address: uplineAddrLocal,
+                  upline_referralId: userDetails?.regReferalId,
+                  upline_referral_BNId: uplineBNIdLocal,
+                  direct_count: userDetails?.teamCount,
+              };
 
-                    <div className="w-auto mx-10 lg:w-3/4   bg-[#121212] rounded-lg shadow-lg py-16 px-8 flex flex-col gap-y-5 z-20 ">
-                        <div className="flex flex-col gap-y-5">
-                            <h2 className="text-3xl lg:text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent  font-bold ">
-                                Registration For Believe Network
-                            </h2>
+              console.log("hellow", payload);
 
-                            <div>
-                                <p className="text-sm text-zinc-500">
-                                    Confirm that you agree with Terms of use and press the button Sing up
-                                </p>
-                            </div>
-                        </div>
+              const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, {
+                  method: "POST",
+                  headers: {
+                      "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify(payload),
+              });
 
-                        <div className="mt-4 ">
-                            <div className="items-top flex space-x-2">
-                                <Checkbox id="terms1" className="bg-slate-700" />
-                                <div className="grid gap-1.5 leading-none">
-                                    <label
-                                        htmlFor="terms1"
-                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        Accept terms and conditions
-                                    </label>
-                                    <p className="text-sm text-muted-foreground">
-                                        You agree to our Terms of Service and Privacy Policy.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
+              if (!res.ok) {
+                  throw new Error(`HTTP error! status: ${res.status}`);
+              }
+          } catch (error) {
+              console.error("Error in createRegister:", error);
+          }
+      };
 
-                        <div className="bg-yellow-600 text-center py-1 my-10 rounded-md">
-                            <button onClick={registerUser}>sign up</button>
-                        </div>
-                    </div>
-                </div>
-                <BackgroundBeams />
+      if (userDetails) {
+          createRegister();
+      }
+  }, [userDetails]);
+
+  const registerUser = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      if (!termsAccepted) {
+        alert("You must accept the terms and conditions to register.");
+        return;
+      }
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const gasPrice = await signer.getGasPrice();
+      console.log("hellow");
+      const myContract = bNetwork();
+      console.log(myContract)
+      const userExisit = await myContract!.isUserExists(userAddress);
+      console.log("is user there", userExisit);
+      const gasFee = await myContract!.gasfees();
+      const convert = Number(gasFee?._hex).toString();
+
+      if (userExisit === false) {
+        const registration = await myContract!.registrations(uplineAddressStr, {
+          gasPrice: gasPrice,
+          gasLimit: "200000",
+          value: convert,
+        });
+        await registration.wait();
+        console.log(registration);
+        getUserDetail();
+        alert("Registration Successfully");
+      } else {
+        alert("You already registered");
+      }
+    } catch (error) {
+      console.log("something went wrong ", error);
+    }
+  };
+
+  return (
+    <>
+      <Navbar />
+      <div className=" mt-20 w-full h-full  rounded-md bg-neutral-950 relative ">
+        <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-2 place-items-center    w-full h-screen ">
+          <UplineInfo uplineAddress={uplineAddressStr} />
+
+          <div className="w-auto mx-10 lg:w-3/4   bg-[#121212] rounded-lg shadow-lg py-16 px-8 flex flex-col gap-y-5 z-50 ">
+            <div className="flex flex-col gap-y-5">
+              <h2 className="text-3xl lg:text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent  font-bold ">
+                Registration For Believe Network
+              </h2>
+
+              <div>
+                <p className="text-sm text-zinc-500">
+                  Confirm that you agree with Terms of use and press the button
+                  Sing up
+                </p>
+              </div>
             </div>
-        </>
-    );
+
+            <div className="mt-4 ">
+              <div className="flex items-start justify-start gap-x-3 flex-row ">
+                <CustomCheckbox
+                  label="Accept terms and conditions"
+                  checked={termsAccepted}
+                  onChange={setTermsAccepted} // Directly pass setTermsAccepted here
+                />
+                <div className=" leading-none">
+                  <label
+                    htmlFor="terms1"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    Accept terms and conditions
+                  </label>
+                  <p className="text-sm text-muted-foreground">
+                    You agree to our Terms of Service and Privacy Policy.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className={`${
+                  termsAccepted
+                    ? "bg-yellow-500 hover:bg-yellow-700"
+                    : "bg-yellow-600"
+                } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center`}>
+              <button
+                onClick={registerUser}
+               
+              >
+                sign up
+              </button>
+            </div>
+          </div>
+        </div>
+        <BackgroundBeams />
+      </div>
+    </>
+  );
 };
 
 export default Page;

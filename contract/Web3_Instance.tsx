@@ -12,7 +12,7 @@ declare global {
 
 const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 const USDT_Address = "0x55d398326f99059ff775485246999027b3197955";
-const rpc = "https://data-seed-prebsc-2-s3.bnbchain.org:8545";
+
 
 // const provider = new ethers.providers.Web3Provider(window.ethereum);
 // export const signer = provider.getSigner();

@@ -3,21 +3,21 @@ import React, { FormEvent, useContext, useEffect, useRef, useState } from "react
 import classNames from "classnames";
 import { useSearchParams } from "next/navigation";
 import { bNetwork } from "@/contract/Web3_Instance";
-import { Context } from "@/components/Context";
+
 import { IoMdPlanet } from "react-icons/io";
 import { TbCards, TbUniverse } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
 import axios from "axios";
-import { useAccount } from "wagmi";
 
-import useOwner from "@/Hooks/useOwner";
+
 import { WalletContext } from "@/context/WalletContext";
 import { ethers } from "ethers";
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Meteors } from "@/components/ui/meteors";
+import { useRouter } from "next/navigation";
 
 interface userDetailsType {
     regUser: string;
@@ -35,130 +35,38 @@ const Page = () => {
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
+    const router = useRouter()
+   
 
-    const owner = useOwner();
-    const [userDetails, setUserDetails] = useState<userDetailsType>();
-
-    const { isConnected } = useAccount();
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
 
-    const getUserDetail = async () => {
-        try {
-            if (!userAddress || !isConnected) {
-                return;
-            }
 
-            const MyContract = bNetwork();
+    const isUserPresent = async (e:FormEvent) =>{
+    try {
+        e.preventDefault()
+        console.log("upline address",inviteAddress)
+        const MyContract = bNetwork();
 
-            const exists = await MyContract!.isUserExists(userAddress);
+        const isUplineExist = await MyContract!.isUserExists(inviteAddress)
 
-            if (exists) {
-                const response = await MyContract!.RegisterUserDetails(userAddress);
-
-                console.log("Got user details", response);
-
-                const formattedResponse = {
-                    regUser: response.regUser,
-                    regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
-                    regId: ethers.BigNumber.from(response.regId).toNumber(),
-                    regReferal: response.regReferal,
-                    regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
-                    teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
-                };
-
-                setUserDetails(formattedResponse);
-
-                console.log("Refined Data", formattedResponse);
-            }
-        } catch (error) {
-            console.log("Something wrong in userDetailsFUnc", error);
+        if(!isUplineExist){
+            alert("Upline doesnt' exist, use correct upline address")
+            return ;
         }
-    };
 
-    useEffect(() => {
-        const createRegister = async () => {
-            try {
-                console.log("reg user", userDetails?.regUser);
-                let uplineAddrLocal = "";
-                let uplineBNIdLocal = "";
+       
 
-                // Use userDetails directly now, assuming it has been set by this point
-                if (
-                    userDetails?.regReferal === "0x0000000000000000000000000000000000000000" ||
-                    !userDetails?.regReferalId
-                ) {
-                    uplineAddrLocal = owner;
-                    uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
-                } else {
-                    uplineAddrLocal = userDetails.regReferal;
-                    uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
-                }
+        router.push(`/registration/${inviteAddress}`)
+    } catch (error) {
+        console.log("something went wrong in isUserPresent ",error)
+    }
+    }
 
-                const payload = {
-                    reg_user_address: userDetails?.regUser,
-                    reg_time: userDetails?.regTime,
-                    regId: userDetails?.regId,
-                    upline_referral_address: uplineAddrLocal,
-                    upline_referralId: userDetails?.regReferalId,
-                    upline_referral_BNId: uplineBNIdLocal,
-                    direct_count: userDetails?.teamCount,
-                };
-
-                console.log("hellow", payload);
-
-                const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
-
-                if (!res.ok) {
-                    throw new Error(`HTTP error! status: ${res.status}`);
-                }
-            } catch (error) {
-                console.error("Error in createRegister:", error);
-            }
-        };
-
-        if (userDetails) {
-            createRegister();
-        }
-    }, [userDetails]);
-
-    const registerUser = async (e: FormEvent) => {
-        e.preventDefault();
-        try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
-            const signer = provider.getSigner();
-            const gasPrice = await signer.getGasPrice();
-
-            const myContract = bNetwork();
-            const userExisit = await myContract!.isUserExists(userAddress || inviteAddress);
-            const gasFee = await myContract!.gasfees();
-            const convert = Number(gasFee?._hex).toString();
-
-            if (userExisit === false) {
-                const registration = await myContract!.registrations(queryUrl || inviteAddress, {
-                    gasPrice: gasPrice,
-                    gasLimit: "200000",
-                    value: convert,
-                });
-                await registration.wait();
-                console.log(registration);
-                getUserDetail();
-                alert("Registration Successfully");
-            } else {
-                alert("You already registered");
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+   
+   
 
     return (
         <>
@@ -277,7 +185,7 @@ const Page = () => {
                         </div>
 
                         {selectedOption === "Yes" ? (
-                            <form className="space-y-4  " onSubmit={registerUser}>
+                            <form className="space-y-4  " onSubmit={(e)=>isUserPresent(e)} >
                                 <div className="flex flex-col py-4">
                                     <label htmlFor="bnId" className="text-gray-400 mb-2">
                                         Enter Upline Address
@@ -291,11 +199,13 @@ const Page = () => {
                                         placeholder="Upline  Address"
                                     />
                                 </div>
-                                <Link href={`/registration/${inviteAddress}`}>
-                                    <button className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300">
+                               
+                                    <button
+                                    type="submit"
+                                    className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300">
                                         Verify Upline
                                     </button>
-                                </Link>
+                               
                             </form>
                         ) : (
                             <Link href="/signup">

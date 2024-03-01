@@ -13,6 +13,7 @@ const UplineInfo = ({ uplineAddress }: { uplineAddress: string }) => {
     const [uplineData, setUplineData] = useState<UplineDataType | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [isTermAccepted,setTermAccepted] = useState<boolean>(false)
     
     function convertUnixTimestampToReadableDate(unixTimestamp:string) {
         if (!unixTimestamp) {
@@ -52,7 +53,7 @@ const UplineInfo = ({ uplineAddress }: { uplineAddress: string }) => {
                     setUplineData(data);
                 } else {
                     console.error("Something went wrong in fetching upline data");
-                    setError("Failed to fetch upline data");
+                    setError("Verify You're Upline once again, It's not present ");
                 }
             } catch (error) {
                 console.error("Error fetching upline data:", error);
