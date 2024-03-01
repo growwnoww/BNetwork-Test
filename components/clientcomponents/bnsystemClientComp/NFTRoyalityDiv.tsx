@@ -4,7 +4,7 @@ import BtnWrapper from '@/components/WrapperComponent/BtnWrapper';
 import { IoIosUnlock } from 'react-icons/io';
 
 const NFTRoyalityDiv = () => {
-  const levels = Array.from({ length: 10 }, (_, i) => i + 1);
+  const levels = Array.from({ length: 6 }, (_, i) => i + 1);
   return (
     <div className='bg-[#1f1f1f] flex flex-col lg:flex-row gap-y-4 lg:gap-y-0 items-center justify-between py-8 m-3 rounded-md'>
          <div className="text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl  px-3"> NFT Royalty &#40;comming soon&#41;</div>
