@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { motion } from "framer-motion";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
@@ -9,6 +9,8 @@ import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { Button } from "../ui/button";
+import { useAccount } from "wagmi";
+import { useRouter } from "next/navigation";
 
 const words = [
   {
@@ -35,6 +37,21 @@ const words = [
 const HeroContent = () => {
   const walletContext = useContext(WalletContext);
   const isUserRegister = useUserDetails();
+  const {address,isConnected} = useAccount();
+
+      
+  const router = useRouter(); // Add this line
+
+  
+    
+  // Add this useEffect
+  useEffect(() => {
+      if (isUserRegister && walletContext?.userAddress) {
+          router.push('/dashboard'); // Redirect user to dashboard if they are registered
+      }
+  }, [isUserRegister, walletContext?.userAddress, router]);
+
+
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-screen">
       <div className="absolute top-[100px] left-0 h-full w-full z-0">
@@ -70,12 +87,9 @@ const HeroContent = () => {
         </p>
         
       </div>
-      <div className="z-20 lg:hidden ">
+      <div className="z-20 md:hidden ">
           {isUserRegister && walletContext?.userAddress ? (
-            <Link href="/dashboard">
-              {" "}
-              <Button variant={"secondary"}>Dashboard</Button>
-            </Link>
+         ''
           ) : (
             <div className="z-10">
             <Link href="/registration">

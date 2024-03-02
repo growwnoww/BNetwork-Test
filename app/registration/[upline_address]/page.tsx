@@ -43,7 +43,7 @@ const Page = () => {
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
   const [inviteAddress, setInviteAddress] = useState<string>("");
-
+  const router = useRouter()
   const params = useSearchParams();
   const queryUrl = params.get("rr");
 
@@ -58,12 +58,7 @@ const Page = () => {
   const { isConnected } = useAccount();
   const [termsAccepted, setTermsAccepted] = useState(false);
 
-  const handleCheckboxChange = () => {
-    const newCheckedState = !termsAccepted;
-    console.log('Checkbox state before setting:', termsAccepted);
-    console.log('Checkbox new state to set:', newCheckedState);
-    setTermsAccepted(newCheckedState);
-};
+
 
 
   const getUserDetail = async () => {
@@ -154,6 +149,11 @@ const Page = () => {
   const registerUser = async (e: any) => {
     e.preventDefault();
 
+    if(!isConnected){
+      alert("Connect Your Wallet!")
+      return 
+    }
+
     try {
       if (!termsAccepted) {
         alert("You must accept the terms and conditions to register.");
@@ -162,15 +162,16 @@ const Page = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const gasPrice = await signer.getGasPrice();
-      console.log("hellow");
+   
       const myContract = bNetwork();
-      console.log(myContract)
+
       const userExisit = await myContract!.isUserExists(userAddress);
-      console.log("is user there", userExisit);
+   
       const gasFee = await myContract!.gasfees();
       const convert = Number(gasFee?._hex).toString();
 
       if (userExisit === false) {
+        console.log("cheching upline address before reg",uplineAddressStr)
         const registration = await myContract!.registrations(uplineAddressStr, {
           gasPrice: gasPrice,
           gasLimit: "200000",
@@ -180,6 +181,7 @@ const Page = () => {
         console.log(registration);
         getUserDetail();
         alert("Registration Successfully");
+        router.push('/dashboard')
       } else {
         alert("You already registered");
       }
@@ -187,6 +189,8 @@ const Page = () => {
       console.log("something went wrong ", error);
     }
   };
+
+
 
   return (
     <>
@@ -230,13 +234,12 @@ const Page = () => {
               </div>
             </div>
 
-            <div className={`${
+            <div  onClick={registerUser} className={`${
                   termsAccepted
                     ? "bg-yellow-500 hover:bg-yellow-700"
                     : "bg-yellow-600"
                 } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center`}>
               <button
-                onClick={registerUser}
                
               >
                 sign up

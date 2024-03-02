@@ -15,10 +15,20 @@ import CurrentBalanceComp from '@/components/clientcomponents/CurrentBalanceComp
 import { MenuList } from '@/utils/MenuList';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { hamaburgerAtom } from '@/store/atom';
+import { usePathname, useRouter } from 'next/navigation';
+import { useDisconnect } from 'wagmi';
+import { RiLogoutCircleLine } from 'react-icons/ri';
 
 const HamaburgerMenu = () => {
    
    const [isOpen,setOpen] = useRecoilState(hamaburgerAtom);
+   const pathname = usePathname();
+   const router = useRouter()
+  const { disconnect } = useDisconnect();
+   const handleDisconnectWallet = () => {
+    disconnect()
+    router.push('/')
+  };
 
     const [menuState, setMenuState] = useState<{
       [id: number]: { isOpen: boolean; isArrowUp: boolean };
@@ -47,22 +57,18 @@ const HamaburgerMenu = () => {
           </div>
 
           <div className="flex items-center gap-x-3 my-4">
-            <div>
-              <GrLanguage className="text-zinc-500 text-xl " />
+          
+            <div className="w-full flex items-center justify-center">
+            <div
+              onClick={handleDisconnectWallet}
+              className={`bg-yellow-500 flex  items-center py-2 px-24 rounded-md`}
+            >
+                <p className='font-semibold'>Log out</p>
+              <span>
+                <RiLogoutCircleLine />
+              </span>
+            
             </div>
-            <div className="w-fit">
-              <Select>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select Language" />
-                </SelectTrigger>
-                <SelectContent>
-                 {
-                  languageList.map((lang) => (
-                    <SelectItem key={lang.id} value={lang.value}>{lang.name}</SelectItem>
-                  ))
-                 }
-                </SelectContent>
-              </Select>
             </div>
           </div>
 

@@ -35,6 +35,7 @@ const Page = () => {
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
+    
     const router = useRouter()
    
 
@@ -65,7 +66,12 @@ const Page = () => {
     }
     }
 
-   
+    useEffect(() => {
+        if (queryUrl) {
+            setInviteAddress(queryUrl);
+        }
+    }, [queryUrl]);
+    
    
 
     return (
