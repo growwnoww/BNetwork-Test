@@ -84,13 +84,15 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         try {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
             const signer = provider.getSigner();
+            console.log("signer",signer)
             const gasPrice = await signer.getGasPrice();
             const myContract = bNetwork();
             const getFeeTokenAddress = await myContract!.getFeeToken();
             console.log("USDT TOken address", getFeeTokenAddress);
             const secondInstance = new ethers.Contract(getFeeTokenAddress, USBTToken, signer);
-            const tokenAmt = 5;
-            const approve = await secondInstance.approve(myContract!.address, tokenAmt);
+            const approveAmt = await secondInstance.balanceOf(userAddress)
+            console.log("Approve",approveAmt)
+            const approve = await secondInstance.approve(myContract!.address, approveAmt);
             await approve.wait();
             console.log(approve);
             setApprove(true);
