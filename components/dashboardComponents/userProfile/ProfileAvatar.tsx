@@ -1,7 +1,9 @@
 "use client";
+import useLatestPlanet from "@/Hooks/useLatestPlanet";
 import { Context } from "@/components/Context";
 import UserInfo from "@/components/clientcomponents/UserInfo";
 import { WalletContext } from "@/context/WalletContext";
+import { ethers } from "ethers";
 import Image from "next/image";
 import React, { useContext } from "react";
 import { FaRegCopy } from "react-icons/fa";
@@ -9,9 +11,31 @@ import { FaRegCopy } from "react-icons/fa";
 const ProfileAvatar = () => {
 
     // const host = window.location.hostname;
+    const planetCountContract = useLatestPlanet();
+    const planetCount =  ethers.BigNumber.from(planetCountContract).toNumber();
     const walletContext = useContext(WalletContext)
     const userAddress = walletContext?.userAddress
-    const userAvatar =  walletContext?.planetStatus?.latestPlanetName || 'just_reg';
+   
+    const getPlanetInString = (planetId: number): string | undefined => {
+        const planetNames: { [id: number]: string } = {
+          1: "Earth",
+          2: "Moon",
+          3: "Mars",
+          4: "Mercury",
+          5: "Venus",
+          6: "Jupiter",
+          7: "Saturn",
+          8: "Uranus",
+          9: "Neptune",
+          10: "Pluto",
+        };
+    
+        return planetNames[planetId];
+      };
+      
+      const userAvatar =  getPlanetInString(planetCount) || 'just_reg';
+
+
 
     const copyToClipboard = (text: string) => {
         try {

@@ -8,6 +8,8 @@ import { ethers } from "ethers";
 import { useAccount } from "wagmi";
 import useOwner from "@/Hooks/useOwner";
 import { WalletContext } from "@/context/WalletContext";
+import useLatestPlanet from "@/Hooks/useLatestPlanet";
+import { useSetRecoilState } from "recoil";
 
 interface userDetailsInfo {
   bn_id: string;
@@ -21,12 +23,15 @@ interface userDetailsInfo {
 const UserInfo = () => {
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
-  const userCurrentPlanet = walletContext?.planetStatus?.latestPlanetName || ' ';
+  const planetCountContract = useLatestPlanet();
+  const planetCount =  ethers.BigNumber.from(planetCountContract).toNumber();
+
   const userDirectTeam = walletContext?.planetStatus?.direct_count || '0'
   const userTotalTeam = walletContext?.planetStatus?.totalTeamCount || '0'
+
   console.log("usertotal team",userTotalTeam)
 
-  console.log("lastedPlanet",userCurrentPlanet)
+
   const ownerContract = useOwner();
   
   const [totalCount, setTotalCount] = useState<number>(0);
@@ -47,7 +52,24 @@ const UserInfo = () => {
   };
 
 
+  const getPlanetInString = (planetId: number): string | undefined => {
+    const planetNames: { [id: number]: string } = {
+      1: "Earth",
+      2: "Moon",
+      3: "Mars",
+      4: "Mercury",
+      5: "Venus",
+      6: "Jupiter",
+      7: "Saturn",
+      8: "Uranus",
+      9: "Neptune",
+      10: "Pluto",
+    };
 
+    return planetNames[planetId];
+  };
+  
+  const userCurrentPlanet = getPlanetInString(planetCount)
 
   const getUserDetails = async () => {
     try {

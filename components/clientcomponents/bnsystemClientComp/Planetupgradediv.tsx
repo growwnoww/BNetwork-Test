@@ -11,7 +11,7 @@ const Planetupgradediv = () => {
         <div className="h-fit grid grid-cols-5 w-fit  gap-x-2 ">
         {levels.map((index) => (
             <LevelIcon key={index} level={index } id={`planetUpgrade-level-${index + 1}`} context="planetUpgrade"/>
-          ))}
+          ))} 
         </div>
         <BtnWrapper
           text="show"

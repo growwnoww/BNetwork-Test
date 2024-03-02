@@ -1,4 +1,5 @@
 "use client"
+import useLatestPlanet from '@/Hooks/useLatestPlanet';
 import { WalletContext } from '@/context/WalletContext';
 import React, { useContext } from 'react';
 
@@ -12,7 +13,7 @@ interface levelType {
 
 const LevelIcon:React.FC<levelType>= ({ level,id ,context}) => {
   const walletContext = useContext(WalletContext);
-  const planetBoughtLen = walletContext?.planetStatus.planets.length;
+  const planetBoughtLen = useLatestPlanet();
   
   const svgStyles = {
     fill: context === 'planetUpgrade' ? 'black' : 'black',
