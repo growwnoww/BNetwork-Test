@@ -54,7 +54,7 @@ const HeroContent = () => {
 
   return (
     <div className="relative flex flex-col items-center justify-center w-full h-screen">
-      <div className="absolute top-[300px] lg:top-[100px] left-0 h-full w-full z-0">
+      <div className="absolute top-[350px] lg:top-[100px] left-0 h-full w-full z-0">
         <video
           muted
           autoPlay
@@ -65,7 +65,7 @@ const HeroContent = () => {
         </video>
       </div>
 
-      <div className="z-10 px-10 lg:p-20 mb-96 lg:mb-54 flex flex-col gap-5 justify-center items-center w-full">
+      <div className="z-20 px-10 lg:p-20 mb-64 lg:mb-54 flex flex-col gap-5 justify-center items-center w-full">
    
     
         <div className="flex items-center justify-center flex-col">
@@ -90,9 +90,9 @@ const HeroContent = () => {
           {isUserRegister && walletContext?.userAddress ? (
          ''
           ) : (
-            <div className="z-10">
+            <div className=" z-20">
             <Link href="/registration">
-            <Button className="border-2 border-yellow-500">
+            <Button className="border-2 border-yellow-500" >
                Registration
              </Button>
             </Link>
