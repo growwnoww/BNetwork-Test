@@ -274,7 +274,7 @@ const Navbar = () => {
                             <Link href="/registration">
                             <Button
                                
-                               className=" bg-zinc-900  text-white border-none"
+                               className=" bg-zinc-900  text-white border border-yellow-500"
                                  >
                                    Registration
                                  </Button>

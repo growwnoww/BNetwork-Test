@@ -207,6 +207,7 @@ const Page = () => {
       }
    
       if (planetById && value.beliverAddress) {
+        console.log("planet id",planetById)
         const buyPlanet = await myContract!.buyPlannet_user(
           planetById,
           value.beliverAddress,
@@ -217,8 +218,8 @@ const Page = () => {
         );
         await buyPlanet.wait();
         console.log(buyPlanet);
-
-        alert("Planet Buy Successfully! 🚀")
+      
+        alert(`Planet ${value.package}  Buy Successfully! 🚀`)
       } else {
         alert("Some value is missing");
       }
@@ -231,6 +232,10 @@ const Page = () => {
     checkApproveUSDT();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(()=>{
+    setApprove(false)
+  },[value])
 
   return (
     <div>
@@ -338,7 +343,7 @@ const Page = () => {
                   setValue({ ...value, beliverAddress: e.target.value })
                 }
               />
-              <label>Select Package</label>
+              <label>Select Planet Package</label>
               <Select
                 name="selectedPackage"
                 value={value.package}

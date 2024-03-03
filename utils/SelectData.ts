@@ -22,13 +22,13 @@ export const SelectData: SelectItemType[] = [
     },
     {
         id: 4,
-        value: "Venus",
-        label: "Venus 50$"
+        value: "Mercury",
+        label: "Mercury 50$"
     },
     {
         id: 5,
-        value: "Mercury",
-        label: "Mercury 100$"
+        value: "Venus",
+        label: "Venus 100$"
     },
     {
         id: 6,
