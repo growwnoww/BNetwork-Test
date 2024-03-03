@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { menuAtom } from "@/store/atom";
 import { useDisconnect } from "wagmi";
 import { useRouter } from "next/navigation";
+import { IoIosLock } from "react-icons/io";
 
 const Sidebar = () => {
   const pathname = usePathname();
@@ -108,6 +109,7 @@ const Sidebar = () => {
                       >
                         <span>{item.icon}</span>
                         <Link href={item.path}>{item.title}</Link>
+                        <span>{item.lock}</span>
                       </div>
                     </li>
                   ))}
@@ -117,7 +119,7 @@ const Sidebar = () => {
           ))}
           <li>
             <Link
-              href="/dashboard/updateprofile"
+              href=""
               className={`flex items-center ${
                 pathname == `/dashboard/updateprofile`
                   ? `bg-zinc-800`
@@ -128,6 +130,7 @@ const Sidebar = () => {
                 <MdOutlineTipsAndUpdates />
               </span>
               <p>Update Profile</p>
+              <IoIosLock />
             </Link>
           </li>
 

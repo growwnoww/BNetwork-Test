@@ -38,9 +38,9 @@ const MenuList = [
   {
     id:'4',
     title:"Create New Believer",
-    path:"",
+    path:"/dashboard/createnewbeliever",
     icon:<GrUserNew />,
-    icon2:<IoIosLock />
+   
 
   },
   {

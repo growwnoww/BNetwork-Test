@@ -1,7 +1,7 @@
 import { BsReverseLayoutTextSidebarReverse } from 'react-icons/bs';
 import { GiReceiveMoney } from 'react-icons/gi';
 import { HiUserGroup } from 'react-icons/hi';
-import { IoIosArrowDown, IoIosArrowUp, IoMdArrowDropright } from 'react-icons/io';
+import { IoIosArrowDown, IoIosArrowUp, IoIosLock, IoMdArrowDropright } from 'react-icons/io';
 import React from 'react';
 import { FaChartLine } from 'react-icons/fa';
 
@@ -9,12 +9,12 @@ interface NestedMenuItem {
   title: string;
   path: string;
   icon: React.ReactNode;
+  lock:React.ReactNode;
 }
 
 interface NestedMenuType {
   id: number;
   title: string;
-
   icon: React.ReactNode;
   icon1: React.ReactNode;
   icon2: React.ReactNode;
@@ -31,12 +31,15 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "P Upgrade Live Status",
-        path: "/dashboard/planetuplive",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
+       
       },
       {
         title: "U Club A Live Status",
-        path: "/dashboard/clubAlive",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
     
@@ -51,17 +54,20 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Direct Team",
-        path: "/dashboard/directteam",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Team",
-        path: "/dashboard/tierteam",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Upline Team",
-        path: "/dashboard/tieruplineteam",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
     ],
@@ -75,12 +81,14 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Planet Upgrade History",
-        path: "/dashboard/planetranxhistory",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "U Club A Upgrade History",
-        path: "/dashboard/clubAupgradehistory",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
     ],
@@ -94,27 +102,32 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Direct Earnings ",
-        path: "/dashboard/directearnings",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Earnings ",
-        path: "/dashboard/tierearnings",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Upgrade Earnings",
-        path: "/dashboard/upgradeearnings",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "BN Coin Earned",
-        path: "/dashboard/bncoinearnings",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Auto Pool Earnings",
-        path: "/dashboard/autopoolearnings",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
     ],
@@ -128,12 +141,14 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Club A Global Earnings",
-        path: "/dashboard/clubAglobalearn",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Club A Tier Earnings",
-        path: "/dashboard/clubAtierearn",
+        path: "",
+        lock:<IoIosLock/>,
         icon: <IoMdArrowDropright />,
       },
      

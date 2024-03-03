@@ -18,6 +18,7 @@ import { hamaburgerAtom } from '@/store/atom';
 import { usePathname, useRouter } from 'next/navigation';
 import { useDisconnect } from 'wagmi';
 import { RiLogoutCircleLine } from 'react-icons/ri';
+import { IoIosLock } from 'react-icons/io';
 
 const HamaburgerMenu = () => {
    
@@ -25,9 +26,14 @@ const HamaburgerMenu = () => {
    const pathname = usePathname();
    const router = useRouter()
   const { disconnect } = useDisconnect();
+
+
+
    const handleDisconnectWallet = () => {
     disconnect()
+    setOpen(!isOpen)
     router.push('/')
+    
   };
 
     const [menuState, setMenuState] = useState<{
@@ -83,6 +89,7 @@ const HamaburgerMenu = () => {
                   <Link href={item.path} className=" py-2">
                     {item.title}
                   </Link>
+                  <p>{item.icon2}</p>
                 </li>
               ))}
               <li className="bg-stone-800 rounded-md">
@@ -91,6 +98,7 @@ const HamaburgerMenu = () => {
                   className={`flex items-center justify-center  px-2 py-2 rounded-md mr-4 gap-x-3`}
                 >
                   <p>Update Profile</p>
+                  <IoIosLock />
                 </Link>
               </li>
             </ul>
@@ -106,6 +114,7 @@ const HamaburgerMenu = () => {
                     <p>
                       {menuState[item.id]?.isArrowUp ? item.icon2 : item.icon1}
                     </p>
+                    
                   </div>
 
                   {menuState[item.id]?.isOpen && (
@@ -115,6 +124,7 @@ const HamaburgerMenu = () => {
                           <Link href={menu.path} className="flex items-center">
                             <span>{menu.icon}</span>
                             <span>{menu.title}</span>
+                            <span>{menu.lock}</span>
                           </Link>
                         </li>
                       ))}

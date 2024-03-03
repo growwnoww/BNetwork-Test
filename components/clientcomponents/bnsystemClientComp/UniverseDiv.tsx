@@ -21,12 +21,15 @@ const UniverseDiv = () => {
           ))}
             </div>
           </div>
-          <BtnWrapper
-            text="show"
-            height="py-2"
-            width="px-10"
-            path="/dashboard/bnsystem/universeclub-a"
-          />
+          <div className="flex items-center relative">
+            <BtnWrapper
+              text="Show"
+              height="py-2"
+              width="px-10"
+              
+            />
+            <IoIosUnlock className="absolute right-[10%]" />
+          </div>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-center gap-x-9 mx-10">
