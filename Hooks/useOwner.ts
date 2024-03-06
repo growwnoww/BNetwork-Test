@@ -1,4 +1,4 @@
-import { bNetwork } from "@/contract/Web3_Instance";
+import { BNetwork } from "@/contract/Web3_Instance";
 import { useEffect, useState, useCallback } from "react";
 
 const useOwner = (): string => {
@@ -6,7 +6,7 @@ const useOwner = (): string => {
 
     const getOwner = useCallback(async () => {
         try {
-            const MyContract = bNetwork();
+            const MyContract = BNetwork();
             if (!MyContract) {
                 console.error("Contract not initialized");
                 return;

@@ -5,7 +5,7 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { tableData } from "@/utils/DirectTeamData";
 import { ethers } from "ethers";
-import { bNetwork } from "@/contract/Web3_Instance";
+import { BNetwork } from "@/contract/Web3_Instance";
 
 const Page = () => {
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
@@ -22,7 +22,7 @@ const Page = () => {
         const resultsArray: { plannetDetails: any }[] = [];
         try {
             for (let i = 1; i <= 10; i++) {
-                const myContract = bNetwork();
+                const myContract = BNetwork();
                 const plannetDetails = await myContract!.MatrixDetails(i);
                 resultsArray.push({ plannetDetails });
                 setPlanetFee(resultsArray);

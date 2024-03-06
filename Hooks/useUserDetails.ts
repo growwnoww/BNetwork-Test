@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { useAccount } from "wagmi";
-import { bNetwork } from "@/contract/Web3_Instance";
+import { BNetwork } from "@/contract/Web3_Instance";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import { useEffect, useState } from "react";
 
 const useUserDetails = () => {
     const [isUserRegister, setUserRegister] = useState<boolean>(false);
-    const { address, isConnected } = useAccount();
+    const { address, isConnected } = useWeb3ModalAccount();
 
     useEffect(() => {
         const getUserDetails = async () => {
@@ -14,7 +14,7 @@ const useUserDetails = () => {
                     return;
                 }
 
-                const MyContract = bNetwork();
+                const MyContract = BNetwork();
                 const exists = await MyContract!.isUserExists(address);
 
                 setUserRegister(exists);

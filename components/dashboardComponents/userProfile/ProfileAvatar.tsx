@@ -9,33 +9,30 @@ import React, { useContext } from "react";
 import { FaRegCopy } from "react-icons/fa";
 
 const ProfileAvatar = () => {
-
     // const host = window.location.hostname;
     const planetCountContract = useLatestPlanet();
-    const planetCount =  ethers.BigNumber.from(planetCountContract).toNumber();
-    const walletContext = useContext(WalletContext)
-    const userAddress = walletContext?.userAddress
-   
+    const planetCount = ethers.BigNumber.from(planetCountContract).toNumber();
+    const walletContext = useContext(WalletContext);
+    const userAddress = walletContext?.userAddress;
+
     const getPlanetInString = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
-          1: "Earth",
-          2: "Moon",
-          3: "Mars",
-          4: "Mercury",
-          5: "Venus",
-          6: "Jupiter",
-          7: "Saturn",
-          8: "Uranus",
-          9: "Neptune",
-          10: "Pluto",
+            1: "Earth",
+            2: "Moon",
+            3: "Mars",
+            4: "Mercury",
+            5: "Venus",
+            6: "Jupiter",
+            7: "Saturn",
+            8: "Uranus",
+            9: "Neptune",
+            10: "Pluto",
         };
-    
+
         return planetNames[planetId];
-      };
-      
-      const userAvatar =  getPlanetInString(planetCount) || 'just_reg';
+    };
 
-
+    const userAvatar = getPlanetInString(planetCount) || "just_reg";
 
     const copyToClipboard = (text: string) => {
         try {
@@ -57,7 +54,7 @@ const ProfileAvatar = () => {
                 <span>
                     <FaRegCopy
                         className="cursor-pointer"
-                        onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
+                        onClick={() => copyToClipboard(`https://BNetwork.space/registration?rr=${userAddress}`)}
                         // onClick={() => copyToClipboard(`http://${host}/registration?rr=${userAddress}`)}
                     />
                 </span>

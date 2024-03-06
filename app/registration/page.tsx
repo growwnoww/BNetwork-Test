@@ -2,7 +2,7 @@
 import React, { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useSearchParams } from "next/navigation";
-import { bNetwork } from "@/contract/Web3_Instance";
+import { BNetwork } from "@/contract/Web3_Instance";
 
 import { IoMdPlanet } from "react-icons/io";
 import { TbCards, TbUniverse } from "react-icons/tb";
@@ -10,7 +10,6 @@ import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
 import axios from "axios";
-
 
 import { WalletContext } from "@/context/WalletContext";
 import { ethers } from "ethers";
@@ -35,44 +34,37 @@ const Page = () => {
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
-    
-    const router = useRouter()
-   
 
+    const router = useRouter();
 
     const handleOptionChange = (option: string) => {
         setSelectedOption(option);
     };
 
+    const isUserPresent = async (e: FormEvent) => {
+        try {
+            e.preventDefault();
+            console.log("upline address", inviteAddress);
+            const MyContract = BNetwork();
 
-    const isUserPresent = async (e:FormEvent) =>{
-    try {
-        e.preventDefault()
-        console.log("upline address",inviteAddress)
-        const MyContract = bNetwork();
+            const isUplineExist = await MyContract!.isUserExists(inviteAddress);
 
-        const isUplineExist = await MyContract!.isUserExists(inviteAddress)
+            if (!isUplineExist) {
+                alert("Upline doesnt' exist, use correct upline address");
+                return;
+            }
 
-        if(!isUplineExist){
-            alert("Upline doesnt' exist, use correct upline address")
-            return ;
+            router.push(`/registration/${inviteAddress}`);
+        } catch (error) {
+            console.log("something went wrong in isUserPresent ", error);
         }
-
-       
-
-        router.push(`/registration/${inviteAddress}`)
-    } catch (error) {
-        console.log("something went wrong in isUserPresent ",error)
-    }
-    }
+    };
 
     useEffect(() => {
         if (queryUrl) {
             setInviteAddress(queryUrl);
         }
     }, [queryUrl]);
-    
-   
 
     return (
         <>
@@ -154,7 +146,7 @@ const Page = () => {
                                     </div>
 
                                     <p className="hidden  lg:block font-normal text-sm text-slate-500 mb-4 relative z-50">
-                                        By participating In the BNETWORK Space Eco-System, You will get all Profit in BN
+                                        By participating In the BNetwork Space Eco-System, You will get all Profit in BN
                                         Coin For Increase Utilities.
                                     </p>
 
@@ -191,7 +183,7 @@ const Page = () => {
                         </div>
 
                         {selectedOption === "Yes" ? (
-                            <form className="space-y-4  " onSubmit={(e)=>isUserPresent(e)} >
+                            <form className="space-y-4  " onSubmit={(e) => isUserPresent(e)}>
                                 <div className="flex flex-col py-4">
                                     <label htmlFor="bnId" className="text-gray-400 mb-2">
                                         Enter Upline Address
@@ -205,13 +197,13 @@ const Page = () => {
                                         placeholder="Upline  Address"
                                     />
                                 </div>
-                               
-                                    <button
+
+                                <button
                                     type="submit"
-                                    className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300">
-                                        Verify Upline
-                                    </button>
-                               
+                                    className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300"
+                                >
+                                    Verify Upline
+                                </button>
                             </form>
                         ) : (
                             <Link href="/signup">

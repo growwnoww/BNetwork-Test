@@ -1,21 +1,15 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { AiTwotoneDollarCircle } from "react-icons/ai";
-import { TbCoinBitcoin } from "react-icons/tb";
-import { Context } from "../Context";
-import { bNetwork } from "@/contract/Web3_Instance";
-import { ethers } from "ethers";
-import { useAccount, useBalance } from "wagmi";
-import { MdOutlineOfflineBolt } from "react-icons/md";
-import TokenABI from "@/contract/Token_ABI.json";
 import { WalletContext } from "@/context/WalletContext";
-
+import { ethers } from "ethers";
+import { useContext, useEffect, useState } from "react";
+import { AiTwotoneDollarCircle } from "react-icons/ai";
+import { MdOutlineOfflineBolt } from "react-icons/md";
+import { TbCoinBitcoin } from "react-icons/tb";
 
 const CurrentBalanceComp = () => {
     const walletContext = useContext(WalletContext);
     console.log(walletContext?.userAddress);
     const [balance, setBalance] = useState<any>(0);
-
 
     const getUserBalance = async () => {
         if (walletContext?.userAddress) {
@@ -29,14 +23,10 @@ const CurrentBalanceComp = () => {
         }
     };
 
-   
-
     useEffect(() => {
         getUserBalance();
-      
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-
-
 
     return (
         <>
@@ -53,8 +43,7 @@ const CurrentBalanceComp = () => {
                         <TbCoinBitcoin className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
                     <span>{balance}</span>
-                    <span  className="text-yellow-400"> BNB </span>
-                  
+                    <span className="text-yellow-400"> BNB </span>
                 </div>
                 <div className="flex items-center gap-x-1">
                     <span className="inline-block text-2xl ">
