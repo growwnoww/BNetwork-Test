@@ -52,13 +52,13 @@ const ProfileAvatar = () => {
                 <Image src={`/${userAvatar}.png`} alt="Pluto.png" loading="lazy" height={300} width={300} />
             </div>
 
-            <div className="flex items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">
+            <div
+             onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
+            className="flex cursor-pointer items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">
                 <p>Copy Referrel link </p>
                 <span>
                     <FaRegCopy
-                        className="cursor-pointer"
-                        onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
-                        // onClick={() => copyToClipboard(`http://${host}/registration?rr=${userAddress}`)}
+
                     />
                 </span>
             </div>

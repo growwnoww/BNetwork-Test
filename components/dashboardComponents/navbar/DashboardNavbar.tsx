@@ -31,7 +31,7 @@ const DashboardNavbar = () => {
         <CurrentRouteHeading />
       </div>
 
-      <div className="hidden lg:flex gap-x-5">
+      <div className="hidden lg:flex gap-x-5 mr-10">
         <CurrentBalanceComp />
       
       </div>

@@ -110,7 +110,7 @@ const Page = () => {
 
   const approveUSDT = async () => {
     try {
-      alert("The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee.")
+      alert("🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠")
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const gasPrice = await signer.getGasPrice();
