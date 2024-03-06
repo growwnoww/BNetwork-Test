@@ -36,7 +36,6 @@ const PlanetUpPackage = ({
 
   const [isApprove, setApprove] = useState<boolean>(false);
   const [planetBuy, setPlanetBuy] = useState<boolean>(false);
-  const [tokenBuypop, setTokenpop] = useState<boolean>(false);
   const [planetBuyStatus, setPlanetBuyStatus] = useState<
     Record<number, boolean>
   >({});
@@ -99,6 +98,7 @@ const PlanetUpPackage = ({
 
   const approveUSDT = async () => {
     try {
+      alert("The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee.")
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       console.log("signer", signer);
