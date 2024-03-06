@@ -166,6 +166,7 @@ const PlanetUpPackage = ({
       console.log(`Transaction hash: ${transactionHash}`);
       postPlanetBuyInfo(parseInt(planetById), transactionHash);
       setPlanetBuy(true);
+      alert(`Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`)
       setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
     } catch (error) {
       console.log(error);
