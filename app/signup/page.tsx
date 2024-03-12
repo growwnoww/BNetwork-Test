@@ -140,7 +140,7 @@ const Page = () => {
           direct_count: userDetails?.teamCount,
         };
 
-        console.log("hellow", payload);
+        console.log("hi", payload);
 
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`,
