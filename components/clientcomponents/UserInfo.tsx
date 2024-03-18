@@ -10,6 +10,7 @@ import useOwner from "@/Hooks/useOwner";
 import { WalletContext } from "@/context/WalletContext";
 import useLatestPlanet from "@/Hooks/useLatestPlanet";
 import { useSetRecoilState } from "recoil";
+import axios from "axios";
 
 interface userDetailsInfo {
   bn_id: string;
@@ -18,25 +19,21 @@ interface userDetailsInfo {
   upline_referral_address: string;
   upline_referral_BNId: string;
   direct_count: number;
+  latestPlanetName:string;
+  totalTeamCount:number;
 }
 
 const UserInfo = () => {
   const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
-  const planetCountContract = useLatestPlanet();
-  const planetCount =  ethers.BigNumber.from(planetCountContract).toNumber();
-
-  const userDirectTeam = walletContext?.planetStatus?.direct_count || '0'
-  const userTotalTeam = walletContext?.planetStatus?.totalTeamCount || '0'
-
-  console.log("usertotal team",userTotalTeam)
-
-
-  const ownerContract = useOwner();
+  const userAddress = walletContext?.userAddress?.toLowerCase();
   
-  const [totalCount, setTotalCount] = useState<number>(0);
 
-  console.log(ownerContract);
+
+
+
+
+
+
 
   const [userDetails, setUserDetails] = useState<userDetailsInfo>();
 
@@ -69,15 +66,15 @@ const UserInfo = () => {
     return planetNames[planetId];
   };
   
-  const userCurrentPlanet = getPlanetInString(planetCount)
+
 
   const getUserDetails = async () => {
     try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/user/getUserDetails?reg_user_address=${userAddress}`
+      const response = await axios(
+        `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
       );
-      if (response) {
-        const data: userDetailsInfo = await response.json();
+      if (response.data) {
+        const data: userDetailsInfo = await response.data
         console.log("User detail from get req ", data);
         setUserDetails(data);
       } else {
@@ -106,7 +103,7 @@ const UserInfo = () => {
     userPlanet();
     getUserDetails();
 
-  }, []);
+  }, [userAddress]);
 
   return (
     <div className="md:text-sm">
@@ -146,30 +143,8 @@ const UserInfo = () => {
         <div className="flex items-center justify-between pt-1">
           <div >
             <span className="text-zinc-500">Current Package : </span>
-            <span className="md:text-xs">{`${userCurrentPlanet} `}
-            {
-              userCurrentPlanet === "Earth"
-                ? " 5 $"
-                : userCurrentPlanet === "Moon"
-                ? " 10 $"
-                : userCurrentPlanet === "Mars"
-                ? "25 $"
-                : userCurrentPlanet === "Mercury"
-                ? "50 $"
-                : userCurrentPlanet === "Venus"
-                ? "100 $"
-                : userCurrentPlanet === "Jupiter"
-                ? "250 $"
-                : userCurrentPlanet === "Saturn"
-                ? "500 $"
-                : userCurrentPlanet === "Uranus"
-                ? "1000 $"
-                : userCurrentPlanet === "Neptune"
-                ? "2500 $"
-                : userCurrentPlanet === "Pluto"
-                ? "5000 $"
-                : "Empty"
-            }</span>
+            <span className="md:text-xs">{`${userDetails?.latestPlanetName  || "Empty"} `}
+            </span>
           </div>
          
         </div>
@@ -227,7 +202,7 @@ const UserInfo = () => {
             <span className="text-zinc-500 text-xl md:text-sm lg:text-xl font-bold">
               Direct Team:
             </span>
-            <span className="md:text-sm ">{userDirectTeam}</span>
+            <span className="md:text-sm ">{userDetails?.direct_count || 0}</span>
           </div>
         </div>
         <hr />
@@ -239,7 +214,7 @@ const UserInfo = () => {
             <span className="text-zinc-500 text-xl font-bold">
               Total Team :{" "}
             </span>
-            <span>{userTotalTeam}</span>
+            <span>{userDetails?.totalTeamCount || 0}</span>
           </div>
         </div>
       </div>

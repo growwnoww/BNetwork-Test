@@ -1,0 +1,115 @@
+/* Default styles */
+
+.img-responsive1 {
+    height: 55px;
+    width: 55px;
+    border: 2px solid #71717A; /* equivalent to border-zinc-600 */
+    padding: 2px;
+    background-color: black;
+    border-radius: 9999px; /* equivalent to rounded-full */
+    transition: border-color 300ms; /* equivalent to duration-300 */
+}
+
+.img-responsive1:hover {
+    border-color: #fbbf24; /* equivalent to border-yellow-400 */
+}
+
+/* Mobile styles */
+@media (max-width: 668px) {
+    .img-responsive1 {
+        height: 20px; /* Smaller size for mobile */
+        width: 20px; /* Smaller size for mobile */
+    }
+}
+
+
+
+.img-responsive {
+    height: 34px;
+    width: 34px;
+    border: 2px solid #71717A; /* equivalent to border-zinc-600 */
+    padding: 2px;
+    background-color: black;
+    border-radius: 9999px; /* equivalent to rounded-full */
+    transition: border-color 300ms; /* equivalent to duration-300 */
+}
+
+.img-responsive:hover {
+    border-color: #fbbf24; /* equivalent to border-yellow-400 */
+}
+
+/* Mobile styles */
+@media (max-width: 668px) {
+    .img-responsive {
+        height: 20px; /* Smaller size for mobile */
+        width: 20px; /* Smaller size for mobile */
+    }
+}
+
+.img-responsiveM{
+    height: 38px;
+    width: 38px;
+    border: 2px solid #71717A; /* equivalent to border-zinc-600 */
+    padding: 2px;
+    background-color: black;
+    border-radius: 9999px; /* equivalent to rounded-full */
+    transition: border-color 300ms; /* equivalent to duration-300 */
+}
+
+.img-responsiveM:hover {
+    border-color: #fbbf24; /* equivalent to border-yellow-400 */
+}
+
+/* Mobile styles */
+@media (max-width: 668px) {
+    .img-responsiveM {
+        height: 20px; /* Smaller size for mobile */
+        width: 20px; /* Smaller size for mobile */
+    }
+}
+
+.img-responsive2 {
+    height: 27px;
+    width: 27px;
+    border: 2px solid #71717A; /* equivalent to border-zinc-600 */
+    padding: 2px;
+    background-color: black;
+    border-radius: 9999px; /* equivalent to rounded-full */
+    transition: border-color 300ms; /* equivalent to duration-300 */
+}
+
+.img-responsive2:hover {
+    border-color: #fbbf24; /* equivalent to border-yellow-400 */
+}
+
+/* Mobile styles */
+@media (max-width: 668px) {
+    .img-responsive2 {
+        height: 15px; /* Smaller size for mobile */
+        width: 15px; /* Smaller size for mobile */
+    }
+}
+
+
+
+.img-responsiveTw {
+    height: 45px;
+    width: 45px;
+    border: 2px solid #71717A; /* equivalent to border-zinc-600 */
+    padding: 2px;
+    background-color: black;
+    border-radius: 9999px; /* equivalent to rounded-full */
+    transition: border-color 300ms; /* equivalent to duration-300 */
+}
+
+.img-responsiveTw:hover {
+    border-color: #fbbf24; /* equivalent to border-yellow-400 */
+}
+
+/* Mobile styles */
+@media (max-width: 668px) {
+    .img-responsiveTw {
+        height: 20px; /* Smaller size for mobile */
+        width: 20px; /* Smaller size for mobile */
+    }
+}

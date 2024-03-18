@@ -193,7 +193,7 @@ const Page = () => {
                               <TableCell className=" py-2  whitespace-nowrap ">
                                 {user.tierEarnings!
                                   ? `${setEarningAmount(tierIndex)}$`
-                                  : "Lost"}
+                                  : ""}
                               </TableCell>
 
                               <TableCell className=" py-2  whitespace-nowrap font-medium">

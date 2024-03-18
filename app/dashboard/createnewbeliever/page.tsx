@@ -17,6 +17,20 @@ import { Context } from "@/components/Context";
 import Token_ABI from "@/contract/Token_ABI.json";
 import { SelectData } from "@/utils/SelectData";
 import { WalletContext } from "@/context/WalletContext";
+import { useAccount } from "wagmi";
+import axios from "axios";
+
+interface userDetailsType {
+  regUser: string;
+  regTime: string;
+  regId: number;
+  regReferal: string;
+  regReferalId: number;
+  teamCount: number;
+  reg_transaction_hash?:string;
+  highestPlanetCount:number;
+}
+
 
 const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Registration");
@@ -30,6 +44,10 @@ const Page = () => {
     beliverAddress: "",
     package: "",
   });
+  const [userDetails, setUserDetails] = useState<userDetailsType>();
+  const { isConnected } = useAccount();
+  const [tranxHashhh, setTranxHash] = useState("");
+
 
   console.log(value);
 
@@ -60,6 +78,176 @@ const Page = () => {
 
     return planetNames[planetName];
   };
+
+  const getUserDetail = async (tranxHash:string) => {
+    try {
+      if (!userAddress || !isConnected) {
+        return;
+      }
+
+      const MyContract = bNetwork();
+
+      const exists = await MyContract!.isUserExists(value.beliverAddress);
+
+      if (exists) {
+        const response = await MyContract!.RegisterUserDetails(value.beliverAddress);
+        console.log("Believer address",value.beliverAddress)
+        const highestPlanetCount = await MyContract!.UserPlannet(value.beliverAddress);
+        console.log("Believer address",value.beliverAddress)
+        console.log("Got user details", response);
+
+        const formattedResponse:userDetailsType = {
+          regUser: String(response.regUser).toLowerCase(),
+          regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
+          regId: ethers.BigNumber.from(response.regId).toNumber(),
+          regReferal: String(response.regReferal).toLowerCase(),
+          regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
+          teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
+          highestPlanetCount:ethers.BigNumber.from(highestPlanetCount).toNumber()
+        };
+
+
+        setTranxHash(tranxHash)
+        setUserDetails(formattedResponse);
+
+        console.log("Refined Data", formattedResponse);
+
+
+      }
+    } catch (error) {
+      console.log("Something wrong in userDetailsFUnc", error);
+    }
+  };
+
+
+  const createUser = async (tranxHash:string) => {
+    try {
+      console.log("reg user", userDetails?.regUser);
+      const owner = "0xf346c0856df3e220e57293a0cf125c1322cfd778";
+      let uplineAddrLocal = "";
+      let uplineBNIdLocal = "";
+
+      // Use userDetails directly now, assuming it has been set by this point
+      if (
+        userDetails?.regReferal ===
+          "0x0000000000000000000000000000000000000000" ||
+        !userDetails?.regReferalId
+      ) {
+        uplineAddrLocal = owner;
+        uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
+      } else {
+        uplineAddrLocal = userDetails.regReferal;
+        uplineBNIdLocal =
+          "BN" +
+          userDetails.regReferal.substring(userDetails.regReferal.length - 8);
+      }
+
+      const payload = {
+        reg_user_address: userDetails?.regUser,
+        reg_time: userDetails?.regTime,
+        regId: userDetails?.regId,
+        upline_referral_address: uplineAddrLocal,
+        upline_referralId: userDetails?.regReferalId,
+        upline_referral_BNId: uplineBNIdLocal,
+        direct_count: userDetails?.teamCount,
+        reg_transaction_hash:tranxHash
+      };
+
+      console.log("hellow", payload);
+
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`,payload);
+
+      if (res.data) {
+        
+      } else {
+        throw new Error(`HTTP error! status: ${res.status}`);
+      }
+    } catch (error) {
+      console.error("Error in createRegister:", error);
+    }
+  };
+
+  const getPlanetName = (planetId: number): string | undefined => {
+    const planetNames: { [id: number]: string } = {
+      1: "Earth 5$",
+      2: "Moon 10$",
+      3: "Mars 25$",
+      4: "Mercury 50$",
+      5: "Venus 100$",
+      6: "Jupiter 250$",
+      7: "Saturn 500$",
+      8: "Uranus 1000$",
+      9: "Neptune 2500$",
+      10: "Pluto 5000$",
+    };
+
+    return planetNames[planetId];
+  };
+  
+
+  const postPlanetBuyInfo = async (
+    regAddress:string,
+    _planetId: number,
+    transactionHash: string,
+    universeCount:number
+  ) => {
+    try {
+      const planetNameStr = getPlanetName(_planetId);
+      const planetNameOnly = planetNameStr?.split(" ")[0];
+      const planetPack = planetNameStr?.split(" ")[1];
+      console.log("Planet package ", planetPack);
+      const payload = {
+        reg_user_address: regAddress,
+        planetId: _planetId,
+        planetName: planetNameOnly,
+        planetPackage: planetPack,
+        universeCount:universeCount,
+        transactionHash: transactionHash,
+      };
+
+      console.log("payload", payload);
+
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_URL}/user/planetBuy`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Something went wrong in buyPlanet", error);
+    }
+  };
+
+  const getPlanet = async (planetId:number,transactionHash:string,believerAddress:string)=>{
+    try {
+      const myContract = bNetwork();
+      const currentTreenumber = await myContract!.UserID(planetId,believerAddress);
+      const universeCount = ethers.BigNumber.from(currentTreenumber).toNumber();
+
+      let getUserAddress = await myContract!.WalletdetailsUser(planetId,universeCount);
+      let userData = getUserAddress.originalUser;
+
+      const formattedResponse = {
+        reg_user_address:userData.toLowerCase()
+      }
+      console.log("formattd res",formattedResponse)
+       
+      postPlanetBuyInfo(formattedResponse.reg_user_address,planetId,transactionHash,universeCount)
+
+
+      
+    } catch (error) {
+      
+    }
+  }
 
   const registerUser = async (e: any) => {
     e.preventDefault();
@@ -98,6 +286,8 @@ const Page = () => {
           }
         );
         await registration.wait();
+        const tranxHash = registration.hash;
+        getUserDetail(tranxHash);
         alert("New Believer created successfully! 🚀");
         console.log(registration);
       } else {
@@ -197,7 +387,7 @@ const Page = () => {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const gasPrice = await signer.getGasPrice();
-      const planetById =  getPlanetId(value.package);
+      const planetById :number=  getPlanetId(value.package);
 
       const myContract = bNetwork();
       
@@ -218,7 +408,9 @@ const Page = () => {
           }
         );
         await buyPlanet.wait();
-        console.log(buyPlanet);
+        const transactionHash = buyPlanet.hash;
+        console.log(`Transaction hash: ${transactionHash}`);
+        getPlanet(planetById,transactionHash,value.beliverAddress);
       
         alert(`Planet ${value.package}  Buy Successfully! 🚀`)
       } else {
@@ -237,6 +429,14 @@ const Page = () => {
   useEffect(()=>{
     setApprove(false)
   },[value])
+
+  useEffect(() => {
+    if (tranxHashhh && userDetails) {
+      createUser(tranxHashhh);
+    }
+  }, [tranxHashhh, userDetails]);
+
+
 
   return (
     <div>
@@ -353,7 +553,7 @@ const Page = () => {
                 <SelectTrigger className="w-[180px] border border-yellow-400">
                   <SelectValue placeholder="" />
                 </SelectTrigger>
-                <SelectContent defaultValue="Earth">
+                <SelectContent >
                   {SelectData.map((item) => (
                     <SelectItem key={item.id} value={item.value}>
                       {item.label}

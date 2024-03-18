@@ -81,7 +81,7 @@ const Page = () => {
   const getDirectTeamData = async()=>{
     try {
       
-       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam?reg_user_address=${userAddress}`);
+       const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam?reg_user_address=${userAddress?.toLowerCase()}`);
 
        if(response.ok){
         const data:DirectTeamType[] = await response.json();

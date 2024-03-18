@@ -53,13 +53,15 @@ const Page = () => {
   const getTierUplineTeamData = async ()=>{
       try {
         
-        const queryUrl = `${process.env.NEXT_PUBLIC_URL}/user/getTierUplineTeam?reg_user_address=${userAddress}`;
+        const queryUrl = `${process.env.NEXT_PUBLIC_URL}/user/getTierUplineTeam?reg_user_address=${userAddress?.toLowerCase()}`;
 
         const response = await fetch(queryUrl);
 
         if(response.ok){
           const data:TierUplineTeam[] = await response.json();
+          console.log(data)
           const reverseData = data.reverse();
+          console.log("data",reverseData)
           setFetchTierUpline(reverseData)
         }
 

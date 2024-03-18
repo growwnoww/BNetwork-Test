@@ -24,7 +24,7 @@ const useFetchTierEarning = (userAddress:string | undefined):tierEarningDataType
             let allLevelsData: tierEarningDataType[][] = [];
             for(let i=1;i<=maxLevel;i++){
                 try {
-                    const queryUrl = `${process.env.NEXT_PUBLIC_URL}/user/getTierEarning/${userAddress}/${i}`
+                    const queryUrl = `${process.env.NEXT_PUBLIC_URL}/user/getTierEarning/${userAddress?.toLowerCase()}/${i}`
 
                     const response = await fetch(queryUrl);
 

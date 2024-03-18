@@ -46,9 +46,9 @@ const Sidebar = () => {
     <div
       className={` hidden ${
         isOpen ? "lg:block" : "lg:hidden"
-      } h-screen w-72  border-r-[.5px] border-r-slate-800`}
+      } h-full w-72  border-r-[.5px] border-r-stone-700`}
     >
-      <div className="flex items-center justify-between border-b-[.5px] border-b-slate-800 ">
+      <div className="flex items-center justify-between border-b-[.5px] border-b-stone-700 ">
         <div className="flex items-center  h-16 ml-4">
           <Link href="/dashboard">
             <Image

@@ -63,7 +63,7 @@ const Page = () => {
   const getDirectTeamData = async()=>{
     try {
        
-      const queryData = `${process.env.NEXT_PUBLIC_URL}/user/getDirectEarning?reg_user_address=${userAddress}`;
+      const queryData = `${process.env.NEXT_PUBLIC_URL}/user/getDirectEarning?reg_user_address=${userAddress?.toLowerCase()}`;
 
       const response = await fetch(queryData);
 

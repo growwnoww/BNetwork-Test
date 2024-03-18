@@ -57,9 +57,21 @@ const Page = () => {
     }));
   };
 
+  const getEarningMsg = (amount:number) =>{
+    if(amount == 0.05){
+      return "Airdrop Coin"
+    }
+    else if(amount == 0.025){
+      return "Airdrop Refer Coin"
+    }
+    else{
+      return "Reward Coin"
+    }
+  }
+
   const getBNCoinEarnedTable = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getBNcoinEarnedData/${userAddress}`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getBNcoinEarnedData/${userAddress?.toLowerCase()}`);
       
       if (response.ok) {
         const data = await response.json(); // Assuming 'data' is already an array of BNCoinDataTye
@@ -185,7 +197,7 @@ const Page = () => {
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.earningThrough}
+                          {getEarningMsg(user.amount)}
                         </TableCell>
 
 

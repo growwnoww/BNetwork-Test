@@ -7,49 +7,23 @@ import { treePositionData } from "@/utils/treePositionData";
 import { Item } from "@radix-ui/react-select";
 import EmptyNodeInTree from "@/components/clientcomponents/bnsystemClientComp/EmptyNodeInTree";
 import { WalletContext } from "@/context/WalletContext";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import Pagination from '@/components/clientcomponents/bnsystemClientComp/Pagination'
+import axios from "axios";
+import Link from "next/link";
 
 
-interface UserDetails {
-  _id: string;
-  bn_id: string;
-  planetName: string;
-  reg_user_address: string;
-  universeSlot: number;
-  children: string[];
-  parent: string;
-  currentLevel: number;
-  currentPosition: number;
-  autoPoolEarning: number;
-  isRoot: boolean;
-  recycle: any[];
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
+
+interface PlanetUpTreeData{
+  indexMappings: any;
+  reg_user_address:string;
+  bn_id:string;
+  currentLevel:number;
+  currentPosition:number;
+  timestamp:string;
 }
 
-interface IndexMapping {
-  userLevel: number;
-  userPosition: number;
-  userDetails: UserDetails[];
-}
+const items = Array.from({ length: 100 }, (_, index) => ` ${index + 1}`);
 
-interface RecycleItem {
-  recycleCount: number;
-  indexMappings: IndexMapping[];
-}
-
-interface PlanetUpTree {
-  data: RecycleItem[];
-}
 
 
 const Page = ({params}:{params:{planetuptree:string}}) => {
@@ -57,20 +31,32 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
-  const [autoPoolTableData, setAutoPoolTableData] = useState<PlanetUpTree>({
-    data: [],
-  });
+  const [autoPoolTableData, setAutoPoolTableData] = useState<PlanetUpTreeData[]>([]);
   const [user, setUser] = useState<number>();
-  const [hoverDetails, setHoverDetails] = useState<UserDetails | null>(null);
+  const [hoverDetails, setHoverDetails] = useState<PlanetUpTreeData | null>(null);
   const currentPlanet = Object.values(params)
+  const [maxRecycle,setMaxRecycle] = useState<number>()
 
   const recycleLength = 4
-  const [currentPage, setCurrentPage] = useState(1);
+
+  const [currentItemIndex, setCurrentItemIndex] = useState(0); // Starts from 0 for the first item
+  const items = Array.from({ length: 100 }, (_, index) => `Recycle ${index + 1}`);
+  // Event handlers for item navigation
+  const handlePreviousClick = () => {
+    setCurrentItemIndex(currentItemIndex - 1);
+  };
+
+  const handleNextClick = () => {
+
+    const safeMaxRecycle = maxRecycle ?? 0;
+
+
+    if (currentItemIndex < safeMaxRecycle - 1) {
+      setCurrentItemIndex(currentItemIndex + 1);
+    }
+  };
  
 
-  console.log("Recyle Length", recycleLength);
-
-  console.log("Hover ", hoverDetails);
   
  
   const getPackage = (planetName:any) =>{
@@ -107,28 +93,37 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   }
 
 
-
-
-  const getTreeData = async (recycleCount: Number) => {
+  const getRecycleLevel = async() =>{
     try {
-      const query = `${process.env.NEXT_PUBLIC_URL}/user/getPlanetUpgradeTree/${userAddress}/${currentPlanet}/${recycleCount}`;
+      const response = await axios(`${process.env.NEXT_PUBLIC_URL}/user/getRecycleMaxLevel/${userAddress?.toLowerCase()}/${currentPlanet}`)
+
+      if(response.data){
+        const data = await response.data;
+ 
+         setMaxRecycle(data)
+      }
+    } catch (error) {
+      setMaxRecycle(0)
+    }
+  }
+
+
+
+  const getTreeData = async (recycleCount: number) => {
+    try {
+      const query = `${process.env.NEXT_PUBLIC_URL}/user/getPlanetTree/${userAddress?.toLowerCase()}/${currentPlanet}/${recycleCount + 1}`;
       console.log("query", query);
-      const response = await fetch(query);
+      const response = await axios(query);
      
 
 
-      if(response.ok) {
-        const data: PlanetUpTree = await response.json();
+      if(response.data) {
+        const data: PlanetUpTreeData[] = await response.data;
         console.log(data);
         setAutoPoolTableData(data);
+
       
-        const userDetailsCount = (data.data?.reduce((totalCount, recycleItem) => {
-          return totalCount + (recycleItem.indexMappings?.reduce((count, mapping) => {
-            return count + (mapping.userDetails?.length || 0);
-          }, 0) || 0);
-        }, 0) || 0);
-      
-        setUser(userDetailsCount);
+
       } else {
         console.log("Failed to fetch auto pool table data");
         // Consider setting user to 0 or another appropriate value if the fetch fails
@@ -138,23 +133,77 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
     } catch (error) {
       console.error("Error fetching auto pool table data:", error);
       // Reset the state to clear previous data if the fetch fails
-      setAutoPoolTableData({ data: [] });
+      setAutoPoolTableData( [] );
       setUser(0); // Reset user details count
     }
   };
 
   useEffect(() => {
-    getTreeData(currentPage);
-  }, [currentPage, userAddress]);
+    getTreeData(currentItemIndex);
+  }, [ userAddress,currentItemIndex]);
+
+  useEffect(()=>{
+    getRecycleLevel()
+  },[])
 
   const cutoffIndex = user; // Adjust based on your requirements
   console.log("cutt",cutoffIndex)
-  // Split the data into two parts
-  const imageData = treePositionData.slice(0, cutoffIndex);
-  const emptyData = treePositionData.slice(cutoffIndex);
+
+  const filledNodeCount = autoPoolTableData.length;
+  const emptyNodeCount = treePositionData.length - filledNodeCount; 
+  const filledNodes = treePositionData.slice(0, filledNodeCount).map((item, index) => (
+    <div
+      key={index}
+      style={{
+        position: "absolute",
+        top: item.top,
+        left: item.left,
+        right: item.right,
+        bottom: item.bottom,
+      }}
+      onMouseEnter={() => setHoverDetails(autoPoolTableData[index] ?? null)}
+      onMouseLeave={() => setHoverDetails(null)}
+    >
+      <Image
+        src="/BNSymbol2.png"
+        alt="BNsymbol"
+        height={item.imgHeight}
+        width={item.imgWidth}
+        className={item.imgStyle}
+      />
+    </div>
+  ));
+
+
+  const emptyNodes = treePositionData.slice(filledNodeCount, treePositionData.length).map((item, index) => (
+    <div key={`empty-node-${index}`}>
+<EmptyNodeInTree
+       // Unique key for react elements
+      top={item.top}
+      bottom={item.bottom}
+      right={item.right}
+      left={item.left}
+      emptyHeight={item.emptyHeight}
+      emptyWidth={item.emptyWidth}
+      svgHeight={item.svgHeight}
+      svgWidth={item.svgWidth}
+    />
+    </div>
+    
+  ));
+
+  const allNodes = [...filledNodes, ...emptyNodes];
+
   return (
-    <div className="flex items-center justify-center">
-      <div className="m-5 w-fit">
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-full ">
+       <Link href='/dashboard/bnsystem/planetupgrade'>
+       <button className="bg-yellow-500 px-4 py-1 m-3 rounded-md text-lg font-semibold">
+          back
+        </button>
+       </Link>
+      </div>
+      <div className=" w-fit mt-36 mx-5 lg:m-5">
         <div className="h-24 w-full bg-zinc-800 flex  justify-between items-center ">
           <div className="flex items-center gap-x-3 p-2">
             <Image
@@ -170,11 +219,11 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
           <div className="text-center">
             <p>Each Cycled Benefits</p>
-            <p>2310%</p>
+            
           </div>
         </div>
 
-        <div className="relative bg-[#111010] w-fit ">
+        <div className="relative bg-[#111010] w-fit px-4 py-2 sm:px-7 sm:py-1 md:px-10 md:py-3">
           <Image
             src="/concentriccircle1.png"
             alt="concentriccircle"
@@ -182,120 +231,55 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
             width={800}
           />
 
-          <div className="absolute top-[45%] right-[46%]  w-fit">
+          <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43%]  lg:right-[44%]  w-fit">
             <Image
               src="/BNSymbol2.png"
               alt="BNsymbol1"
-              height={40}
-              width={40}
-              className="w-full border-2 border-zinc-600  p-3  bg-black rounded-full hover:border-yellow-400 duration-300"
+              height={50}
+              width = {50}
+              className="md:w-full lg:w-full border-2 border-zinc-600 p-2  lg:p-5  bg-black rounded-full hover:border-yellow-400 duration-300"
             />
           </div>
-
-          {imageData.map((item, index) => (
-            <div
-              key={index}
-              style={{
-                position: "absolute",
-                top: item.top,
-                bottom: item.bottom,
-                right: item.right,
-                left: item.left,
-              }}
-              onMouseEnter={() =>
-                setHoverDetails(
-                  autoPoolTableData.data[0]?.indexMappings[index]
-                    ?.userDetails[0] ?? null
-                )
-              } // Adjust based on actual data structure
-              onMouseLeave={() => setHoverDetails(null)}
-            >
-              <Image
-                src="/BNSymbol2.png"
-                alt="BNsymbol1"
-                height={item.imgHeight}
-                width={item.imgWidth}
-                className={item.imgStyle}
-              />
-            </div>
-          ))}
-
-          {emptyData.map((item, index) => (
-            <EmptyNodeInTree
-              key={index}
-              top={item.top}
-              bottom={item.bottom}
-              right={item.right}
-              left={item.left}
-              emptyHeight={item.emptyHeight}
-              emptyWidth={item.emptyWidth}
-              svgHeight={item.svgHeight}
-              svgWidth={item.svgWidth}
-            />
-          ))}
+            
+            {allNodes}
 
           {hoverDetails && (
             <div
-              style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                backgroundColor: "white",
-                padding: "10px",
-                borderRadius: "5px",
-                zIndex: 100,
-                color: "black",
-              }}
+             className="bg-black absolute top-[42%] left-[50%] p-5  border-2 border-yellow-400 z-50 -translate-x-[52%] w-fit rounded-lg "
             >
               <p>BN ID: {hoverDetails.bn_id}</p>
-              <p>Planet No: {hoverDetails.universeSlot}</p>
-              <p></p>
+              <p>Planet No: {hoverDetails.currentPosition}</p>
+              <p>Global Tier: {hoverDetails.currentLevel}</p>
+              <p>Time:{hoverDetails.timestamp}</p>
             </div>
           )}
         </div>
-        <div className="h-16 w-full flex bg-zinc-800">
-          <div className="order-2 lg:order-1">
-            <Pagination>
-              <PaginationContent>
-                <PaginationItem>
-                  <PaginationPrevious
-                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-                  />
-                </PaginationItem>
-                {Array.from(
-                  { length: recycleLength || 0 },
-                  (_, i) => i + 1
-                ).map((pageNumber: number) => {
-                  return (
-                    <PaginationItem
-                      key={pageNumber}
-                      className={pageNumber === currentPage ? "active" : ""}
-                    >
-                      <PaginationLink
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setCurrentPage(pageNumber);
-                        }}
-                      >
-                        {pageNumber}
-                      </PaginationLink>
-                    </PaginationItem>
-                  );
-                })}
-                <PaginationItem>
-                  <PaginationNext
-                    onClick={() =>
-                      setCurrentPage(
-                        Math.min(recycleLength || 1, currentPage + 1)
-                      )
-                    }
-                  />
-                </PaginationItem>
-              </PaginationContent>
-            </Pagination>
-          </div>
-        </div>
+       <div>
+       <div>
+      {/* Item Display */}
+      <div style={{ margin: '20px', textAlign: 'center' }}>
+        {items[currentItemIndex]}
+      </div>
+
+      {/* Navigation Controls */}
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <button
+          onClick={handlePreviousClick}
+          disabled={currentItemIndex === 0} // Disable if this is the first item
+          style={{ marginRight: '10px' }}
+        >
+          &larr; Previous
+        </button>
+        <button
+          onClick={handleNextClick}
+          disabled={currentItemIndex === items.length - 1} // Disable if this is the last item
+          style={{ marginLeft: '10px' }}
+        >
+          Next &rarr;
+        </button>
+      </div>
+    </div>
+       </div>
       </div>
     </div>
   );

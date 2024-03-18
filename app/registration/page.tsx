@@ -199,7 +199,7 @@ const Page = () => {
                                     <input
                                         id="bnId"
                                         onChange={(e) => setInviteAddress(e.target.value)}
-                                        value={(queryUrl as string) || inviteAddress}
+                                        value={(queryUrl as string) || inviteAddress.toLowerCase()}
                                         type="text"
                                         className="bg-gray-800 text-white rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500"
                                         placeholder="Upline  Address"

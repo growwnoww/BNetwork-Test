@@ -9,7 +9,7 @@ interface NestedMenuItem {
   title: string;
   path: string;
   icon: React.ReactNode;
-  lock:React.ReactNode;
+  lock?:React.ReactNode;
 }
 
 interface NestedMenuType {
@@ -31,8 +31,7 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "P Upgrade Live Status",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/planetuplive",
         icon: <IoMdArrowDropright />,
        
       },
@@ -54,20 +53,18 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Direct Team",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/directteam",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Team",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/tierteam",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Upline Team",
         path: "",
-        lock:<IoIosLock/>,
+        lock: <IoIosLock />,
         icon: <IoMdArrowDropright />,
       },
     ],
@@ -81,8 +78,8 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Planet Upgrade History",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/planetranxhistory",
+
         icon: <IoMdArrowDropright />,
       },
       {
@@ -102,14 +99,13 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Direct Earnings ",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/directearnings",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Tier Earnings ",
         path: "",
-        lock:<IoIosLock/>,
+        lock: <IoIosLock />,
         icon: <IoMdArrowDropright />,
       },
       {
@@ -120,8 +116,7 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "BN Coin Earned",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/bncoinearnings",
         icon: <IoMdArrowDropright />,
       },
       {

@@ -6,8 +6,7 @@ import { TbCards, TbUniverse } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+;
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { bNetwork } from "@/contract/Web3_Instance";
 import { WalletContext } from "@/context/WalletContext";
@@ -16,6 +15,7 @@ import { ethers } from "ethers";
 
 import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
+import axios from "axios";
 interface userDetailsType {
   regUser: string;
   regTime: string;
@@ -23,6 +23,7 @@ interface userDetailsType {
   regReferal: string;
   regReferalId: number;
   teamCount: number;
+  highestPlanetCount :number;
 }
 
 const Page = () => {
@@ -31,8 +32,9 @@ const Page = () => {
   const { isConnected } = useAccount();
   const [userDetails, setUserDetails] = useState<userDetailsType>();
   const router = useRouter();
-  const ownerAddress = "0x2C7f4dB6A0B1df04EA8550c219318C7f2FF3D34C";
+  const ownerAddress = "0x2c7f4db6a0b1df04ea8550c219318c7f2ff3d34c";
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [tranxHash,setTranxHash] = useState<string>();
 
   const getUserDetail = async () => {
     try {
@@ -43,6 +45,7 @@ const Page = () => {
       const MyContract = bNetwork();
 
       const exists = await MyContract!.isUserExists(userAddress);
+      const highestPlanetCount = await MyContract!.UserPlannet(userAddress);
 
       if (exists) {
         const response = await MyContract!.RegisterUserDetails(userAddress);
@@ -50,12 +53,14 @@ const Page = () => {
         console.log("Got user details", response);
 
         const formattedResponse = {
-          regUser: response.regUser,
+          regUser: String(response.regUser).toLowerCase(),
           regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
           regId: ethers.BigNumber.from(response.regId).toNumber(),
-          regReferal: response.regReferal,
+          regReferal: String(response.regReferal).toLowerCase(),
           regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
           teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
+          highestPlanetCount:ethers.BigNumber.from(highestPlanetCount).toNumber()
+
         };
 
         setUserDetails(formattedResponse);
@@ -96,8 +101,11 @@ const Page = () => {
         await registration.wait();
 
         getUserDetail();
+        console.log("registration hash",registration.hash)
+        setTranxHash(registration.hash)
         alert("Registration Successfully");
-        router.push("/dashboard");
+      
+        // router.push("/dashboard");
         console.log(registration);
       } else {
         alert("You already registered");
@@ -138,22 +146,14 @@ const Page = () => {
           upline_referralId: userDetails?.regReferalId,
           upline_referral_BNId: uplineBNIdLocal,
           direct_count: userDetails?.teamCount,
+          reg_transaction_hash:tranxHash
         };
 
-        console.log("hi", payload);
+        console.log("hellow", payload);
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          }
-        );
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`,payload);
 
-        if (res.ok) {
+        if (res.data) {
           router.push("/dashboard");
         } else {
           throw new Error(`HTTP error! status: ${res.status}`);
@@ -163,10 +163,10 @@ const Page = () => {
       }
     };
 
-    if (userDetails) {
+    if (userDetails && tranxHash) {
       createRegister();
     }
-  }, [userDetails]);
+  }, [userDetails,tranxHash]);
 
   return (
     <>

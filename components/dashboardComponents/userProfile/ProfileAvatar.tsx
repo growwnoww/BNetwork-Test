@@ -3,37 +3,30 @@ import useLatestPlanet from "@/Hooks/useLatestPlanet";
 import { Context } from "@/components/Context";
 import UserInfo from "@/components/clientcomponents/UserInfo";
 import { WalletContext } from "@/context/WalletContext";
+import axios from "axios";
 import { ethers } from "ethers";
 import Image from "next/image";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 
+interface userDetailsInfo {
+    bn_id: string;
+    reg_user_address: string;
+    latestPlanetName:string;
+
+  }
 const ProfileAvatar = () => {
 
     // const host = window.location.hostname;
-    const planetCountContract = useLatestPlanet();
-    const planetCount =  ethers.BigNumber.from(planetCountContract).toNumber();
+
     const walletContext = useContext(WalletContext)
-    const userAddress = walletContext?.userAddress
+    const userAddress = walletContext?.userAddress;
+    const [userDetails,setUserDetails] = useState<userDetailsInfo>()
+
    
-    const getPlanetInString = (planetId: number): string | undefined => {
-        const planetNames: { [id: number]: string } = {
-          1: "Earth",
-          2: "Moon",
-          3: "Mars",
-          4: "Mercury",
-          5: "Venus",
-          6: "Jupiter",
-          7: "Saturn",
-          8: "Uranus",
-          9: "Neptune",
-          10: "Pluto",
-        };
-    
-        return planetNames[planetId];
-      };
+
       
-      const userAvatar =  getPlanetInString(planetCount) || 'just_reg';
+      const userAvatar =  userDetails ?.latestPlanetName|| 'just_reg';
 
 
 
@@ -46,6 +39,29 @@ const ProfileAvatar = () => {
         }
     };
 
+    const getUserDetails = async () => {
+        try {
+          const response = await axios(
+            `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
+          );
+          if (response.data) {
+            const data: userDetailsInfo = await response.data
+            console.log("User detail from get req ", data);
+            setUserDetails(data);
+          } else {
+            throw new Error(`HTTP error! status: res} $`);
+          }
+        } catch (error) {
+          console.log("something went wrong in getUserDetails", error);
+        }
+      };
+
+      useEffect(() => {
+
+        getUserDetails();
+    
+      }, [userAddress]);
+
     return (
         <>
             <div className="">
@@ -53,7 +69,7 @@ const ProfileAvatar = () => {
             </div>
 
             <div
-             onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress}`)}
+             onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress?.toLowerCase()}`)}
             className="flex cursor-pointer items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">
                 <p>Copy Referrel link </p>
                 <span>

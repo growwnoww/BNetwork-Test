@@ -25,7 +25,7 @@ const userFetchTierLevels = (userAddress:string | undefined): tierTeamDataType[]
             let allLevelsData: tierTeamDataType[][] = [];
             
             for(let level=1;level<=maxLevel;level++){
-                const url =  `${process.env.NEXT_PUBLIC_URL}/user/getTierUserlevel/${userAddress}/${level}`
+                const url =  `${process.env.NEXT_PUBLIC_URL}/user/getTierUserlevel/${userAddress?.toLowerCase()}/${level}`
 
                 try {
                     const response = await fetch(url);
