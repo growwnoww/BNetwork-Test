@@ -69,7 +69,7 @@ const ProfileAvatar = () => {
             </div>
 
             <div
-             onClick={() => copyToClipboard(`https://bnetwork.space/registration?rr=${userAddress?.toLowerCase()}`)}
+             onClick={() => copyToClipboard(`https://www.bnetwork.space//registration?rr=${userAddress?.toLowerCase()}`)}
             className="flex cursor-pointer items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">
                 <p>Copy Referrel link </p>
                 <span>

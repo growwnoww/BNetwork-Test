@@ -121,8 +121,7 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "Auto Pool Earnings",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/autopoolearnings",
         icon: <IoMdArrowDropright />,
       },
     ],
