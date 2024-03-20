@@ -12,6 +12,7 @@ import { BackgroundBeams } from "@/components/ui/background-beams";
 import { BNetwork } from "@/contract/Web3_Instance";
 import { WalletContext } from "@/context/WalletContext";
 import { ethers } from "ethers";
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
@@ -32,20 +33,26 @@ const Page = () => {
     const [userDetails, setUserDetails] = useState<userDetailsType>();
     const router = useRouter();
     const ownerAddress = "0x2C7f4dB6A0B1df04EA8550c219318C7f2FF3D34C";
+
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const { walletProvider } = useWeb3ModalProvider();
 
     const getUserDetail = async () => {
         try {
             if (!userAddress || !isConnected) {
                 return;
             }
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+            // const MyContract = BNetwork();
 
-            const MyContract = BNetwork();
-
-            const exists = await MyContract!.isUserExists(userAddress);
+            const exists = await BNetworkContract.isUserExists(userAddress);
 
             if (exists) {
-                const response = await MyContract!.RegisterUserDetails(userAddress);
+                const response = await BNetworkContract.RegisterUserDetails(userAddress);
 
                 console.log("Got user details", response);
 
@@ -67,8 +74,7 @@ const Page = () => {
         }
     };
 
-    const RegisterUserByManager = async () => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const registerUserByManager = async () => {
         if (!isConnected) {
             alert("Connect Your Wallet!");
             return;
@@ -82,14 +88,15 @@ const Page = () => {
             const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
 
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
-            const userExisit = await myContract!.UserRegister(userAddress);
-            const gasFee = await myContract!.gasfees();
+            const userExisit = await BNetworkContract.UserRegister(userAddress);
+            const gasFee = await BNetworkContract!.gasfees();
             const convert = Number(gasFee?._hex).toString();
             if (userExisit === false) {
                 console.log("cheching upline address before reg", ownerAddress);
-                const registration = await myContract!.registrations(ownerAddress, {
+                const registration = await BNetworkContract!.registrations(ownerAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -252,7 +259,7 @@ const Page = () => {
                             </div>
                         </div>
                         <div
-                            onClick={RegisterUserByManager}
+                            onClick={registerUserByManager}
                             className={`${
                                 termsAccepted ? "bg-yellow-500 hover:bg-yellow-700" : "bg-yellow-600"
                             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center`}

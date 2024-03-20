@@ -17,6 +17,8 @@ import { ethers } from "ethers";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Meteors } from "@/components/ui/meteors";
 import { useRouter } from "next/navigation";
+import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 interface userDetailsType {
     regUser: string;
@@ -34,6 +36,9 @@ const Page = () => {
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
+    const { walletProvider } = useWeb3ModalProvider();
+
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const router = useRouter();
 
@@ -45,9 +50,12 @@ const Page = () => {
         try {
             e.preventDefault();
             console.log("upline address", inviteAddress);
-            const MyContract = BNetwork();
+            // const MyContract = BNetwork();
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
-            const isUplineExist = await MyContract!.isUserExists(inviteAddress);
+            const isUplineExist = await BNetworkContract.isUserExists(inviteAddress);
 
             if (!isUplineExist) {
                 alert("Upline doesnt' exist, use correct upline address");

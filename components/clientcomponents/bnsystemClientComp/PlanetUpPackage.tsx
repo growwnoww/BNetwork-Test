@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from "react";
 import { FaUserLock } from "react-icons/fa";
 import "../../../app/globals.css";
 import USBTToken from "../../../contract/USDTABI.json";
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 interface PlanetUpPropsTypes {
     planetId: number;
@@ -31,6 +32,8 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const [tokenBuypop, setTokenpop] = useState<boolean>(false);
     const [planetBuyStatus, setPlanetBuyStatus] = useState<Record<number, boolean>>({});
     const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
+    const { walletProvider } = useWeb3ModalProvider();
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const getPlanetName = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -81,21 +84,20 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         }
     };
 
-    const ApproveUSDT = async () => {
-        const { walletProvider } = useWeb3ModalProvider();
-
+    const approveUSDT = async () => {
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
-            console.log("signer", signer);
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const gasPrice = await signer.getGasPrice();
-            const myContract = BNetwork();
-            const getFeeTokenAddress = await myContract!.getFeeToken();
+            // const myContract = BNetwork();
+            const getFeeTokenAddress = await BNetworkContract.getFeeToken();
             console.log("USDT TOken address", getFeeTokenAddress);
             const secondInstance = new ethers.Contract(getFeeTokenAddress, USBTToken, signer);
             const approveAmt = await secondInstance.balanceOf(userAddress);
             console.log("Approve", approveAmt);
-            const approve = await secondInstance.approve(myContract!.address, approveAmt);
+            const approve = await secondInstance.approve(BNetworkContract.address, approveAmt);
             await approve.wait();
             console.log(approve);
             setApprove(true);
@@ -104,14 +106,15 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         }
     };
 
-    const BuyPlanetUser = async () => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const buyPlanetUser = async () => {
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const gasPrice = await signer.getGasPrice();
 
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
 
             const planetById =
                 packageName === "Earth"
@@ -136,7 +139,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     ? "10"
                     : "null";
             console.log(planetById);
-            const buyPlanet = await myContract!.buyPlannet(planetById, {
+            const buyPlanet = await BNetworkContract.buyPlannet(planetById, {
                 gasPrice: gasPrice,
                 gasLimit: ethers.utils.hexlify(1000000),
             });
@@ -180,14 +183,14 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     isApprove ? (
                         <button
                             className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
-                            onClick={BuyPlanetUser}
+                            onClick={buyPlanetUser}
                         >
                             Upgrade
                         </button>
                     ) : (
                         <button
                             className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
-                            onClick={ApproveUSDT}
+                            onClick={approveUSDT}
                         >
                             Approve
                         </button>

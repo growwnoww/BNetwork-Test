@@ -22,7 +22,7 @@ import UplineInfo from "@/components/UplineInfo";
 import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
-
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 interface userDetailsType {
     regUser: string;
     regTime: string;
@@ -41,6 +41,10 @@ const Page = () => {
     const params = useSearchParams();
     const queryUrl = params.get("rr");
 
+    const { walletProvider } = useWeb3ModalProvider();
+
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+
     const params1 = useParams();
     console.log("params1", params1);
     const uplineAddressStr: string = String(params1.upline_address);
@@ -58,12 +62,15 @@ const Page = () => {
                 return;
             }
 
-            const MyContract = BNetwork();
+            // const MyContract = BNetwork();
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
-            const exists = await MyContract!.isUserExists(userAddress);
+            const exists = await BNetworkContract.isUserExists(userAddress);
 
             if (exists) {
-                const response = await MyContract!.RegisterUserDetails(userAddress);
+                const response = await BNetworkContract.RegisterUserDetails(userAddress);
 
                 console.log("Got user details", response);
 
@@ -138,8 +145,7 @@ const Page = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userDetails]);
 
-    const RegisterUser = async (e: any) => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const registerUser = async (e: any) => {
         e.preventDefault();
 
         if (!isConnected) {
@@ -154,18 +160,19 @@ const Page = () => {
             }
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
             const gasPrice = await signer.getGasPrice();
 
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
 
-            const userExisit = await myContract!.isUserExists(userAddress);
+            const userExisit = await BNetworkContract.isUserExists(userAddress);
 
-            const gasFee = await myContract!.gasfees();
+            const gasFee = await BNetworkContract.gasfees();
             const convert = Number(gasFee?._hex).toString();
 
             if (userExisit === false) {
                 console.log("cheching upline address before reg", uplineAddressStr);
-                const registration = await myContract!.registrations(uplineAddressStr, {
+                const registration = await BNetworkContract.registrations(uplineAddressStr, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -225,7 +232,7 @@ const Page = () => {
                         </div>
 
                         <div
-                            onClick={RegisterUser}
+                            onClick={registerUser}
                             className={`${
                                 termsAccepted ? "bg-yellow-500 hover:bg-yellow-700" : "bg-yellow-600"
                             } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline text-center`}

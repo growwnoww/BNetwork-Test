@@ -18,6 +18,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [planetStatus, setPlanetStatus] = useState<string | undefined>();
     // const { address, isConnected } = useAccount();
     const { address, isConnected } = useWeb3ModalAccount();
+    console.log("🚀 ~ address:", address, isConnected);
     const [planetBuyLength, setPlanetBuyLength] = useState<number | undefined>();
 
     const fetchUserDetail = async () => {

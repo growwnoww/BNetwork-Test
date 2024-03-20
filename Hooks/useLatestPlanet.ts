@@ -1,14 +1,17 @@
 "use client";
 
 import { BNetwork } from '@/contract/Web3_Instance';
-import { useWeb3ModalAccount } from '@web3modal/ethers5/react';
+import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers5/react';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react'
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 const useLatestPlanet = () => {
 
     const [planetCount, setPlanetCount] = useState<number>(0)
     const { address, isConnected } = useWeb3ModalAccount();
+    const { walletProvider } = useWeb3ModalProvider();
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const getUserPlanetCount = async () => {
         try {
@@ -17,9 +20,12 @@ const useLatestPlanet = () => {
                 return;
             }
 
-            const MyContract = BNetwork();
+            // const MyContract = BNetwork();
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
             console.log("user address before plannet count", address)
-            const planetCount = await MyContract!.userPlannet(address);
+            const planetCount = await BNetworkContract.userPlannet(address);
             const numberFormat = ethers.BigNumber.from(planetCount).toNumber()
             console.log("user planet count", numberFormat)
 

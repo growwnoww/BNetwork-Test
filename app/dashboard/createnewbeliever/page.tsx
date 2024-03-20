@@ -12,6 +12,7 @@ import Token_ABI from "@/contract/Token_ABI.json";
 import { SelectData } from "@/utils/SelectData";
 import { WalletContext } from "@/context/WalletContext";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 const Page = () => {
     const [selectedOption, setSelectedOption] = useState<string>("Registration");
@@ -25,8 +26,8 @@ const Page = () => {
         beliverAddress: "",
         package: "",
     });
-
-    console.log(value);
+    const { walletProvider } = useWeb3ModalProvider();
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const handleSelectPackageChange = (selectedValue: string) => {
         setValue((prevState: any) => ({
@@ -56,25 +57,27 @@ const Page = () => {
         return planetNames[planetName];
     };
 
-    const RegisterUser = async (e: any) => {
+    const registerUser = async (e: any) => {
         e.preventDefault();
-        const { walletProvider } = useWeb3ModalProvider();
+
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const gasPrice = await signer.getGasPrice();
 
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
             console.log("before reg refferelAddress", value.refferalAddress);
             console.log("before reg believer", value.beliverAddress);
-            const isReferrel = await myContract!.isUserExists(value.refferalAddress);
+            const isReferrel = await BNetworkContract.isUserExists(value.refferalAddress);
             if (!isReferrel) {
                 alert("Referral Address is not registered");
                 return;
             }
 
-            const isUserExist = await myContract!.isUserExists(value.beliverAddress);
-            const gasFee = await myContract!.gasfees();
+            const isUserExist = await BNetworkContract.isUserExists(value.beliverAddress);
+            const gasFee = await BNetworkContract.gasfees();
             const convert = Number(gasFee?._hex).toString();
             console.log(convert);
             if (!value.refferalAddress || !value.beliverAddress) {
@@ -84,11 +87,15 @@ const Page = () => {
             if (isUserExist === false) {
                 console.log("before reg refferelAddress", value.refferalAddress);
                 console.log("before reg refferelAddress", value.beliverAddress);
-                const registration = await myContract!.registrations_user(value.refferalAddress, value.beliverAddress, {
-                    gasPrice: gasPrice,
-                    gasLimit: "200000",
-                    value: convert,
-                });
+                const registration = await BNetworkContract.registrations_user(
+                    value.refferalAddress,
+                    value.beliverAddress,
+                    {
+                        gasPrice: gasPrice,
+                        gasLimit: "200000",
+                        value: convert,
+                    }
+                );
                 await registration.wait();
                 alert("New Believer created successfully! 🚀");
                 console.log(registration);
@@ -100,21 +107,22 @@ const Page = () => {
         }
     };
 
-    const ApproveUSDT = async () => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const approveUSDT = async () => {
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const gasPrice = await signer.getGasPrice();
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
             const planetById = getPlanetId(value.package);
-            const newBelieverCurrentPlanet = await myContract!.userPlannet(value.beliverAddress);
+            const newBelieverCurrentPlanet = await BNetworkContract.userPlannet(value.beliverAddress);
 
             if (newBelieverCurrentPlanet >= planetById) {
                 alert(`New Believer Already Has ${value.package} Planet`);
                 return;
             }
-            const getFeeTokenAddress = await myContract!.getFeeToken();
+            const getFeeTokenAddress = await BNetworkContract.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
             const planetName =
                 value.package === "Earth"
@@ -138,7 +146,7 @@ const Page = () => {
                     : value.package === "Pluto"
                     ? "5000000000000000000000"
                     : "5000000000000000000";
-            const approve = await secondInstance.approve(myContract!.address, planetName, {
+            const approve = await secondInstance.approve(BNetworkContract.address, planetName, {
                 gasPrice: gasPrice,
                 gasLimit: "200000",
             });
@@ -150,18 +158,19 @@ const Page = () => {
         }
     };
 
-    const CheckApproveUSDT = async () => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const checkApproveUSDT = async () => {
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
-            const myContract = BNetwork();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
+            // const myContract = BNetwork();
 
             const gasPrice = await signer.getGasPrice();
 
-            const getFeeTokenAddress = await myContract!.getFeeToken();
+            const getFeeTokenAddress = await BNetworkContract.getFeeToken();
             const secondInstance = new ethers.Contract(getFeeTokenAddress, Token_ABI, signer);
-            const checkAllowance = await secondInstance.allowance(userAddress, myContract!.address);
+            const checkAllowance = await secondInstance.allowance(userAddress, BNetworkContract.address);
             const allowance = Number(checkAllowance?._hex);
             setAllow(allowance.toString());
         } catch (error) {
@@ -169,18 +178,19 @@ const Page = () => {
         }
     };
 
-    const BuyPlanetUser = async (e: any) => {
-        const { walletProvider } = useWeb3ModalProvider();
+    const buyPlanetUser = async (e: any) => {
         e.preventDefault();
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const gasPrice = await signer.getGasPrice();
             const planetById = getPlanetId(value.package);
 
-            const myContract = BNetwork();
+            // const myContract = BNetwork();
 
-            const isUserExist = await myContract!.isUserExists(value.beliverAddress);
+            const isUserExist = await BNetworkContract.isUserExists(value.beliverAddress);
             if (!isUserExist) {
                 alert("New Believer is not registered!");
                 return;
@@ -188,7 +198,7 @@ const Page = () => {
 
             if (planetById && value.beliverAddress) {
                 console.log("planet id", planetById);
-                const buyPlanet = await myContract!.buyPlannet_user(planetById, value.beliverAddress, {
+                const buyPlanet = await BNetworkContract.buyPlannet_user(planetById, value.beliverAddress, {
                     gasPrice: gasPrice,
                     gasLimit: ethers.utils.hexlify(1000000),
                 });
@@ -205,7 +215,7 @@ const Page = () => {
     };
 
     useEffect(() => {
-        CheckApproveUSDT();
+        checkApproveUSDT();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -246,7 +256,7 @@ const Page = () => {
                             <form
                                 action=""
                                 className="w-[90%] md:w-full flex flex-col items-start  gap-y-5 px-4  bg-zinc-900 py-4 lg:px-6 rounded-lg "
-                                onSubmit={RegisterUser}
+                                onSubmit={registerUser}
                             >
                                 <label htmlFor="">Your Address</label>
                                 <Input
@@ -281,7 +291,7 @@ const Page = () => {
                             </form>
                         ) : (
                             <div className="w-[90%] md:w-ful flex flex-col items-center px-4 gap-y-5 bg-zinc-900  rounded-lg">
-                                <form action="" className="flex flex-col gap-y-5 py-4 px-6" onSubmit={BuyPlanetUser}>
+                                <form action="" className="flex flex-col gap-y-5 py-4 px-6" onSubmit={buyPlanetUser}>
                                     <label htmlFor="">Your Address</label>
                                     <Input
                                         type="text"
@@ -331,7 +341,7 @@ const Page = () => {
                                     ""
                                 ) : (
                                     <div className="w-full flex items-center justify-center my-4">
-                                        <Button variant="custom_yellow" onClick={ApproveUSDT}>
+                                        <Button variant="custom_yellow" onClick={approveUSDT}>
                                             Approve
                                         </Button>
                                     </div>
