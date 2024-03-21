@@ -104,8 +104,7 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "Tier Earnings ",
-        path: "",
-        lock: <IoIosLock />,
+        path: "/dashboard/tierearnings",
         icon: <IoMdArrowDropright />,
       },
       {

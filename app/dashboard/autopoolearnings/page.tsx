@@ -184,30 +184,32 @@ const Page = () => {
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
             <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
-              <div className=" w-full flex flex-col items-end md:items-start ">
-                <label className="">Filter</label>
+              <div className="order-2 md:order-1 w-full flex flex-row md:flex-col items-end md:items-start gap-x-7 my-4">
+                <label className="">Filter:</label>
                 <Input
                   type="text"
                   placeholder="Enter BN Id or Address"
-                  className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
+                  className="w-[75%] h-8 lg:h-9 lg:w-[170px]"
                 />
               </div>
 
-              <div className="w-full flex flex-row justify-end gap-x-3 ">
+              <div className="order-1 md:order-2 w-full flex flex-row justify-end gap-x-3 ">
                 <form
                   action=""
                   onSubmit={submitHandler}
-                  className="w-full flex items-center flex-row justify-end gap-x-3 "
+                  className="w-full flex flex-col items-center md:flex-row md:items-center md:justify-center justify-end gap-x-3  gap-3"
                 >
-                  <div className="flex items-center gap-x-3 ">
-                    <div>
-                      <p>Packages</p>
-                      <Select
+                  <div className="w-full flex flex-row md:flex-col md:items-center md:justify-center gap-x-3 ">
+                  <div className="w-full items-start justify-start md:items-center md:justify-center">
+                      <p>Packages:</p>
+                    </div>
+                    <div className="w-full items-start justify-start md:items-center md:justify-center">
+                    <Select
                         name="selectedPackage"
                         value={value.package}
                         onValueChange={handleSelectPackageChange}
                       >
-                        <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
+                        <SelectTrigger className="w-[180px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
                           <SelectValue placeholder="" />
                         </SelectTrigger>
                         <SelectContent defaultValue="Earth">
@@ -221,8 +223,11 @@ const Page = () => {
                     </div>
                   </div>
 
-                  <div>
-                    <p>Recycle </p>
+                  <div className="w-full flex flex-row md:flex-col  ">
+                    <div className="w-full flex items-start justify-start md:items-center md:justify-center">
+                    <p>Recycle: </p>
+                    </div>
+                    <div className="w-full flex items-end justify-end md:items-center md:justify-center">
                     <Input
                       type="number"
                       min="1"
@@ -230,7 +235,7 @@ const Page = () => {
                       
                       defaultValue="1"
                       placeholder="Enter Recycle Number"
-                      className="w-[50px] h-7 lg:h-9 lg:w-[70px]"
+                      className="w-[180px] h-7 lg:h-9 lg:w-[70px]"
                       name="recycleVal"
                       value={value.recycleVal}
                       onChange={(e) => {
@@ -240,16 +245,20 @@ const Page = () => {
                         setValue({ ...value, recycleVal: newValue.toString() });
                       }}
                     />
+                    </div>
                   </div>
 
-                  <div>
-                    <p>Levels</p>
-                    <Select
+                  <div className="w-full flex flex-row md:flex-col md:items-center md:justify-center">
+                     <div className="w-full items-start justify-start md:items-center md:justify-center">
+                     <p>Levels: </p>
+                      </div>                     
+                      <div className="w-full items-start justify-start md:items-center md:justify-center">
+                     <Select
                       name="selectedLevel"
                       value={value.level}
                       onValueChange={handleSelectLevelChange}
                     >
-                      <SelectTrigger className="w-[50px] h-8 lg:w-[75px] lg:h-9  ">
+                      <SelectTrigger className="w-[180px] h-8 lg:w-[75px] lg:h-9  ">
                         <SelectValue placeholder="" />
                       </SelectTrigger>
                       <SelectContent defaultValue="1">
@@ -260,12 +269,14 @@ const Page = () => {
                         ))}
                       </SelectContent>
                     </Select>
+                     </div>
+                   
                   </div>
 
                   <Button
                     type="submit"
                     variant={"custom_yellow"}
-                    className="mt-6 h-7 md:h-9"
+                    className="mt-2 md:mt-auto h-7 px-[45%] md:px-3 md:h-9"
                   >
                     Submit
                   </Button>
@@ -273,7 +284,7 @@ const Page = () => {
               </div>
             </div>
 
-            <div className="w-3/4">
+            <div className="w-[86%] overflow-x-scroll lg:overflow-x-hidden">
            {
             autoPoolTableData && autoPoolTableData.data && autoPoolTableData.data.length > 0 ?
             (
@@ -309,14 +320,14 @@ const Page = () => {
 
                   <TableHead
                     scope="col"
-                    className=" text-center tracking-wider"
+                    className="px-4 lg:px-0 text-center tracking-wider"
                   >
                     Earned
                   </TableHead>
 
                   <TableHead
                     scope="col"
-                    className=" text-center tracking-wider"
+                    className="px-5 lg:px-0 text-center tracking-wider"
                   >
                     Planet Package
                   </TableHead>
@@ -333,34 +344,34 @@ const Page = () => {
                 {autoPoolTableData && autoPoolTableData.data.map((item, index) => (
                   <React.Fragment key={index}>
                     <TableRow className="text-white text-center text-[12px] lg:text-md">
-                      <TableCell className="py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
+                      <TableCell className="mx-5 lg:mx-0 py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
                         {index + 1} {/* Displaying index as Sr No */}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
+                      <TableCell className="px-5 lg:px-0 py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
                         {item.currentLevel}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap">
+                      <TableCell className="px-5 lg:px-0 py-2 whitespace-nowrap">
                         {new Date(item.timestamp).toLocaleString()}{" "}
                         {/* Formatting timestamp */}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap">
+                      <TableCell className="px-5 lg:px-0 py-2 whitespace-nowrap">
                         {item.bn_id}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap">
+                      <TableCell className="px-5 lg:px-0 py-2 whitespace-nowrap">
                         {item.amount.toFixed(2)}{" "}
                         {/* Assuming amount is a number */}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap">
+                      <TableCell className=" px-5 lg:px-0 py-2 whitespace-nowrap">
                         {getPlanetName(value.package)}{" "}
                         {/* Assuming you want to display the user address */}
                       </TableCell>
 
-                      <TableCell className="py-2 whitespace-nowrap font-medium">
+                      <TableCell className=" px-5 lg:px-0 py-2 whitespace-nowrap font-medium">
                         <Button onClick={() => handleToggle(item.bn_id)}>
                           {expanded[item.bn_id] ? "Hide" : "Show"}
                         </Button>
@@ -375,7 +386,7 @@ const Page = () => {
                           <div className="w-full flex flex-col gap-x-5 gap-y-1 p-4 text-md">
                             {/* Display additional info here if needed, currently it's set to show user's BN ID*/}
                             <div className="flex gap-x-2">
-                              <p className="w-fit">
+                              <p className="w-fit text-[12px]">
                                 User address: {item.reg_user_address}
                               </p>
 

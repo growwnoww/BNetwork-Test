@@ -1,8 +1,8 @@
 /* Default styles */
 
 .img-responsive1 {
-    height: 55px;
-    width: 55px;
+    height: 50px;
+    width: 50px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
@@ -17,8 +17,8 @@
 /* Mobile styles */
 @media (max-width: 668px) {
     .img-responsive1 {
-        height: 20px; /* Smaller size for mobile */
-        width: 20px; /* Smaller size for mobile */
+        height: 30px; /* Smaller size for mobile */
+        width: 30px; /* Smaller size for mobile */
     }
 }
 
@@ -109,7 +109,18 @@
 /* Mobile styles */
 @media (max-width: 668px) {
     .img-responsiveTw {
-        height: 20px; /* Smaller size for mobile */
-        width: 20px; /* Smaller size for mobile */
+        height: 25px; /* Smaller size for mobile */
+        width: 25px; /* Smaller size for mobile */
     }
+}
+
+.emptyStyle1{
+    height: 40px;
+    width: 50px;
+}
+
+.emptyStyle4{
+    height: 34px;
+    width: 34px;
+    
 }

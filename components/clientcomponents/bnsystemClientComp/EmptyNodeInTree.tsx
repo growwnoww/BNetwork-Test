@@ -1,12 +1,20 @@
+"use client"
+import useResponsiveSVGSize from "@/Hooks/useResponsiveSVGSize";
+import React, { useEffect, useState } from "react";
+
 interface EmptyNodeInTreeType {
   emptyHeight: number;
   emptyWidth: number;
-  svgHeight: string;
-  svgWidth: string;
+  svgHeight?: string;
+  svgWidth?: string;
   top?: string;
   bottom?: string;
   right?: string;
   left?: string;
+  styleSvg?: React.CSSProperties; // Add style for SVG
+  defaultSize?:React.CSSProperties;
+  mobileSize?:React.CSSProperties;
+
 }
 
 const EmptyNodeInTree = ({
@@ -18,6 +26,9 @@ const EmptyNodeInTree = ({
   bottom,
   right,
   left,
+  styleSvg,
+  defaultSize,
+  mobileSize
 }: EmptyNodeInTreeType) => {
 
   const style = {
@@ -25,8 +36,21 @@ const EmptyNodeInTree = ({
     top,
     bottom,
     right,
-    left,
+    left
+
   };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768); // 768px is a common breakpoint for mobile devices
+  const currentSize = useResponsiveSVGSize(defaultSize, mobileSize);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   return (
     <> 
     {/* @ts-ignore */}
@@ -42,7 +66,7 @@ const EmptyNodeInTree = ({
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{ width: `${svgWidth}`, height: `${svgHeight}` }}
+            style={currentSize}
           >
             <path
               d="M12 0L12 24M0 12L24 12"

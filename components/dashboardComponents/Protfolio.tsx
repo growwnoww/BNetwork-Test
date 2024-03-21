@@ -32,6 +32,7 @@ const Protfolio = () => {
     const fetchPortfolioInfo = async () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/user/getPortfolioInfo/${userAddress?.toLowerCase()}`);
+        console.log(response.data)
         setPortfolioInfo(response.data);
       } catch (error) {
         console.error('Error fetching portfolio data:', error);
@@ -68,8 +69,9 @@ const Protfolio = () => {
     { title: "BN Max Airdrop Coins", icon: <RiBitCoinLine />, field: 'maxBNAirdropCoin', isCoin: true },
     { title: "BN Airdrop Coins", icon: <RiBitCoinLine />, field: 'bn_airdrop_coin', isCoin: true },
     { title: "Airdrop Refer Coin", icon: <RiBitCoinLine />, field: 'bn_airdrop_refer_coin', isCoin: true },
-    { title: "Total BN Coin", icon:<RiBitCoinLine />, field: 'totalBnCoin', isCoin: true },
+   
     { title: "BN Reward Coin", icon:<RiBitCoinLine />, field: 'bn_reward_coin', isCoin: true },
+    { title: "Total BN Coin", icon:<RiBitCoinLine />, field: 'totalBnCoin', isCoin: true },
     { title: "Direct Earning", icon: <BsCoin />, field: 'directEarningsAmount', isCurrency: true },
     { title: "Tier Earning", icon: <BsCoin />, field: 'tierEarningsAmount', isCurrency: true },
     { title: "Planet Upgrade Earning", icon: <BsCoin />, field: 'planetUpgradeEarningAmt', isCurrency: true },

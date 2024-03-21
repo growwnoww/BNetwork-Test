@@ -10,6 +10,7 @@ import { WalletContext } from "@/context/WalletContext";
 import Pagination from '@/components/clientcomponents/bnsystemClientComp/Pagination'
 import axios from "axios";
 import Link from "next/link";
+import useResponsiveSVGSize from "@/Hooks/useResponsiveSVGSize";
 
 
 
@@ -22,7 +23,6 @@ interface PlanetUpTreeData{
   timestamp:string;
 }
 
-const items = Array.from({ length: 100 }, (_, index) => ` ${index + 1}`);
 
 
 
@@ -37,7 +37,6 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   const currentPlanet = Object.values(params)
   const [maxRecycle,setMaxRecycle] = useState<number>()
 
-  const recycleLength = 4
 
   const [currentItemIndex, setCurrentItemIndex] = useState(0); // Starts from 0 for the first item
   const items = Array.from({ length: 100 }, (_, index) => `Recycle ${index + 1}`);
@@ -140,17 +139,15 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
   useEffect(() => {
     getTreeData(currentItemIndex);
-  }, [ userAddress,currentItemIndex]);
-
-  useEffect(()=>{
     getRecycleLevel()
-  },[])
+
+  }, [ userAddress,currentItemIndex]);
 
   const cutoffIndex = user; // Adjust based on your requirements
   console.log("cutt",cutoffIndex)
 
   const filledNodeCount = autoPoolTableData.length;
-  const emptyNodeCount = treePositionData.length - filledNodeCount; 
+ 
   const filledNodes = treePositionData.slice(0, filledNodeCount).map((item, index) => (
     <div
       key={index}
@@ -175,36 +172,46 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   ));
 
 
-  const emptyNodes = treePositionData.slice(filledNodeCount, treePositionData.length).map((item, index) => (
-    <div key={`empty-node-${index}`}>
-<EmptyNodeInTree
-       // Unique key for react elements
-      top={item.top}
-      bottom={item.bottom}
-      right={item.right}
-      left={item.left}
-      emptyHeight={item.emptyHeight}
-      emptyWidth={item.emptyWidth}
-      svgHeight={item.svgHeight}
-      svgWidth={item.svgWidth}
-    />
-    </div>
+
+
+  const emptyNodes = treePositionData.slice(filledNodeCount, treePositionData.length).map((item, index) => {
+
+
+    return (
+      <div key={`empty-node-${index}`}>
+      <EmptyNodeInTree
+        // Unique key for react elements
+       top={item.top}
+       bottom={item.bottom}
+       right={item.right}
+       left={item.left}
+       emptyHeight={item.emptyHeight || 30}
+       emptyWidth={item.emptyWidth || 30}
+       defaultSize={{ width: item.svgWidth, height: item.svgHeight }}
+       mobileSize={{ width: item.mobilesvgWidth, height: item.mobilesvgHeight }}
+ 
+     />
+     </div>
+    )
+   
     
-  ));
+  })
 
   const allNodes = [...filledNodes, ...emptyNodes];
 
   return (
     <div className="flex flex-col items-center justify-center">
+
       <div className="w-full ">
-       <Link href='/dashboard/bnsystem/planetupgrade'>
-       <button className="bg-yellow-500 px-4 py-1 m-3 rounded-md text-lg font-semibold">
-          back
-        </button>
-       </Link>
+        <Link href="/dashboard/bnsystem/planetupgrade">
+          <button className="bg-yellow-500 px-5 py-2 font-bold rounded-md m-2">
+            back
+          </button>
+        </Link>
       </div>
-      <div className=" w-fit mt-36 mx-5 lg:m-5">
-        <div className="h-24 w-full bg-zinc-800 flex  justify-between items-center ">
+    
+      <div className="w-fit lg:w-[65%] mt-16 mx-5 lg:m-5 ">
+        <div className="h-auto w-auto lg:w-3/4 bg-zinc-800 flex  justify-between items-center ">
           <div className="flex items-center gap-x-3 p-2">
             <Image
               src={`/${currentPlanet}.png`}
@@ -218,12 +225,12 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
           </div>
 
           <div className="text-center">
-            <p>Each Cycled Benefits</p>
+            <p></p>
             
           </div>
         </div>
 
-        <div className="relative bg-[#111010] w-fit px-4 py-2 sm:px-7 sm:py-1 md:px-10 md:py-3">
+        <div className="relative bg-[#111010] w-fit lg:w-3/4 h-[40%] px-4 py-2 sm:px-7 sm:py-1 md:px-10 md:py-3">
           <Image
             src="/concentriccircle1.png"
             alt="concentriccircle"
@@ -231,13 +238,13 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
             width={800}
           />
 
-          <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43%]  lg:right-[44%]  w-fit">
+          <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43%]  lg:right-[45%]  w-fit">
             <Image
               src="/BNSymbol2.png"
               alt="BNsymbol1"
-              height={50}
-              width = {50}
-              className="md:w-full lg:w-full border-2 border-zinc-600 p-2  lg:p-5  bg-black rounded-full hover:border-yellow-400 duration-300"
+              height={45}
+              width = {45}
+              className="md:w-full lg:w-full border-2 border-zinc-600   lg:p-2  bg-black rounded-full hover:border-yellow-400 duration-300"
             />
           </div>
             
@@ -245,7 +252,7 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
           {hoverDetails && (
             <div
-             className="bg-black absolute top-[42%] left-[50%] p-5  border-2 border-yellow-400 z-50 -translate-x-[52%] w-fit rounded-lg "
+             className="bg-black bg-opacity-65 absolute top-[39%] left-[50%] text-[9px] lg:text-[12px] lg:top-[41%] lg:left-[50%] px-2 py-3 border-2 border-yellow-400 z-50 -translate-x-[52%] w-fit h-fit rounded-lg "
             >
               <p>BN ID: {hoverDetails.bn_id}</p>
               <p>Planet No: {hoverDetails.currentPosition}</p>
@@ -253,33 +260,34 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
               <p>Time:{hoverDetails.timestamp}</p>
             </div>
           )}
-        </div>
-       <div>
-       <div>
-      {/* Item Display */}
-      <div style={{ margin: '20px', textAlign: 'center' }}>
-        {items[currentItemIndex]}
-      </div>
 
-      {/* Navigation Controls */}
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+          
+        </div>
+
+        <div className="flex justify-start items-center">
+        <div className="flex items-center justify-center">
         <button
           onClick={handlePreviousClick}
           disabled={currentItemIndex === 0} // Disable if this is the first item
           style={{ marginRight: '10px' }}
+          className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
         >
-          &larr; Previous
+          &larr; 
         </button>
+        <div style={{ margin: '20px', textAlign: 'center' }}>
+        {items[currentItemIndex]}
+      </div>
         <button
           onClick={handleNextClick}
           disabled={currentItemIndex === items.length - 1} // Disable if this is the last item
           style={{ marginLeft: '10px' }}
+          className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
         >
-          Next &rarr;
+           &rarr;
         </button>
       </div>
-    </div>
-       </div>
+        </div>
+     
       </div>
     </div>
   );
