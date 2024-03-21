@@ -13,8 +13,6 @@ export default function Home() {
                 <StarsCanvas />
                 <Navbar />
                 <Hero />
-              
-                
             </div>
         </main>
     );

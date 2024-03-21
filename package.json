@@ -21,6 +21,7 @@
     "@tsparticles/engine": "^3.3.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.3.0",
+    "@web3modal/ethers5": "^4.1.1",
     "axios": "^1.6.7",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
@@ -39,7 +40,6 @@
     "recoil": "^0.7.7",
     "tailwind-merge": "^2.2.1",
     "tailwindcss-animate": "^1.0.7",
-    "viem": "^1.21.4",
     "wagmi": "^1.4.13"
   },
   "devDependencies": {
