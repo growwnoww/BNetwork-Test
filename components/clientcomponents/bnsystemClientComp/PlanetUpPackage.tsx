@@ -256,7 +256,7 @@ const PlanetUpPackage = ({
               :
               (
                 <button
-                className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
+                className="bg-yellow-400 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
                 onClick={buyPlanetUser}
               >
                 Upgrade
