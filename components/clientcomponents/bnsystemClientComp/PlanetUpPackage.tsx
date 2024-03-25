@@ -9,6 +9,8 @@ import { FaUserLock } from "react-icons/fa";
 import "../../../app/globals.css";
 import USBTToken from "../../../contract/USDTABI.json";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
+import Link from "next/link";
+import axios from "axios";
 
 interface PlanetUpPropsTypes {
     planetId: number;
@@ -23,14 +25,15 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
 
-    const planetCountContract = useLatestPlanet();
-    const planetCount = ethers.BigNumber.from(planetCountContract).toNumber();
+    const planetCountContract = walletContext?.planetStatus?.planets?.length;
+    console.log("high", planetCountContract);
+    const [planetCount, setPlanetCount] = useState();
 
     const [isApprove, setApprove] = useState<boolean>(false);
     const [planetBuy, setPlanetBuy] = useState<boolean>(false);
-    const [tokenBuypop, setTokenpop] = useState<boolean>(false);
     const [planetBuyStatus, setPlanetBuyStatus] = useState<Record<number, boolean>>({});
     const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
+
     const { walletProvider } = useWeb3ModalProvider();
     const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
@@ -51,17 +54,39 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         return planetNames[planetId];
     };
 
-    const postPlanetBuyInfo = async (_planetId: number, transactionHash: string) => {
+    const getHighestplanetCount = async () => {
+        try {
+            const res = await axios(
+                `${process.env.NEXT_PUBLIC_URL}/user/getUserDetails?reg_user_address=${userAddress?.toLowerCase()}`
+            );
+
+            if (res.data) {
+                const data = await res.data;
+                const safeCount = data.planets.length ?? 0;
+                console.log("planets count", data.planets.length);
+                setPlanetCount(safeCount);
+                setHighestPlanetBought(safeCount);
+            }
+        } catch (error) {}
+    };
+
+    const postPlanetBuyInfo = async (
+        regAddress: string,
+        _planetId: number,
+        transactionHash: string,
+        universeCount: number
+    ) => {
         try {
             const planetNameStr = getPlanetName(_planetId);
             const planetNameOnly = planetNameStr?.split(" ")[0];
             const planetPack = planetNameStr?.split(" ")[1];
             console.log("Planet package ", planetPack);
             const payload = {
-                reg_user_address: userAddress,
+                reg_user_address: regAddress,
                 planetId: _planetId,
                 planetName: planetNameOnly,
                 planetPackage: planetPack,
+                universeCount: universeCount,
                 transactionHash: transactionHash,
             };
 
@@ -83,14 +108,36 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         }
     };
 
-    const approveUSDT = async () => {
+    const getPlanet = async (planetId: number, transactionHash: string) => {
         try {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
-            const gasPrice = await signer.getGasPrice();
-            // const myContract = BNetwork();
+            const currentTreenumber = await BNetworkContract.UserID(planetId, userAddress);
+            const universeCount = ethers.BigNumber.from(currentTreenumber).toNumber();
+
+            let getUserAddress = await BNetworkContract.WalletdetailsUser(planetId, universeCount);
+            let userData = getUserAddress.originalUser;
+
+            const formattedResponse = {
+                reg_user_address: userData.toLowerCase(),
+            };
+            console.log("formattd res", formattedResponse);
+
+            postPlanetBuyInfo(formattedResponse.reg_user_address, planetId, transactionHash, universeCount);
+        } catch (error) {}
+    };
+
+    const approveUSDT = async () => {
+        try {
+            alert(
+                "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
+            );
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const getFeeTokenAddress = await BNetworkContract.getFeeToken();
             console.log("USDT TOken address", getFeeTokenAddress);
             const secondInstance = new ethers.Contract(getFeeTokenAddress, USBTToken, signer);
@@ -110,11 +157,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
-
             const gasPrice = await signer.getGasPrice();
-
-            // const myContract = BNetwork();
-
             const planetById =
                 packageName === "Earth"
                     ? "1"
@@ -146,8 +189,9 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             console.log(buyPlanet);
             const transactionHash = buyPlanet.hash;
             console.log(`Transaction hash: ${transactionHash}`);
-            postPlanetBuyInfo(parseInt(planetById), transactionHash);
+            getPlanet(planetId, transactionHash);
             setPlanetBuy(true);
+            alert(`Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`);
             setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
         } catch (error) {
             console.log(error);
@@ -155,15 +199,21 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     };
 
     useEffect(() => {
-        const latestBought = planetCount;
+        const latestBought = planetCount ?? 0;
         setHighestPlanetBought(latestBought);
 
         if (planetBuy) {
             setPlanetBuyStatus((prev) => ({ ...prev, [latestBought!]: true }));
+
             console.log(`planet id   ${planetId} and lasteBougt ${latestBought}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress, planetCount]);
+    }, [planetCount]);
+
+    useEffect(() => {
+        getHighestplanetCount();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [planetCount]);
 
     return (
         <div className="relative z-0  flex flex-col bg-zinc-800 rounded-md  m-2 mx-5">
@@ -180,12 +230,16 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     ""
                 ) : planetId === highestPlanetBought + 1 ? (
                     isApprove ? (
-                        <button
-                            className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
-                            onClick={buyPlanetUser}
-                        >
-                            Upgrade
-                        </button>
+                        planetBuy ? (
+                            ""
+                        ) : (
+                            <button
+                                className="bg-yellow-400 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
+                                onClick={buyPlanetUser}
+                            >
+                                Upgrade
+                            </button>
+                        )
                     ) : (
                         <button
                             className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
@@ -201,9 +255,9 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                 )}
             </div>
             <div
-                className={`flex items-center  justify-center bg-black  py-10 px-10 ${
-                    planetId <= highestPlanetBought ? "" : "blur-sm"
-                }  `}
+                className={`flex items-center justify-center bg-black py-10 px-10 ${
+                    planetId <= highestPlanetBought || planetBuy ? "" : "blur-sm"
+                }`} // Remove blur-sm based on planetBuy status
             >
                 <Image
                     src={imgURL}
@@ -214,20 +268,27 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     className={`${packageName == "Saturn" ? "" : "custom-spin"}`}
                 />
             </div>
-
             <div className="flex items-center justify-center py-3">
-                {planetBuyStatus[planetId]
-                    ? ""
-                    : // <div className="flex flex-col items-center gap-y-1">
-                      //   <Link
-                      //     href={``}
-                      //     className="bg-yellow-500 py-1 px-5 flex  items-center gap-x-1  rounded-md hover:bg-yellow-600 duration-300"
-                      //   >
-                      //     <span>View tree</span>
-                      //   </Link>
-                      // </div>
-
-                      ""}
+                {planetId <= highestPlanetBought || planetBuy ? ( // If planet is bought or current planet is less than or equal to the highest bought
+                    <div className="flex flex-col items-center gap-y-1">
+                        <Link
+                            href={`/dashboard/bnsystem/planetupgrade/${getPlanetName(planetId)?.split(" ")[0]}`}
+                            passHref
+                        >
+                            <button className="bg-yellow-500 py-1 px-5 flex items-center gap-x-1 rounded-md hover:bg-yellow-600 duration-300">
+                                <span>View tree</span>
+                            </button>
+                        </Link>
+                    </div>
+                ) : planetId === highestPlanetBought + 1 ? (
+                    isApprove ? (
+                        ""
+                    ) : (
+                        ""
+                    )
+                ) : (
+                    ""
+                )}
             </div>
         </div>
     );

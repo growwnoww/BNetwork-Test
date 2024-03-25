@@ -2,7 +2,6 @@
 import React, { FormEvent, useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
 import { useParams, useSearchParams } from "next/navigation";
-import { BNetwork } from "@/contract/Web3_Instance";
 import { Context } from "@/components/Context";
 import { IoMdPlanet } from "react-icons/io";
 import { TbCards, TbUniverse } from "react-icons/tb";
@@ -16,8 +15,7 @@ import { WalletContext } from "@/context/WalletContext";
 import { ethers } from "ethers";
 
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { Meteors } from "@/components/ui/meteors";
-import { Checkbox } from "@/components/ui/checkbox";
+
 import UplineInfo from "@/components/UplineInfo";
 import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
@@ -30,39 +28,36 @@ interface userDetailsType {
     regReferal: string;
     regReferalId: number;
     teamCount: number;
+    reg_transaction_hash?: string;
+    highestPlanetCount: number;
 }
 
 const Page = () => {
-    const [selectedOption, setSelectedOption] = useState<string>("Yes");
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const router = useRouter();
     const params = useSearchParams();
     const queryUrl = params.get("rr");
+    const params1 = useParams();
+    console.log("params1", params1);
+    const uplineAddressStr: string = String(params1.upline_address);
+    console.log("upline address", uplineAddressStr);
+    const owner = useOwner();
+    const [userDetails, setUserDetails] = useState<userDetailsType>();
+    const { isConnected } = useWeb3ModalAccount();
+    const [termsAccepted, setTermsAccepted] = useState(false);
+    const [tranxHash, setTranxHash] = useState<string>();
 
     const { walletProvider } = useWeb3ModalProvider();
 
     const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
-
-    const params1 = useParams();
-    console.log("params1", params1);
-    const uplineAddressStr: string = String(params1.upline_address);
-
-    console.log("upline address", uplineAddressStr);
-    const owner = useOwner();
-    const [userDetails, setUserDetails] = useState<userDetailsType>();
-
-    const { isConnected } = useWeb3ModalAccount();
-    const [termsAccepted, setTermsAccepted] = useState(false);
 
     const getUserDetail = async () => {
         try {
             if (!userAddress || !isConnected) {
                 return;
             }
-
-            // const MyContract = BNetwork();
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
@@ -71,16 +66,18 @@ const Page = () => {
 
             if (exists) {
                 const response = await BNetworkContract.RegisterUserDetails(userAddress);
+                const highestPlanetCount = await BNetworkContract.UserPlannet(userAddress);
 
                 console.log("Got user details", response);
 
-                const formattedResponse = {
-                    regUser: response.regUser,
+                const formattedResponse: userDetailsType = {
+                    regUser: String(response.regUser).toLowerCase(),
                     regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
                     regId: ethers.BigNumber.from(response.regId).toNumber(),
-                    regReferal: response.regReferal,
+                    regReferal: String(response.regReferal).toLowerCase(),
                     regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
                     teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
+                    highestPlanetCount: ethers.BigNumber.from(highestPlanetCount).toNumber(),
                 };
 
                 setUserDetails(formattedResponse);
@@ -92,10 +89,55 @@ const Page = () => {
         }
     };
 
+    const registerUser = async (e: any) => {
+        e.preventDefault();
+
+        if (!isConnected) {
+            alert("Connect Your Wallet!");
+            return;
+        }
+
+        try {
+            if (!termsAccepted) {
+                alert("You must accept the terms and conditions to register.");
+                return;
+            }
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+            const gasPrice = await signer.getGasPrice();
+
+            const userExisit = await BNetworkContract.isUserExists(userAddress);
+
+            const gasFee = await BNetworkContract.gasfees();
+            const convert = Number(gasFee?._hex).toString();
+
+            if (userExisit === false) {
+                console.log("cheching upline address before reg", uplineAddressStr);
+                const registration = await BNetworkContract.registrations(uplineAddressStr, {
+                    gasPrice: gasPrice,
+                    gasLimit: "200000",
+                    value: convert,
+                });
+                await registration.wait();
+                console.log("registration hash", registration.hash);
+                setTranxHash(registration.hash);
+                console.log(registration);
+                getUserDetail();
+                alert("Registration Successfully");
+            } else {
+                alert("You already registered");
+            }
+        } catch (error) {
+            console.log("something went wrong ", error);
+        }
+    };
+
     useEffect(() => {
         const createRegister = async () => {
             try {
                 console.log("reg user", userDetails?.regUser);
+                const owner = "0xf346c0856df3e220e57293a0cf125c1322cfd778";
                 let uplineAddrLocal = "";
                 let uplineBNIdLocal = "";
 
@@ -119,19 +161,16 @@ const Page = () => {
                     upline_referralId: userDetails?.regReferalId,
                     upline_referral_BNId: uplineBNIdLocal,
                     direct_count: userDetails?.teamCount,
+                    reg_transaction_hash: tranxHash,
                 };
 
                 console.log("hellow", payload);
 
-                const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, payload);
 
-                if (!res.ok) {
+                if (res.data) {
+                    router.push("/dashboard");
+                } else {
                     throw new Error(`HTTP error! status: ${res.status}`);
                 }
             } catch (error) {
@@ -139,56 +178,11 @@ const Page = () => {
             }
         };
 
-        if (userDetails) {
+        if (userDetails && tranxHash) {
             createRegister();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userDetails]);
-
-    const registerUser = async (e: any) => {
-        e.preventDefault();
-
-        if (!isConnected) {
-            alert("Connect Your Wallet!");
-            return;
-        }
-
-        try {
-            if (!termsAccepted) {
-                alert("You must accept the terms and conditions to register.");
-                return;
-            }
-            const provider = new ethers.providers.Web3Provider(walletProvider as any);
-            const signer = provider.getSigner();
-            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
-            const gasPrice = await signer.getGasPrice();
-
-            // const myContract = BNetwork();
-
-            const userExisit = await BNetworkContract.isUserExists(userAddress);
-
-            const gasFee = await BNetworkContract.gasfees();
-            const convert = Number(gasFee?._hex).toString();
-
-            if (userExisit === false) {
-                console.log("cheching upline address before reg", uplineAddressStr);
-                const registration = await BNetworkContract.registrations(uplineAddressStr, {
-                    gasPrice: gasPrice,
-                    gasLimit: "200000",
-                    value: convert,
-                });
-                await registration.wait();
-                console.log(registration);
-                getUserDetail();
-                alert("Registration Successfully");
-                router.push("/dashboard");
-            } else {
-                alert("You already registered");
-            }
-        } catch (error) {
-            console.log("something went wrong ", error);
-        }
-    };
+    }, [userDetails, tranxHash]);
 
     return (
         <>

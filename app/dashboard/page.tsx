@@ -13,7 +13,7 @@ const Page = () => {
                 <ProfileAvatar />
                 {/* <Top10Rec /> */}
             </div>
-            <div className="bg-[#151515] sm:w-2/3  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md">
+            <div className="bg-[#151515] sm:w-auto  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md">
                 
                  <div className="order-2 lg:order-1">
                  <div className="w-full bg-zinc-800 py-4 rounded-md text-2xl px-2">Portfolio</div>

@@ -5,7 +5,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { tableData } from "@/utils/DirectTeamData";
 import { ethers } from "ethers";
-import { BNetwork } from "@/contract/Web3_Instance";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
@@ -44,6 +43,7 @@ const Page = () => {
 
     useEffect(() => {
         userPlanet();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (

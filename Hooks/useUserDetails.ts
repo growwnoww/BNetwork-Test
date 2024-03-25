@@ -1,4 +1,3 @@
-import { BNetwork } from "@/contract/Web3_Instance";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { useEffect, useState } from "react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";

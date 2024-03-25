@@ -46,7 +46,7 @@ const UplineInfo = ({ uplineAddress }: { uplineAddress: string }) => {
             try {
                 const query = `${process.env.NEXT_PUBLIC_URL}/getUplineData/${uplineAddress}`
                 console.log("query",query)
-                const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getUplineData/${uplineAddress}`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getUplineData/${uplineAddress.toLowerCase()}`);
                 if (response.ok) {
                     const data: UplineDataType = await response.json();
                     console.log("data",data)

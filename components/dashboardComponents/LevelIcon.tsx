@@ -1,20 +1,20 @@
 "use client"
 import useLatestPlanet from '@/Hooks/useLatestPlanet';
 import { WalletContext } from '@/context/WalletContext';
-import React, { useContext } from 'react';
+import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
 
 
 interface levelType {
   level: number;
   id:string;
   context?:string;
+  planetCount?:number;
 }
 
 
-const LevelIcon:React.FC<levelType>= ({ level,id ,context}) => {
-  const walletContext = useContext(WalletContext);
-  const planetBoughtLen = useLatestPlanet();
-  
+const LevelIcon:React.FC<levelType>= ({ level,id ,context,planetCount}) => {
+ let planetBoughtLen = planetCount || 0;
   const svgStyles = {
     fill: context === 'planetUpgrade' ? 'black' : 'black',
     stroke: 'black',
@@ -26,8 +26,9 @@ const LevelIcon:React.FC<levelType>= ({ level,id ,context}) => {
   const defaultStyles = {
     fill: 'white',
    
-    fillOpacity: level <= planetBoughtLen ? '1' : '0.2',
+    fillOpacity: level <= planetBoughtLen? '1' : '0.2',
   };
+
 
 
 

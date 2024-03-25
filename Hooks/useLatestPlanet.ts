@@ -1,6 +1,5 @@
 "use client";
 
-import { BNetwork } from '@/contract/Web3_Instance';
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers5/react';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react'

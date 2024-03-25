@@ -140,7 +140,7 @@ const Navbar = () => {
                                                     <button
                                                         onClick={() => {
                                                             openAccountModal();
-                                                            walletContext?.setUserAddress(() => account?.address);
+                                                            walletContext?.setUserAddress(() => account?.address.toLowerCase());
                                                         }}
                                                         type="button"
                                                         className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
@@ -251,7 +251,7 @@ const Navbar = () => {
                                                 <button
                                                     onClick={() => {
                                                         openAccountModal();
-                                                        walletContext?.setUserAddress(() => account.address);
+                                                        walletContext?.setUserAddress(() => account.address.toLowerCase());
                                                     }}
                                                     type="button"
                                                     className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"

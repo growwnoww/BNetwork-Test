@@ -12,7 +12,10 @@ const Dashboardlayout = ({children}:{children:React.ReactNode}) => {
         </div>
         <div className='w-full'>
             <DashboardNavbar/>
+            <div>
             {children}
+            </div>
+            
         </div>
     </div>
   )

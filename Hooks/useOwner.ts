@@ -1,4 +1,3 @@
-import { BNetwork } from "@/contract/Web3_Instance";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethers } from "ethers";
 import { useEffect, useState, useCallback } from "react";

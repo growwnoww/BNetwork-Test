@@ -6,8 +6,6 @@ import { TbCards, TbUniverse } from "react-icons/tb";
 import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/main/Navbar";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { WalletContext } from "@/context/WalletContext";
 import { ethers } from "ethers";
@@ -16,6 +14,7 @@ import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import axios from "axios";
 interface userDetailsType {
     regUser: string;
     regTime: string;
@@ -23,6 +22,7 @@ interface userDetailsType {
     regReferal: string;
     regReferalId: number;
     teamCount: number;
+    highestPlanetCount: number;
 }
 
 const Page = () => {
@@ -36,6 +36,7 @@ const Page = () => {
     const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [tranxHash, setTranxHash] = useState<string>();
     const { walletProvider } = useWeb3ModalProvider();
 
     const getUserDetail = async () => {
@@ -43,12 +44,15 @@ const Page = () => {
             if (!userAddress || !isConnected) {
                 return;
             }
+
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
-            // const MyContract = BNetwork();
+
+            // const MyContract = bNetwork();
 
             const exists = await BNetworkContract.isUserExists(userAddress);
+            const highestPlanetCount = await BNetworkContract.UserPlannet(userAddress);
 
             if (exists) {
                 const response = await BNetworkContract.RegisterUserDetails(userAddress);
@@ -56,12 +60,13 @@ const Page = () => {
                 console.log("Got user details", response);
 
                 const formattedResponse = {
-                    regUser: response.regUser,
+                    regUser: String(response.regUser).toLowerCase(),
                     regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
                     regId: ethers.BigNumber.from(response.regId).toNumber(),
-                    regReferal: response.regReferal,
+                    regReferal: String(response.regReferal).toLowerCase(),
                     regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
                     teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
+                    highestPlanetCount: ethers.BigNumber.from(highestPlanetCount).toNumber(),
                 };
 
                 setUserDetails(formattedResponse);
@@ -91,11 +96,11 @@ const Page = () => {
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
             const userExisit = await BNetworkContract.UserRegister(userAddress);
-            const gasFee = await BNetworkContract!.gasfees();
+            const gasFee = await BNetworkContract.gasfees();
             const convert = Number(gasFee?._hex).toString();
             if (userExisit === false) {
                 console.log("cheching upline address before reg", ownerAddress);
-                const registration = await BNetworkContract!.registrations(ownerAddress, {
+                const registration = await BNetworkContract.registrations(ownerAddress, {
                     gasPrice: gasPrice,
                     gasLimit: "200000",
                     value: convert,
@@ -103,8 +108,11 @@ const Page = () => {
                 await registration.wait();
 
                 getUserDetail();
+                console.log("registration hash", registration.hash);
+                setTranxHash(registration.hash);
                 alert("Registration Successfully");
-                router.push("/dashboard");
+
+                // router.push("/dashboard");
                 console.log(registration);
             } else {
                 alert("You already registered");
@@ -142,19 +150,14 @@ const Page = () => {
                     upline_referralId: userDetails?.regReferalId,
                     upline_referral_BNId: uplineBNIdLocal,
                     direct_count: userDetails?.teamCount,
+                    reg_transaction_hash: tranxHash,
                 };
 
                 console.log("hellow", payload);
 
-                const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                });
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, payload);
 
-                if (res.ok) {
+                if (res.data) {
                     router.push("/dashboard");
                 } else {
                     throw new Error(`HTTP error! status: ${res.status}`);
@@ -164,11 +167,11 @@ const Page = () => {
             }
         };
 
-        if (userDetails) {
+        if (userDetails && tranxHash) {
             createRegister();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userDetails]);
+    }, [userDetails, tranxHash]);
 
     return (
         <>
