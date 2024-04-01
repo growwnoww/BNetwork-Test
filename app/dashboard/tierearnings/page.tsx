@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import {
   Table,
@@ -35,19 +35,71 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
-import useFetchTierEarning, {
-  tierEarningDataType,
-} from "@/Hooks/useFetchTierEarning";
+import { Are_You_Serious } from "next/font/google";
+import { TierEarningData } from "@/utils/TierEarningData";
+import axios from "axios";
+import { SelectEntries } from "@/utils/SelectEntries";
+
+
+interface TierEarningType{
+  _id:string
+  bn_id:string;
+  reg_user_address:string;
+  reg_time:string;
+  directEarnings:boolean;
+  tranactionHash:string;
+  level:number;
+}
+
+interface TierEarningObject{
+  users:TierEarningType[];
+  totalPages:number;
+}
 
 const Page = () => {
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+  const [tierEarnings,setTierEarnings] = useState<TierEarningObject| null>()
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
-  const totalTierEarning = walletContext?.planetStatus;
+  const totalTierEarning = walletContext?.planetStatus || 0;
   console.log(totalTierEarning);
   let srno = 0;
-  const fetchTierEarningData: tierEarningDataType[][] =
-    useFetchTierEarning(userAddress);
+  const [currentItemIndex, setCurrentItemIndex] = useState(0); 
+
+  const handlePreviousClick = () => {
+    setCurrentItemIndex(currentItemIndex - 1);
+  };
+
+  const handleNextClick = () => {
+    const safeMaxRecycle = tierEarnings?.totalPages ?? 0;
+    console.log("Safe ", safeMaxRecycle);
+    console.log("current index", currentItemIndex);
+    if (currentItemIndex < safeMaxRecycle - 1) {
+      setCurrentItemIndex(currentItemIndex + 1);
+    }
+  };
+  
+  const [value, setValue] = useState({
+    level:"1",
+    entries: "10",
+  });
+
+  const handleSelectEntriesChange = (selectEntries: string) => {
+    setValue((prevState: any) => ({
+      ...prevState,
+      entries: selectEntries,
+    }));
+  };
+
+  
+  const handleSelectLevelChange = (selectedLevel: string) => {
+    setCurrentItemIndex(0)
+    setValue((prevState: any) => ({
+      ...prevState,
+      level: selectedLevel,
+    }));
+  };
+
 
   const handleToggle = (userId: string) => {
     setExpanded((prev) => ({
@@ -56,6 +108,22 @@ const Page = () => {
     }));
   };
 
+  const getTierEarningsData = async () =>{
+    try {
+      const query =`${process.env.NEXT_PUBLIC_URL}/user/getTierEarning/${userAddress?.toLowerCase()}/${value.level}/${value.entries}/${currentItemIndex+1}`;
+
+      const response = await axios.get<TierEarningObject>(query);
+
+      if(response.data){
+        const data:TierEarningObject = response.data;
+        setTierEarnings(data)
+
+      }
+    } catch (error) {
+      
+    }
+  }
+
   const setEarningAmount = (index: number) => {
     if (index <= 3) return 0.09;
     else if (index <= 8) return 0.06;
@@ -63,7 +131,10 @@ const Page = () => {
     else if (index <= 13) return 0.15;
     else if (index <= 15) return 0.21;
   };
-
+  
+  useEffect(()=>{
+    getTierEarningsData()
+  },[value.level,value.entries,currentItemIndex])
   // Function to determine the status color
 
   return (
@@ -91,6 +162,31 @@ const Page = () => {
                 <p>Total Tier Earning :</p>
                 <p>{totalTierEarning.tierEarningsAmount} $</p>
               </div>
+
+              <div className="w-full flex md:flex-col gap-5 md:gap-1">
+                      <div className="">
+                        <p>Levels:</p>
+                      </div>
+                      <div className="w-full flex justify-end items-end">
+                        <Select
+                          name="selectTieTeamLevels"
+                          value={value.level}
+                          onValueChange={handleSelectLevelChange}
+                        >
+                          <SelectTrigger className="w-[180px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
+                            <SelectValue placeholder="" />
+                          </SelectTrigger>
+                          <SelectContent >
+                            {TierEarningData.map((item: any) => (
+                              <SelectItem key={item.id} value={item.value}>
+                                {item.data}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
             </div>
 
             <div className="w-3/4">
@@ -153,129 +249,135 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {fetchTierEarningData &&
-                    fetchTierEarningData.map((tier, tierIndex) =>
-                      tier.map((user, userIndex) => {
-                        srno += 1;
-                        return (
-                          <React.Fragment key={`${tierIndex}-${userIndex}`}>
-                            <TableRow className="text-white text-center text-[12px] lg:text-md">
-                              <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                                {srno}
-                              </TableCell>
+                  {
+                    tierEarnings && tierEarnings.users.map((user,index)=>{
+                      return (
+                        <React.Fragment key={index}>
+                          <TableRow className="text-white text-center text-[12px] lg:text-md">
+                            <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                              {index+1}
+                            </TableCell>
 
-                              <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
-                                <Image
-                                  className="h-12 w-12  rounded-full"
-                                  width={20}
-                                  height={20}
-                                  loading="lazy"
-                                  src="/Earth.png"
-                                  alt="Avatar"
-                                />
-                              </TableCell>
+                            <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
+                              <Image
+                                className="h-12 w-12  rounded-full"
+                                width={20}
+                                height={20}
+                                loading="lazy"
+                                src="/Earth.png"
+                                alt="Avatar"
+                              />
+                            </TableCell>
 
-                              <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm  ">
-                                {user.bn_id}
-                              </TableCell>
-                              <TableCell className=" py-2  whitespace-nowrap ">
-                                {user.reg_time}
-                              </TableCell>
+                            <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm  ">
+                              {user.bn_id}
+                            </TableCell>
+                            <TableCell className=" py-2  whitespace-nowrap ">
+                              {user.reg_time}
+                            </TableCell>
 
-                              <TableCell className=" py-2  whitespace-nowrap ">
-                                {tierIndex}
-                              </TableCell>
+                            <TableCell className=" py-2  whitespace-nowrap ">
+                              {user.level}
+                            </TableCell>
 
-                              <TableCell className=" py-2  whitespace-nowrap ">
-                                Earth
-                              </TableCell>
+                            <TableCell className=" py-2  whitespace-nowrap ">
+                              Earth
+                            </TableCell>
 
-                              <TableCell className=" py-2  whitespace-nowrap ">
-                                {setEarningAmount(tierIndex)}
-                              </TableCell>
+                            <TableCell className=" py-2  whitespace-nowrap ">
+                              {setEarningAmount(user.level)}
+                            </TableCell>
 
-                              <TableCell className=" py-2  whitespace-nowrap font-medium">
-                                <Button onClick={() => handleToggle(user._id)}>
-                                  {expanded[user._id] ? "Hide" : "Show"}
-                                </Button>
-                              </TableCell>
-                            </TableRow>
-                            {expanded[user._id] && (
-                              <tr className="text-white text-center">
-                                {/* Notice the colSpan should be equal to the number of columns in the table */}
-                                <td
-                                  colSpan={8}
-                                  className="px-3 py-2 whitespace-nowrap text-sm"
-                                >
-                                  <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                                    <div className="flex gap-x-2">
-                                      <p className="w-fit ">
-                                        Address: {user.reg_user_address}
-                                      </p>
-                                      <div className="flex items-center gap-x-2 ">
-                                        <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                        <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                      </div>
-                                    </div>
-                                    <div className="flex gap-x-2">
-                                      <p className="w-fit ">
-                                        Transaction Hash:{" "}
-                                        {user.reg_user_address}
-                                      </p>
-                                      <div className="flex items-center gap-x-2 ">
-                                        <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                        <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                      </div>
+                            <TableCell className=" py-2  whitespace-nowrap font-medium">
+                              <Button onClick={() => handleToggle(user._id)}>
+                                {expanded[user._id] ? "Hide" : "Show"}
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                          {expanded[user._id] && (
+                            <tr className="text-white text-center">
+                              {/* Notice the colSpan should be equal to the number of columns in the table */}
+                              <td
+                                colSpan={8}
+                                className="px-3 py-2 whitespace-nowrap text-sm"
+                              >
+                                <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                                  <div className="flex gap-x-2">
+                                    <p className="w-fit ">
+                                      Address: {user.reg_user_address}
+                                    </p>
+                                    <div className="flex items-center gap-x-2 ">
+                                      <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                      <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
                                     </div>
                                   </div>
-                                </td>
-                              </tr>
-                            )}
-                          </React.Fragment>
-                        );
-                      })
-                    )}
+                                  <div className="flex gap-x-2">
+                                    <p className="w-fit ">
+                                      Transaction Hash:{" "}
+                                      {user.reg_user_address}
+                                    </p>
+                                    <div className="flex items-center gap-x-2 ">
+                                      <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                      <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          )}
+                        </React.Fragment>
+                      );
+                    })
+                  }
                 </TableBody>
               </Table>
             </div>
 
             <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
               <div className="order-2 lg:order-1">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext href="#" />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
+              <div className="flex items-center justify-center">
+                    <button
+                      onClick={handlePreviousClick}
+                      disabled={currentItemIndex === 0} // Disable if this is the first item
+                      style={{ marginRight: "10px" }}
+                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                    >
+                      &larr;
+                    </button>
+                    <div style={{ margin: "20px", textAlign: "center" }}>
+                      {currentItemIndex + 1} / {tierEarnings?.totalPages ?? 0}{" "}
+                      {/* Show current index and total pages */}
+                    </div>
+                    <button
+                      onClick={handleNextClick}
+                      disabled={
+                        currentItemIndex ===
+                        (tierEarnings?.totalPages ?? 0) - 1
+                      } // Disable if this is the last item
+                      style={{ marginLeft: "10px" }}
+                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                    >
+                      &rarr;
+                    </button>
+                  </div>
               </div>
 
               <div className="order-1 lg:order-2 text-sm ">
                 <p>Show Entries</p>
-                <Select>
-                  <SelectTrigger className="w-[80px] lg:w-[90px]">
+                <Select
+                  name="selectEntries"
+                  value={value.entries}
+                  onValueChange={handleSelectEntriesChange}
+                >
+                  <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
                     <SelectValue placeholder="" />
                   </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ten">10</SelectItem>
-                    <SelectItem value="twenty_five">25</SelectItem>
-                    <SelectItem value="fifty">50</SelectItem>
-                    <SelectItem value="hundred">100</SelectItem>
+                  <SelectContent defaultValue="Earth">
+                    {SelectEntries.map((item: any) => (
+                      <SelectItem key={item.id} value={item.value}>
+                        {item.data}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

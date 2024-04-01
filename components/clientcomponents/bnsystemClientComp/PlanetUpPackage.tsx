@@ -4,13 +4,10 @@ import React, { useContext, useEffect, useState } from "react";
 import "../../../app/globals.css";
 import Link from "next/link";
 import { bNetwork } from "@/contract/Web3_Instance";
-import { FaRegUser, FaUnlockAlt, FaUserLock } from "react-icons/fa";
-import { FcLock, FcUnlock } from "react-icons/fc";
+import {  FaUserLock } from "react-icons/fa";
 import { ethers } from "ethers";
 import USBTToken from "../../../contract/USDTABI.json";
 import { WalletContext } from "@/context/WalletContext";
-import { M_PLUS_1 } from "next/font/google";
-import useLatestPlanet from "@/Hooks/useLatestPlanet";
 import axios from "axios";
 
 interface PlanetUpPropsTypes {
@@ -205,7 +202,7 @@ const PlanetUpPackage = ({
       console.log(planetById);
       const buyPlanet = await myContract!.buyPlannet(planetById, {
         gasPrice: gasPrice,
-        gasLimit: ethers.utils.hexlify(1000000),
+        gasLimit: ethers.utils.hexlify(3000000000),
       });
       await buyPlanet.wait();
       console.log(buyPlanet);

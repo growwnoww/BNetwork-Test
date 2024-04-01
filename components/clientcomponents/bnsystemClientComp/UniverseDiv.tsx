@@ -2,6 +2,7 @@ import LevelIcon from "@/components/dashboardComponents/LevelIcon";
 import React from "react";
 import BtnWrapper from "@/components/WrapperComponent/BtnWrapper";
 import { IoIosUnlock } from "react-icons/io";
+import Link from "next/link";
 
 const UniverseDiv = () => {
   const levels1 = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -22,13 +23,15 @@ const UniverseDiv = () => {
             </div>
           </div>
           <div className="flex items-center relative">
-            <BtnWrapper
+           <Link href="/dashboard/bnsystem/universeclub-a">
+           <BtnWrapper
               text="Show"
               height="py-2"
               width="px-10"
               
             />
-            <IoIosUnlock className="absolute right-[10%]" />
+           </Link>
+            
           </div>
         </div>
 

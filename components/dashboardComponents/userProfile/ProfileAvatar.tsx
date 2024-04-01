@@ -3,6 +3,7 @@ import useLatestPlanet from "@/Hooks/useLatestPlanet";
 import { Context } from "@/components/Context";
 import UserInfo from "@/components/clientcomponents/UserInfo";
 import { WalletContext } from "@/context/WalletContext";
+import { clubAContract } from "@/contract/ClubAContract/ClubA_Instance";
 import axios from "axios";
 import { ethers } from "ethers";
 import Image from "next/image";
@@ -22,12 +23,11 @@ const ProfileAvatar = () => {
     const walletContext = useContext(WalletContext)
     const userAddress = walletContext?.userAddress;
     const [userDetails,setUserDetails] = useState<userDetailsInfo>()
-
+    const [userAvatar,setUserAvatar] = useState(" ")
    
 
       
-      const userAvatar =  userDetails ?.latestPlanetName|| 'just_reg';
-
+     
 
 
     const copyToClipboard = (text: string) => {
@@ -38,6 +38,47 @@ const ProfileAvatar = () => {
             console.log(error);
         }
     };
+
+    const getPlanetName = (planetId: number): string | undefined => {
+      const planetNames: { [id: number]: string } = {
+        1: "Earth 10$",
+        2: "Moon 25$",
+        3: "Mars 50$",
+        4: "Mercury 100$",
+        5: "Venus 250$",
+        6: "Jupiter 500$",
+        7: "Saturn 1000$",
+        8: "Uranus 2500$",
+        9: "Neptune 5000$",
+        10: "Pluto 10000$",
+      };
+  
+      return planetNames[planetId];
+    };
+  
+
+    const getUserLatestPlanet = async (regAddress:any)=>{
+      try {
+       const clubACont = clubAContract();
+       const planetId = await clubACont!.getPackage(regAddress)
+       const lastPlanetBuyTimeInNumber =
+         ethers.BigNumber.from(planetId).toNumber();
+       console.log("lastPlanetBuyTimeInNumber", lastPlanetBuyTimeInNumber);
+ 
+       if(lastPlanetBuyTimeInNumber === 0){
+         return "Earth";
+       }
+       
+       const planetName = getPlanetName(lastPlanetBuyTimeInNumber)
+       const planetNameonly = planetName!.split(" ")[0];
+       setUserAvatar(planetNameonly || "just_reg")
+      } catch (error) {
+       
+      }
+   }
+
+   
+
 
     const getUserDetails = async () => {
         try {
@@ -59,6 +100,8 @@ const ProfileAvatar = () => {
       useEffect(() => {
 
         getUserDetails();
+
+        getUserLatestPlanet(userAddress)
     
       }, [userAddress]);
 

@@ -36,15 +36,7 @@ const MenuList = [
     icon2:<IoIosLock />
   },
   {
-    id:'4',
-    title:"Create New Believer",
-    path:"/dashboard/createnewbeliever",
-    icon:<GrUserNew />,
-   
-
-  },
-  {
-    id: "5",
+    id: "4",
     title: "BN coin",
     path: "",
     icon: <SiBitcoinsv />,

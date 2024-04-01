@@ -139,7 +139,7 @@ const Page = () => {
         }
 
         const payload = {
-          reg_user_address: userDetails?.regUser,
+          regAddress: userDetails?.regUser,
           reg_time: userDetails?.regTime,
           regId: userDetails?.regId,
           upline_referral_address: uplineAddrLocal,
