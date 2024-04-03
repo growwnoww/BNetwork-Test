@@ -95,7 +95,7 @@ const Protfolio = () => {
           <span className='text-md md:text-sm xl:text-sm 2xl:text-md 3xl:text-xl'>{data.title}</span>
         </div>
         <div>
-          <span className='text-sm md:text-xs xl:text-md 2xl:text-[14px] text-stone-300'>
+          <span className='text-sm md:text-xs xl:text-md 2xl:text-[14px] text-stone-400'>
             {portfolioInfo[data.field] ? (data.isCoin ? `${portfolioInfo[data.field]} BN Coin` : (data.isCurrency ? `$ ${portfolioInfo[data.field].toLocaleString()}` : `${portfolioInfo[data.field]}`)) : 'NA'}
          </span>
         </div>
