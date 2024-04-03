@@ -21,17 +21,17 @@ const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 //     }
 // };
 
-export const USDTTokenSC = () => {
-    const { walletProvider } = useWeb3ModalProvider();
-    try {
-        const provider = new ethers.providers.Web3Provider(walletProvider as any);
-        const signer = provider.getSigner();
-        const usdbContract = new ethers.Contract(USDT_Address, USDBABI, signer);
-        return usdbContract;
-    } catch (error) {
-        console.log("Error in creating USDT contract", error);
-    }
-};
+// export const USDTTokenSC = () => {
+//     const { walletProvider } = useWeb3ModalProvider();
+//     try {
+//         const provider = new ethers.providers.Web3Provider(walletProvider as any);
+//         const signer = provider.getSigner();
+//         const usdbContract = new ethers.Contract(USDT_Address, USDBABI, signer);
+//         return usdbContract;
+//     } catch (error) {
+//         console.log("Error in creating USDT contract", error);
+//     }
+// };
 
 // export const etTokenSC = () =>{
 //     try{

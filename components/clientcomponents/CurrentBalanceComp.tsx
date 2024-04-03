@@ -5,21 +5,55 @@ import { useContext, useEffect, useState } from "react";
 import { AiTwotoneDollarCircle } from "react-icons/ai";
 import { MdOutlineOfflineBolt } from "react-icons/md";
 import { TbCoinBitcoin } from "react-icons/tb";
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import USDTABI from "@/contract/USDTABI.json";
 
 const CurrentBalanceComp = () => {
     const walletContext = useContext(WalletContext);
-    console.log(walletContext?.userAddress);
+    const { address } = useWeb3ModalAccount();
     const [balance, setBalance] = useState<any>(0);
     const [usdtBal, setUsdtBal] = useState<any>(0);
     const [etBal, setETbal] = useState<any>(0);
 
+    const USDT_Address = "0x55d398326f99059ff775485246999027b3197955";
+    const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
+
+    const { walletProvider } = useWeb3ModalProvider();
+
+    const USDTTokenSC = async () => {
+        try {
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            console.log(address);
+            const usdtContract = new ethers.Contract(USDT_Address, USDTABI, signer);
+            const balance = await usdtContract.balanceOf(address);
+            const convert = ethers.utils.formatEther(balance);
+            setUsdtBal(Number(convert).toFixed(2));
+        } catch (error) {
+            console.log("Error in creating USDT contract", error);
+        }
+    };
+
+    const EToken = async () => {
+        try {
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            console.log(address);
+            const usdtContract = new ethers.Contract(EnergyToken_Address, USDTABI, signer);
+            const balance = await usdtContract.balanceOf(address);
+            const convert = ethers.utils.formatEther(balance);
+            setETbal(Number(convert).toFixed(2));
+        } catch (error) {
+            console.log("Error in creating USDT contract", error);
+        }
+    };
+
     const getUserBalance = async () => {
-        if (walletContext?.userAddress) {
+        if (address) {
             const network = "https://data-seed-prebsc-1-s1.binance.org:8545/";
             const provider = new ethers.providers.JsonRpcProvider(network);
-            const result = await provider.getBalance(walletContext.userAddress);
+            const result = await provider.getBalance(address);
             const balanceInEth = ethers.utils.formatEther(result);
-            console.log(`balance: ${balanceInEth} ETH`);
             const formattedBalance = parseFloat(balanceInEth).toFixed(4);
             setBalance(formattedBalance); // Update this line
         }
@@ -27,6 +61,8 @@ const CurrentBalanceComp = () => {
 
     useEffect(() => {
         getUserBalance();
+        USDTTokenSC();
+        EToken();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
