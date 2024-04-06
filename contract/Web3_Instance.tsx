@@ -20,7 +20,6 @@ const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 //         throw error;
 //     }
 // };
-
 // export const USDTTokenSC = () => {
 //     const { walletProvider } = useWeb3ModalProvider();
 //     try {
