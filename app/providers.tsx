@@ -8,6 +8,7 @@ import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { WalletProvider } from "@/context/WalletContext";
 import { argentWallet, trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
+import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains([bsc, bscTestnet], [publicProvider()]);
 
@@ -75,12 +76,17 @@ const wagmiConfig = createConfig({
 
 export function Providers({ children }: { children: React.ReactNode }) {
     const [mounted, setMounted] = React.useState(false);
-
+    const tawkMessengerRef = React.useRef<any>(null);
     React.useEffect(() => setMounted(true), []);
     return (
         <WagmiConfig config={wagmiConfig}>
             <WalletProvider>
                 <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
+                    <TawkMessengerReact
+                        propertyId={process.env.NEXT_PUBLIC_ProjectId}
+                        widgetId={process.env.NEXT_PUBLIC_WidgetId}
+                        ref={tawkMessengerRef}
+                    />
                     {mounted && children}
                 </RainbowKitProvider>
             </WalletProvider>
