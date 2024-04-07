@@ -22,7 +22,7 @@ const Planetupgradediv = () => {
 
     const getHighestplanetCount = async () => {
         try {
-            const res = await axios(
+            const res = await axios.get(
                 `${process.env.NEXT_PUBLIC_URL}/user/getUserDetails?reg_user_address=${userAddress?.toLowerCase()}`
             );
 

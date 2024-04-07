@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
@@ -7,12 +7,14 @@ import { tableData } from "@/utils/DirectTeamData";
 import { ethers } from "ethers";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
+import { WalletContext } from "@/context/WalletContext";
 
 const Page = () => {
+    const walletContext = useContext(WalletContext);
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
     const [planetFee, setPlanetFee] = useState<any>([]);
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     const handleToggle = (userId: number) => {
         setExpanded((prev) => ({

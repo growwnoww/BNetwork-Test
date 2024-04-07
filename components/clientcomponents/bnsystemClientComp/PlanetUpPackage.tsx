@@ -11,6 +11,7 @@ import USBTToken from "../../../contract/USDTABI.json";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import Link from "next/link";
 import axios from "axios";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface PlanetUpPropsTypes {
     planetId: number;
@@ -23,7 +24,17 @@ interface PlanetUpPropsTypes {
 
 const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: PlanetUpPropsTypes) => {
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    // const userAddress = walletContext?.userAddress;
+    const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const planetCountContract = walletContext?.planetStatus?.planets?.length;
     console.log("high", planetCountContract);
@@ -35,7 +46,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     const getPlanetName = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -208,12 +219,17 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             console.log(`planet id   ${planetId} and lasteBougt ${latestBought}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [planetCount]);
+    }, [planetCount, query]);
 
     useEffect(() => {
         getHighestplanetCount();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [planetCount]);
+    }, [planetCount, query]);
+
+    useEffect(() => {
+        router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className="relative z-0  flex flex-col bg-zinc-800 rounded-md  m-2 mx-5">
@@ -272,7 +288,9 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                 {planetId <= highestPlanetBought || planetBuy ? ( // If planet is bought or current planet is less than or equal to the highest bought
                     <div className="flex flex-col items-center gap-y-1">
                         <Link
-                            href={`/dashboard/bnsystem/planetupgrade/${getPlanetName(planetId)?.split(" ")[0]}`}
+                            href={`/dashboard/bnsystem/planetupgrade/${
+                                getPlanetName(planetId)?.split(" ")[0]
+                            }?preview=${query}`}
                             passHref
                         >
                             <button className="bg-yellow-500 py-1 px-5 flex items-center gap-x-1 rounded-md hover:bg-yellow-600 duration-300">

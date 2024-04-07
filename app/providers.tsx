@@ -10,7 +10,7 @@ import { WalletContext, WalletProvider } from "@/context/WalletContext";
 import { argentWallet, trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
 import { NextUIProvider } from "@nextui-org/react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains([bsc, bscTestnet], [publicProvider()]);
 
@@ -77,18 +77,26 @@ const wagmiConfig = createConfig({
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
-    const walletContext = React.useContext(WalletContext);
     const [mounted, setMounted] = React.useState(false);
     const tawkMessengerRef = React.useRef<any>(null);
     React.useEffect(() => setMounted(true), []);
+    const router = useRouter();
+    const pathname = usePathname();
     const searchParams = useSearchParams();
     const query = searchParams.get("preview");
+
+    React.useEffect(() => {
+        if (query != null || query != undefined || query != "") {
+            router.replace(`${pathname}`);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
     return (
         <WagmiConfig config={wagmiConfig}>
             <NextUIProvider>
                 <WalletProvider>
                     <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
-                        {query && (
+                        {(query != undefined || query != null || query != "") && (
                             <div className="bg-[#EAB308] flex justify-center">
                                 <p className="text-black font-bold">You preview this address {query}</p>
                             </div>

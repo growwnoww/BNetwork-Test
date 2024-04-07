@@ -10,6 +10,7 @@ interface walletContextType {
     setPlanetStatus: React.Dispatch<React.SetStateAction<any | undefined>>;
     previewAddress: any | undefined;
     setPreviewAddress: React.Dispatch<React.SetStateAction<any | undefined>>;
+    B_Network_Address: any | undefined;
 }
 
 export const WalletContext = createContext<walletContextType | undefined>(undefined);
@@ -20,6 +21,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [planetStatus, setPlanetStatus] = useState<string | undefined>();
     const [previewAddress, setPreviewAddress] = useState<string | undefined>();
     const { address, isConnected } = useWeb3ModalAccount();
+
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const fetchUserDetail = async () => {
         try {
@@ -57,6 +60,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 setPlanetStatus,
                 previewAddress,
                 setPreviewAddress,
+                B_Network_Address,
             }}
         >
             {children}
