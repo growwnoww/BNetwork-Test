@@ -9,27 +9,29 @@ import { ethers } from "ethers";
 import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import ClubAABI from '../../../contract/ClubAContract/ClubA_ABI.json'
+
 
 interface userDetailsInfo {
     bn_id: string;
     reg_user_address: string;
-    latestPlanetName:string;
+    latestPlanetName: string;
+}
 
-  }
+
+
+
 const ProfileAvatar = () => {
-
     // const host = window.location.hostname;
-
-    const walletContext = useContext(WalletContext)
+    const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
     const [userDetails,setUserDetails] = useState<userDetailsInfo>()
     const [userAvatar,setUserAvatar] = useState(" ")
+    const {walletProvider} = useWeb3ModalProvider()
    
-
+    console.log("clubA ins",clubAContract())
       
-     
-
-
     const copyToClipboard = (text: string) => {
         try {
             navigator.clipboard.writeText(text);
@@ -59,8 +61,13 @@ const ProfileAvatar = () => {
 
     const getUserLatestPlanet = async (regAddress:any)=>{
       try {
-       const clubACont = clubAContract();
-       const planetId = await clubACont!.getPackage(regAddress)
+        const provider = new ethers.providers.Web3Provider(walletProvider as any);
+        const signer = provider.getSigner();
+        const clubAContract = new ethers.Contract("0x96B310a2a261198E44439281f9cE6842890d9aC2",ClubAABI,signer)
+        console.log("reg Address",regAddress)
+
+        const planetId = await clubAContract.getPackage(regAddress);
+        console.log("planet Id",planetId)
        const lastPlanetBuyTimeInNumber =
          ethers.BigNumber.from(planetId).toNumber();
        console.log("lastPlanetBuyTimeInNumber", lastPlanetBuyTimeInNumber);
@@ -73,7 +80,7 @@ const ProfileAvatar = () => {
        const planetNameonly = planetName!.split(" ")[0];
        setUserAvatar(planetNameonly || "just_reg")
       } catch (error) {
-       
+       console.log("something went wrong in getUserPlanet method",error)
       }
    }
 
@@ -82,28 +89,27 @@ const ProfileAvatar = () => {
 
     const getUserDetails = async () => {
         try {
-          const response = await axios(
-            `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
-          );
-          if (response.data) {
-            const data: userDetailsInfo = await response.data
-            console.log("User detail from get req ", data);
-            setUserDetails(data);
-          } else {
-            throw new Error(`HTTP error! status: res} $`);
-          }
+            const response = await axios(
+                `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
+            );
+            if (response.data) {
+                const data: userDetailsInfo = await response.data;
+                console.log("User detail from get req ", data);
+                setUserDetails(data);
+            } else {
+                throw new Error(`HTTP error! status: res} $`);
+            }
         } catch (error) {
-          console.log("something went wrong in getUserDetails", error);
+            console.log("something went wrong in getUserDetails", error);
         }
-      };
+    };
 
-      useEffect(() => {
-
+    useEffect(() => {
         getUserDetails();
 
         getUserLatestPlanet(userAddress)
-    
-      }, [userAddress]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userAddress]);
 
     return (
         <>
@@ -112,13 +118,14 @@ const ProfileAvatar = () => {
             </div>
 
             <div
-             onClick={() => copyToClipboard(`https://www.bnetwork.space//registration?rr=${userAddress?.toLowerCase()}`)}
-            className="flex cursor-pointer items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1">
+                onClick={() =>
+                    copyToClipboard(`https://www.bnetwork.space//registration?rr=${userAddress?.toLowerCase()}`)
+                }
+                className="flex cursor-pointer items-center justify-center gap-x-3 w-auto lg:w-full bg-yellow-500 rounded-md px-[20%] sm:px-28 md:px-16 py-1"
+            >
                 <p>Copy Referrel link </p>
                 <span>
-                    <FaRegCopy
-
-                    />
+                    <FaRegCopy />
                 </span>
             </div>
             <div className="pt-5 lg:w-full">

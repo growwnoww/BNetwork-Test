@@ -1,4 +1,4 @@
-import { WalletContext } from "@/context/WalletContext";
+"use client"
 import { clubAContract } from "@/contract/ClubAContract/ClubA_Instance";
 import { ethers } from "ethers";
 import Image from "next/image";
@@ -6,6 +6,10 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import USDTToken from "../../../contract/USDTABI.json";
 import { FaUserLock } from "react-icons/fa";
 import Link from "next/link";
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import ClubA_ABI from '../../../contract/ClubAContract/ClubA_ABI.json'
+import { useAccount } from "wagmi";
+
 
 interface ClubAType {
   key: string;
@@ -14,8 +18,10 @@ interface ClubAType {
 }
 
 const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
-  const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+  
+ const { walletProvider } = useWeb3ModalProvider();
+  const {address} = useWeb3ModalAccount()
+  const userAddress = address;
   const [isApprove, setApprove] = useState<boolean>(false);
   const [planetBuy, setPlanetBuy] = useState<boolean>(false);
   const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
@@ -25,12 +31,18 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
   const [isApproveRe, setApproveRe] = useState<boolean>(false);
   const [planetBuyRe, setPlanetBuyRe] = useState<boolean>(false);
 
+  // const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
 
+ const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
+
+ 
   
   const getUserPlanetBuyTime = async (planetName:string) =>{
     try {
-     const provider = new ethers.providers.Web3Provider(window.ethereum);
-     const clubACont = clubAContract();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
      const planetId = getPlanetId(planetName)
      const lastPlanetBuyTime = await clubACont!.getLastJoinTime(userAddress,planetId);
      console.log("lastPlanetBuyTime",lastPlanetBuyTime)
@@ -186,9 +198,11 @@ useEffect(() => {
 
   const getCurrentPlanetStatus = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubACont = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
+      console.log("club A ",clubACont)
       const isUserExist = await clubACont!.UserRegister(userAddress);
 
       if (!isUserExist) {
@@ -220,10 +234,10 @@ useEffect(() => {
         "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
       );
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubACont = clubAContract();
-      const getFeeTokenAddress = await clubACont!.getFeeToken();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);;
+      const getFeeTokenAddress = await clubAMainContract!.getFeeToken();
       console.log("USDT TOken address", getFeeTokenAddress);
       const secondInstance = new ethers.Contract(
         getFeeTokenAddress,
@@ -233,7 +247,7 @@ useEffect(() => {
       const approveAmt = await secondInstance.balanceOf(userAddress);
       console.log("Approve", approveAmt);
       const approve = await secondInstance.approve(
-        clubACont!.address,
+        clubAMainContract!.address,
         approveAmt
       );
       await approve.wait();
@@ -250,11 +264,10 @@ useEffect(() => {
       alert(
         "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
       );
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubACont = clubAContract();
-      const getFeeTokenAddress = await clubACont!.getFeeToken();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);;
+      const getFeeTokenAddress = await clubAMainContract!.getFeeToken();
       console.log("USDT TOken address", getFeeTokenAddress);
       const secondInstance = new ethers.Contract(
         getFeeTokenAddress,
@@ -264,7 +277,7 @@ useEffect(() => {
       const approveAmt = await secondInstance.balanceOf(userAddress);
       console.log("Approve", approveAmt);
       const approve = await secondInstance.approve(
-        clubACont!.address,
+        clubAMainContract!.address,
         approveAmt
       );
       await approve.wait();
@@ -278,11 +291,11 @@ useEffect(() => {
 
   const buyPlanetUser = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const gasPrice = await signer.getGasPrice();
-
-      const myContract = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const myContract = clubAMainContract;
+      const getGasPrice = signer.getGasPrice()
 
       const planetById =
         PlanetName === "Earth"
@@ -307,7 +320,10 @@ useEffect(() => {
           ? "10"
           : "null";
       console.log(planetById);
-      const buyPlanet = await myContract!.buyPlannet(); // No arguments passed
+      const buyPlanet = await myContract!.buyPlannet( {
+        gasPrice: getGasPrice,
+        gasLimit: ethers.utils.hexlify(3000000000),
+    }); // No arguments passed
 
       await buyPlanet.wait();
       console.log(buyPlanet);
@@ -329,11 +345,10 @@ useEffect(() => {
 
   const buyPlanetUserRe = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const gasPrice = await signer.getGasPrice();
-
-      const myContract = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const myContract = clubAMainContract;
 
       const planetById =
         PlanetName === "Earth"
@@ -383,6 +398,21 @@ useEffect(() => {
     setIsButtonVisible(true);
     getUserPlanetBuyTime(PlanetName)
   }, [highestPlanetBought, planetBuy]);
+
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    // Watch for changes in planetBuy or planetBuyRe
+    if (planetBuy || planetBuyRe) {
+      // Set a timeout to refresh the page after 4-5 seconds
+      timer = setTimeout(() => {
+        window.location.reload();
+      }, 4000); // Adjust the delay as needed
+    }
+  
+    // Clean up the timer to avoid memory leaks
+    return () => clearTimeout(timer);
+  }, [planetBuy, planetBuyRe]);
+  
 
   return (
     <div

@@ -7,15 +7,7 @@ import React, {
   useState,
 } from "react";
 import Image from "next/image";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import {
   Select,
@@ -37,20 +29,20 @@ import { SelectEntries } from "@/utils/SelectEntries";
 import { tierEarningDataType } from "@/Hooks/useFetchTierEarning";
 
 interface valueType {
-  level: string;
-  package: string;
-  entries: string;
+    level: string;
+    package: string;
+    entries: string;
 }
 
 interface tierTeamDataType {
-  _id: string;
-  bn_id: string;
-  reg_user_address: string;
-  reg_time: string;
-  upline_referral_BNId: string;
-  latestPlanetName: string;
-  isStatus: string;
-  tierEarnings: boolean;
+    _id: string;
+    bn_id: string;
+    reg_user_address: string;
+    reg_time: string;
+    upline_referral_BNId: string;
+    latestPlanetName: string;
+    isStatus: string;
+    tierEarnings: boolean;
 }
 
 interface tierTeamData {
@@ -142,26 +134,26 @@ const Page = () => {
     }
   };
 
-  const handleSelectPackageChange = (selectedPackage: string) => {
-    setValue((prevState: any) => ({
-      ...prevState,
-      package: selectedPackage,
-    }));
-  };
+    const handleSelectPackageChange = (selectedPackage: string) => {
+        setValue((prevState: any) => ({
+            ...prevState,
+            package: selectedPackage,
+        }));
+    };
 
-  const handleSelectLevelChange = (selectedLevel: string) => {
-    setValue((prevState: any) => ({
-      ...prevState,
-      level: selectedLevel,
-    }));
-  };
+    const handleSelectLevelChange = (selectedLevel: string) => {
+        setValue((prevState: any) => ({
+            ...prevState,
+            level: selectedLevel,
+        }));
+    };
 
-  const handleSelectEntriesChange = (selectEntries: string) => {
-    setValue((prevState: any) => ({
-      ...prevState,
-      entries: selectEntries,
-    }));
-  };
+    const handleSelectEntriesChange = (selectEntries: string) => {
+        setValue((prevState: any) => ({
+            ...prevState,
+            entries: selectEntries,
+        }));
+    };
 
   const getTierTeam = async () => {
     try {
@@ -181,11 +173,11 @@ const Page = () => {
     } catch (error) {}
   };
 
-  const submitHandler = async (e: FormEvent) => {
-    e.preventDefault();
-    console.log("data", value);
-    await getTierTeam();
-  };
+    const submitHandler = async (e: FormEvent) => {
+        e.preventDefault();
+        console.log("data", value);
+        await getTierTeam();
+    };
 
   useEffect(() => {
     if (searchUser && displayUser?.searchedUser) {
@@ -199,15 +191,13 @@ const Page = () => {
   }, [searchUser, displayUser?.searchedUser, value.level, value.entries, currentItemIndex]);
   
 
-  // Function to determine the status color
+    // Function to determine the status color
 
-  return (
-    <div className="flex flex-col">
-      <div className="w-full my-5 flex items-center justify-center">
-        <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-          Tier Team
-        </p>
-      </div>
+    return (
+        <div className="flex flex-col">
+            <div className="w-full my-5 flex items-center justify-center">
+                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">Tier Team</p>
+            </div>
 
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
@@ -225,10 +215,10 @@ const Page = () => {
                 />
               </div>
 
-              <div className="order-1 md:order-2">
-                <div className="text-right my-3 ">
-                  <p className="text-lg lg:text-xl">Business: $ 0.00 </p>
-                </div>
+                            <div className="order-1 md:order-2">
+                                <div className="text-right my-3 ">
+                                    <p className="text-lg lg:text-xl">Business: $ 0.00 </p>
+                                </div>
 
                 <div className="w-full ">
                   <form
@@ -260,43 +250,43 @@ const Page = () => {
                       </div>
                     </div>
 
-                    <div className="flex flex-col md:flex-row w-full items-center gap-x-3 ">
-                      <div className="flex md:flex-col gap-5 md:gap-1  w-full">
-                        <div className="flex items-start justify-start  ">
-                          <p>Packages:</p>
-                        </div>
-                        <div className="w-full flex items-end justify-end">
-                          <Select
-                            name="selectTierTeamPackages"
-                            value={value.package}
-                            onValueChange={handleSelectPackageChange}
-                          >
-                            <SelectTrigger className="w-[180px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
-                              <SelectValue placeholder="" />
-                            </SelectTrigger>
-                            <SelectContent defaultValue="Earth">
-                              {SelectTierTeamPackage.map((item: any) => (
-                                <SelectItem key={item.id} value={item.value}>
-                                  {item.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                        </div>
-                      </div>
+                                        <div className="flex flex-col md:flex-row w-full items-center gap-x-3 ">
+                                            <div className="flex md:flex-col gap-5 md:gap-1  w-full">
+                                                <div className="flex items-start justify-start  ">
+                                                    <p>Packages:</p>
+                                                </div>
+                                                <div className="w-full flex items-end justify-end">
+                                                    <Select
+                                                        name="selectTierTeamPackages"
+                                                        value={value.package}
+                                                        onValueChange={handleSelectPackageChange}
+                                                    >
+                                                        <SelectTrigger className="w-[180px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
+                                                            <SelectValue placeholder="" />
+                                                        </SelectTrigger>
+                                                        <SelectContent defaultValue="Earth">
+                                                            {SelectTierTeamPackage.map((item: any) => (
+                                                                <SelectItem key={item.id} value={item.value}>
+                                                                    {item.label}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                            </div>
 
-                      <Button
-                        type="submit"
-                        variant={"custom_yellow"}
-                        className="mt-6 h-7 px-[45%] md:px-4 md:h-9"
-                      >
-                        Submit
-                      </Button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-            </div>
+                                            <Button
+                                                type="submit"
+                                                variant={"custom_yellow"}
+                                                className="mt-6 h-7 px-[45%] md:px-4 md:h-9"
+                                            >
+                                                Submit
+                                            </Button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
             <div className="w-[86%] overflow-x-scroll lg:overflow-x-hidden">
               {displayUser && Object.keys(displayUser).length > 0 && displayUser.searchedUser ? (
@@ -486,72 +476,72 @@ const Page = () => {
                               />
                             </TableCell>
 
-                            <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                              {user.bn_id}
-                            </TableCell>
-                            <TableCell className="px-4 lg:px-0 py-2  whitespace-nowrap ">
-                              {unixToTime(user.reg_time)}
-                            </TableCell>
+                                                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                                                            {user.bn_id}
+                                                        </TableCell>
+                                                        <TableCell className="px-4 lg:px-0 py-2  whitespace-nowrap ">
+                                                            {unixToTime(user.reg_time)}
+                                                        </TableCell>
 
-                            <TableCell className="px-8 lg:px-0 py-2  whitespace-nowrap ">
-                              {value.level}
-                            </TableCell>
+                                                        <TableCell className="px-8 lg:px-0 py-2  whitespace-nowrap ">
+                                                            {value.level}
+                                                        </TableCell>
 
-                            <TableCell className=" py-2 whitespace-nowrap ">
-                              {user.upline_referral_BNId}
-                            </TableCell>
+                                                        <TableCell className=" py-2 whitespace-nowrap ">
+                                                            {user.upline_referral_BNId}
+                                                        </TableCell>
 
-                            <TableCell className=" py-2  whitespace-nowrap  ">
-                              <div className="w-full flex items-center justify-center">
-                                <p
-                                  className={`w-fit p-1 px-2 rounded-md ${
-                                    user.isStatus === "Active"
-                                      ? "bg-green-500"
-                                      : "bg-red-500"
-                                  }`}
-                                >
-                                  {" "}
-                                  {user.isStatus}
-                                </p>
-                              </div>
-                            </TableCell>
-                            <TableCell className=" py-2  whitespace-nowrap font-medium">
-                              <Button onClick={() => handleToggle(user._id)}>
-                                {expanded[user._id] ? "Hide" : "Show"}
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                          {expanded[user._id] && (
-                            <TableRow className="text-white text-center">
-                              {/* Notice the colSpan should be equal to the number of columns in the table */}
-                              <TableCell
-                                colSpan={8}
-                                className="px-3 py-2 whitespace-nowrap text-sm"
-                              >
-                                <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
-                                  <div className="flex gap-x-2">
-                                    <p className="w-fit ">
-                                      Address: {user.reg_user_address}
-                                    </p>
-                                    <div className="flex items-center gap-x-2 ">
-                                      <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                      <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
-                                    </div>
-                                  </div>
+                                                        <TableCell className=" py-2  whitespace-nowrap  ">
+                                                            <div className="w-full flex items-center justify-center">
+                                                                <p
+                                                                    className={`w-fit p-1 px-2 rounded-md ${
+                                                                        user.isStatus === "Active"
+                                                                            ? "bg-green-500"
+                                                                            : "bg-red-500"
+                                                                    }`}
+                                                                >
+                                                                    {" "}
+                                                                    {user.isStatus}
+                                                                </p>
+                                                            </div>
+                                                        </TableCell>
+                                                        <TableCell className=" py-2  whitespace-nowrap font-medium">
+                                                            <Button onClick={() => handleToggle(user._id)}>
+                                                                {expanded[user._id] ? "Hide" : "Show"}
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableRow>
+                                                    {expanded[user._id] && (
+                                                        <TableRow className="text-white text-center">
+                                                            {/* Notice the colSpan should be equal to the number of columns in the table */}
+                                                            <TableCell
+                                                                colSpan={8}
+                                                                className="px-3 py-2 whitespace-nowrap text-sm"
+                                                            >
+                                                                <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
+                                                                    <div className="flex gap-x-2">
+                                                                        <p className="w-fit ">
+                                                                            Address: {user.reg_user_address}
+                                                                        </p>
+                                                                        <div className="flex items-center gap-x-2 ">
+                                                                            <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                                                            <HiArrowTopRightOnSquare className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    )}
+                                                </React.Fragment>
+                                            ))}
+                                    </TableBody>
+                                </Table>
+                            ) : (
+                                <div className="text-red-500 text-center font-semibold text-xl lg:text-3xl mt-2">
+                                    No one present at this position.
                                 </div>
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </React.Fragment>
-                      ))}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-red-500 text-center font-semibold text-xl lg:text-3xl mt-2">
-                  No one present at this position.
-                </div>
-              )}
-            </div>
+                            )}
+                        </div>
 
             <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  ">
               <div className="order-2 lg:order-1">
@@ -582,31 +572,31 @@ const Page = () => {
                   </div>
               </div>
 
-              <div className="order-1 lg:order-2 text-sm my-5">
-                <p>Show Entries</p>
-                <Select
-                  name="selectEntries"
-                  value={value.entries}
-                  onValueChange={handleSelectEntriesChange}
-                >
-                  <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent defaultValue="Earth">
-                    {SelectEntries.map((item: any) => (
-                      <SelectItem key={item.id} value={item.value}>
-                        {item.data}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                            <div className="order-1 lg:order-2 text-sm my-5">
+                                <p>Show Entries</p>
+                                <Select
+                                    name="selectEntries"
+                                    value={value.entries}
+                                    onValueChange={handleSelectEntriesChange}
+                                >
+                                    <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
+                                        <SelectValue placeholder="" />
+                                    </SelectTrigger>
+                                    <SelectContent defaultValue="Earth">
+                                        {SelectEntries.map((item: any) => (
+                                            <SelectItem key={item.id} value={item.value}>
+                                                {item.data}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Page;

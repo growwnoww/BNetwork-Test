@@ -1,32 +1,18 @@
-'use client'
+"use client";
 import React, { useContext, useEffect, useState } from "react";
 import Image from "next/image";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
+    Pagination,
+    PaginationContent,
+    PaginationEllipsis,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious,
 } from "@/components/ui/pagination";
 
 import { Input } from "@/components/ui/input";
@@ -237,15 +223,13 @@ const Page = () => {
 
   
 
-  // Function to determine the status color
+    // Function to determine the status color
 
-  return (
-    <div className="flex flex-col">
-      <div className="w-full my-5 flex items-center justify-center">
-        <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
-          Direct Earnings
-        </p>
-      </div>
+    return (
+        <div className="flex flex-col">
+            <div className="w-full my-5 flex items-center justify-center">
+                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">Direct Earnings</p>
+            </div>
 
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
@@ -419,31 +403,29 @@ const Page = () => {
                           {index+1}
                         </TableCell>
 
-                        <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
-                          <Image
-                            className="h-12 w-12  rounded-full"
-                            width={20}
-                            height={20}
-                            loading="lazy"
-                            src='/Earth.png'
-                            alt="Avatar"
-                          />
-                        </TableCell>
+                                                <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
+                                                    <Image
+                                                        className="h-12 w-12  rounded-full"
+                                                        width={20}
+                                                        height={20}
+                                                        loading="lazy"
+                                                        src="/Earth.png"
+                                                        alt="Avatar"
+                                                    />
+                                                </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                          {user.bn_id}
-                        </TableCell>
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.reg_time}
-                        </TableCell>
+                                                <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
+                                                    {user.bn_id}
+                                                </TableCell>
+                                                <TableCell className=" py-2  whitespace-nowrap ">
+                                                    {user.reg_time}
+                                                </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          Earth
-                        </TableCell>
+                                                <TableCell className=" py-2  whitespace-nowrap ">Earth</TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.directEarnings == true? '2.5$': 'Lost'}
-                        </TableCell>
+                                                <TableCell className=" py-2  whitespace-nowrap ">
+                                                    {user.directEarnings == true ? "2.5$" : "Lost"}
+                                                </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap font-medium">
                           <Button onClick={() => handleToggle(index)}>

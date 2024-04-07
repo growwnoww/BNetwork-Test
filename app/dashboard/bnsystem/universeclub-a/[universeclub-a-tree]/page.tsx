@@ -101,7 +101,7 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
       if(response.data){
         const data = await response.data;
- 
+         console.log("recycle length",response.data)
          setMaxRecycle(data)
       }
     } catch (error) {
@@ -121,7 +121,7 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
       if(response.data) {
         const data: PlanetUpTreeData[] = await response.data;
-        console.log(data);
+        console.log("tree data",data);
         setclubAAutopoolData(data);
 
       

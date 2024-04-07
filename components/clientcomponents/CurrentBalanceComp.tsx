@@ -1,87 +1,34 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
-import { AiTwotoneDollarCircle } from "react-icons/ai";
-import { TbCoinBitcoin } from "react-icons/tb";
-import { Context } from "../Context";
-import { bNetwork, etTokenSC, usdtTokenSC } from "@/contract/Web3_Instance";
-import { ethers } from "ethers";
-import { useAccount, useBalance } from "wagmi";
-import { MdOutlineOfflineBolt } from "react-icons/md";
-import TokenABI from "@/contract/Token_ABI.json";
 import { WalletContext } from "@/context/WalletContext";
-
+import { ethers } from "ethers";
+import { useContext, useEffect, useState } from "react";
+import { AiTwotoneDollarCircle } from "react-icons/ai";
+import { MdOutlineOfflineBolt } from "react-icons/md";
+import { TbCoinBitcoin } from "react-icons/tb";
 
 const CurrentBalanceComp = () => {
     const walletContext = useContext(WalletContext);
     console.log(walletContext?.userAddress);
-    const {address,isConnected} = useAccount();
     const [balance, setBalance] = useState<any>(0);
-    const[usdtBal,setUsdtBal] = useState<any>(0)
-    const [etBal,setETbal] = useState<any>(0);
+    const [usdtBal, setUsdtBal] = useState<any>(0);
+    const [etBal, setETbal] = useState<any>(0);
 
-    const loadBalance = async () => {
-        if (window.ethereum) {
-            try {
-                await window.ethereum.request({ method: 'eth_requestAccounts' });
-                const provider = new ethers.providers.Web3Provider(window.ethereum);
-                const signer = provider.getSigner();
-                const address = await signer.getAddress();
-                const balance = await provider.getBalance(address);
-                const formattedBalance = parseFloat(ethers.utils.formatEther(balance)).toFixed(4)
-                // const trimBalance  = 
-                setBalance(formattedBalance);
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        } else {
-            alert('Ethereum wallet is not connected. Please install MetaMask!');
+    const getUserBalance = async () => {
+        if (walletContext?.userAddress) {
+            const network = "https://data-seed-prebsc-1-s1.binance.org:8545/";
+            const provider = new ethers.providers.JsonRpcProvider(network);
+            const result = await provider.getBalance(walletContext.userAddress);
+            const balanceInEth = ethers.utils.formatEther(result);
+            console.log(`balance: ${balanceInEth} ETH`);
+            const formattedBalance = parseFloat(balanceInEth).toFixed(4);
+            setBalance(formattedBalance); // Update this line
         }
     };
-
-
-    const getUserUSDTBalance = async () => {
-        const usdtContract = usdtTokenSC()
-        const usdtBalanceRaw = await usdtContract!.balanceOf(address);
-        console.log("Raw USDT balance:", usdtBalanceRaw.toString());
-
-    
-        if (address && isConnected) {
-            const formattedBalance = ethers.utils.formatUnits(usdtBalanceRaw);
-            const displayBalance = parseFloat(formattedBalance).toFixed(2);
-
-            setUsdtBal(displayBalance);
-        }
-    };
-    
-    
-
-    const getUserETBalance = async () =>{
-        const ETContract = etTokenSC()
-
-        if(address && isConnected){
-           
-            const etBalance = await ETContract!.balanceOf(address);
-           
-
-            const formattedBalance = ethers.utils.formatUnits(etBalance);
-            const displayBalance = parseFloat(formattedBalance).toFixed(2);
-  
-            setETbal(displayBalance)
-        }
-    };
-
-
-   
 
     useEffect(() => {
-       
-        getUserUSDTBalance();
-        getUserETBalance()
-        loadBalance()
-      
-    }, [address,isConnected]);
-
-
+        getUserBalance();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <>
@@ -98,8 +45,7 @@ const CurrentBalanceComp = () => {
                         <TbCoinBitcoin className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
                     <span>{balance}</span>
-                    <span  className="text-yellow-400 text-xs md:text-sm lg:text-lg"> BNB </span>
-                  
+                    <span className="text-yellow-400"> BNB </span>
                 </div>
                 <div className="flex items-center gap-x-1">
                     <span className="inline-block text-2xl ">

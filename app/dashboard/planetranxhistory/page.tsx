@@ -23,18 +23,14 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { WalletContext } from "@/context/WalletContext";
 
+interface planetDataType {
+    _id: string;
+    package: string;
+    planetName: string;
+    time: string;
 
-interface planetDataType{
-    _id:string;
-    package:string;
-    planetName:string;
-    time:string;
-    
-    planetBuy_transaction_hash:string;
-
-
-  }
-  
+    planetBuy_transaction_hash: string;
+}
 
 const Page = () => {
     const walletContext = useContext(WalletContext);
@@ -47,29 +43,26 @@ const Page = () => {
             [userId]: !prev[userId],
         }));
     };
-    const [planetData,setPlanetData] = useState<planetDataType[]>([])
+    const [planetData, setPlanetData] = useState<planetDataType[]>([]);
 
-
-    const getPlanetData = async()=>{
+    const getPlanetData = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/user/getPlanetUp/${userAddress?.toLowerCase()}`)
-            
-            if(response.ok){
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_URL}/user/getPlanetUp/${userAddress?.toLowerCase()}`
+            );
+
+            if (response.ok) {
                 const data = await response.json();
                 setPlanetData(data);
             }
-  
-        } catch (error) {
-            
-        }
-    }
-  
-    
-  
+        } catch (error) {}
+    };
+
     useEffect(() => {
-           getPlanetData();
+        getPlanetData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-  
+
     // Function to determine the status color
 
     return (
@@ -113,7 +106,7 @@ const Page = () => {
                                         <React.Fragment key={user._id}>
                                             <TableRow className="text-white text-center text-[12px] lg:text-md">
                                                 <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                                                    {index+1}
+                                                    {index + 1}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">

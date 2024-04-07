@@ -11,7 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
-import { bNetwork } from "@/contract/Web3_Instance";
+
 import { ethers } from "ethers";
 import { Context } from "@/components/Context";
 import Token_ABI from "@/contract/Token_ABI.json";
@@ -20,9 +20,10 @@ import { WalletContext } from "@/context/WalletContext";
 import { useAccount } from "wagmi";
 import axios from "axios";
 import USDTToken from "../../../contract/USDTABI.json";
-
+import ClubA_ABI from '@/contract/ClubAContract/ClubA_ABI.json'
 import { clubAContract } from "@/contract/ClubAContract/ClubA_Instance";
 import { ClubAPlanetPackage } from "@/utils/ClubAPlanetPackageData";
+import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 
 interface userDetailsType {
   regUser: string;
@@ -55,11 +56,15 @@ const Page = () => {
 
   const [timer, setTimer] = useState<any>(0);
   const [timerDisplay, setTimerDisplay] = useState<string>("");
+  const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
+  const{walletProvider} = useWeb3ModalProvider()
 
   const getUserPlanetBuyTime = async (planetName: string) => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const clubACont = clubAContract();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
       const planetId = getPlanetId(planetName);
       const lastPlanetBuyTime = await clubACont!.getLastJoinTime(
         value.beliverAddress,
@@ -167,7 +172,10 @@ const Page = () => {
         return;
       }
 
-      const MyContract = bNetwork();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const MyContract = clubAMainContract;
 
       const exists = await MyContract!.isUserExists(value.beliverAddress);
 
@@ -203,54 +211,7 @@ const Page = () => {
     }
   };
 
-  const createUser = async (tranxHash: string) => {
-    try {
-      console.log("reg user", userDetails?.regUser);
-      const owner = "0xf346c0856df3e220e57293a0cf125c1322cfd778";
-      let uplineAddrLocal = "";
-      let uplineBNIdLocal = "";
 
-      // Use userDetails directly now, assuming it has been set by this point
-      if (
-        userDetails?.regReferal ===
-          "0x0000000000000000000000000000000000000000" ||
-        !userDetails?.regReferalId
-      ) {
-        uplineAddrLocal = owner;
-        uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
-      } else {
-        uplineAddrLocal = userDetails.regReferal;
-        uplineBNIdLocal =
-          "BN" +
-          userDetails.regReferal.substring(userDetails.regReferal.length - 8);
-      }
-
-      const payload = {
-        reg_user_address: userDetails?.regUser,
-        reg_time: userDetails?.regTime,
-        regId: userDetails?.regId,
-        upline_referral_address: uplineAddrLocal,
-        upline_referralId: userDetails?.regReferalId,
-        upline_referral_BNId: uplineBNIdLocal,
-        direct_count: userDetails?.teamCount,
-        reg_transaction_hash: tranxHash,
-      };
-
-      console.log("hellow", payload);
-
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`,
-        payload
-      );
-
-      if (res.data) {
-      } else {
-        throw new Error(`HTTP error! status: ${res.status}`);
-      }
-    } catch (error) {
-      console.error("Error in createRegister:", error);
-    }
-  };
 
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
@@ -337,10 +298,10 @@ const Page = () => {
       alert(
         "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
       );
-
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubACont = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
       const getFeeTokenAddress = await clubACont!.getFeeToken();
       console.log("USDT TOken address", getFeeTokenAddress);
       const secondInstance = new ethers.Contract(
@@ -362,34 +323,37 @@ const Page = () => {
     }
   };
 
-  const checkApproveUSDT = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const myContract = bNetwork();
+  // const checkApproveUSDT = async () => {
+  //   try {
+  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //     const signer = provider.getSigner();
+  //     const myContract = bNetwork();
 
-      const gasPrice = await signer.getGasPrice();
+  //     const gasPrice = await signer.getGasPrice();
 
-      const getFeeTokenAddress = await myContract!.getFeeToken();
-      const secondInstance = new ethers.Contract(
-        getFeeTokenAddress,
-        Token_ABI,
-        signer
-      );
-      const checkAllowance = await secondInstance.allowance(
-        userAddress,
-        myContract!.address
-      );
-      const allowance = Number(checkAllowance?._hex);
-      setAllow(allowance.toString());
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     const getFeeTokenAddress = await myContract!.getFeeToken();
+  //     const secondInstance = new ethers.Contract(
+  //       getFeeTokenAddress,
+  //       Token_ABI,
+  //       signer
+  //     );
+  //     const checkAllowance = await secondInstance.allowance(
+  //       userAddress,
+  //       myContract!.address
+  //     );
+  //     const allowance = Number(checkAllowance?._hex);
+  //     setAllow(allowance.toString());
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const getUserCurrentPlanet = async (regAddress:any)=>{
      try {
-      const clubACont = clubAContract();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
       const planetId = await clubACont!.getPackage(regAddress)
       const lastPlanetBuyTimeInNumber =
         ethers.BigNumber.from(planetId).toNumber();
@@ -410,11 +374,10 @@ const Page = () => {
 
   const buyPlanetUser = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const gasPrice = await signer.getGasPrice();
-
-      const myContract = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const myContract = clubAMainContract;
 
       const buyPlanet = await myContract!.buyPlannet_user(value.beliverAddress); // No arguments passed
 
@@ -447,9 +410,10 @@ const Page = () => {
         "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
       );
 
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubACont = clubAContract();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
       const getFeeTokenAddress = await clubACont!.getFeeToken();
       console.log("USDT TOken address", getFeeTokenAddress);
       const secondInstance = new ethers.Contract(
@@ -473,11 +437,12 @@ const Page = () => {
 
   const buyPlanetUserRe = async () => {
     try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const gasPrice = await signer.getGasPrice();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const myContract = clubAMainContract;
 
-      const myContract = clubAContract();
+      
 
       const planetById =
         value.PlanetName === "Earth"
@@ -525,10 +490,7 @@ const Page = () => {
     }
   };
 
-  useEffect(() => {
-    checkApproveUSDT();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+
 
   useEffect(() => {
     setApproveRe(false);
