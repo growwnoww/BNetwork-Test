@@ -5,7 +5,7 @@ import { NestedMenuList } from "@/utils/NestedMenuList";
 import { useWeb3Modal } from "@web3modal/ethers5/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { GoSidebarExpand } from "react-icons/go";
 import { IoIosLock } from "react-icons/io";
@@ -15,7 +15,8 @@ import { useRecoilState } from "recoil";
 
 const Sidebar = () => {
     const pathname = usePathname();
-
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const [isOpen, setOpen] = useRecoilState(menuAtom);
     const router = useRouter();
     const { open } = useWeb3Modal();
@@ -60,7 +61,7 @@ const Sidebar = () => {
                     {MenuList.map((menu) => (
                         <li key={menu.id} className=" pb-3  cursor-pointer ">
                             <Link
-                                href={menu.path}
+                                href={query ? `${menu.path}?preview=${query}` : `${menu.path}`}
                                 className={`flex items-center ${
                                     pathname == menu.path ? `bg-zinc-800` : "hover:bg-zinc-900 duration-400"
                                 } px-2 py-2 rounded-md mr-4 gap-x-3`}
@@ -95,7 +96,9 @@ const Sidebar = () => {
                                                 } gap-x-3 py-1`}
                                             >
                                                 <span>{item.icon}</span>
-                                                <Link href={item.path}>{item.title}</Link>
+                                                <Link href={query ? `${item.path}?preview=${query}` : `${item.path}`}>
+                                                    {item.title}
+                                                </Link>
                                                 <span>{item.lock}</span>
                                             </div>
                                         </li>

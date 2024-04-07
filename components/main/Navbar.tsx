@@ -1,12 +1,14 @@
+/* eslint-disable react/no-unescaped-entities */
 "use client";
 import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
+import { Suspense, useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
+import PreviewComp from "../PreviewComp";
 interface NavItem {
     title: string;
     link: string;
@@ -49,7 +51,6 @@ const Navbar = () => {
     const router = useRouter(); // Add this line
     const { open } = useWeb3Modal();
     const { address, isConnected } = useWeb3ModalAccount();
-    console.log(address, isConnected);
 
     // Add this useEffect
     useEffect(() => {
@@ -70,7 +71,6 @@ const Navbar = () => {
                 {/* Hamburger Icon */}
                 <div className="md:hidden">
                     <div className="px-3  md:hidden ">
-                        {/* <div className="bg-yellow-500 px-3  py-2.5 rounded-md">Connect Wallet</div> */}
                         <button
                             onClick={() => open()}
                             type="button"
@@ -80,81 +80,6 @@ const Navbar = () => {
                                 ? "Connect Wallet"
                                 : `${address?.slice(0, 6)}...${address?.slice(address.length - 6, address.length)}`}
                         </button>
-                        {/* <ConnectButton.Custom>
-                            {({
-                                account,
-                                chain,
-                                openAccountModal,
-                                openChainModal,
-                                openConnectModal,
-                                authenticationStatus,
-                                mounted,
-                            }) => {
-                                // Note: If your app doesn't use authentication, you
-                                // can remove all 'authenticationStatus' checks
-                                const ready = mounted && authenticationStatus !== "loading";
-                                const connected =
-                                    ready &&
-                                    account &&
-                                    chain &&
-                                    (!authenticationStatus || authenticationStatus === "authenticated");
-
-                                return (
-                                    <div
-                                        {...(!ready && {
-                                            "aria-hidden": true,
-                                            style: {
-                                                opacity: 0,
-                                                pointerEvents: "none",
-                                                userSelect: "none",
-                                            },
-                                        })}
-                                    >
-                                        {(() => {
-                                            if (!connected) {
-                                                return (
-                                                    <button
-                                                        onClick={openConnectModal}
-                                                        type="button"
-                                                        className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                    >
-                                                        Connect Wallet
-                                                    </button>
-                                                );
-                                            }
-
-                                            if (chain.unsupported) {
-                                                return (
-                                                    <button
-                                                        onClick={openChainModal}
-                                                        type="button"
-                                                        className="bg-[#FF6347] px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                    >
-                                                        Wrong network
-                                                    </button>
-                                                );
-                                            }
-
-                                            return (
-                                                <div style={{ display: "flex", gap: 12 }}>
-                                                    <button
-                                                        onClick={() => {
-                                                            openAccountModal();
-                                                            walletContext?.setUserAddress(() => account?.address.toLowerCase());
-                                                        }}
-                                                        type="button"
-                                                        className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                    >
-                                                        {account.displayName}
-                                                        {account.displayBalance ? ` (${account.displayBalance})` : ""}
-                                                    </button>
-                                                </div>
-                                            );
-                                        })()}
-                                    </div>
-                                );
-                            }}
-                        </ConnectButton.Custom> */}
                     </div>
                 </div>
 
@@ -182,6 +107,7 @@ const Navbar = () => {
 
                 {/* Wallet and Language Selection for Desktop */}
                 <div className="hidden md:flex items-center gap-5">
+                    <PreviewComp />
                     <button
                         onClick={() => open()}
                         type="button"
@@ -191,81 +117,6 @@ const Navbar = () => {
                             ? "Connect Wallet"
                             : `${address?.slice(0, 6)}...${address?.slice(address.length - 6, address.length)}`}
                     </button>
-                    {/* <ConnectButton.Custom>
-                        {({
-                            account,
-                            chain,
-                            openAccountModal,
-                            openChainModal,
-                            openConnectModal,
-                            authenticationStatus,
-                            mounted,
-                        }) => {
-                            // Note: If your app doesn't use authentication, you
-                            // can remove all 'authenticationStatus' checks
-                            const ready = mounted && authenticationStatus !== "loading";
-                            const connected =
-                                ready &&
-                                account &&
-                                chain &&
-                                (!authenticationStatus || authenticationStatus === "authenticated");
-
-                            return (
-                                <div
-                                    {...(!ready && {
-                                        "aria-hidden": true,
-                                        style: {
-                                            opacity: 0,
-                                            pointerEvents: "none",
-                                            userSelect: "none",
-                                        },
-                                    })}
-                                >
-                                    {(() => {
-                                        if (!connected) {
-                                            return (
-                                                <button
-                                                    onClick={openConnectModal}
-                                                    type="button"
-                                                    className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                >
-                                                    Connect Wallet
-                                                </button>
-                                            );
-                                        }
-
-                                        if (chain.unsupported) {
-                                            return (
-                                                <button
-                                                    onClick={openChainModal}
-                                                    type="button"
-                                                    className="bg-[#FF6347] px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                >
-                                                    Wrong network
-                                                </button>
-                                            );
-                                        }
-
-                                        return (
-                                            <div style={{ display: "flex", gap: 12 }}>
-                                                <button
-                                                    onClick={() => {
-                                                        openAccountModal();
-                                                        walletContext?.setUserAddress(() => account.address.toLowerCase());
-                                                    }}
-                                                    type="button"
-                                                    className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
-                                                >
-                                                    {account.displayName}
-                                                    {account.displayBalance ? ` (${account.displayBalance})` : ""}
-                                                </button>
-                                            </div>
-                                        );
-                                    })()}
-                                </div>
-                            );
-                        }}
-                    </ConnectButton.Custom> */}
 
                     <div>
                         {isUserRegister && walletContext?.userAddress ? (

@@ -5,7 +5,7 @@ const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
 } = require("tailwindcss/lib/util/flattenColorPalette");
-
+const { nextui } = require("@nextui-org/react");
 
 const config = {
   mode: 'jit',
@@ -15,13 +15,14 @@ const config = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
-	],
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   prefix: "",
   theme: {
     container: {
       center: true,
       padding: "2rem",
-     
+
     },
     screens: {
       'sm': '640px',
@@ -38,7 +39,7 @@ const config = {
 
       '2xl': '1436px',
 
-      '3xl':'1600px',
+      '3xl': '1600px',
       // => @media (min-width: 1536px) { ... }
     },
     extend: {
@@ -101,10 +102,11 @@ const config = {
   },
   plugins: [
     require("tailwindcss-animate"),
-    addVariablesForColors
+    addVariablesForColors,
+    nextui()
   ]
-    
-    ,
+
+  ,
 } satisfies Config
 
 function addVariablesForColors({ addBase, theme }: any) {
@@ -112,7 +114,7 @@ function addVariablesForColors({ addBase, theme }: any) {
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });

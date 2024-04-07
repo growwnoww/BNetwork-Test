@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -21,6 +21,7 @@ import { MdOutlineSortByAlpha } from "react-icons/md";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
+import { useSearchParams } from "next/navigation";
 
 interface BNCoinDataTye {
     fromBNId: string;
@@ -30,10 +31,17 @@ interface BNCoinDataTye {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
     const [bnCoinData, setBNcoinData] = useState<BNCoinDataTye[]>([]);
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const handleToggle = (userId: number) => {
         setExpanded((prev) => ({
@@ -75,7 +83,7 @@ const Page = () => {
             getBNCoinEarnedTable();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress]);
+    }, [userAddress, query]);
 
     // Function to determine the status color
 

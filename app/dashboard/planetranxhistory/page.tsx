@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { WalletContext } from "@/context/WalletContext";
+import { useSearchParams } from "next/navigation";
 
 interface planetDataType {
     _id: string;
@@ -33,8 +34,15 @@ interface planetDataType {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
     const handleToggle = (userId: string) => {
@@ -61,7 +69,7 @@ const Page = () => {
     useEffect(() => {
         getPlanetData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userAddress, query]);
 
     // Function to determine the status color
 

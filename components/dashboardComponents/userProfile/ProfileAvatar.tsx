@@ -6,6 +6,7 @@ import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
 import { ethers } from "ethers";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import React, { useContext, useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 
@@ -16,9 +17,16 @@ interface userDetailsInfo {
 }
 
 const ProfileAvatar = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     // const host = window.location.hostname;
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     const [userDetails, setUserDetails] = useState<userDetailsInfo>();
 
     const userAvatar = userDetails?.latestPlanetName || "just_reg";
@@ -34,7 +42,7 @@ const ProfileAvatar = () => {
 
     const getUserDetails = async () => {
         try {
-            const response = await axios(
+            const response = await axios.get(
                 `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
             );
             if (response.data) {
@@ -52,7 +60,7 @@ const ProfileAvatar = () => {
     useEffect(() => {
         getUserDetails();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress]);
+    }, [userAddress, query]);
 
     return (
         <>

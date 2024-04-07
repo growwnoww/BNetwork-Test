@@ -7,6 +7,7 @@ import { FaDirections, FaRegCopy } from "react-icons/fa";
 import { GiTeamDowngrade } from "react-icons/gi";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 interface userDetailsInfo {
     bn_id: string;
@@ -20,8 +21,16 @@ interface userDetailsInfo {
 }
 
 const UserInfo = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress?.toLowerCase();
+
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const [userDetails, setUserDetails] = useState<userDetailsInfo>();
 
@@ -58,11 +67,11 @@ const UserInfo = () => {
 
     const getUserDetails = async () => {
         try {
-            const response = await axios(
+            const response = await axios.get(
                 `${process.env.NEXT_PUBLIC_URL}/user/getUserInfo/${userAddress?.toLowerCase()}`
             );
-            if (response.data) {
-                const data: userDetailsInfo = await response.data;
+            if (response && response?.data) {
+                const data: userDetailsInfo = await response?.data;
                 console.log("User detail from get req ", data);
                 setUserDetails(data);
             } else {
@@ -92,7 +101,7 @@ const UserInfo = () => {
         userPlanet();
         getUserDetails();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress]);
+    }, [userAddress, query]);
 
     return (
         <div className="md:text-sm">
