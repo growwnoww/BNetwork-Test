@@ -86,7 +86,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const query = searchParams.get("preview");
 
     React.useEffect(() => {
-        if (query != null || query != undefined || query != "") {
+        if (query === null || query === undefined || query === "" || pathname === "/") {
             router.replace(`${pathname}`);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -96,7 +96,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <NextUIProvider>
                 <WalletProvider>
                     <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
-                        {(query != undefined || query != null || query != "") && (
+                        {(query != undefined || query != null || query != "" || pathname != "/") && (
                             <div className="bg-[#EAB308] flex justify-center">
                                 <p className="text-black font-bold">You preview this address {query}</p>
                             </div>
