@@ -56,7 +56,7 @@ const Page = () => {
 
   const [timer, setTimer] = useState<any>(0);
   const [timerDisplay, setTimerDisplay] = useState<string>("");
-  const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
+  const clubA_Address = "0x56426Bb7749e6d07861eF7289f5F74E51028A4eF";
   const{walletProvider} = useWeb3ModalProvider()
 
   const getUserPlanetBuyTime = async (planetName: string) => {
