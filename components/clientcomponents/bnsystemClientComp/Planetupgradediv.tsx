@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from "react";
 import BtnWrapper from "@/components/WrapperComponent/BtnWrapper";
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
+import { IoIosUnlock } from "react-icons/io";
 
 const Planetupgradediv = () => {
     const levels = Array.from({ length: 10 }, (_, i) => i + 1);
@@ -46,7 +47,15 @@ const Planetupgradediv = () => {
                         />
                     ))}
                 </div>
-                <BtnWrapper text="show" height="py-2" width="px-10" path="/dashboard/bnsystem/planetupgrade" />
+                <div className="flex items-center relative">
+            <BtnWrapper
+              text="Soon"
+              height="py-2"
+              width="px-10"
+              
+            />
+            <IoIosUnlock className="absolute right-[10%]" />
+          </div>
             </div>
         </div>
     );

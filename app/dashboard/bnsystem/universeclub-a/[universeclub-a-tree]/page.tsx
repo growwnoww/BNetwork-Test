@@ -101,8 +101,8 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
       if(response.data){
         const data = await response.data;
-         console.log("recycle length",response.data)
-         setMaxRecycle(data)
+         console.log("recycle length",response.data.recycleCountLength)
+         setMaxRecycle(data.recycleCountLength)
       }
     } catch (error) {
       setMaxRecycle(0)

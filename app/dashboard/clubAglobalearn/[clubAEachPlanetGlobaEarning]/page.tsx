@@ -11,12 +11,10 @@ import {
 } from "@/components/ui/table"
 
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
-import { ClubAGlobalTableData } from '@/utils/ClubAGlobalTableData'
-import { clubAContract } from '@/contract/ClubAContract/ClubA_Instance'
+
 import { ethers } from 'ethers'
 import { FaRegCopy } from 'react-icons/fa'
-import { HiArrowTopRightOnSquare } from 'react-icons/hi2'
+
 import {
   Select,
   SelectContent,
@@ -24,7 +22,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ClubA_ABI from '../../../../contract/ClubAContract/ClubA_ABI.json'
 import { SelectEntries } from '@/utils/SelectEntries'
+import { useWeb3ModalProvider } from '@web3modal/ethers5/react'
+import { request } from 'http'
 
 interface GlobalDatatypeMore {
   leftUser: string;
@@ -40,12 +41,16 @@ interface GlobalDatatype {
   more: GlobalDatatypeMore;
 }
 
+
 const Page = () => {
   const [globalData, setGlobalData] = useState<any>([])
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
   const [values, setValues] = useState({
     entries: "10",
   });
+  const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
+  const {walletProvider} = useWeb3ModalProvider()
+
 
   const handleSelectEntriesChange = (selectEntries: string) => {
     setValues((prevState: any) => ({
@@ -72,10 +77,15 @@ const Page = () => {
 
   const getGlobalEarningData = async () => {
     try {
-      const clubACont = clubAContract();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubACont = clubAMainContract;
+      console.log(clubACont)
       const requests = Array.from({ length: Number(values.entries) }, (_, planetId) =>
         clubACont!.Walletdetails(1, planetId + 1)
       );
+
 
       const responses = await Promise.all(requests);
 
@@ -98,9 +108,27 @@ const Page = () => {
       console.log(error);
     }
   };
+  
+  const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(walletProvider as any);
+        const signer = provider.getSigner();
+        const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+        const myContract = clubAMainContract;
+        const repurchaseCountRaw = await myContract!.GetrepuchaseCounter(planetId,user);
+        const repurchaseCount = ethers.BigNumber.from(repurchaseCountRaw).toNumber();
+        console.log("repurchase count",repurchaseCount)
+        
+     
+              
+    } catch (error) {
+        console.log("Something went wrong in getPlanetDataSC", error);
+    }
+};
 
   useEffect(() => {
     getGlobalEarningData();
+    getPlanetDataSC("0x5bdba3d3ac5cb26e483f59f1983f26890c01020f",1,"sdfs")
   }, [values]);
 
   return (

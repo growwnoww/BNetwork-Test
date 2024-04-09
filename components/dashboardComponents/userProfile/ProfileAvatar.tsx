@@ -27,7 +27,7 @@ const ProfileAvatar = () => {
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
     const [userDetails,setUserDetails] = useState<userDetailsInfo>()
-    const [userAvatar,setUserAvatar] = useState(" ")
+    const [userAvatar,setUserAvatar] = useState("just_reg")
     const {walletProvider} = useWeb3ModalProvider()
    
     console.log("clubA ins",clubAContract())
@@ -63,7 +63,7 @@ const ProfileAvatar = () => {
       try {
         const provider = new ethers.providers.Web3Provider(walletProvider as any);
         const signer = provider.getSigner();
-        const clubAContract = new ethers.Contract("0x96B310a2a261198E44439281f9cE6842890d9aC2",ClubAABI,signer)
+        const clubAContract = new ethers.Contract("0xbBFaA594eA9728CC7811351f57c644e0f3eebe60",ClubAABI,signer)
         console.log("reg Address",regAddress)
 
         const planetId = await clubAContract.getPackage(regAddress);

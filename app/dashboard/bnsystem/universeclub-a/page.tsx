@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { ClubAPackageList } from '../../../../utils/CLubAPackages';
 import axios from 'axios';
 import { WalletContext } from '@/context/WalletContext';
+import { useWeb3ModalAccount } from '@web3modal/ethers5/react'
 
 interface clubAInfo{
   planetName:string;
@@ -15,8 +16,8 @@ interface clubAInfo{
 }
 
 const Page = () => {
-  const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+  const {address} = useWeb3ModalAccount();
+  const userAddress = address
   const [userCount,setUserCount] = useState<clubAInfo[]>([ { planetName: 'Earth', totalUserLength: 0, recycle: 0, globalCount: 0 },
   { planetName: 'Moon', totalUserLength: 0, recycle: 0, globalCount: 0 },
   { planetName: 'Mars', totalUserLength: 0, recycle: 0, globalCount: 0 },
@@ -32,11 +33,18 @@ const Page = () => {
 
   const getRecycleAndUserCount = async () =>{
     try {
-      const response = await axios.get<clubAInfo[]>(`${process.env.NEXT_PUBLIC_URL}/clubA/getRecycleAnadMember/${userAddress}`);
+      const response = await axios.get<clubAInfo[]>(`${process.env.NEXT_PUBLIC_URL}/clubA/getRecycleAnadMember/${userAddress?.toLowerCase()}`);
 
       if(response.data){
-        const data :clubAInfo[] = response.data;
-        setUserCount(data)
+        const backendData :clubAInfo[] = response.data;
+        console.log("global Count",backendData)
+        const mergedData = userCount.map(planet => {
+          const backendPlanet = backendData.find(item => item.planetName === planet.planetName);
+          return backendPlanet ? backendPlanet : planet;
+        });
+  
+        setUserCount(mergedData);
+
         
       }
     } catch (error) {

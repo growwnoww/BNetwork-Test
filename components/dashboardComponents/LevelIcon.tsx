@@ -29,6 +29,8 @@ const LevelIcon:React.FC<levelType>= ({ level,id ,context,planetCount}) => {
     fillOpacity: level <= planetBoughtLen? '1' : '0.2',
   };
 
+ 
+
 
 
 

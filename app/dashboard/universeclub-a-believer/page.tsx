@@ -56,7 +56,7 @@ const Page = () => {
 
   const [timer, setTimer] = useState<any>(0);
   const [timerDisplay, setTimerDisplay] = useState<string>("");
-  const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
+  const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
   const{walletProvider} = useWeb3ModalProvider()
 
   const getUserPlanetBuyTime = async (planetName: string) => {
@@ -80,8 +80,8 @@ const Page = () => {
   };
 
   const formatTime = (timeInSeconds: number): string => {
-    const hours = Math.floor(timeInSeconds / 3600);
-    const minutes = Math.floor((timeInSeconds % 3600) / 60);
+    const hours = Math.floor(timeInSeconds / 300);
+    const minutes = Math.floor((timeInSeconds % 300) / 60);
     const seconds = timeInSeconds % 60;
     return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
       2,
@@ -104,8 +104,8 @@ const Page = () => {
         timeDiffSeconds
       );
 
-      if (timeDiffSeconds < 3600) {
-        setTimer(3600 - timeDiffSeconds);
+      if (timeDiffSeconds < 300) {
+        setTimer(300 - timeDiffSeconds);
       } else {
         setTimer(0);
         console.log("Time expired!");
@@ -166,50 +166,6 @@ const Page = () => {
     return planetNames[planetName];
   };
 
-  const getUserDetail = async (tranxHash: string) => {
-    try {
-      if (!userAddress || !isConnected) {
-        return;
-      }
-
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const MyContract = clubAMainContract;
-
-      const exists = await MyContract!.isUserExists(value.beliverAddress);
-
-      if (exists) {
-        const response = await MyContract!.RegisterUserDetails(
-          value.beliverAddress
-        );
-        console.log("Believer address", value.beliverAddress);
-        const highestPlanetCount = await MyContract!.UserPlannet(
-          value.beliverAddress
-        );
-        console.log("Believer address", value.beliverAddress);
-        console.log("Got user details", response);
-
-        const formattedResponse: userDetailsType = {
-          regUser: String(response.regUser).toLowerCase(),
-          regTime: ethers.BigNumber.from(response.regTime).toString(), // or .toNumber() if safe
-          regId: ethers.BigNumber.from(response.regId).toNumber(),
-          regReferal: String(response.regReferal).toLowerCase(),
-          regReferalId: ethers.BigNumber.from(response.regReferalId).toNumber(), // Assuming this is already a number
-          teamCount: ethers.BigNumber.from(response.teamCount).toNumber(),
-          highestPlanetCount:
-            ethers.BigNumber.from(highestPlanetCount).toNumber(),
-        };
-
-        setTranxHash(tranxHash);
-        setUserDetails(formattedResponse);
-
-        console.log("Refined Data", formattedResponse);
-      }
-    } catch (error) {
-      console.log("Something wrong in userDetailsFUnc", error);
-    }
-  };
 
 
 
@@ -232,14 +188,13 @@ const Page = () => {
 
 
 
-
   const postPlanetBuyInfo = async (
     regAddress:string,
-    PlanetName:string,
+    planetId:number,
     transactionHash: string,
+    repurchaseCount:number
   ) => {
     try {
-      const planetId = getPlanetId(PlanetName)
       const planetNameStr = getPlanetName(planetId);
       const planetNameOnly = planetNameStr?.split(" ")[0];
       const planetPack = planetNameStr?.split(" ")[1];
@@ -251,31 +206,49 @@ const Page = () => {
         planetName: planetNameOnly,
         planetPackage: planetPack,
         transactionHash: transactionHash,
+        repurchaseCount:repurchaseCount
       };
 
       console.log("payload", payload);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
 
-      if (!response.ok) {
+      const response = await axios.post( `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
+
+      if (response.status == 201) {
+       console.log("user planet buy successfully in clubA",response.status)
+      }
+      else{
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
     } catch (error) {
       console.log("Something went wrong in buyPlanet", error);
     }
   };
+
+
+  const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(walletProvider as any);
+        const signer = provider.getSigner();
+        const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+        const myContract = clubAMainContract;
+        const repurchaseCountRaw = await myContract!.GetrepuchaseCounter(planetId,user);
+        const repurchaseCount = ethers.BigNumber.from(repurchaseCountRaw).toNumber();
+        console.log("repurchase count",repurchaseCount)
+        
+        postPlanetBuyInfo(user,planetId,transactionHash,repurchaseCount);
+              
+    } catch (error) {
+        console.log("Something went wrong in getPlanetDataSC", error);
+    }
+};
   const checkCurrentPlanet = async () => {
     try {
-      const myContract = clubAContract();
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const myContract = clubAMainContract;
       const currentPlanetStatus = await myContract!.getPackage(
         value.beliverAddress
       );
@@ -323,30 +296,7 @@ const Page = () => {
     }
   };
 
-  // const checkApproveUSDT = async () => {
-  //   try {
-  //     const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //     const signer = provider.getSigner();
-  //     const myContract = bNetwork();
 
-  //     const gasPrice = await signer.getGasPrice();
-
-  //     const getFeeTokenAddress = await myContract!.getFeeToken();
-  //     const secondInstance = new ethers.Contract(
-  //       getFeeTokenAddress,
-  //       Token_ABI,
-  //       signer
-  //     );
-  //     const checkAllowance = await secondInstance.allowance(
-  //       userAddress,
-  //       myContract!.address
-  //     );
-  //     const allowance = Number(checkAllowance?._hex);
-  //     setAllow(allowance.toString());
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   const getUserCurrentPlanet = async (regAddress:any)=>{
      try {
@@ -389,7 +339,10 @@ const Page = () => {
       // getPlanet(planetId,transactionHash);
       const planetName = await getUserCurrentPlanet(userAddress);
       console.log("currentplanet ", planetName)
-      postPlanetBuyInfo(userAddress?.toLowerCase()!,planetName!,transactionHash)
+
+      const planetId = getPlanetId(planetName!)
+
+      getPlanetDataSC(userAddress?.toLowerCase()!,planetId,transactionHash)
     
       
       
@@ -442,12 +395,10 @@ const Page = () => {
       const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
       const myContract = clubAMainContract;
 
-      
-
       const planetById =
         value.PlanetName === "Earth"
           ? "1"
-          : value.PlanetName === "Moon"
+          :  value.PlanetName === "Moon"
           ? "2"
           : value.PlanetName === "Mars"
           ? "3"
@@ -467,20 +418,22 @@ const Page = () => {
           ? "10"
           : "null";
       console.log(planetById);
-      const buyPlanet = await myContract!.rePurchasePackage(
-        planetById,
-        value.beliverAddress
-      ); // No arguments passed
+      const buyPlanet = await myContract!.rePurchasePackage(planetById,value.beliverAddress); // No arguments passed
 
       await buyPlanet.wait();
       console.log(buyPlanet);
       const transactionHash = buyPlanet.hash;
 
+
       console.log(`Transaction hash: ${transactionHash}`);
       // getPlanet(planetId,transactionHash);
       setPlanetBuyRe(true);
 
-      postPlanetBuyInfo(userAddress?.toLowerCase()!,value.PlanetName,transactionHash)
+      const planetId = getPlanetId(value.PlanetName)
+
+      getPlanetDataSC(userAddress?.toLowerCase()!,planetId,transactionHash)
+
+
       alert(
         `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
       );

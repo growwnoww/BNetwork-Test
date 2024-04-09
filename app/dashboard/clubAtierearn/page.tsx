@@ -35,6 +35,7 @@ import { SelectTierTeamPackage } from "@/utils/SelectTierTeamPackage";
 import { WalletContext } from "@/context/WalletContext";
 import { SelectEntries } from "@/utils/SelectEntries";
 import { tierEarningDataType } from "@/Hooks/useFetchTierEarning";
+import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 
 interface valueType {
   level: string;
@@ -64,8 +65,8 @@ interface searchData{
 }
 
 const Page = () => {
-  const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+  const {address} = useWeb3ModalAccount()
+  const userAddress = address?.toLowerCase()
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
   const [fetchTierData, setFetchTierData] = useState<tierTeamData | null>(null);
   const [displayUser, setDisplayUser] = useState< searchData| null>();

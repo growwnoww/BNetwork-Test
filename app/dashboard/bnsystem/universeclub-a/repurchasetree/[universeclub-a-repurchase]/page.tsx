@@ -39,12 +39,14 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   const [hoverDetails, setHoverDetails] = useState<PlanetUpTreeData | null>(null);
   const currentPlanet = Object.values(params)
   const [maxRecycle,setMaxRecycle] = useState<number>()
+  const [maxRepurchase,setRepurchaseCount] = useState<number>()
 
 
   const [currentItemIndex, setCurrentItemIndex] = useState(0); // Starts from 0 for the first item
   
   const [currentItemRepurchase, setCurrentItemRepurchase] = useState(0); // Starts from 0 for the first item
   const items = Array.from({ length: 100 }, (_, index) => `Recycle ${index + 1}`);
+  const repurchaseItems = Array.from({ length: 100 }, (_, index) => `Repurchase ${index + 1}`);
   // Event handlers for item navigation
   const handlePreviousClick = () => {
     setCurrentItemIndex(currentItemIndex - 1);
@@ -53,7 +55,7 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   const handleNextClick = () => {
 
     const safeMaxRecycle = maxRecycle ?? 0;
-
+    console.log("current index",currentItemIndex)
 
     if (currentItemIndex < safeMaxRecycle - 1) {
       setCurrentItemIndex(currentItemIndex + 1);
@@ -61,16 +63,16 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
   };
 
   const handlePurchasePreviousClick = () => {
-    setCurrentItemIndex(currentItemIndex - 1);
+    setCurrentItemRepurchase(currentItemRepurchase - 1);
   };
 
   const handlePurschaseNextClick = () => {
 
-    const safeMaxRecycle = maxRecycle ?? 0;
+    const safeMaxRecycle = maxRepurchase ?? 0;
 
 
-    if (currentItemIndex < safeMaxRecycle - 1) {
-      setCurrentItemIndex(currentItemIndex + 1);
+    if (currentItemRepurchase < safeMaxRecycle - 1) {
+      setCurrentItemRepurchase(currentItemRepurchase + 1);
     }
   };
  
@@ -113,23 +115,39 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
 
   const getRecycleLevel = async() =>{
     try {
-      const response = await axios(`${process.env.NEXT_PUBLIC_URL}/clubA/getRecycleMaxLevelClubA/${userAddress}/${currentPlanet}`)
+      const query = `${process.env.NEXT_PUBLIC_URL}/clubA/getRecycleClubARepurchase/${userAddress?.toLowerCase()}/${currentPlanet}/${currentItemRepurchase+1}`;
+      console.log("query of max recycle",query)
+      const response = await axios(`${process.env.NEXT_PUBLIC_URL}/clubA/getRecycleClubARepurchase/${userAddress?.toLowerCase()}/${currentPlanet}/${currentItemRepurchase+1}`)
 
       if(response.data){
         const data = await response.data;
- 
-         setMaxRecycle(data)
+         console.log("data recycle length",data)
+         setMaxRecycle(data.recycleCountLength)
       }
     } catch (error) {
       setMaxRecycle(0)
     }
   }
 
+  const getMaxRepurchaseCount = async () =>{
+    try {
+      const query = `${process.env.NEXT_PUBLIC_URL}/clubA/getMaxRepurchaseCount/${userAddress?.toLowerCase()}/${currentPlanet}`;
+      console.log("query of max recycle",query)
+      const response = await axios(`${process.env.NEXT_PUBLIC_URL}/clubA/getMaxRepurchaseCount/${userAddress?.toLowerCase()}/${currentPlanet}`)
 
+      if(response.data){
+        const data = response.data;
+        console.log("repurchase max count",data)
+        setRepurchaseCount(data)
+      }
+    } catch (error) {
+      
+    }
+  }
 
   const getTreeData = async (recycleCount: number) => {
     try {
-      const query = `${process.env.NEXT_PUBLIC_URL}/clubA/getRepurchaseTreeClubA/${userAddress}/1/${recycleCount + 1}/${currentPlanet}`;
+      const query = `${process.env.NEXT_PUBLIC_URL}/clubA/getRepurchaseTreeClubA/${userAddress?.toLowerCase()}/${currentItemRepurchase+1}/${currentItemIndex+1}/${currentPlanet}`;
       console.log("query", query);
       const response = await axios(query);
      
@@ -191,8 +209,9 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
     getTreeData(currentItemIndex);
     getRecycleLevel()
     getRecentActivityData()
+    getMaxRepurchaseCount()
 
-  }, [ userAddress,currentItemIndex]);
+  }, [ userAddress,currentItemIndex,currentItemRepurchase]);
 
   const cutoffIndex = user; // Adjust based on your requirements
   console.log("cutt",cutoffIndex)
@@ -334,20 +353,20 @@ const Page = ({params}:{params:{planetuptree:string}}) => {
         <div className="flex justify-start items-center">
          <div className="flex items-center justify-center">
         <button
-          // onClick={handlePreviousClick}
-          // disabled={currentItemIndex === 0} // Disable if this is the first item
-          // style={{ marginRight: '10px' }}
+          onClick={handlePurchasePreviousClick}
+          disabled={currentItemRepurchase === 0} // Disable if this is the first item
+          style={{ marginRight: '10px' }}
           className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
         >
           &larr; 
         </button>
         <div style={{ margin: '20px', textAlign: 'center' }}>
-        {items[currentItemIndex]}
+        {repurchaseItems[currentItemRepurchase]}
       </div>
         <button
-          // onClick={handleNextClick}
-          // disabled={currentItemIndex === items.length - 1} // Disable if this is the last item
-          // style={{ marginLeft: '10px' }}
+          onClick={handlePurschaseNextClick}
+          disabled={currentItemIndex === items.length - 1} // Disable if this is the last item
+          style={{ marginLeft: '10px' }}
           className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
         >
            &rarr;

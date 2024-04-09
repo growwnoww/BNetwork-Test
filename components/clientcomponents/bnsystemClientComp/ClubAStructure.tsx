@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import ClubA_ABI from '../../../contract/ClubAContract/ClubA_ABI.json'
 import { useAccount } from "wagmi";
+import axios from "axios";
 
 
 interface ClubAType {
@@ -33,7 +34,7 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
 
   // const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
 
- const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
+ const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
 
  
   
@@ -56,8 +57,8 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
    }
 
  const formatTime = (timeInSeconds: number): string => {
-  const hours = Math.floor(timeInSeconds / 3600);
-  const minutes = Math.floor((timeInSeconds % 3600) / 60);
+  const hours = Math.floor(timeInSeconds / 300);
+  const minutes = Math.floor((timeInSeconds % 300) / 60);
   const seconds = timeInSeconds % 60;
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
  };
@@ -77,8 +78,8 @@ const getUserPlanetBuyTimeDiff = async () => {
     console.log("planet name",PlanetName,"time diff",timeDiffSeconds)
     
 
-    if (timeDiffSeconds < 3600) {
-      setTimer(3600 - timeDiffSeconds);
+    if (timeDiffSeconds < 300) {
+      setTimer(300 - timeDiffSeconds);
 
     
     } else {
@@ -138,16 +139,16 @@ useEffect(() => {
 
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
-      1: "Earth 10$",
-      2: "Moon 25$",
-      3: "Mars 50$",
-      4: "Mercury 100$",
-      5: "Venus 250$",
-      6: "Jupiter 500$",
-      7: "Saturn 1000$",
-      8: "Uranus 2500$",
-      9: "Neptune 5000$",
-      10: "Pluto 10000$",
+      1: "Earth 0.1$",
+      2: "Moon 0.2$",
+      3: "Mars 0.3$",
+      4: "Mercury 0.4$",
+      5: "Venus 0.5$",
+      6: "Jupiter 0.6$",
+      7: "Saturn 0.7$",
+      8: "Uranus 0.8$",
+      9: "Neptune 0.9$",
+      10: "Pluto 1$",
     };
 
     return planetNames[planetId];
@@ -157,6 +158,7 @@ useEffect(() => {
     regAddress:string,
     planetId:number,
     transactionHash: string,
+    repurchaseCount:number
   ) => {
     try {
       const planetNameStr = getPlanetName(planetId);
@@ -170,30 +172,44 @@ useEffect(() => {
         planetName: planetNameOnly,
         planetPackage: planetPack,
         transactionHash: transactionHash,
+        repurchaseCount:repurchaseCount
       };
 
       console.log("payload", payload);
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
 
-      if (!response.ok) {
+      const response = await axios.post( `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
+
+      if (response.status == 201) {
+       console.log("user planet buy successfully in clubA",response.status)
+      }
+      else{
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
     } catch (error) {
       console.log("Something went wrong in buyPlanet", error);
     }
   };
 
 
+
+  const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
+    try {
+        const provider = new ethers.providers.Web3Provider(walletProvider as any);
+        const signer = provider.getSigner();
+        const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+        const myContract = clubAMainContract;
+        const repurchaseCountRaw = await myContract!.GetrepuchaseCounter(planetId,user);
+        const repurchaseCount = ethers.BigNumber.from(repurchaseCountRaw).toNumber();
+        console.log("repurchase count",repurchaseCount)
+        
+        postPlanetBuyInfo(user,planetId,transactionHash,repurchaseCount);
+              
+    } catch (error) {
+        console.log("Something went wrong in getPlanetDataSC", error);
+    }
+};
 
 
   const getCurrentPlanetStatus = async () => {
@@ -320,10 +336,7 @@ useEffect(() => {
           ? "10"
           : "null";
       console.log(planetById);
-      const buyPlanet = await myContract!.buyPlannet( {
-        gasPrice: getGasPrice,
-        gasLimit: ethers.utils.hexlify(3000000000),
-    }); // No arguments passed
+      const buyPlanet = await myContract!.buyPlannet(); // No arguments passed
 
       await buyPlanet.wait();
       console.log(buyPlanet);
@@ -333,7 +346,9 @@ useEffect(() => {
       // getPlanet(planetId,transactionHash);
       setPlanetBuy(true);
       setIsButtonVisible(false);
-      postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
+
+       getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
+      // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       alert(
         `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
       );
@@ -383,7 +398,8 @@ useEffect(() => {
       // getPlanet(planetId,transactionHash);
       setPlanetBuyRe(true);
       setIsButtonVisible(false);
-      postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
+      getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
+      // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       alert(
         `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
       );
@@ -397,6 +413,7 @@ useEffect(() => {
     getCurrentPlanetStatus();
     setIsButtonVisible(true);
     getUserPlanetBuyTime(PlanetName)
+
   }, [highestPlanetBought, planetBuy]);
 
   useEffect(() => {
@@ -406,7 +423,7 @@ useEffect(() => {
       // Set a timeout to refresh the page after 4-5 seconds
       timer = setTimeout(() => {
         window.location.reload();
-      }, 4000); // Adjust the delay as needed
+      }, 10000); // Adjust the delay as needed
     }
   
     // Clean up the timer to avoid memory leaks

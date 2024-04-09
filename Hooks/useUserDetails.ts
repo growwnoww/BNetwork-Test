@@ -7,7 +7,7 @@ const useUserDetails = () => {
     const [isUserRegister, setUserRegister] = useState<boolean>(false);
     const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = "0x04DADba64bc3D2A8e843D17086582b631765eAcB";
 
     useEffect(() => {
         const getUserDetails = async () => {

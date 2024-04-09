@@ -40,7 +40,7 @@ const Page = () => {
 
     const getPlanetData = async()=>{
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/clubA/getPlanetUpClubA/${userAddress}`)
+            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/clubA/getPlanetUpClubA/${userAddress?.toLowerCase()}`)
             
             if(response.ok){
                 const data = await response.json();
