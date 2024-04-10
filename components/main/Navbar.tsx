@@ -61,9 +61,9 @@ const Navbar = () => {
     return (
         <div className="w-full h-[70px] fixed top-0 bg-transparent shadow-lg backdrop-blur-md z-50 px-4 md:px-10">
             <div className="w-full h-full flex flex-row items-center justify-between text-xs font-semibold">
-                <div>
-                    <Link href="/">
-                        <Image src="/logo.png" alt="logo" loading="lazy" width={100} height={50} />
+                <div className="flex items-center justify-center">
+                    <Link href="/" className="mt-4">
+                        <Image src="/BN_Horse_logo.png" alt="logo" loading="lazy" width={150} height={130} />
                     </Link>
                 </div>
 

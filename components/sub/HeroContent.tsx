@@ -48,18 +48,19 @@ const HeroContent = () => {
 
     return (
         <div className="relative flex flex-col items-center justify-center w-full h-screen">
-            <div className="absolute top-[300px] lg:top-[100px] left-0 h-full w-full z-0">
+            <div className="absolute top-[300px] left-[38%] lg:top-[70px]  h-full w-full z-0">
                 <video
                     muted
                     autoPlay
-                    loop
-                    className="w-full  md:w-auto object-cover" // Ensure video covers the whole area without being cut
+                    height={400} // Change the height attribute here
+                    width={400} // Change the width attribute here
+                    className="" // Ensure video covers the whole area without being cut
                 >
-                    <source src="/mars_back.mp4" type="video/mp4" />
+                    <source src="/BN_Horse.mp4"  type="video/mp4" />
                 </video>
             </div>
 
-            <div className="z-10 px-10 lg:p-20 mb-96 lg:mb-54 flex flex-col gap-5 justify-center items-center w-full">
+            <div className="z-10 px-10 lg:p-20 mb-96 lg:mt-[50%] flex flex-col gap-5 justify-center items-center w-full">
                 <div className="flex items-center justify-center flex-col">
                     <div className="flex flex-col items-center justify-center h-auto w-auto ">
                         <p className="text-neutral-200 text-sm md:text-lg lg:text-xl  ">
