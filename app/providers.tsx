@@ -6,7 +6,7 @@ import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { WalletContext, WalletProvider } from "@/context/WalletContext";
+import { WalletProvider } from "@/context/WalletContext";
 import { argentWallet, trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
 import { NextUIProvider } from "@nextui-org/react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
@@ -96,7 +96,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
             <NextUIProvider>
                 <WalletProvider>
                     <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
-                        {(query != undefined || query != null || query != "" || pathname != "/") && (
+                        {query && (
                             <div className="bg-[#EAB308] flex justify-center">
                                 <p className="text-black font-bold">You preview this address {query}</p>
                             </div>
