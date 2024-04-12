@@ -46,6 +46,7 @@ const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
     const walletContext = useContext(WalletContext);
     const isUserRegister = useUserDetails();
+
     console.log("IS USER REGISTER", isUserRegister);
 
     const router = useRouter(); // Add this line
@@ -54,10 +55,10 @@ const Navbar = () => {
 
     // Add this useEffect
     useEffect(() => {
-        if (isUserRegister && walletContext?.userAddress) {
+        if (isUserRegister && address) {
             router.push("/dashboard"); // Redirect user to dashboard if they are registered
         }
-    }, [isUserRegister, walletContext?.userAddress, router]);
+    }, [isUserRegister, address]);
 
     return (
         <div className="w-full h-[70px] fixed top-0 bg-transparent shadow-lg backdrop-blur-md z-50 px-4 md:px-10">
@@ -69,7 +70,8 @@ const Navbar = () => {
                 </div>
 
                 {/* Hamburger Icon */}
-                <div className="md:hidden">
+                <div className="flex md:hidden">
+                <PreviewComp />
                     <div className="px-3  md:hidden ">
                         <button
                             onClick={() => open()}

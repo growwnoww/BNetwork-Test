@@ -36,9 +36,9 @@ export default function PreviewComp() {
 
     return (
         <div>
-            <Button onClick={onOpen} className=" bg-zinc-900  text-white border border-yellow-500">
+            <button onClick={onOpen} className=" bg-zinc-900  text-white border border-yellow-500 px-3  py-2.5 rounded-md">
                 Preview
-            </Button>
+            </button>
             <Modal
                 backdrop="blur"
                 isOpen={isOpen}
