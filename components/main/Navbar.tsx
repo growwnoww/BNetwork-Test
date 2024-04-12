@@ -53,6 +53,11 @@ const Navbar = () => {
     const { open } = useWeb3Modal();
     const { address, isConnected } = useWeb3ModalAccount();
 
+    const handleOpen = () =>{
+        console.log("hellow am connet wallet")
+        open()
+    }
+
     // Add this useEffect
     useEffect(() => {
         if (isUserRegister && address) {
@@ -74,7 +79,7 @@ const Navbar = () => {
                 <PreviewComp />
                     <div className="px-3  md:hidden ">
                         <button
-                            onClick={() => open()}
+                            onClick={handleOpen}
                             type="button"
                             className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
                         >
@@ -111,7 +116,7 @@ const Navbar = () => {
                 <div className="hidden md:flex items-center gap-5">
                     <PreviewComp />
                     <button
-                        onClick={() => open()}
+                        onClick={handleOpen}
                         type="button"
                         className="bg-yellow-500 px-3  py-2.5 rounded-md whitespace-nowrap"
                     >
