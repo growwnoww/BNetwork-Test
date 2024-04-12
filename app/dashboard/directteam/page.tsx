@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
 import { timeStamp } from "console";
 import { isDate } from "util/types";
+import { useSearchParams } from "next/navigation";
 
 interface DirectTeamType {
     bn_id: string;
@@ -38,6 +39,8 @@ interface DirectTeamType {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
     const [directTeamData, setDirectTeamData] = useState<DirectTeamType[]>([]);
 
@@ -49,7 +52,12 @@ const Page = () => {
     };
 
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const unixToTime = (_reg_time: string) => {
         if (directTeamData) {
@@ -83,7 +91,7 @@ const Page = () => {
     useEffect(() => {
         getDirectTeamData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userAddress, query]);
     // Function to determine the status color
 
     return (

@@ -33,7 +33,7 @@ const Page = () => {
     const router = useRouter();
     const ownerAddress = "0x2C7f4dB6A0B1df04EA8550c219318C7f2FF3D34C";
 
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [tranxHash, setTranxHash] = useState<string>();

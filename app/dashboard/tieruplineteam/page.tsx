@@ -8,6 +8,7 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
+import { useSearchParams } from "next/navigation";
 
 interface TierUplineData {
     _id: string;
@@ -26,8 +27,15 @@ interface TierUplineTeam {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     const [fetchTierUpline, setFetchTierUpline] = useState<TierUplineTeam[]>();
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
@@ -63,7 +71,7 @@ const Page = () => {
             getTierUplineTeamData();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress]);
+    }, [userAddress, query]);
 
     // Function to determine the status color
 

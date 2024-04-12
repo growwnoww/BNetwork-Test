@@ -1,13 +1,15 @@
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import { ethers } from "ethers";
+import { WalletContext } from "@/context/WalletContext";
 
 const useUserDetails = () => {
+    const walletContext = useContext(WalletContext);
     const [isUserRegister, setUserRegister] = useState<boolean>(false);
     const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     useEffect(() => {
         const getUserDetails = async () => {
@@ -31,6 +33,7 @@ const useUserDetails = () => {
         };
 
         getUserDetails();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address, isConnected]); // React to changes in address and connection status
 
     return isUserRegister;

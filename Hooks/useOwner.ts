@@ -1,12 +1,14 @@
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethers } from "ethers";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
+import { WalletContext } from "@/context/WalletContext";
 
 const useOwner = (): string => {
+    const walletContext = useContext(WalletContext);
     const [ownerContract, setOwnerContract] = useState<string>('');
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     const getOwner = useCallback(async () => {
         try {
@@ -25,6 +27,7 @@ const useOwner = (): string => {
         } catch (error) {
             console.error("Something went wrong in useOwner Hook", error);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

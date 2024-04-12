@@ -14,11 +14,10 @@ const Page = () => {
                 {/* <Top10Rec /> */}
             </div>
             <div className="bg-[#151515] sm:w-auto  md:w-3/4  2xl:w-3/4  m-5 sm:mt-5 md:m-2  rounded-md">
-                
-                 <div className="order-2 lg:order-1">
-                 <div className="w-full bg-zinc-800 py-4 rounded-md text-2xl px-2">Portfolio</div>
-                 <Protfolio/>
-                 </div>
+                <div className="order-2 lg:order-1">
+                    <div className="w-full bg-zinc-800 py-4 rounded-md text-2xl px-2">Portfolio</div>
+                    <Protfolio />
+                </div>
                 <div className="flex items-center mt-5 m-3 justify-between bg-[#282828] py-8 rounded-md px-3 order-1 lg:order-2">
                     <span className="text-lg md:text-3xl">Believe Network System</span>
                     <Link href="/dashboard/bnsystem" className="w-fit">

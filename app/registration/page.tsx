@@ -37,7 +37,7 @@ const Page = () => {
     const queryUrl = params.get("rr");
     const { walletProvider } = useWeb3ModalProvider();
 
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = walletContext?.B_Network_Address;
 
     const router = useRouter();
 

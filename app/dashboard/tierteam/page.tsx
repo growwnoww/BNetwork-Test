@@ -24,6 +24,7 @@ import { SelectTierData } from "@/utils/SelectTierLevel";
 import { SelectTierTeamPackage } from "@/utils/SelectTierTeamPackage";
 import { WalletContext } from "@/context/WalletContext";
 import { SelectEntries } from "@/utils/SelectEntries";
+import { useSearchParams } from "next/navigation";
 
 interface valueType {
     level: string;
@@ -43,8 +44,15 @@ interface tierTeamDataType {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
     const [fetchTierData, setFetchTierData] = useState<tierTeamDataType[]>();
     const [value, setValue] = useState<valueType>({
@@ -119,7 +127,7 @@ const Page = () => {
     useEffect(() => {
         getTierTeam();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [value.level, value.entries]);
+    }, [value.level, value.entries, userAddress, query]);
 
     // Function to determine the status color
 

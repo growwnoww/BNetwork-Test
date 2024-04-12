@@ -21,6 +21,7 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
+import { useSearchParams } from "next/navigation";
 
 interface DierctEarningType {
     bn_id: string;
@@ -31,11 +32,18 @@ interface DierctEarningType {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const [directEarnings, setDirectEarnings] = useState<DierctEarningType[]>([]);
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
     const planetStatus = walletContext?.planetStatus;
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     console.log(planetStatus);
 
     const handleToggle = (userId: number) => {
@@ -64,7 +72,7 @@ const Page = () => {
     useEffect(() => {
         getDirectTeamData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [userAddress, query]);
 
     // Function to determine the status color
 
