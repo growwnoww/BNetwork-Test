@@ -1,8 +1,11 @@
-'use client';
+'use client'
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
+import { IoMdClose } from 'react-icons/io';
 
 const ClubALanuchBanner = () => {
   const [timeRemaining, setTimeRemaining] = useState(calculateTimeRemaining());
+  const [showBanner, setShowBanner] = useState(localStorage.getItem('showBanner') !== 'false');
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -13,7 +16,7 @@ const ClubALanuchBanner = () => {
   }, []);
 
   function calculateTimeRemaining() {
-    const launchDate:any = new Date('2024-04-15T00:00:00');
+    const launchDate:any = new Date('2024-04-15T19:30:00');
     const currentTime:any = new Date();
     const difference = launchDate - currentTime;
 
@@ -35,10 +38,35 @@ const ClubALanuchBanner = () => {
     return `${days}d ${hours}h ${minutes}m ${seconds}s`;
   }
 
+  const handleClose = () => {
+    console.log("Close button clicked");
+    setShowBanner(false);
+    localStorage.setItem('showBanner', 'false');
+  };
+  
+
+  if (!showBanner) return null; // Don't render the banner if showBanner is false
+
   return (
-    <div className=" z-50 w-full h-7 bg-yellow-400 flex items-center justify-center">
-      <p className='text-sm text-black font-bold'>Get ready! Universe Club-A is launching in: </p>
-      <div className='text-sm text-black font-bold px-1'> {formatTime(timeRemaining)}</div>
+    <div className="absolute top-[30%] -right-[1%] z-30 w-full  flex items-center justify-center">
+     <div className='relative z-20'>
+     
+     <div className=' z-50 cursor-pointer absolute top-1  left-1  '>
+       <IoMdClose className='cursor-pointer z-50 text-black text-4xl font-bold ' onClick={handleClose}>close</IoMdClose>
+      </div>
+     
+      <div className='relative z-10'>
+        <Image
+          src="/ClubA_Banner.jpg"
+          alt="banner"
+          height={500}
+          width={500}
+        />
+        <div className='absolute z-30  bottom-[4%] right-[35%]'>
+          <div className='text-sm text-white font-bold px-1 lg:text-xl'> {formatTime(timeRemaining)}</div>
+        </div>
+      </div>
+     </div>
     </div>
   );
 };
