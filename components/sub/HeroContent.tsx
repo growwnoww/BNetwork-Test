@@ -1,15 +1,13 @@
 "use client";
 
 import React, { useContext, useEffect } from "react";
-import { motion } from "framer-motion";
-import { SparklesIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
 import Link from "next/link";
 import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import ClubALanuchBanner from "../WrapperComponent/ClubALanuchBanner";
 
 const words = [
     {
@@ -48,6 +46,7 @@ const HeroContent = () => {
 
     return (
         <div className="relative flex flex-col items-center justify-center w-full h-screen">
+           
             <div className="absolute top-[300px] lg:top-[100px] left-0 h-full w-full z-0">
                 <video
                     muted
@@ -59,7 +58,10 @@ const HeroContent = () => {
                 </video>
             </div>
 
-            <div className="z-10 px-10 lg:p-20 mb-96 lg:mb-54 flex flex-col gap-5 justify-center items-center w-full">
+            <div className="relative z-5 px-10 lg:p-20 mb-96 lg:mb-54 flex flex-col gap-5 justify-center items-center w-full">
+           <div className=" ">
+           <ClubALanuchBanner/>
+           </div>
                 <div className="flex items-center justify-center flex-col">
                     <div className="flex flex-col items-center justify-center h-auto w-auto ">
                         <p className="text-neutral-200 text-sm md:text-lg lg:text-xl  ">
@@ -80,7 +82,7 @@ const HeroContent = () => {
                     {isUserRegister && walletContext?.userAddress ? (
                         ""
                     ) : (
-                        <div className="z-10">
+                        <div className="z-35">
                             <Link href="/registration">
                                 <Button className="border-2 border-yellow-500">Registration</Button>
                             </Link>
@@ -88,6 +90,8 @@ const HeroContent = () => {
                     )}
                 </div>
             </div>
+
+            
         </div>
     );
 };
