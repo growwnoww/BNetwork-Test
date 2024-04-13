@@ -1,21 +1,16 @@
 "use client";
 
-import * as React from "react";
-import { RainbowKitProvider, connectorsForWallets, darkTheme, getDefaultWallets } from "@rainbow-me/rainbowkit";
-import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { bscTestnet, bsc } from "wagmi/chains";
-import { publicProvider } from "wagmi/providers/public";
 import { WalletProvider } from "@/context/WalletContext";
-import { argentWallet, trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
 import { NextUIProvider } from "@nextui-org/react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
-import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import * as React from "react";
 
-const { chains, publicClient, webSocketPublicClient } = configureChains([bsc, bscTestnet], [publicProvider()]);
-
+// 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "9d8144e157054d061c1c58a856ba0669";
 
+// 2. Set chains
 const bscMa = {
     chainId: 56,
     name: "BSC",
@@ -40,40 +35,26 @@ const metadata = {
     icons: ["https://avatars.mywebsite.com/"],
 };
 
+// 4. Create Ethers config
+const ethersConfig = defaultConfig({
+    /*Required*/
+    metadata,
+
+    /*Optional*/
+    enableEIP6963: true, // true by default
+    enableInjected: true, // true by default
+    enableCoinbase: true, // true by default
+    rpcUrl: "...", // used for the Coinbase SDK
+    defaultChainId: 1, // used for the Coinbase SDK
+});
+
+// 5. Create a Web3Modal instance
 createWeb3Modal({
-    ethersConfig: defaultConfig({ metadata }),
+    ethersConfig,
     chains: [bscMa],
     projectId,
     enableAnalytics: true, // Optional - defaults to your Cloud configuration
-});
-
-const demoAppInfo = {
-    appName: "Believe Network",
-};
-
-const { wallets } = getDefaultWallets({
-    appName: "Believe Network",
-    projectId,
-    chains,
-});
-
-const connectors = connectorsForWallets([
-    ...wallets,
-    {
-        groupName: "Other",
-        wallets: [
-            argentWallet({ projectId, chains }),
-            trustWallet({ projectId, chains }),
-            ledgerWallet({ projectId, chains }),
-        ],
-    },
-]);
-
-const wagmiConfig = createConfig({
-    autoConnect: true,
-    connectors,
-    publicClient,
-    webSocketPublicClient,
+    enableOnramp: true, // Optional - false as default
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -92,24 +73,20 @@ export function Providers({ children }: { children: React.ReactNode }) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-        <WagmiConfig config={wagmiConfig}>
-            <NextUIProvider>
-                <WalletProvider>
-                    <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
-                        {query && (
-                            <div className="bg-[#EAB308] flex justify-center">
-                                <p className="text-black font-bold">You preview this address {query}</p>
-                            </div>
-                        )}
-                        <TawkMessengerReact
-                            propertyId={process.env.NEXT_PUBLIC_ProjectId}
-                            widgetId={process.env.NEXT_PUBLIC_WidgetId}
-                            ref={tawkMessengerRef}
-                        />
-                        {mounted && children}
-                    </RainbowKitProvider>
-                </WalletProvider>
-            </NextUIProvider>
-        </WagmiConfig>
+        <NextUIProvider>
+            <WalletProvider>
+                {query && (
+                    <div className="bg-[#EAB308] flex justify-center">
+                        <p className="text-black font-bold">You preview this address {query}</p>
+                    </div>
+                )}
+                <TawkMessengerReact
+                    propertyId={process.env.NEXT_PUBLIC_ProjectId}
+                    widgetId={process.env.NEXT_PUBLIC_WidgetId}
+                    ref={tawkMessengerRef}
+                />
+                {mounted && children}
+            </WalletProvider>
+        </NextUIProvider>
     );
 }
