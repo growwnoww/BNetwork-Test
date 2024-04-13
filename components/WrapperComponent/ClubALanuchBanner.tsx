@@ -57,7 +57,7 @@ const ClubALanuchBanner = () => {
             height={500}
             width={500}
           />
-          <div className='absolute z-30 bottom-[4%] translate-x-40 md:translate-x-44'>
+          <div className='absolute z-30 bottom-[4%] translate-x-[90%] md:translate-x-44'>
             <div className='text-lg text-white font-bold px-1 lg:text-xl'>{formatTime(timeRemaining)}</div>
           </div>
         </div>
