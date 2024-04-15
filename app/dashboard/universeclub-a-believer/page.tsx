@@ -39,7 +39,7 @@ interface userDetailsType {
 
 const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Buy Planet");
-  const userAddressLocal = localStorage.getItem("userAddress");
+  const userAddressLocal = typeof window !== 'undefined' ? localStorage.getItem("userAddress") : null;
   const userAddress = userAddressLocal;
   const [isApprove, setApprove] = useState<boolean>(false);
   const [isApproveRe, setApproveRe] = useState<boolean>(false);

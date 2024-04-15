@@ -1,4 +1,4 @@
-
+'use client'
 import TableCom from '@/components/TableCom'
 import React from 'react'
 

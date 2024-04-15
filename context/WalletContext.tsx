@@ -14,10 +14,15 @@ interface walletContextType {
 export const WalletContext = createContext<walletContextType | undefined>(undefined);
 
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
     const [userAddress, setUserAddressState] = useState<string | undefined>(() => {
         // Retrieve user address from localStorage on initial render
-        const storedAddress = localStorage.getItem("userAddress");
-        return storedAddress !== null ? storedAddress : undefined;
+        if (typeof window !== 'undefined') {
+            const storedAddress = localStorage.getItem("userAddress");
+            return storedAddress !== null ? storedAddress : undefined;
+        } else {
+            return undefined;
+        }
     });
     
     const [userBalance, setUserBalance] = useState<string | undefined>();

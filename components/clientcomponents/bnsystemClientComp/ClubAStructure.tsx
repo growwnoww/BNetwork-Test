@@ -21,7 +21,7 @@ interface ClubAType {
 const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
   
  const { walletProvider } = useWeb3ModalProvider();
- const userAddressLocal = localStorage.getItem("userAddress");
+ const userAddressLocal = typeof window !== 'undefined' ? localStorage.getItem("userAddress") : null;
  const userAddress = userAddressLocal;
   const walletContext = useContext(WalletContext)
   const {address} = useWeb3ModalAccount()
