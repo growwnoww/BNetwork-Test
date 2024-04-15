@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ethers } from "ethers";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import ClubA_ABI from '@/contract/ClubAContract/ClubA_ABI.json'
+import ClubALevelIcon from "@/components/dashboardComponents/ClubALevelIcon";
 
 const UniverseDiv = () => {
   const {walletProvider} = useWeb3ModalProvider()
@@ -74,7 +75,7 @@ const UniverseDiv = () => {
             <div className="text-center py-3">Club A Matrix</div>
             <div className="h-fit grid grid-cols-5 w-fit gap-x-2 ">
             {levels1.map((index) => (
-            <LevelIcon key={index} level={index } id={`universeA-level-${index + 1}`} context="universeA" planetCount={5}/>
+            <ClubALevelIcon key={index} level={index } id={`universeA-level-${index + 1}`} context="universeA" planetCount={5}/>
           ))}
             </div>
           </div> 

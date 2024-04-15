@@ -2,7 +2,7 @@
 import { menuAtom } from "@/store/atom";
 import { MenuList } from "@/utils/MenuList";
 import { NestedMenuList } from "@/utils/NestedMenuList";
-import { useWeb3Modal } from "@web3modal/ethers5/react";
+import { useDisconnect, useWeb3Modal } from "@web3modal/ethers5/react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -18,7 +18,7 @@ const Sidebar = () => {
 
     const [isOpen, setOpen] = useRecoilState(menuAtom);
     const router = useRouter();
-    const { open } = useWeb3Modal();
+    const {disconnect} = useDisconnect()
 
     const [menuState, setMenuState] = useState<{
         [id: number]: { isOpen: boolean; isArrowUp: boolean };
@@ -37,7 +37,7 @@ const Sidebar = () => {
     };
 
     const handleDisconnectWallet = () => {
-        open();
+        disconnect()
         router.push("/");
     };
 

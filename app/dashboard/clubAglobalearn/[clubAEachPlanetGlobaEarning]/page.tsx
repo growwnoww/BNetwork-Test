@@ -26,6 +26,7 @@ import ClubA_ABI from '../../../../contract/ClubAContract/ClubA_ABI.json'
 import { SelectEntries } from '@/utils/SelectEntries'
 import { useWeb3ModalProvider } from '@web3modal/ethers5/react'
 import { request } from 'http'
+import { clubA_Address } from '@/contract/ClubAContract/ClubA_Instance'
 
 interface GlobalDatatypeMore {
   leftUser: string;
@@ -48,7 +49,7 @@ const Page = () => {
   const [values, setValues] = useState({
     entries: "10",
   });
-  const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
+  
   const {walletProvider} = useWeb3ModalProvider()
 
 

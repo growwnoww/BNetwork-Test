@@ -148,26 +148,26 @@ const Page = () => {
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-around">
-              <div className=" w-full flex flex-col items-end md:items-start ">
-                <label className="">Filter</label>
+            <div className="w-3/4 flex flex-col gap-y-3 md:flex-row  items-center justify-around">
+              <div className="order-3 lg:order-1  w-full flex lg:flex-col   gap-x-7  items-end md:items-start ">
+                <label className="">Search: </label>
                 <Input
                   type="text"
                   placeholder="Enter BN Id or Address"
-                  className="w-[140px] h-8"
+                  className="w-[90%] h-8"
                 />
               </div>
 
-              <div className="flex flex-row items-center justify-center">
+              <div className="order-1 lg:order-2  w-full flex flex-row lg:flex-col items-center justify-between gap-x-4">
                 <p>Total Tier Earning :</p>
-                <p>{totalTierEarning.tierEarningsAmount} $</p>
+                <p>{Number(totalTierEarning.tierEarningsAmount).toFixed(2)} $</p>
               </div>
 
-              <div className="w-full flex md:flex-col gap-5 md:gap-1">
-                      <div className="">
+              <div className="order-2 lg:order-3  w-full flex md:flex-row lg:items-center lg:justify-center gap-5 md:gap-1">
+                      <div className=" w-full flex lg:justify-end">
                         <p>Levels:</p>
                       </div>
-                      <div className="w-full flex justify-end items-end">
+                      <div className="w-full flex justify-end items-end ">
                         <Select
                           name="selectTieTeamLevels"
                           value={value.level}

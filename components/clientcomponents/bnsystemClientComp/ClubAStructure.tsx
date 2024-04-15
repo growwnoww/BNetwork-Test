@@ -1,5 +1,4 @@
 "use client"
-import { clubAContract } from "@/contract/ClubAContract/ClubA_Instance";
 import { ethers } from "ethers";
 import Image from "next/image";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -8,8 +7,9 @@ import { FaUserLock } from "react-icons/fa";
 import Link from "next/link";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import ClubA_ABI from '../../../contract/ClubAContract/ClubA_ABI.json'
-import { useAccount } from "wagmi";
 import axios from "axios";
+import { clubA_Address } from "@/contract/ClubAContract/ClubA_Instance";
+import { WalletContext } from "@/context/WalletContext";
 
 
 interface ClubAType {
@@ -21,8 +21,11 @@ interface ClubAType {
 const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
   
  const { walletProvider } = useWeb3ModalProvider();
+ const userAddressLocal = localStorage.getItem("userAddress");
+ const userAddress = userAddressLocal;
+  const walletContext = useContext(WalletContext)
   const {address} = useWeb3ModalAccount()
-  const userAddress = address;
+  
   const [isApprove, setApprove] = useState<boolean>(false);
   const [planetBuy, setPlanetBuy] = useState<boolean>(false);
   const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
@@ -34,7 +37,7 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
 
   // const clubA_Address = "0xdF6dFc9D54B265cE67C487e5c9F3C7A7a7bce9D8";
 
- const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
+
 
  
   
@@ -57,8 +60,8 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
    }
 
  const formatTime = (timeInSeconds: number): string => {
-  const hours = Math.floor(timeInSeconds / 300);
-  const minutes = Math.floor((timeInSeconds % 300) / 60);
+  const hours = Math.floor(timeInSeconds / 3600);
+  const minutes = Math.floor((timeInSeconds % 3600) / 60);
   const seconds = timeInSeconds % 60;
   return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
  };
@@ -78,8 +81,8 @@ const getUserPlanetBuyTimeDiff = async () => {
     console.log("planet name",PlanetName,"time diff",timeDiffSeconds)
     
 
-    if (timeDiffSeconds < 300) {
-      setTimer(300 - timeDiffSeconds);
+    if (timeDiffSeconds < 3600) {
+      setTimer(3600 - timeDiffSeconds);
 
     
     } else {
@@ -158,7 +161,9 @@ useEffect(() => {
     regAddress:string,
     planetId:number,
     transactionHash: string,
-    repurchaseCount:number
+    universeCount:number,
+    regularId:number[],
+    repurchaseArray:number[]
   ) => {
     try {
       const planetNameStr = getPlanetName(planetId);
@@ -167,12 +172,14 @@ useEffect(() => {
       console.log("Planet package ", planetPack);
 
       const payload = {
+        buyId:universeCount,
         regAddress:regAddress,
         planetId: planetId,
         planetName: planetNameOnly,
         planetPackage: planetPack,
         transactionHash: transactionHash,
-        repurchaseCount:repurchaseCount
+        recycleArray:regularId,
+        repurchasePosition:repurchaseArray,
       };
 
       console.log("payload", payload);
@@ -200,11 +207,23 @@ useEffect(() => {
         const signer = provider.getSigner();
         const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
         const myContract = clubAMainContract;
-        const repurchaseCountRaw = await myContract!.GetrepuchaseCounter(planetId,user);
-        const repurchaseCount = ethers.BigNumber.from(repurchaseCountRaw).toNumber();
-        console.log("repurchase count",repurchaseCount)
+        const details = await myContract!.MatrixDetails(planetId);
+        const universeCount = ethers.BigNumber.from(details.universalslot).toNumber();
+        console.log("repurchase count",universeCount-1)
+
+          let repurchaseArray = await myContract!.RegularUserIDS(userAddress, 1);
+            let recycleArray = await myContract!.RepuchaseUserIDS(userAddress, 1);
+            
+            const regularIdsNumbers = repurchaseArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
+
+            // Convert repurchaseIds BigNumber values to numbers
+            const repurchaseIdsNumbers = recycleArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
+            
+            // console.log("Regular IDs:", regularIdsNumbers);
+            // console.log("Repurchase IDs:", repurchaseIdsNumbers);
+           
         
-        postPlanetBuyInfo(user,planetId,transactionHash,repurchaseCount);
+        postPlanetBuyInfo(user,planetId,transactionHash,universeCount-1,regularIdsNumbers,repurchaseIdsNumbers);
               
     } catch (error) {
         console.log("Something went wrong in getPlanetDataSC", error);
@@ -311,7 +330,10 @@ useEffect(() => {
       const signer = provider.getSigner();
       const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
       const myContract = clubAMainContract;
-      const getGasPrice = signer.getGasPrice()
+      
+
+
+
 
       const planetById =
         PlanetName === "Earth"
@@ -336,6 +358,7 @@ useEffect(() => {
           ? "10"
           : "null";
       console.log(planetById);
+   
       const buyPlanet = await myContract!.buyPlannet(); // No arguments passed
 
       await buyPlanet.wait();
@@ -416,19 +439,19 @@ useEffect(() => {
 
   }, [highestPlanetBought, planetBuy]);
 
-  useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
-    // Watch for changes in planetBuy or planetBuyRe
-    if (planetBuy || planetBuyRe) {
-      // Set a timeout to refresh the page after 4-5 seconds
-      timer = setTimeout(() => {
-        window.location.reload();
-      }, 10000); // Adjust the delay as needed
-    }
+  // useEffect(() => {
+  //   let timer: string | number | NodeJS.Timeout | undefined;
+  //   // Watch for changes in planetBuy or planetBuyRe
+  //   if (planetBuy || planetBuyRe) {
+  //     // Set a timeout to refresh the page after 4-5 seconds
+  //     timer = setTimeout(() => {
+  //       window.location.reload();
+  //     }, 10000); // Adjust the delay as needed
+  //   }
   
-    // Clean up the timer to avoid memory leaks
-    return () => clearTimeout(timer);
-  }, [planetBuy, planetBuyRe]);
+  //   // Clean up the timer to avoid memory leaks
+  //   return () => clearTimeout(timer);
+  // }, [planetBuy, planetBuyRe]);
   
 
   return (

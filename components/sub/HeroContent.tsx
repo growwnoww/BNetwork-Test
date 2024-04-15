@@ -1,10 +1,7 @@
 "use client";
 
 import React, { useContext, useEffect } from "react";
-import { motion } from "framer-motion";
-import { SparklesIcon } from "@heroicons/react/24/solid";
-import Image from "next/image";
-import Link from "next/link";
+
 import { TypewriterEffectSmooth } from "../ui/typewriter-effect";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
@@ -37,26 +34,17 @@ const HeroContent = () => {
     const walletContext = useContext(WalletContext);
     const isUserRegister = useUserDetails();
 
-    const router = useRouter(); // Add this line
 
-    // Add this useEffect
-    useEffect(() => {
-        if (isUserRegister && walletContext?.userAddress) {
-            router.push("/dashboard"); // Redirect user to dashboard if they are registered
-        }
-    }, [isUserRegister, walletContext?.userAddress, router]);
 
     return (
         <div className="relative flex flex-col items-center justify-center w-full h-screen">
-            <div className="absolute top-[300px] left-[38%] lg:top-[70px]  h-full w-full z-0">
+            <div className="absolute -top-[10px]    flex items-center justify-center  lg:top-[10px]   h-full w-full z-0">
                 <video
                     muted
                     autoPlay
-                    height={400} // Change the height attribute here
-                    width={400} // Change the width attribute here
-                    className="" // Ensure video covers the whole area without being cut
+                    className=" lg:h-full lg:w-auto"
                 >
-                    <source src="/BN_Horse.mp4"  type="video/mp4" />
+                    <source src="/logo_down_up.mp4"  type="video/mp4" />
                 </video>
             </div>
 
@@ -77,17 +65,7 @@ const HeroContent = () => {
                 <p className="text-xs text-center md:text-lg lg:text-lg text-white">
                     It is Based On The BNB (Smart Chain) Smart Contract 100% Decentralized System.
                 </p>
-                <div className="z-20 md:hidden ">
-                    {isUserRegister && walletContext?.userAddress ? (
-                        ""
-                    ) : (
-                        <div className="z-10">
-                            <Link href="/registration">
-                                <Button className="border-2 border-yellow-500">Registration</Button>
-                            </Link>
-                        </div>
-                    )}
-                </div>
+                
             </div>
         </div>
     );

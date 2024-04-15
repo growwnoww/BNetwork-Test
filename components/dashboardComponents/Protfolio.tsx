@@ -55,9 +55,9 @@ const Protfolio = () => {
     { title: "Airdrop Refer Coin", icon: <RiBitCoinLine />, field: 'bn_airdrop_refer_coin', isCoin: true },
     { title: "Planet Autopool Earning", icon: <BsCoin />, field: 'planetAutoPoolEarning',isCurrency: true},
     { title: "BN Reward Coin", icon:<RiBitCoinLine />, field: 'bn_reward_coin', isCoin: true },
-    { title: "U. Club A Global Earning", icon: <BsCoin />, field: 'Club_A_Global_Earning' },
+    { title: "U. Club A Global Earning", icon: <BsCoin />, field: 'UClubAGlobalEarning' },
  
-    { title: "Total BN Coin", icon:<RiBitCoinLine />, field: 'totalBnCoin', isCoin: true },
+    { title: "Total BN Coin", icon:<RiBitCoinLine />, field: 'UClubATierEarning', isCoin: true },
   
     { title: "U. Club A Tier Earning", icon: <BsCoin />, field: 'Club_A_Tier_Earning' },  
     { title: "My Laps/Lost Earning", icon: <BsCoin />, field: 'myLaps' },

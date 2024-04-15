@@ -21,9 +21,10 @@ import { useAccount } from "wagmi";
 import axios from "axios";
 import USDTToken from "../../../contract/USDTABI.json";
 import ClubA_ABI from '@/contract/ClubAContract/ClubA_ABI.json'
-import { clubAContract } from "@/contract/ClubAContract/ClubA_Instance";
+
 import { ClubAPlanetPackage } from "@/utils/ClubAPlanetPackageData";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { clubA_Address } from "@/contract/ClubAContract/ClubA_Instance";
 
 interface userDetailsType {
   regUser: string;
@@ -38,8 +39,8 @@ interface userDetailsType {
 
 const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Buy Planet");
-  const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+  const userAddressLocal = localStorage.getItem("userAddress");
+  const userAddress = userAddressLocal;
   const [isApprove, setApprove] = useState<boolean>(false);
   const [isApproveRe, setApproveRe] = useState<boolean>(false);
   const [planetBuyRe, setPlanetBuyRe] = useState<boolean>(false);
@@ -49,14 +50,12 @@ const Page = () => {
     beliverAddress: "",
     PlanetName: "Earth",
   });
-  const [userDetails, setUserDetails] = useState<userDetailsType>();
-  const { isConnected } = useAccount();
-  const [tranxHashhh, setTranxHash] = useState("");
+
   const [curretnPlanetBeliever, setCurrentPlanetBeliever] = useState("");
 
   const [timer, setTimer] = useState<any>(0);
   const [timerDisplay, setTimerDisplay] = useState<string>("");
-  const clubA_Address = "0xbBFaA594eA9728CC7811351f57c644e0f3eebe60";
+
   const{walletProvider} = useWeb3ModalProvider()
 
   const getUserPlanetBuyTime = async (planetName: string) => {
@@ -192,7 +191,9 @@ const Page = () => {
     regAddress:string,
     planetId:number,
     transactionHash: string,
-    repurchaseCount:number
+    universeCount:number,
+    regularId:number[],
+    repurchaseArray:number[]
   ) => {
     try {
       const planetNameStr = getPlanetName(planetId);
@@ -201,12 +202,14 @@ const Page = () => {
       console.log("Planet package ", planetPack);
 
       const payload = {
+        buyId:universeCount,
         regAddress:regAddress,
         planetId: planetId,
         planetName: planetNameOnly,
         planetPackage: planetPack,
         transactionHash: transactionHash,
-        repurchaseCount:repurchaseCount
+        recycleArray:regularId,
+        repurchasePosition:repurchaseArray,
       };
 
       console.log("payload", payload);
@@ -227,17 +230,30 @@ const Page = () => {
   };
 
 
+
   const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
     try {
         const provider = new ethers.providers.Web3Provider(walletProvider as any);
         const signer = provider.getSigner();
         const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
         const myContract = clubAMainContract;
-        const repurchaseCountRaw = await myContract!.GetrepuchaseCounter(planetId,user);
-        const repurchaseCount = ethers.BigNumber.from(repurchaseCountRaw).toNumber();
-        console.log("repurchase count",repurchaseCount)
+        const details = await myContract!.MatrixDetails(planetId);
+        const universeCount = ethers.BigNumber.from(details.universalslot).toNumber();
+        console.log("repurchase count",universeCount-1)
+
+          let repurchaseArray = await myContract!.RegularUserIDS(userAddress, 1);
+            let recycleArray = await myContract!.RepuchaseUserIDS(userAddress, 1);
+            
+            const regularIdsNumbers = repurchaseArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
+
+            // Convert repurchaseIds BigNumber values to numbers
+            const repurchaseIdsNumbers = recycleArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
+            
+            // console.log("Regular IDs:", regularIdsNumbers);
+            // console.log("Repurchase IDs:", repurchaseIdsNumbers);
+           
         
-        postPlanetBuyInfo(user,planetId,transactionHash,repurchaseCount);
+        postPlanetBuyInfo(user,planetId,transactionHash,universeCount-1,regularIdsNumbers,repurchaseIdsNumbers);
               
     } catch (error) {
         console.log("Something went wrong in getPlanetDataSC", error);

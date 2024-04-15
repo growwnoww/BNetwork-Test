@@ -1,13 +1,17 @@
 import React from 'react'
 import HeroContent from '../sub/HeroContent'
+import { HeroHighlightDemo } from '../sub/HowItWorks'
 
 
 const Hero = () => {
   return (
     <div className="relative flex flex-col h-full w-full" >
     
-      <HeroContent/>
-    
+    <div>
+    <HeroContent/>
+    </div>  
+    <HeroHighlightDemo/>
+
     </div>
   )
 }

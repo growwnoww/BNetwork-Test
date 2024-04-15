@@ -2,12 +2,13 @@ import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/re
 import { useEffect, useState } from "react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import { ethers } from "ethers";
+import {  PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 const useUserDetails = () => {
     const [isUserRegister, setUserRegister] = useState<boolean>(false);
     const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x04DADba64bc3D2A8e843D17086582b631765eAcB";
+    const B_Network_Address = PlanetUpgrade_Address;
 
     useEffect(() => {
         const getUserDetails = async () => {
