@@ -15,7 +15,7 @@ const ClubALanuchBanner = () => {
   }, []);
 
   function calculateTimeRemaining() {
-    const launchDate:any = new Date('2024-04-15T21:30:00');
+    const launchDate:any = new Date('2024-04-15T22:30:00');
     const currentTime:any = new Date();
     const difference = launchDate - currentTime;
 
