@@ -256,7 +256,7 @@ const Page = () => {
         postPlanetBuyInfo(user,planetId,transactionHash,universeCount-1,regularIdsNumbers,repurchaseIdsNumbers);
               
     } catch (error) {
-        console.log("Something went wrong in getPlanetDataSC", error);
+        console.log("Something went wrong in the getPlanetDataSC", error);
     }
 };
   const checkCurrentPlanet = async () => {
