@@ -19,6 +19,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@rainbow-me/rainbowkit": "^1.3.3",
     "@tawk.to/tawk-messenger-react": "^2.0.2",
+    "@tawk.to/tawk-messenger-react": "^2.0.2",
     "@tsparticles/engine": "^3.3.0",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.3.0",

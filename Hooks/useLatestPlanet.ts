@@ -23,7 +23,6 @@ const useLatestPlanet = () => {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
-            console.log("user address before plannet count", address)
             const planetCount = await BNetworkContract.userPlannet(address);
             const numberFormat = ethers.BigNumber.from(planetCount).toNumber()
             console.log("user planet count", numberFormat)

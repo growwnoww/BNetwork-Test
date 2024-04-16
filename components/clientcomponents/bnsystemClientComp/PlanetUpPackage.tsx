@@ -181,10 +181,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     ? "10"
                     : "null";
             console.log(planetById);
-            const buyPlanet = await BNetworkContract.buyPlannet(planetById, {
-                gasPrice: gasPrice,
-                gasLimit: ethers.utils.hexlify(3000000000),
-            });
+            const buyPlanet = await BNetworkContract.buyPlannet(planetById);
             await buyPlanet.wait();
             console.log(buyPlanet);
             const transactionHash = buyPlanet.hash;

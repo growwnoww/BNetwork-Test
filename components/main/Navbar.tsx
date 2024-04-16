@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import Link from "next/link";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
-import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
+import {  useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { currentUser, homeHamaburgerAtom } from "@/store/atom";

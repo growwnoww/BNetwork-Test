@@ -367,10 +367,7 @@ const Page = () => {
 
             if (planetById && value.beliverAddress) {
                 console.log("planet id", planetById);
-                const buyPlanet = await BNetworkContract.buyPlannet_user(planetById, value.beliverAddress, {
-                    gasPrice: gasPrice,
-                    gasLimit: ethers.utils.hexlify(1000000),
-                });
+                const buyPlanet = await BNetworkContract.buyPlannet_user(planetById, value.beliverAddress);
                 await buyPlanet.wait();
                 console.log(buyPlanet);
 
