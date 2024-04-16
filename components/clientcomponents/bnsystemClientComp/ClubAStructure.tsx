@@ -142,16 +142,16 @@ useEffect(() => {
 
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
-      1: "Earth 0.1$",
-      2: "Moon 0.2$",
-      3: "Mars 0.3$",
-      4: "Mercury 0.4$",
-      5: "Venus 0.5$",
-      6: "Jupiter 0.6$",
-      7: "Saturn 0.7$",
-      8: "Uranus 0.8$",
-      9: "Neptune 0.9$",
-      10: "Pluto 1$",
+      1: "Earth 10$",
+      2: "Moon  25$",
+      3: "Mars 50$",
+      4: "Mercury 100$",
+      5: "Venus 250$",
+      6: "Jupiter 500$",
+      7: "Saturn 1000$",
+      8: "Uranus 2500$",
+      9: "Neptune 5000$",
+      10: "Pluto 10000$",
     };
 
     return planetNames[planetId];
@@ -373,7 +373,7 @@ useEffect(() => {
        getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       alert(
-        `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
+        `Planet Buy Successfully! 🚀 To See Changes On Website. Don't Refresh Screen.`
       );
       // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
     } catch (error) {
@@ -424,7 +424,7 @@ useEffect(() => {
       getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
       alert(
-        `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
+        `Planet Buy Successfully! 🚀 To See Changes On Website. Please Don't Refresh Screen.`
       );
       // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
     } catch (error) {
@@ -439,19 +439,19 @@ useEffect(() => {
 
   }, [highestPlanetBought, planetBuy]);
 
-  // useEffect(() => {
-  //   let timer: string | number | NodeJS.Timeout | undefined;
-  //   // Watch for changes in planetBuy or planetBuyRe
-  //   if (planetBuy || planetBuyRe) {
-  //     // Set a timeout to refresh the page after 4-5 seconds
-  //     timer = setTimeout(() => {
-  //       window.location.reload();
-  //     }, 10000); // Adjust the delay as needed
-  //   }
+  useEffect(() => {
+    let timer: string | number | NodeJS.Timeout | undefined;
+    // Watch for changes in planetBuy or planetBuyRe
+    if (planetBuy || planetBuyRe) {
+      // Set a timeout to refresh the page after 4-5 seconds
+      timer = setTimeout(() => {
+        window.location.reload();
+      }, 6000); // Adjust the delay as needed
+    }
   
-  //   // Clean up the timer to avoid memory leaks
-  //   return () => clearTimeout(timer);
-  // }, [planetBuy, planetBuyRe]);
+    // Clean up the timer to avoid memory leaks
+    return () => clearTimeout(timer);
+  }, [planetBuy, planetBuyRe]);
   
 
   return (

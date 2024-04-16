@@ -171,7 +171,7 @@ const Page = () => {
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
       1: "Earth 10$",
-      2: "Moon 25$",
+      2: "Moon  25$",
       3: "Mars 50$",
       4: "Mercury 100$",
       5: "Venus 250$",

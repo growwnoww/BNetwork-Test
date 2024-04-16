@@ -31,9 +31,9 @@ const MenuList = [
   {
     id: "3",
     title: "Universe",
-    path: "",
+    path: "/dashboard/bnsystem/universeclub-a",
     icon: <TbUniverse />,
-    icon2:<IoIosLock />
+
   },
   {
     id: "4",

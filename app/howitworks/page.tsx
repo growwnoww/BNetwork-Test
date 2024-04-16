@@ -18,14 +18,15 @@ const Page = ()=> {
                  {/* <div className="">
                     <p className="text-4xl font-bold border-b-2 border-b-yellow-500">How It Works</p>
                  </div> */}
-
+                
+                <PlanetUpDocs/>
+                <ClubADocs/>
+                <NFTDocs/>
                 <BNCoinComp/>
 
-                <PlanetUpDocs/>
+              
 
-                <NFTDocs/>
-
-                <ClubADocs/>
+                
 
                 
 
