@@ -21,6 +21,7 @@ import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 interface userDetailsType {
     regUser: string;
     regTime: string;
@@ -51,7 +52,7 @@ const Page = () => {
 
     const { walletProvider } = useWeb3ModalProvider();
 
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = PlanetUpgrade_Address;
 
     const getUserDetail = async () => {
         try {

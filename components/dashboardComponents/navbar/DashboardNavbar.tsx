@@ -23,7 +23,7 @@ const DashboardNavbar = () => {
   return (
     <div className="relative  flex items-center justify-between   h-16 border-b-[.5px] border-b-stone-700">
       <div className="block lg:hidden">
-        <Image src="/BNSymbol.png" alt="BNSymbol" height={70} width={70} />
+        <Image src="/BELIEVE-LOGO-07.png" alt="BNSymbol" height={70} width={70} />
       </div>
       
       <div className="flex items-center gap-x-3 pr-6 md:pl-4 ">

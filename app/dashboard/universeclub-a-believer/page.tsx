@@ -614,11 +614,11 @@ const Page = () => {
                     {timerDisplay === "00:00:00" ? (
                       isApproveRe ? (
                         <button
-                          className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg"
+                          className="absolute top-[105%] left-[10%] bg-blue-500 py-0.5 w-3/4 mx-1 rounded-lg"
                           type="submit"
                        
                         >
-                          Re-Upgrade
+                          Re-purchase
                         </button>
                       ) : (
                         <button

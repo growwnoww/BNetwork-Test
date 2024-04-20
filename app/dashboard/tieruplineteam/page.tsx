@@ -18,17 +18,15 @@ interface TierUplineData {
     name: string;
     mobileNo: string;
     emailId: string;
+    level:number;
 }
 
-interface TierUplineTeam {
-    level: number;
-    details: TierUplineData;
-}
+
 
 const Page = () => {
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
-    const [fetchTierUpline, setFetchTierUpline] = useState<TierUplineTeam[]>();
+    const [fetchTierUpline, setFetchTierUpline] = useState<TierUplineData[]>([]);
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
 
     const handleToggle = (userId: string) => {
@@ -47,11 +45,11 @@ const Page = () => {
             const response = await fetch(queryUrl);
 
             if (response.ok) {
-                const data: TierUplineTeam[] = await response.json();
+                const data: TierUplineData[] = await response.json();
                 console.log(data);
                 const reverseData = data.reverse();
                 console.log("data", reverseData);
-                setFetchTierUpline(reverseData);
+                setFetchTierUpline(reverseData);1
             }
         } catch (error) {
             throw error;
@@ -112,14 +110,14 @@ const Page = () => {
                                 </TableHeader>
                                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
                                     {fetchTierUpline?.map((user, index) => (
-                                        <React.Fragment key={user.details._id}>
+                                        <React.Fragment key={user._id}>
                                             <TableRow className="text-white text-center text-[12px] lg:text-md">
                                                 <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
                                                     {index + 1}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
-                                                    {user.details.reg_time}
+                                                    {user.reg_time}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
@@ -127,29 +125,29 @@ const Page = () => {
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
-                                                    {user.details.latestPlanetName}
+                                                    {user.latestPlanetName}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2  whitespace-nowrap  ">
                                                     <div className="w-full flex items-center justify-center">
                                                         <p
                                                             className={`w-fit p-1 px-2 rounded-md ${
-                                                                user.details.isStatus === "Active"
+                                                                user.isStatus === "Active"
                                                                     ? "bg-green-500"
                                                                     : "bg-red-500"
                                                             }`}
                                                         >
-                                                            {user.details.isStatus}
+                                                            {user.isStatus}
                                                         </p>
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className=" py-2  whitespace-nowrap font-medium">
-                                                    <Button onClick={() => handleToggle(user.details._id)}>
-                                                        {expanded[user.details._id] ? "Hide" : "Show"}
+                                                    <Button onClick={() => handleToggle(user._id)}>
+                                                        {expanded[user._id] ? "Hide" : "Show"}
                                                     </Button>
                                                 </TableCell>
                                             </TableRow>
-                                            {expanded[user.details._id] && (
+                                            {expanded[user._id] && (
                                                 <TableRow className="text-white text-center">
                                                     {/* Notice the colSpan should be equal to the number of columns in the table */}
                                                     <TableCell
@@ -159,7 +157,7 @@ const Page = () => {
                                                         <div className="w-full  flex flex-col    gap-x-5   p-4 text-md">
                                                             <div className="flex gap-x-2">
                                                                 <p className="w-fit ">
-                                                                    Address: {user.details.reg_user_address}
+                                                                    Address: {user.reg_user_address}
                                                                 </p>
                                                                 <div className="flex items-center gap-x-2 ">
                                                                     <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />
@@ -168,9 +166,9 @@ const Page = () => {
                                                             </div>
 
                                                             <div className="w-fit flex flex-col gap-y-1 text-left">
-                                                                <p>Name : {user.details.name}</p>
-                                                                <p>Mobile No: +{user.details.mobileNo}</p>
-                                                                <p>Email Id: {user.details.emailId}</p>
+                                                                <p>Name : {user.name}</p>
+                                                                <p>Mobile No: +{user.mobileNo}</p>
+                                                                <p>Email Id: {user.emailId}</p>
                                                             </div>
                                                         </div>
                                                     </TableCell>

@@ -627,7 +627,7 @@ useEffect(() => {
             ) : (
               !isButtonVisible && ( // Check if the button should be visible
                 <button
-                  className="bg-yellow-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-yellow-600 duration-300"
+                  className="bg-blue-500 py-1 px-5 translate-x-10 mt-5 rounded-md hover:bg-blue-600 duration-300"
                   onClick={() => {
                     buyPlanetUser();
                   }}
@@ -657,8 +657,8 @@ useEffect(() => {
 
       { 
          getPlanetId(PlanetName)! <= highestPlanetBought?(timerDisplay === "00:00:00" ? (
-          isApproveRe?(<button className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg" onClick={()=>{buyPlanetUserRe()}} >
-          Re-Upgrade
+          isApproveRe?(<button className="absolute top-[105%] left-[10%] bg-blue-500 py-0.5 w-3/4 mx-1 rounded-lg" onClick={()=>{buyPlanetUserRe()}} >
+          Re-Purchase
         </button>):( <button className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg" onClick={() => {
            approveUSDTRe();
          }}>

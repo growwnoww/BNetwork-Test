@@ -15,6 +15,7 @@ const CurrentBalanceComp = () => {
     const [usdtBal, setUsdtBal] = useState<any>(0);
     const [etBal, setETbal] = useState<any>(0);
 
+
     const USDT_Address = "0x55d398326f99059ff775485246999027b3197955";
     const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 
@@ -68,28 +69,31 @@ const CurrentBalanceComp = () => {
 
     return (
         <>
-            <div className="flex justify-between px-4 gap-x-5 text-sm lg:text-lg">
+            <div className="flex justify-between px-4 gap-x-5 text-sm lg:text-lg ">
+
+               <div className="flex items-center gap-x-1">
+                    <span className="inline-block text-2xl ">
+                        <MdOutlineOfflineBolt className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
+                    </span>
+                    <span>{etBal}</span>
+                    <span className="text-yellow-400 text-xs font-bold md:text-sm lg:text-lg">BNS E.T </span>
+                </div>
+
+
                 <div className="flex items-center  lg:text-md gap-x-1">
                     <span className="inline-block text-2xl ">
                         <AiTwotoneDollarCircle className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
                     </span>
                     <span className="">{usdtBal}</span>
-                    <span className="text-yellow-400 text-xs md:text-sm lg:text-lg">USDT</span>
+                    <span className="text-yellow-400 text-xs font-bold md:text-sm lg:text-lg">USDT</span>
                 </div>
+
                 <div className="flex items-center gap-x-1">
-                    <span className="inline-block text-2xl ">
-                        <TbCoinBitcoin className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
-                    </span>
-                    <span>{balance}</span>
-                    <span className="text-yellow-400"> BNB </span>
+                    
+                    <w3m-button balance="show"/>
+                   
                 </div>
-                <div className="flex items-center gap-x-1">
-                    <span className="inline-block text-2xl ">
-                        <MdOutlineOfflineBolt className="text-sm text-yellow-500 lg:text-lg xl:text-lg" />
-                    </span>
-                    <span>{etBal}</span>
-                    <span className="text-yellow-400 text-xs md:text-sm lg:text-lg">BNS E.T </span>
-                </div>
+               
             </div>
         </>
     );

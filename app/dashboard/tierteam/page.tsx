@@ -58,6 +58,7 @@ interface searchData{
 const Page = () => {
   const walletContext = useContext(WalletContext);
   const userAddress = walletContext?.userAddress;
+  const totalBussience = walletContext?.planetStatus?.tierEarningsAmount || 0;
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
   const [fetchTierData, setFetchTierData] = useState<tierTeamData | null>(null);
   const [displayUser, setDisplayUser] = useState< searchData| null>();
@@ -217,7 +218,7 @@ const Page = () => {
 
                             <div className="order-1 md:order-2">
                                 <div className="text-right my-3 ">
-                                    <p className="text-lg lg:text-xl">Business: $ 0.00 </p>
+                                    <p className="text-lg lg:text-xl">Business: $ {Number(totalBussience).toFixed(3)} </p>
                                 </div>
 
                 <div className="w-full ">

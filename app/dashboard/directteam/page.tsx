@@ -3,26 +3,17 @@ import Image from "next/image";
 import React, { useContext, useEffect, useState } from "react";
 import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
-import { tableData } from "@/utils/DirectTeamData";
+
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import axios from "axios";
 
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination";
-import { Input } from "@/components/ui/input";
+import {Input} from'@/components/ui/input';
 import { Button } from "@/components/ui/button";
+import { SelectEntries } from "@/utils/SelectEntries";
 import { WalletContext } from "@/context/WalletContext";
-import { timeStamp } from "console";
-import { isDate } from "util/types";
 
 interface DirectTeamType {
     bn_id: string;
@@ -37,9 +28,21 @@ interface DirectTeamType {
     totalTeamCount: number;
 }
 
+interface DiretTeamAll{
+    user:DirectTeamType[];
+    totalPages:number;
+}
+
+interface valueType {
+    level: string;
+    package: string;
+    entries: string;
+}
+
+
 const Page = () => {
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
-    const [directTeamData, setDirectTeamData] = useState<DirectTeamType[]>([]);
+    const [directTeamData, setDirectTeamData] = useState<DiretTeamAll>();
 
     const handleToggle = (userId: number) => {
         setExpanded((prev) => ({
@@ -47,6 +50,32 @@ const Page = () => {
             [userId]: !prev[userId],
         }));
     };
+
+    const [value, setValue] = useState<valueType>({
+        level: "1",
+        package: "Earth",
+        entries: "10",
+      });
+
+    const [currentItemIndex, setCurrentItemIndex] = useState(0); // Starts from 0 for the first item
+    const items = Array.from(
+      { length: 100 },
+      (_, index) => `Recycle ${index + 1}`
+    );
+    // Event handlers for item navigation
+    const handlePreviousClick = () => {
+      setCurrentItemIndex(currentItemIndex - 1);
+    };
+  
+    const handleNextClick = () => {
+      const safeMaxRecycle = directTeamData?.totalPages ?? 0;
+      console.log("Safe ", safeMaxRecycle);
+      console.log("current index", currentItemIndex);
+      if (currentItemIndex < safeMaxRecycle - 1) {
+        setCurrentItemIndex(currentItemIndex + 1);
+      }
+    };
+  
 
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
@@ -62,14 +91,21 @@ const Page = () => {
         }
     };
 
+    const handleSelectEntriesChange = (selectEntries: string) => {
+        setValue((prevState: any) => ({
+            ...prevState,
+            entries: selectEntries,
+        }));
+    };
+
     const getDirectTeamData = async () => {
         try {
-            const response = await fetch(
-                `${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam?reg_user_address=${userAddress?.toLowerCase()}`
+            const response = await axios(
+                `${process.env.NEXT_PUBLIC_URL}/user/getDirectTeam/${userAddress?.toLowerCase()}/${currentItemIndex+1}/${value.entries}}`
             );
 
-            if (response.ok) {
-                const data: DirectTeamType[] = await response.json();
+            if (response.data) {
+                const data: DiretTeamAll = await response.data;
                 console.log("direct team data", data);
                 setDirectTeamData(data);
             } else {
@@ -83,7 +119,7 @@ const Page = () => {
     useEffect(() => {
         getDirectTeamData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [currentItemIndex,value.entries]);
     // Function to determine the status color
 
     return (
@@ -115,10 +151,7 @@ const Page = () => {
                                         <TableHead scope="col" className=" py-3 text-center tracking-wider">
                                             Date & time
                                         </TableHead>
-                                        <TableHead scope="col" className=" text-center tracking-wider">
-                                            Name
-                                        </TableHead>
-
+                                       
                                         <TableHead scope="col" className=" py-3 text-center tracking-wider">
                                             Direct Team
                                         </TableHead>
@@ -134,7 +167,7 @@ const Page = () => {
                                     </TableRow>
                                 </TableHeader>
                                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                                    {directTeamData.map((user, index) => (
+                                    {directTeamData && directTeamData.user.map((user, index) => (
                                         <React.Fragment key={index}>
                                             <TableRow className="text-white text-center text-[12px] lg:text-md">
                                                 <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
@@ -160,7 +193,7 @@ const Page = () => {
                                                     {unixToTime(user.reg_time)}
                                                 </TableCell>
 
-                                                <TableCell className=" py-2  whitespace-nowrap ">{user.name}</TableCell>
+                                              
 
                                                 <TableCell className=" py-2  whitespace-nowrap ">
                                                     {user.direct_count}
@@ -206,8 +239,10 @@ const Page = () => {
                                                             </div>
 
                                                             <div className="w-fit flex flex-col gap-y-1 text-left">
+                                                                <p>Name: {user.name}</p>
                                                                 <p>Mobile No: +{user.mobileNo}</p>
                                                                 <p>Email Id: {user.emailId}</p>
+                                                               
                                                             </div>
                                                         </div>
                                                     </td>
@@ -219,47 +254,62 @@ const Page = () => {
                             </Table>
                         </div>
 
-                        <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  gap-y-4">
-                            <div className="order-2 lg:order-1">
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationItem>
-                                            <PaginationPrevious href="#" />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">1</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">2</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">3</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationEllipsis />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationNext href="#" />
-                                        </PaginationItem>
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
 
-                            <div className="order-1 lg:order-2 text-sm ">
+              <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between  ">
+                <div className="order-2 lg:order-1">
+                 <div className="flex items-center justify-center">
+                     <button
+                      onClick={handlePreviousClick}
+                      disabled={currentItemIndex === 0} // Disable if this is the first item
+                      style={{ marginRight: "10px" }}
+                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                    >
+                      &larr;
+                    </button>
+                    <div style={{ margin: "20px", textAlign: "center" }}>
+                      {currentItemIndex + 1} / {directTeamData?.totalPages ?? 0}{" "}
+                      {/* Show current index and total pages */}
+                    </div>
+                    <button
+                      onClick={handleNextClick}
+                      disabled={
+                        currentItemIndex ===
+                        (directTeamData?.totalPages ?? 0) - 1
+                      } // Disable if this is the last item
+                      style={{ marginLeft: "10px" }}
+                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                    >
+                      &rarr;
+                    </button>
+                  </div>
+                  </div>
+
+                  <div className="order-1 lg:order-2 text-sm my-5">
                                 <p>Show Entries</p>
-                                <Select>
-                                    <SelectTrigger className="w-[80px] lg:w-[90px]">
+                                <Select
+                                    name="selectEntries"
+                                    value={value.entries}
+                                    onValueChange={handleSelectEntriesChange}
+                                >
+                                    <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
                                         <SelectValue placeholder="" />
                                     </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ten">10</SelectItem>
-                                        <SelectItem value="twenty_five">25</SelectItem>
-                                        <SelectItem value="fifty">50</SelectItem>
-                                        <SelectItem value="hundred">100</SelectItem>
+                                    <SelectContent defaultValue="Earth">
+                                        {SelectEntries.map((item: any) => (
+                                            <SelectItem key={item.id} value={item.value}>
+                                                {item.data}
+                                            </SelectItem>
+                                        ))}
                                     </SelectContent>
                                 </Select>
                             </div>
                         </div>
+                    
+           
+
+
+
+                      {/* hello */}
                     </div>
                 </div>
             </div>
