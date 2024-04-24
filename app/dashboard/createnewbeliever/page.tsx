@@ -13,6 +13,7 @@ import { WalletContext } from "@/context/WalletContext";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import axios from "axios";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 interface userDetailsType {
     regUser: string;
@@ -42,7 +43,7 @@ const Page = () => {
     const [tranxHashhh, setTranxHash] = useState("");
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const B_Network_Address = PlanetUpgrade_Address;
 
     const handleSelectPackageChange = (selectedValue: string) => {
         setValue((prevState: any) => ({

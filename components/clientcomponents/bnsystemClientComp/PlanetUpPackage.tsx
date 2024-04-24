@@ -11,6 +11,7 @@ import USBTToken from "../../../contract/USDTABI.json";
 import BNetworkABI from "../../../contract/BNetwork_ABI.json"
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 interface PlanetUpPropsTypes {
     planetId: number;
@@ -35,7 +36,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = "0x04DADba64bc3D2A8e843D17086582b631765eAcB";
+    const B_Network_Address = PlanetUpgrade_Address;
 
     const getPlanetName = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -136,6 +137,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             );
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            console.log("contract address",B_Network_Address)
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
             const getFeeTokenAddress = await BNetworkContract.getFeeToken();
@@ -148,7 +150,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             console.log(approve);
             setApprove(true);
         } catch (error) {
-            console.log(error);
+            console.log("something went wrong in approve",error);
         }
     };
 
