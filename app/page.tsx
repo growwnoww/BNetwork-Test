@@ -2,6 +2,7 @@
 import Hero from "@/components/main/Hero";
 import Navbar from "@/components/main/Navbar";
 import StarsCanvas from "@/components/main/StarBackground";
+import YoutubeEmPlanetUp from "@/components/main/YoutubeEmPlanetUp";
 
 
 import Image from "next/image";
@@ -13,6 +14,7 @@ export default function Home() {
                 <StarsCanvas />
                 <Navbar />
                 <Hero />
+                <YoutubeEmPlanetUp/>
                   
             </div>
         </main>
