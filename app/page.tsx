@@ -53,7 +53,9 @@ export default function Home() {
         </div>
         <FAQ />
       </div>
-      <Footer />
+      <footer>
+             <Footer />
+      </footer>
     </main>
   );
 }

@@ -19,7 +19,7 @@ const Footer = () => {
             loading="lazy"
             />
         </div>
-        <div className="flex ml-3  lg:ml-0 gap-x-12 lg:gap-x-6 text-2xl z-40">
+        <div className="flex ml-3  lg:ml-0 gap-x-8 lg:gap-x-6 text-2xl z-40">
           <a
             href="https://www.facebook.com/BelieveNetworkSpaceOfficial"
             target="_blank"

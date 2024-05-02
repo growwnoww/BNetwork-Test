@@ -79,7 +79,7 @@ const FAQ = () => {
 
           <AccordionItem value="item-5">
             <AccordionTrigger>
-              What is the minimum amount of money needed to start earning?{" "}
+            What&apos;s the minimum to start earning?
             </AccordionTrigger>
             <AccordionContent>
               You can initiate earnings with as little as 5 USDT, which is
@@ -144,7 +144,7 @@ const FAQ = () => {
 
           <AccordionItem value="item-11">
             <AccordionTrigger>
-              What should I do if my wallet is stolen or hacked?
+            What if my wallet gets stolen or hacked?
             </AccordionTrigger>
             <AccordionContent>
               Get in touch promptly with our technical support through the

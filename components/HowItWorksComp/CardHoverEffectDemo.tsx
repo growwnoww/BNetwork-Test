@@ -21,7 +21,7 @@ export const projects = [
     title: "Universe Club-A",
     image:
       "/BELIEVE-LOGO-13.png",
-    downloadbtn: "/Club-A_PDF.pdf",
+    downloadbtn: "/Universe_Club_A_BNetwork_1may24.pdf",
   },
   {
     title: "NFT Royalty",
@@ -33,7 +33,7 @@ export const projects = [
     title: "White Paper of BN Coin",
     image:
       "/Coin Front.png",
-    downloadbtn: "/BNCoin White Paper.pdf",
+    downloadbtn: "/BN COIN White _paper_new.pdf",
   },
 
 ];
