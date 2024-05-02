@@ -16,9 +16,12 @@ import { ethers } from "ethers";
 import { BackgroundBeams } from "@/components/ui/background-beams";
 import { Meteors } from "@/components/ui/meteors";
 import { useRouter } from "next/navigation";
-import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input1";
+import { cn } from "@/utils/cn";
 
 interface userDetailsType {
     regUser: string;
@@ -36,6 +39,7 @@ const Page = () => {
     const [inviteAddress, setInviteAddress] = useState<string>("");
     const params = useSearchParams();
     const queryUrl = params.get("rr");
+    const {address,isConnected} = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
 
     const B_Network_Address = PlanetUpgrade_Address;
@@ -49,6 +53,11 @@ const Page = () => {
     const isUserPresent = async (e: FormEvent) => {
         try {
             e.preventDefault();
+            if(!isConnected){
+                alert("Please Connect the wallet")
+                return;
+            }
+
             console.log("upline address", inviteAddress);
             // const MyContract = BNetwork();
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
@@ -87,12 +96,12 @@ const Page = () => {
                                     <div className="flex items-center gap-x-3">
                                         <IoMdPlanet className="text-6xl text-yellow-400" />
 
-                                        <h1 className="font-bold text-md text-white mb-4 relative z-50">
+                                        <h1 className="font-bold text-sm text-white mb-4 relative z-50">
                                             Planet Upgarade System
                                         </h1>
                                     </div>
 
-                                    <p className="hidden  lg:block font-normal text-sm text-slate-500 mb-4 relative z-50">
+                                    <p className="   font-normal text-xs text-slate-500 mb-4 relative z-50">
                                         Register with a referral link, then you have a better chance that the people you
                                         invite will register strictly by your link.
                                     </p>
@@ -104,16 +113,16 @@ const Page = () => {
 
                             <div className=" w-full relative max-w-xs">
                                 <div className="absolute inset-0 h-full w-full  rounded-full blur-3xl" />
-                                <div className="relative shadow-xl bg-zinc-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+                                <div className="relative shadow-xl bg-zinc-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col ">
                                     <div className="flex  items-center gap-x-3">
                                         <TbCards className="text-6xl text-yellow-400" />
 
-                                        <h1 className="font-bold text-md text-white mb-4 relative z-50">
-                                            BN NFT Royalty
+                                        <h1 className="font-bold text-sm text-white mb-4 relative z-50">
+                                            Believe Network NFT Royalty
                                         </h1>
                                     </div>
 
-                                    <p className="hidden  lg:block font-normal text-sm text-slate-500 mb-4 relative z-50">
+                                    <p className=" font-normal text-xs text-slate-500 mb-4 relative z-50">
                                         By participating in the program, you get profit and maintain the balance of
                                         our BNS Eco system.
                                     </p>
@@ -125,16 +134,16 @@ const Page = () => {
 
                             <div className=" w-full relative max-w-xs">
                                 <div className="absolute inset-0 h-full w-full rounded-full blur-3xl" />
-                                <div className="relative shadow-xl bg-zinc-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col justify-end items-start">
+                                <div className="relative shadow-xl bg-zinc-900 border border-gray-800  px-4 py-8 h-full overflow-hidden rounded-2xl flex flex-col ">
                                     <div className="flex  items-center gap-x-3">
                                         <TbUniverse className="text-6xl text-yellow-400" />
 
-                                        <h1 className="font-bold text-md text-white mb-4 relative z-50">
+                                        <h1 className="font-bold text-sm text-white mb-4 relative z-50">
                                             Universe Club- A, B & C
                                         </h1>
                                     </div>
 
-                                    <p className="hidden  lg:block font-normal text-sm text-slate-500 mb-4 relative z-50">
+                                    <p className=" font-normal text-xs text-slate-500 mb-4 relative z-50">
                                         The Universe is the heart of our BNS Eco-System, its core layer, a
                                         simulation of real life.
                                     </p>
@@ -150,10 +159,10 @@ const Page = () => {
                                     <div className="flex  items-center gap-x-3">
                                         <Image src="/b-coin.png" alt="bncoin" height={55} width={55} />
 
-                                        <h1 className="font-bold text-md text-white mb-4 relative z-50">BN Coin</h1>
+                                        <h1 className="font-bold text-sm text-white mb-4 relative z-50">BN Coin</h1>
                                     </div>
 
-                                    <p className="hidden  lg:block font-normal text-sm text-slate-500 mb-4 relative z-50">
+                                    <p className=" font-normal text-xs text-slate-500 mb-4 relative z-50">
                                         By participating In the BNetwork Space Eco-System, You will get all Profit in BN
                                         Coin For Increase Utilities.
                                     </p>
@@ -164,18 +173,18 @@ const Page = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="w-full order-1 lg:order-2  max-w-lg mx-auto  bg-zinc-900 rounded-lg shadow-lg p-8 z-10">
+                    <div className="w-full m order-1 lg:order-2  max-w-lg  lg:mx-auto  bg-zinc-900 rounded-lg shadow-lg p-8 z-10">
                         <h2 className="text-2xl lg:text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center font-bold mb-6">
                             Registration For Believe Network
                         </h2>
                         <div className="mb-10">
-                            <p className="text-gray-400 text-center">Do you already have an Upline?</p>
+                            <p className="text-gray-400 text-center">Do you already have Sponsor?</p>
                             <div className="flex justify-around mt-4">
                                 {["Yes", "No"].map((option) => (
                                     <button
                                         key={option}
                                         className={classNames(
-                                            "text-lg font-semibold py-2 px-6 rounded-full transition-all duration-300",
+                                            "text-lg font-semibold py-1 px-6 rounded-full transition-all duration-300",
                                             {
                                                 "bg-yellow-500 hover:bg-yellow-700 text-white":
                                                     selectedOption === option,
@@ -191,31 +200,52 @@ const Page = () => {
                         </div>
 
                         {selectedOption === "Yes" ? (
-                            <form className="space-y-4  " onSubmit={(e) => isUserPresent(e)}>
-                                <div className="flex flex-col py-4">
-                                    <label htmlFor="bnId" className="text-gray-400 mb-2">
-                                        Enter Upline Address
-                                    </label>
-                                    <input
-                                        id="bnId"
-                                        onChange={(e) => setInviteAddress(e.target.value)}
-                                        value={(queryUrl as string) || inviteAddress.toLowerCase()}
-                                        type="text"
-                                        className="bg-gray-800 text-white rounded-lg p-3 focus:ring-yellow-500 focus:border-yellow-500"
-                                        placeholder="Upline  Address"
-                                    />
-                                </div>
+                            // <form className="space-y-4  " onSubmit={(e) => isUserPresent(e)}>
+                            //     <div className="flex flex-col py-4">
+                            //         <label htmlFor="bnId" className="text-gray-400 mb-2">
+                            //             Enter Upline Address
+                            //         </label>
+                            //         {/* <input
+                            //             id="bnId"
+                            //             onChange={(e) => setInviteAddress(e.target.value)}
+                            //             value={(queryUrl as string) || inviteAddress.toLowerCase()}
+                            //             type="text"
+                            //             className="bg-gray-800 text-white rounded-lg p-2 focus:ring-yellow-500 focus:border-yellow-500"
+                            //             placeholder="Upline  Address"
+                            //         /> */}
+                            //         <SignupFormDemo/>
+                            //     </div>
 
-                                <button
+                            //     <button
+                            //         type="submit"
+                            //         className="w-full bg-yellow-500 text-white py-1 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300"
+                            //     >
+                            //         Verify Upline
+                            //     </button>
+                            // </form>
+                             <div className=" w-full h-fit rounded-none md:rounded-2xl    ">
+     
+
+                            <form className="w-full "onSubmit={(e) => isUserPresent(e)}>
+                              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 mb-4  ">
+                                <LabelInputContainer>
+                                  <Label htmlFor="bnId">Enter Sponsor Address</Label>
+                                  <Input id="bnId" onChange={(e) => setInviteAddress(e.target.value)} placeholder="Enter Sponsor Adderss"  value={(queryUrl as string) || inviteAddress.toLowerCase()} type="text" />
+                                </LabelInputContainer>
+                              
+                              </div>
+
+                              <button
                                     type="submit"
-                                    className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300"
+                                   className="w-full bg-yellow-500 text-white py-1 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300"
                                 >
-                                    Verify Upline
+                                   Verify Upline
                                 </button>
                             </form>
+                          </div>
                         ) : (
                             <Link href="/signup">
-                                <button className="w-full bg-yellow-500 text-white p-3 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300">
+                                <button className="w-full bg-yellow-500 text-white p-1 rounded-lg font-semibold hover:bg-yellow-700 transition-all duration-300">
                                     Sign up
                                 </button>
                             </Link>
@@ -227,5 +257,20 @@ const Page = () => {
         </>
     );
 };
+
+const LabelInputContainer = ({
+    children,
+    className,
+  }: {
+    children: React.ReactNode;
+    className?: string;
+  }) => {
+    return (
+      <div className={cn("flex flex-col space-y-2 w-full", className)}>
+        {children}
+      </div>
+    );
+  };
+  
 
 export default Page;

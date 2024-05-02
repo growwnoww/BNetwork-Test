@@ -6,6 +6,7 @@ import RecoilProvider from "@/components/WrapperComponent/RecoilProvider";
 
 
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 
                 </RecoilProvider>
+         
             </body>
         </html>
     );

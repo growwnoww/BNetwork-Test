@@ -1,9 +1,9 @@
 
-import Navbar from "@/components/main/Navbar";
-import BNCoinComp from "@/components/sub/BNCoinComp";
-import ClubADocs from "@/components/sub/ClubADocs";
-import NFTDocs from "@/components/sub/NFTDocs";
-import PlanetUpDocs from "@/components/sub/PlanetUpDocs";
+import { CardsBengali } from "@/components/HowItWorksComp/CardBengali";
+import { CardHoverEffectDemo } from "@/components/HowItWorksComp/CardHoverEffectDemo";
+import { CardsFrench } from "@/components/HowItWorksComp/CardsFrench";
+import { CardSwahili } from "@/components/HowItWorksComp/CardSwahili";
+
 
 
 import Image from "next/image";
@@ -19,12 +19,15 @@ const Page = ()=> {
                     <p className="text-4xl font-bold border-b-2 border-b-yellow-500">How It Works</p>
                  </div> */}
                 
-                <PlanetUpDocs/>
+                {/* <PlanetUpDocs/>
                 <ClubADocs/>
                 <NFTDocs/>
-                <BNCoinComp/>
+                <BNCoinComp/> */}
 
-              
+                <CardHoverEffectDemo/>
+                <CardsFrench/>
+                <CardsBengali/>
+                <CardSwahili/>
 
                 
 
