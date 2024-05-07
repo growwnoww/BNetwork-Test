@@ -4,9 +4,10 @@ import BNetworkABI from "./BNetwork_ABI.json";
 import USDBABI from "./USDTABI.json";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 
-const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+// export const PlanetUpgrade_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+export const PlanetUpgrade_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 const USDT_Address = "0x55d398326f99059ff775485246999027b3197955";
-const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
+// const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 
 // export const BNetwork = () => {
 //     const { walletProvider } = useWeb3ModalProvider();
@@ -20,17 +21,18 @@ const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 //         throw error;
 //     }
 // };
-// export const USDTTokenSC = () => {
-//     const { walletProvider } = useWeb3ModalProvider();
-//     try {
-//         const provider = new ethers.providers.Web3Provider(walletProvider as any);
-//         const signer = provider.getSigner();
-//         const usdbContract = new ethers.Contract(USDT_Address, USDBABI, signer);
-//         return usdbContract;
-//     } catch (error) {
-//         console.log("Error in creating USDT contract", error);
-//     }
-// };
+
+export const USDTTokenSC = () => {
+    const { walletProvider } = useWeb3ModalProvider();
+    try {
+        const provider = new ethers.providers.Web3Provider(walletProvider as any);
+        const signer = provider.getSigner();
+        const usdbContract = new ethers.Contract(USDT_Address, USDBABI, signer);
+        return usdbContract;
+    } catch (error) {
+        console.log("Error in creating USDT contract", error);
+    }
+};
 
 // export const etTokenSC = () =>{
 //     try{

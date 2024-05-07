@@ -5,6 +5,7 @@ import BtnWrapper from "@/components/WrapperComponent/BtnWrapper";
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
 import { useSearchParams } from "next/navigation";
+import { IoIosUnlock } from "react-icons/io";
 
 const Planetupgradediv = () => {
     const searchParams = useSearchParams();
@@ -55,7 +56,14 @@ const Planetupgradediv = () => {
                         />
                     ))}
                 </div>
-                <BtnWrapper text="show" height="py-2" width="px-10" path="/dashboard/bnsystem/planetupgrade" />
+                <div className="flex items-center relative">
+            <BtnWrapper
+              text="Show"
+              height="py-2"
+              width="px-10"
+              path="/dashboard/bnsystem/planetupgrade"
+            />
+          </div>
             </div>
         </div>
     );

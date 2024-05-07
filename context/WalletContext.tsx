@@ -1,28 +1,46 @@
+'use client'
 import { useWeb3ModalAccount } from "@web3modal/ethers5/react";
 import React, { useEffect, useState, createContext } from "react";
 
 interface walletContextType {
     userAddress: string | undefined;
-    setUserAddress: React.Dispatch<React.SetStateAction<string | undefined>>;
+    setUserAddressState: React.Dispatch<React.SetStateAction<string | undefined>>;
     userBalance: string | undefined;
     setUserBalance: React.Dispatch<React.SetStateAction<string | undefined>>;
     planetStatus: any | undefined;
     setPlanetStatus: React.Dispatch<React.SetStateAction<any | undefined>>;
     previewAddress: any | undefined;
     setPreviewAddress: React.Dispatch<React.SetStateAction<any | undefined>>;
-    B_Network_Address: any | undefined;
 }
 
 export const WalletContext = createContext<walletContextType | undefined>(undefined);
 
 export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [userAddress, setUserAddress] = useState<string | undefined>();
+
+    const [userAddress, setUserAddressState] = useState<string | undefined>(() => {
+        // Retrieve user address from localStorage on initial render
+        if (typeof window !== 'undefined') {
+            const storedAddress = localStorage.getItem("userAddress");
+            return storedAddress !== null ? storedAddress : undefined;
+        } else {
+            return undefined;
+        }
+    });
+    
     const [userBalance, setUserBalance] = useState<string | undefined>();
     const [planetStatus, setPlanetStatus] = useState<string | undefined>();
     const [previewAddress, setPreviewAddress] = useState<string | undefined>();
     const { address, isConnected } = useWeb3ModalAccount();
 
-    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
+    const setUserAddress = (address: string | undefined) => {
+        // Set user address in localStorage
+        if (address) {
+            localStorage.setItem("userAddress", address.toLowerCase());
+        } else {
+            localStorage.removeItem("userAddress");
+        }
+        setUserAddressState(address);
+    };
 
     const fetchUserDetail = async () => {
         try {
@@ -45,22 +63,21 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         if (isConnected && address) {
             setUserAddress(address);
         }
+        // Fetch user details whenever isConnected changes
         fetchUserDetail();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [address, isConnected]);
+    }, [address, isConnected]); // Listen for changes in address and isConnected
 
     return (
         <WalletContext.Provider
             value={{
                 userAddress,
-                setUserAddress,
+                setUserAddressState,
                 userBalance,
                 setUserBalance,
                 planetStatus,
                 setPlanetStatus,
                 previewAddress,
                 setPreviewAddress,
-                B_Network_Address,
             }}
         >
             {children}

@@ -4,6 +4,7 @@ import { HiUserGroup } from 'react-icons/hi';
 import { IoIosArrowDown, IoIosArrowUp, IoIosLock, IoMdArrowDropright } from 'react-icons/io';
 import React from 'react';
 import { FaChartLine } from 'react-icons/fa';
+import { GrUserNew } from 'react-icons/gr';
 
 interface NestedMenuItem {
   title: string;
@@ -24,6 +25,27 @@ interface NestedMenuType {
 const NestedMenuList: NestedMenuType[] = [
   {
     id: 1,
+    title: "Create New Believer",
+    icon:<GrUserNew />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
+    list: [
+      {
+        title: "Planet Upgrade System",
+        path: "/dashboard/createnewbeliever",
+        icon: <IoMdArrowDropright />,
+       
+      },
+      {
+        title: "Universe Club-A",
+        path: "/dashboard/universeclub-a-believer",
+        icon: <IoMdArrowDropright />,
+      },
+    
+    ],
+  },
+  {
+    id: 2,
     title: "Live Planet Status",
     icon: <FaChartLine />,
     icon1: <IoIosArrowDown />,
@@ -37,15 +59,14 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "U Club A Live Status",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/clubAlive",
         icon: <IoMdArrowDropright />,
       },
     
     ],
   },
   {
-    id: 2,
+    id: 3,
     title: "My team",
     icon: <HiUserGroup />,
     icon1: <IoIosArrowDown />,
@@ -63,14 +84,14 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "Tier Upline Team",
-        path: "",
-        lock: <IoIosLock />,
+        path: "/dashboard/tieruplineteam",
+
         icon: <IoMdArrowDropright />,
       },
     ],
   },
   {
-    id: 3,
+    id: 4,
     title: "Activation History",
     icon: <BsReverseLayoutTextSidebarReverse />,
     icon1: <IoIosArrowDown />,
@@ -84,14 +105,13 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "U Club A Upgrade History",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/clubAupgradehistory",
         icon: <IoMdArrowDropright />,
       },
     ],
   },
   {
-    id: 4,
+    id: 5,
     title: "P Upgrade Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,
@@ -126,7 +146,7 @@ const NestedMenuList: NestedMenuType[] = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     title: "U Club A Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,
@@ -134,14 +154,12 @@ const NestedMenuList: NestedMenuType[] = [
     list: [
       {
         title: "Club A Global Earnings",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/clubAglobalearn",
         icon: <IoMdArrowDropright />,
       },
       {
         title: "Club A Tier Earnings",
-        path: "",
-        lock:<IoIosLock/>,
+        path: "/dashboard/clubAtierearn",
         icon: <IoMdArrowDropright />,
       },
      

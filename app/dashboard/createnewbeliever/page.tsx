@@ -13,6 +13,7 @@ import { WalletContext } from "@/context/WalletContext";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import axios from "axios";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 interface userDetailsType {
     regUser: string;
@@ -39,10 +40,11 @@ const Page = () => {
     });
     const [userDetails, setUserDetails] = useState<userDetailsType>();
     const { isConnected } = useWeb3ModalAccount();
-    const [tranxHashhh, setTranxHash] = useState("");
+  
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = walletContext?.B_Network_Address;
+    const B_Network_Address = PlanetUpgrade_Address;
+    const [tranxHash, setTranxHash] = useState<string>();
 
     const handleSelectPackageChange = (selectedValue: string) => {
         setValue((prevState: any) => ({
@@ -71,24 +73,21 @@ const Page = () => {
 
         return planetNames[planetName];
     };
-
-    const getUserDetail = async (tranxHash: string) => {
+    const getUserDetail = async () => {
         try {
             if (!userAddress || !isConnected) {
                 return;
             }
-
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
-            const exists = await BNetworkContract.isUserExists(value.beliverAddress);
+            const exists = await BNetworkContract.isUserExists(userAddress);
 
             if (exists) {
                 const response = await BNetworkContract.RegisterUserDetails(value.beliverAddress);
-                console.log("Believer address", value.beliverAddress);
                 const highestPlanetCount = await BNetworkContract.UserPlannet(value.beliverAddress);
-                console.log("Believer address", value.beliverAddress);
+
                 console.log("Got user details", response);
 
                 const formattedResponse: userDetailsType = {
@@ -101,7 +100,6 @@ const Page = () => {
                     highestPlanetCount: ethers.BigNumber.from(highestPlanetCount).toNumber(),
                 };
 
-                setTranxHash(tranxHash);
                 setUserDetails(formattedResponse);
 
                 console.log("Refined Data", formattedResponse);
@@ -111,48 +109,6 @@ const Page = () => {
         }
     };
 
-    const createUser = async (tranxHash: string) => {
-        try {
-            console.log("reg user", userDetails?.regUser);
-            const owner = "0xf346c0856df3e220e57293a0cf125c1322cfd778";
-            let uplineAddrLocal = "";
-            let uplineBNIdLocal = "";
-
-            // Use userDetails directly now, assuming it has been set by this point
-            if (
-                userDetails?.regReferal === "0x0000000000000000000000000000000000000000" ||
-                !userDetails?.regReferalId
-            ) {
-                uplineAddrLocal = owner;
-                uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
-            } else {
-                uplineAddrLocal = userDetails.regReferal;
-                uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
-            }
-
-            const payload = {
-                reg_user_address: userDetails?.regUser,
-                reg_time: userDetails?.regTime,
-                regId: userDetails?.regId,
-                upline_referral_address: uplineAddrLocal,
-                upline_referralId: userDetails?.regReferalId,
-                upline_referral_BNId: uplineBNIdLocal,
-                direct_count: userDetails?.teamCount,
-                reg_transaction_hash: tranxHash,
-            };
-
-            console.log("hellow", payload);
-
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, payload);
-
-            if (res.data) {
-            } else {
-                throw new Error(`HTTP error! status: ${res.status}`);
-            }
-        } catch (error) {
-            console.error("Error in createRegister:", error);
-        }
-    };
 
     const getPlanetName = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -269,6 +225,8 @@ const Page = () => {
                     }
                 );
                 await registration.wait();
+                getUserDetail()
+                setTranxHash(registration.hash);
                 alert("New Believer created successfully! 🚀");
                 console.log(registration);
             } else {
@@ -367,10 +325,7 @@ const Page = () => {
 
             if (planetById && value.beliverAddress) {
                 console.log("planet id", planetById);
-                const buyPlanet = await BNetworkContract.buyPlannet_user(planetById, value.beliverAddress, {
-                    gasPrice: gasPrice,
-                    gasLimit: ethers.utils.hexlify(1000000),
-                });
+                const buyPlanet = await BNetworkContract.buyPlannet_user(planetById, value.beliverAddress);
                 await buyPlanet.wait();
                 console.log(buyPlanet);
 
@@ -393,11 +348,56 @@ const Page = () => {
     }, [value]);
 
     useEffect(() => {
-        if (tranxHashhh && userDetails) {
-            createUser(tranxHashhh);
+        const createRegister = async () => {
+            try {
+                console.log("reg user", userDetails?.regUser);
+                const owner = "0xf346c0856df3e220e57293a0cf125c1322cfd778";
+                let uplineAddrLocal = "";
+                let uplineBNIdLocal = "";
+
+                // Use userDetails directly now, assuming it has been set by this point
+                if (
+                    userDetails?.regReferal === "0x0000000000000000000000000000000000000000" ||
+                    !userDetails?.regReferalId
+                ) {
+                    uplineAddrLocal = owner;
+                    uplineBNIdLocal = "BN" + owner.substring(owner.length - 8);
+                } else {
+                    uplineAddrLocal = userDetails.regReferal;
+                    uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
+                }
+
+        const payload = {
+          regAddress: userDetails?.regUser,
+          reg_time: userDetails?.regTime,
+          regId: userDetails?.regId,
+          upline_referral_address: uplineAddrLocal,
+          upline_referralId: userDetails?.regReferalId,
+          upline_referral_BNId: uplineBNIdLocal,
+          direct_count: userDetails?.teamCount,
+          reg_transaction_hash:tranxHash
+        };
+
+                console.log("hellow", payload);
+
+                const res = await axios.post(`${process.env.NEXT_PUBLIC_URL}/user/createUserDetails`, payload);
+
+                if (res.data) {
+                    console.log("Everything is ok bro 🚀🚀")
+                } else {
+                    throw new Error(`HTTP error! status: ${res.status}`);
+                }
+            } catch (error) {
+                console.error("Error in createRegister:", error);
+            }
+        };
+
+        if (userDetails && tranxHash) {
+            createRegister();
         }
+   
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [tranxHashhh, userDetails]);
+    }, [tranxHash, userDetails]);
 
     return (
         <div>

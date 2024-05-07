@@ -278,12 +278,18 @@ const Page = () => {
                                                 Sr No
                                             </TableHead>
 
-                                            <TableHead scope="col" className=" px-5 lg:px-0 py-5 text-center ">
-                                                Tier No
-                                            </TableHead>
-                                            <TableHead scope="col" className=" py-3 text-center tracking-wider">
-                                                Date & time
-                                            </TableHead>
+                  <TableHead
+                    scope="col"
+                    className=" px-5 lg:px-0 py-5 text-center "
+                  >
+                   Global Tier No
+                  </TableHead>
+                  <TableHead
+                    scope="col"
+                    className=" py-3 text-center tracking-wider"
+                  >
+                    Date & time
+                  </TableHead>
 
                                             <TableHead scope="col" className=" py-3 text-center tracking-wider">
                                                 From BN Id
@@ -367,31 +373,8 @@ const Page = () => {
                             )}
                         </div>
 
-                        <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
-                            <div className="order-2 lg:order-1">
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationItem>
-                                            <PaginationPrevious href="#" />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">1</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">2</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">3</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationEllipsis />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationNext href="#" />
-                                        </PaginationItem>
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
+            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
+            
 
                             <div className="order-1 lg:order-2 text-sm flex items-center gap-x-2">
                                 <p>Show Entries :</p>

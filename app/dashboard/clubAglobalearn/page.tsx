@@ -1,44 +1,19 @@
 'use client'
-import React, { useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 
-
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination"
-
-
-import { Input } from "@/components/ui/input"
-import HeadingWrapper from '@/components/WrapperComponent/HeadingWrapper'
-import { tableData } from '@/utils/DirectTeamData'
 import { Button } from '@/components/ui/button'
-import { HiArrowTopRightOnSquare } from 'react-icons/hi2'
-import { FaRegCopy } from 'react-icons/fa'
 import Link from 'next/link'
+import { ClubAGlobalTableData } from '@/utils/ClubAGlobalTableData'
 
 
 const Page = () => {
@@ -57,16 +32,7 @@ const Page = () => {
       <div className="">
         <div className="py-2 align-middle sm:px-6 lg:px-8 ">
           <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-            <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
-              <div className=" w-full flex flex-col items-end md:items-start ">
-                <label className="">Filter</label>
-                <Input
-                  type="text"
-                  placeholder="Enter BN Id or Address"
-                  className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
-                />
-              </div>
-            </div>
+   
 
             <div className="w-3/4">
               <Table className=" divide-y divide-gray-600 rounded-lg">
@@ -76,7 +42,14 @@ const Page = () => {
                       scope="col"
                       className=" px-5 lg:px-0 py-5 text-center "
                     >
-                     Planet
+                     Planet No
+                    </TableHead>
+
+                    <TableHead
+                      scope="col"
+                      className=" px-5 lg:px-0 py-5 text-center "
+                    >
+                      Planet 
                     </TableHead>
 
                     <TableHead
@@ -87,12 +60,7 @@ const Page = () => {
                     </TableHead>
            
 
-                    <TableHead
-                      scope="col"
-                      className=" py-3 text-center tracking-wider"
-                    >
-                      Date & Time
-                    </TableHead>
+                   
 
                     <TableHead
                       scope="col"
@@ -101,12 +69,7 @@ const Page = () => {
                       Amount
                     </TableHead>
 
-                    <TableHead
-                      scope="col"
-                      className=" text-center tracking-wider"
-                    >
-                      Total Planet
-                    </TableHead>
+                  
                      
                     <TableHead
                       scope="col"
@@ -118,7 +81,7 @@ const Page = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody className="bg-zinc-800 divide-y divide-gray-600 text-[10px]  lg:text-[14px]">
-                  {tableData.map((user, index) => (
+                  {ClubAGlobalTableData.map((user, index) => (
                     <React.Fragment key={user.id}>
                       <TableRow className="text-white text-center text-[12px] lg:text-md">
                         <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
@@ -137,20 +100,19 @@ const Page = () => {
                         </TableCell>
 
 
+                        
+
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.Date}
+                          {user.planetName}
                         </TableCell>
 
                         <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
+                          {user.amount}
                         </TableCell>
 
-                        <TableCell className=" py-2  whitespace-nowrap ">
-                          {user.incomeFromTier}
-                        </TableCell>
-
+                       
                          <TableCell className="px-3 lg:px-0 py-2 w whitespace-nowrap font-medium">
-                            <Link href=''>
+                            <Link href={`/dashboard/clubAglobalearn/${user.planetName}`}>
                               <Button   >
                                 View Detail
                               </Button>
@@ -164,47 +126,7 @@ const Page = () => {
               </Table>
             </div>
 
-            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
-              <div className="order-2 lg:order-1">
-                <Pagination>
-                  <PaginationContent>
-                    <PaginationItem>
-                      <PaginationPrevious href="#" />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">2</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationLink href="#">3</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationEllipsis />
-                    </PaginationItem>
-                    <PaginationItem>
-                      <PaginationNext href="#" />
-                    </PaginationItem>
-                  </PaginationContent>
-                </Pagination>
-              </div>
-
-              <div className="order-1 lg:order-2 text-sm flex items-center gap-x-2">
-                <p>Show Entries :</p>
-                <Select>
-                  <SelectTrigger className="w-[80px] lg:w-[90px]">
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="ten">10</SelectItem>
-                    <SelectItem value="twenty_five">25</SelectItem>
-                    <SelectItem value="fifty">50</SelectItem>
-                    <SelectItem value="hundred">100</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+         
           </div>
         </div>
       </div>

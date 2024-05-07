@@ -12,7 +12,7 @@ const Progressbar = memo( ({ value }: valueType) => {
     return (
       <div className='relative h-2 mx-2 flex items-center bg-slate-500  rounded-md'>
         <span className={`absolute text-md bg-black rounded-full p-1  left-[${percentageValue}]`}>{value.toFixed()}%</span>
-        <div className={`h-full w-[${percentageValue}] bg-yellow-500 rounded-md`}></div>
+        <div className={`h-full w-[${percentageValue}] bg-green-500 rounded-md`}></div>
       </div>
     );
   });

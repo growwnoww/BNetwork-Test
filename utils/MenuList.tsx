@@ -31,20 +31,12 @@ const MenuList = [
   {
     id: "3",
     title: "Universe",
-    path: "",
+    path: "/dashboard/bnsystem/universeclub-a",
     icon: <TbUniverse />,
-    icon2:<IoIosLock />
-  },
-  {
-    id:'4',
-    title:"Create New Believer",
-    path:"/dashboard/createnewbeliever",
-    icon:<GrUserNew />,
-   
 
   },
   {
-    id: "5",
+    id: "4",
     title: "BN coin",
     path: "",
     icon: <SiBitcoinsv />,

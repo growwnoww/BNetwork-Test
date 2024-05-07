@@ -1,17 +1,18 @@
 "use client";
 import useLatestPlanet from "@/Hooks/useLatestPlanet";
-import { WalletContext } from "@/context/WalletContext";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethers } from "ethers";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
 import { FaUserLock } from "react-icons/fa";
 import "../../../app/globals.css";
-import USBTToken from "../../../contract/USDTABI.json";
-import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import Link from "next/link";
+import USBTToken from "../../../contract/USDTABI.json";
+import BNetworkABI from "../../../contract/BNetwork_ABI.json"
+import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 interface PlanetUpPropsTypes {
     planetId: number;
@@ -46,7 +47,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = walletContext?.B_Network_Address;
+    const B_Network_Address = PlanetUpgrade_Address;
 
     const getPlanetName = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -147,6 +148,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             );
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
+            console.log("contract address",B_Network_Address)
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
             const getFeeTokenAddress = await BNetworkContract.getFeeToken();
@@ -159,7 +161,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
             console.log(approve);
             setApprove(true);
         } catch (error) {
-            console.log(error);
+            console.log("something went wrong in approve",error);
         }
     };
 
@@ -192,10 +194,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
                     ? "10"
                     : "null";
             console.log(planetById);
-            const buyPlanet = await BNetworkContract.buyPlannet(planetById, {
-                gasPrice: gasPrice,
-                gasLimit: ethers.utils.hexlify(1000000),
-            });
+            const buyPlanet = await BNetworkContract.buyPlannet(planetById);
             await buyPlanet.wait();
             console.log(buyPlanet);
             const transactionHash = buyPlanet.hash;

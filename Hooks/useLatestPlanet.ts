@@ -11,7 +11,7 @@ const useLatestPlanet = () => {
     const [planetCount, setPlanetCount] = useState<number>(0)
     const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = walletContext?.B_Network_Address;
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const getUserPlanetCount = async () => {
         try {

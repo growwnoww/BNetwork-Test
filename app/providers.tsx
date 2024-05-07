@@ -22,7 +22,7 @@ const bscMa = {
 // const tbsc = {
 //     chainId: 97,
 //     name: "TBSC",
-//     currency: "TBNB",
+//     currency: "BNB",
 //     explorerUrl: "https://testnet.bscscan.com/",
 //     rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
 // };

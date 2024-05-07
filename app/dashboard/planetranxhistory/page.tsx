@@ -82,16 +82,7 @@ const Page = () => {
             <div className="">
                 <div className="py-2 align-middle sm:px-6 lg:px-8 ">
                     <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-                        <div className="w-3/4 flex flex-col md:flex-row  items-center justify-between">
-                            <div className=" w-full flex flex-col items-end md:items-start ">
-                                <label className="">Filter</label>
-                                <Input
-                                    type="text"
-                                    placeholder="Enter BN Id or Address"
-                                    className="w-[140px] h-8 lg:h-9 lg:w-[170px]"
-                                />
-                            </div>
-                        </div>
+                        
 
                         <div className="w-3/4">
                             <Table className=" divide-y divide-gray-600 rounded-lg">
@@ -180,47 +171,7 @@ const Page = () => {
                             </Table>
                         </div>
 
-                        <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
-                            <div className="order-2 lg:order-1">
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationItem>
-                                            <PaginationPrevious href="#" />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">1</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">2</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationLink href="#">3</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationEllipsis />
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationNext href="#" />
-                                        </PaginationItem>
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
-
-                            <div className="order-1 lg:order-2 text-sm flex items-center gap-x-2">
-                                <p>Show Entries :</p>
-                                <Select>
-                                    <SelectTrigger className="w-[80px] lg:w-[90px]">
-                                        <SelectValue placeholder="" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="ten">10</SelectItem>
-                                        <SelectItem value="twenty_five">25</SelectItem>
-                                        <SelectItem value="fifty">50</SelectItem>
-                                        <SelectItem value="hundred">100</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

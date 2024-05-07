@@ -20,7 +20,11 @@ interface userDetailsInfo {
     totalTeamCount: number;
 }
 
-const UserInfo = () => {
+interface UserInfoProps {
+    currentPackage: string;
+}
+
+const UserInfo = ({currentPackage}:UserInfoProps) => {
     const searchParams = useSearchParams();
     const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
@@ -35,9 +39,10 @@ const UserInfo = () => {
     const [userDetails, setUserDetails] = useState<userDetailsInfo>();
 
     const [packageFee, setPackageFee] = useState<any>();
+    
 
     const { walletProvider } = useWeb3ModalProvider();
-    const B_Network_Address = walletContext?.B_Network_Address;
+    const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 
     const copyToClipboard = (text: any): void => {
         try {
@@ -47,6 +52,8 @@ const UserInfo = () => {
             console.log(error);
         }
     };
+
+
 
     const getPlanetInString = (planetId: number): string | undefined => {
         const planetNames: { [id: number]: string } = {
@@ -135,7 +142,9 @@ const UserInfo = () => {
                 <div className="flex items-center justify-between pt-1">
                     <div>
                         <span className="text-zinc-500">Current Package : </span>
-                        <span className="md:text-xs">{`${userDetails?.latestPlanetName || "Empty"} `}</span>
+                        <span className="md:text-xs">{currentPackage === "just_reg" ? "No Buy Yet" : `${currentPackage}`}</span>
+
+
                     </div>
                 </div>
             </div>
