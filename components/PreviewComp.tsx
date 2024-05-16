@@ -15,7 +15,7 @@ export default function PreviewComp() {
     const previewAddress = () => {
         try {
             const query = walletContext?.previewAddress;
-            if (pathname === "/") {
+            if (pathname === "/" || pathname === "/registration") {
                 router.replace(`/dashboard?preview=${query}`);
             } else {
                 router.replace(`${pathname}?preview=${query}`);
@@ -36,7 +36,10 @@ export default function PreviewComp() {
 
     return (
         <div>
-            <button onClick={onOpen} className=" bg-zinc-900  text-white border border-yellow-500 px-3  py-2.5 rounded-md">
+            <button
+                onClick={onOpen}
+                className=" bg-zinc-900  text-white border border-yellow-500 px-3  py-2.5 rounded-md"
+            >
                 Preview
             </button>
             <Modal

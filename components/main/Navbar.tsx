@@ -6,7 +6,7 @@ import Link from "next/link";
 import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { useWeb3Modal, useWeb3ModalAccount } from "@web3modal/ethers5/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { currentUser, homeHamaburgerAtom } from "@/store/atom";
 import { useRecoilState } from "recoil";
@@ -46,9 +46,9 @@ const navList: NavItem[] = [
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
     const walletContext = useContext(WalletContext);
+    const pathname = usePathname();
     const isUserRegister = useUserDetails();
     console.log("IS USER REGISTER", isUserRegister);
-
     const router = useRouter(); // Add this line
     const { open } = useWeb3Modal();
     const { address, isConnected } = useWeb3ModalAccount();
@@ -128,7 +128,7 @@ const Navbar = () => {
 
                 {/* Wallet and Language Selection for Desktop */}
                 <div className="hidden lg:flex items-center gap-5">
-                    <PreviewComp />
+                    {(pathname === "/" || pathname === "/registration") && <PreviewComp />}
                     <button
                         onClick={() => open()}
                         type="button"
