@@ -75,11 +75,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
     return (
         <NextUIProvider>
             <WalletProvider>
-                {query && (
+                {/* {query && (
                     <div className="bg-[#EAB308] flex justify-center">
                         <p className="text-black font-bold">You preview this address {query}</p>
                     </div>
-                )}
+                )} */}
                 <TawkMessengerReact
                     propertyId={process.env.NEXT_PUBLIC_ProjectId}
                     widgetId={process.env.NEXT_PUBLIC_WidgetId}
