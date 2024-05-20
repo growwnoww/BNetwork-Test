@@ -1,6 +1,6 @@
 "use client";
 
-import { WalletProvider } from "@/context/WalletContext";
+import { WalletContext, WalletProvider } from "@/context/WalletContext";
 import { NextUIProvider } from "@nextui-org/react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
@@ -29,10 +29,10 @@ const bscMa = {
 
 // 3. Create modal
 const metadata = {
-    name: "My Website",
-    description: "My Website description",
-    url: "https://mywebsite.com", // origin must match your domain & subdomain
-    icons: ["https://avatars.mywebsite.com/"],
+    name: "BNetwork",
+    description: "BNetwork",
+    url: "https://www.bnetwork.space/", // origin must match your domain & subdomain
+    icons: ["https://www.bnetwork.space/BELIEVE-LOGO-07.png"],
 };
 
 // 4. Create Ethers config
@@ -58,6 +58,7 @@ createWeb3Modal({
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {
+    const walletContext = React.useContext(WalletContext);
     const [mounted, setMounted] = React.useState(false);
     const tawkMessengerRef = React.useRef<any>(null);
     React.useEffect(() => setMounted(true), []);
@@ -72,6 +73,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // React.useEffect(() => {
+    //     if (walletContext?.previewAddress) {
+    //         router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+    //     } else {
+    //         router.replace(`${pathname}`);
+    //     }
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, []);
+
     return (
         <NextUIProvider>
             <WalletProvider>
