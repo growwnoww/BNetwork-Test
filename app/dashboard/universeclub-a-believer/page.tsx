@@ -389,6 +389,7 @@ const Page = () => {
       
 
       referrerAddress = await fetchEventDataFromTransaction(transactionHash);
+      console.log("referrer address",referrerAddress)
 
       let planetId = getPlanetId(value.package)
 
