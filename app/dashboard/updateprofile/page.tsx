@@ -54,7 +54,7 @@ const Page = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-black z-50">
             <div className="w-full max-w-lg mx-auto bg-[#121212] rounded-lg shadow-lg p-8">
-                <h2 className="text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center font-bold mb-6">
+                <h2 className="text-4xl bg-gradient-to-r from-orange-300 to-yellow-400 bg-clip-text text-transparent text-center font-bold mb-6">
                     Update You&rsquo;re Profile
                 </h2>
 
