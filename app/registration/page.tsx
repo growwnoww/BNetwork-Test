@@ -67,7 +67,7 @@ const Page = () => {
             const isUplineExist = await BNetworkContract.isUserExists(inviteAddress);
 
             if (!isUplineExist) {
-                alert("Upline doesnt' exist, use correct upline address");
+                alert("Upline doesnt' exist, use correct upline address here");
                 return;
             }
 
