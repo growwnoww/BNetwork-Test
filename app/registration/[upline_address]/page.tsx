@@ -126,6 +126,7 @@ const Page = () => {
                 console.log(registration);
                 getUserDetail();
                 alert("Registration Successfully");
+                router.push("/dashboard")
             } else {
                 alert("You already registered");
             }

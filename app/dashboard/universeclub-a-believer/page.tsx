@@ -20,11 +20,12 @@ import { WalletContext } from "@/context/WalletContext";
 import { useAccount } from "wagmi";
 import axios from "axios";
 import USDTToken from "../../../contract/USDTABI.json";
-import ClubA_ABI from '@/contract/ClubAContract/ClubA_ABI.json'
+import ClubA_ABI from "@/contract/ClubAContract/ClubA_ABI.json";
 
 import { ClubAPlanetPackage } from "@/utils/ClubAPlanetPackageData";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { clubA_Address } from "@/contract/ClubAContract/ClubA_Instance";
+import { SelectClubAData } from "@/utils/SelectClubAData";
 
 interface userDetailsType {
   regUser: string;
@@ -39,7 +40,8 @@ interface userDetailsType {
 
 const Page = () => {
   const [selectedOption, setSelectedOption] = useState<string>("Buy Planet");
-  const userAddressLocal = typeof window !== 'undefined' ? localStorage.getItem("userAddress") : null;
+  const userAddressLocal =
+    typeof window !== "undefined" ? localStorage.getItem("userAddress") : null;
   const userAddress = userAddressLocal;
   const [isApprove, setApprove] = useState<boolean>(false);
   const [isApproveRe, setApproveRe] = useState<boolean>(false);
@@ -48,7 +50,7 @@ const Page = () => {
   const [value, setValue] = useState<any>({
     yourAddress: "",
     beliverAddress: "",
-    PlanetName: "Earth",
+    package: "Earth",
   });
 
   const [curretnPlanetBeliever, setCurrentPlanetBeliever] = useState("");
@@ -56,91 +58,19 @@ const Page = () => {
   const [timer, setTimer] = useState<any>(0);
   const [timerDisplay, setTimerDisplay] = useState<string>("");
 
-  const{walletProvider} = useWeb3ModalProvider()
+  const { walletProvider } = useWeb3ModalProvider();
 
-  const getUserPlanetBuyTime = async (planetName: string) => {
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const clubACont = clubAMainContract;
-      const planetId = getPlanetId(planetName);
-      const lastPlanetBuyTime = await clubACont!.getLastJoinTime(
-        value.beliverAddress,
-        planetId
-      );
-      console.log("lastPlanetBuyTime", lastPlanetBuyTime);
-      const lastPlanetBuyTimeInNumber =
-        ethers.BigNumber.from(lastPlanetBuyTime).toNumber();
-      console.log("lastPlanetBuyTimeInNumber", lastPlanetBuyTimeInNumber);
 
-      return lastPlanetBuyTimeInNumber;
-    } catch (error) {}
-  };
 
-  const formatTime = (timeInSeconds: number): string => {
-    const hours = Math.floor(timeInSeconds / 300);
-    const minutes = Math.floor((timeInSeconds % 300) / 60);
-    const seconds = timeInSeconds % 60;
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
-      2,
-      "0"
-    )}:${String(seconds).padStart(2, "0")}`;
-  };
 
-  const getUserPlanetBuyTimeDiff = async () => {
-    try {
-      const lastPlanetBuyTime = await getUserPlanetBuyTime(value.PlanetName);
-      console.log("lastPlanetBuyTime", lastPlanetBuyTime);
 
-      const currentTime = Math.floor(Date.now() / 1000);
 
-      const timeDiffSeconds = currentTime - lastPlanetBuyTime!;
-      console.log(
-        "planet name",
-        value.PlanetName,
-        "time diff",
-        timeDiffSeconds
-      );
 
-      if (timeDiffSeconds < 300) {
-        setTimer(300 - timeDiffSeconds);
-      } else {
-        setTimer(0);
-        console.log("Time expired!");
-      }
-    } catch (error) {
-      console.error("Error fetching last planet buy time:", error);
-    }
-  };
-
-  useEffect(() => {
-    getUserPlanetBuyTimeDiff();
-
-    const intervalId = setInterval(() => {
-      setTimer((prevTimer: any) => {
-        if (prevTimer > 0) {
-          return prevTimer - 1;
-        } else {
-          clearInterval(intervalId);
-          return 0;
-        }
-      });
-    }, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [timer,value]);
-
-  useEffect(() => {
-    setTimerDisplay(formatTime(timer));
-  }, [timer,value]);
-
-  console.log(value);
 
   const handleSelectPackageChange = (selectedValue: string) => {
     setValue((prevState: any) => ({
       ...prevState,
-      PlanetName: selectedValue,
+      package: selectedValue,
     }));
   };
 
@@ -165,21 +95,18 @@ const Page = () => {
     return planetNames[planetName];
   };
 
-
-
-
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
-      1: "Earth 10$",
-      2: "Moon  25$",
-      3: "Mars 50$",
-      4: "Mercury 100$",
-      5: "Venus 250$",
-      6: "Jupiter 500$",
-      7: "Saturn 1000$",
-      8: "Uranus 2500$",
-      9: "Neptune 5000$",
-      10: "Pluto 10000$",
+      1: "Earth 0.10$",
+      2: "Moon  0.20$",
+      3: "Mars 0.30$",
+      4: "Mercury 0.40$",
+      5: "Venus 0.50$",
+      6: "Jupiter 0.60$",
+      7: "Saturn 0.70$",
+      8: "Uranus 0.80$",
+      9: "Neptune 0.90$",
+      10: "Pluto 1$",
     };
 
     return planetNames[planetId];
@@ -187,100 +114,6 @@ const Page = () => {
 
 
 
-  const postPlanetBuyInfo = async (
-    regAddress:string,
-    planetId:number,
-    transactionHash: string,
-    universeCount:number,
-    regularId:number[],
-    repurchaseArray:number[]
-  ) => {
-    try {
-      const planetNameStr = getPlanetName(planetId);
-      const planetNameOnly = planetNameStr?.split(" ")[0];
-      const planetPack = planetNameStr?.split(" ")[1];
-      console.log("Planet package ", planetPack);
-
-      const payload = {
-        buyId:universeCount,
-        regAddress:regAddress,
-        planetId: planetId,
-        planetName: planetNameOnly,
-        planetPackage: planetPack,
-        transactionHash: transactionHash,
-        recycleArray:regularId,
-        repurchasePosition:repurchaseArray,
-      };
-
-      console.log("payload", payload);
-
-
-      const response = await axios.post( `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
-
-      if (response.status == 201) {
-       console.log("user planet buy successfully in clubA",response.status)
-      }
-      else{
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-    } catch (error) {
-      console.log("Something went wrong in buyPlanet", error);
-    }
-  };
-
-
-
-  const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
-    try {
-        const provider = new ethers.providers.Web3Provider(walletProvider as any);
-        const signer = provider.getSigner();
-        const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-        const myContract = clubAMainContract;
-        const details = await myContract!.MatrixDetails(planetId);
-        const universeCount = ethers.BigNumber.from(details.universalslot).toNumber();
-        console.log("repurchase count",universeCount-1)
-
-          let repurchaseArray = await myContract!.RegularUserIDS(userAddress, 1);
-            let recycleArray = await myContract!.RepuchaseUserIDS(userAddress, 1);
-            
-            const regularIdsNumbers = repurchaseArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
-
-            // Convert repurchaseIds BigNumber values to numbers
-            const repurchaseIdsNumbers = recycleArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
-            
-            // console.log("Regular IDs:", regularIdsNumbers);
-            // console.log("Repurchase IDs:", repurchaseIdsNumbers);
-           
-        
-        postPlanetBuyInfo(user,planetId,transactionHash,universeCount-1,regularIdsNumbers,repurchaseIdsNumbers);
-              
-    } catch (error) {
-        console.log("Something went wrong in the getPlanetDataSC", error);
-    }
-};
-  const checkCurrentPlanet = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const myContract = clubAMainContract;
-      const currentPlanetStatus = await myContract!.getPackage(
-        value.beliverAddress
-      );
-      const currentPlanetId =
-        ethers.BigNumber.from(currentPlanetStatus).toNumber();
-
-      if (currentPlanetId === 0) {
-        setCurrentPlanetBeliever("No Planet");
-        return;
-      }
-      const planetName = getPlanetName(currentPlanetId);
-      setCurrentPlanetBeliever(planetName!);
-    } catch (error) {
-      console.log("something went wrong in checkCurrentPlanet", error);
-    }
-  };
 
   const approveUSDT = async () => {
     try {
@@ -289,7 +122,11 @@ const Page = () => {
       );
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      const clubAMainContract = new ethers.Contract(
+        clubA_Address,
+        ClubA_ABI,
+        signer
+      );
       const clubACont = clubAMainContract;
       const getFeeTokenAddress = await clubACont!.getFeeToken();
       console.log("USDT TOken address", getFeeTokenAddress);
@@ -314,162 +151,270 @@ const Page = () => {
 
 
 
-  const getUserCurrentPlanet = async (regAddress:any)=>{
-     try {
+  const postPlanetBuyInfo = async (
+    regAddress:string,
+    planetId:number,
+    transactionHash: string,
+   referralAddress:string
+  ) => {
+    try {
+      const planetNameStr = getPlanetName(planetId);
+      const planetNameOnly = planetNameStr?.split(" ")[0];
+      const planetPack = planetNameStr?.split(" ")[1];
+      console.log("Planet package ", planetPack);
+
+      const payload = {
+        regAddress:regAddress,
+        planetId: planetId,
+        planetName: planetNameOnly,
+        planetPackage: planetPack,
+        universeCount:1,
+        transactionHash: transactionHash,
+        referralAddress:String(referralAddress).toLowerCase()
+       
+      };
+
+      console.log("payload", payload);
+
+
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
+
+      if (response.status == 201) {
+       console.log("user planet buy successfully in clubA",response.status)
+      }
+      else{
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+    } catch (error) {
+      console.log("Something went wrong in buyPlanet", error);
+    }
+  };
+
+
+  const fetchEventDataFromTransaction = async (transactionHash:any) => {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
+      const receipt = await provider.getTransactionReceipt(transactionHash);
+      console.log("receipt ",receipt)
+      let receiverAddress = ""
+  
+      if (receipt && receipt.logs) {
+        const iface = new ethers.utils.Interface(ClubA_ABI);
+  
+        receipt.logs.forEach((log) => {
+          try {
+            const parsedLog = iface.parseLog(log);
+            if (parsedLog.name === 'WorkingGenerationDist') {
+              console.log('WorkingGenerationDist Event data:', parsedLog.args);
+              receiverAddress = parsedLog.args.to;
+            } else if (parsedLog.name === 'WorkingGenerationEnergyDist') {
+              console.log('WorkingGenerationEnergyDist Event data:', parsedLog.args);
+            }
+
+          } catch (error) {
+            // Log might not belong to the contract or could not be parsed, ignore it
+          }
+        });
+      }
+
+      console.log("to address",receiverAddress)
+
+      return receiverAddress;
+    } catch (error) {
+      console.error('Error fetching event data from transaction:', error);
+    }
+  };
+  
+
+  const isGenerationHasSpace = async (uplineAdr:string) =>{
+    try {
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
       const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const clubACont = clubAMainContract;
-      const planetId = await clubACont!.getPackage(regAddress)
-      const lastPlanetBuyTimeInNumber =
-        ethers.BigNumber.from(planetId).toNumber();
-      console.log("lastPlanetBuyTimeInNumber", lastPlanetBuyTimeInNumber);
-
-      if(lastPlanetBuyTimeInNumber === 0){
-        return "Earth";
-      }
-      
-      const planetName = getPlanetName(lastPlanetBuyTimeInNumber)
-      const planetNameonly = planetName!.split(" ")[0];
-
-      return planetNameonly;
-     } catch (error) {
-      
-     }
+  
+      const uplineInfo = await clubAMainContract.InternalGenStr(uplineAdr);
+  
+      const formattedResponse = {
+        leftAdr: uplineInfo.left,
+        middleAdr: uplineInfo.middle,
+        rightAdr: uplineInfo.right,
+        leftid: ethers.BigNumber.from(uplineInfo.leftid).toNumber(),
+        middleid: ethers.BigNumber.from(uplineInfo.middleid).toNumber(),
+        rightid: ethers.BigNumber.from(uplineInfo.rightid).toNumber(),
+      };
+  
+      const hasSpace = (
+        formattedResponse.leftid === 0 ||
+        formattedResponse.middleid === 0 ||
+        formattedResponse.rightid === 0
+      );
+  
+      return {
+        hasSpace,
+        leftAdr: formattedResponse.leftAdr,
+        middleAdr: formattedResponse.middleAdr,
+        rightAdr: formattedResponse.rightAdr,
+      };
+    } catch (error) {
+      console.error('Something went wrong in isGenerationHasSpace:', error);
+      // Return a default object in case of an error, indicating there's no space
+      return {
+        hasSpace: false,
+        leftAdr: null,
+        middleAdr: null,
+        rightAdr: null,
+      };
+    }
   }
+
+  const findSpace = async (startAddress: any) => {
+    const queue = [startAddress]; // Initialize a queue with the starting address
+  
+    while (queue.length > 0) {
+      // Dequeue the first item
+      const currentAddress = queue.shift();
+  
+      // Check if the current node has space
+      const data = await isGenerationHasSpace(currentAddress);
+  
+      // If it has space, return the current address
+      if (data.hasSpace) {
+        return currentAddress;
+      }
+  
+      // If no space, add the child nodes to the queue (left, middle, right)
+      const { leftAdr, middleAdr, rightAdr } = data;
+  
+      if (leftAdr) {
+        queue.push(leftAdr);
+      }
+      if (middleAdr) {
+        queue.push(middleAdr);
+      }
+      if (rightAdr) {
+        queue.push(rightAdr);
+      }
+    }
+  
+    // If no space found, return null
+    return null;
+  };
+
+  const findUpline = async (referralAddress: string): Promise<string | undefined> => {
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      
+      console.log("referral address", referralAddress);
+      const data = await clubAMainContract!.GetGenerationDirectSponser(referralAddress);
+      let sponserAddress = data[0];
+      let hasBoughtPlanet = data[1];
+      
+      console.log("has boughtplanet", hasBoughtPlanet);
+  
+      if (sponserAddress === "0x241B51ad84b5a38695dC5204cA38D00Aee1D1817" || hasBoughtPlanet) {
+        console.log("sponser address", sponserAddress);
+        return sponserAddress;
+      } else {
+        return await findUpline(sponserAddress);
+      }
+    } catch (error) {
+      console.log("something went wrong in findUpline address", error);
+      return undefined;
+    }
+  };
 
   const buyPlanetUser = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const myContract = clubAMainContract;
-
-      const buyPlanet = await myContract!.buyPlannet_user(value.beliverAddress); // No arguments passed
-
-      await buyPlanet.wait();
-      console.log(buyPlanet);
-      const transactionHash = buyPlanet.hash;
-
-      console.log(`Transaction hash: ${transactionHash}`);
-      // getPlanet(planetId,transactionHash);
-      const planetName = await getUserCurrentPlanet(userAddress);
-      console.log("currentplanet ", planetName)
-
-      const planetId = getPlanetId(planetName!)
-
-      getPlanetDataSC(userAddress?.toLowerCase()!,planetId,transactionHash)
-    
-      
-      
-      alert(
-        `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
-      );
-
-      
-      // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const approveUSDTRe = async () => {
-    try {
-      alert(
-        "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
-      );
-
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const clubACont = clubAMainContract;
-      const getFeeTokenAddress = await clubACont!.getFeeToken();
-      console.log("USDT TOken address", getFeeTokenAddress);
-      const secondInstance = new ethers.Contract(
-        getFeeTokenAddress,
-        USDTToken,
+      const clubAMainContract = new ethers.Contract(
+        clubA_Address,
+        ClubA_ABI,
         signer
       );
-      const approveAmt = await secondInstance.balanceOf(userAddress);
-      console.log("Approve", approveAmt);
-      const approve = await secondInstance.approve(
-        clubACont!.address,
-        approveAmt
-      );
-      await approve.wait();
-      console.log(approve);
-      setApproveRe(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const buyPlanetUserRe = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
       const myContract = clubAMainContract;
 
-      const planetById =
-        value.PlanetName === "Earth"
-          ? "1"
-          :  value.PlanetName === "Moon"
-          ? "2"
-          : value.PlanetName === "Mars"
-          ? "3"
-          : value.PlanetName === "Mercury"
-          ? "4"
-          : value.PlanetName === "Venus"
-          ? "5"
-          : value.PlanetName === "Jupiter"
-          ? "6"
-          : value.PlanetName === "Saturn"
-          ? "7"
-          : value.PlanetName === "Uranus"
-          ? "8"
-          : value.PlanetName === "Neptune"
-          ? "9"
-          : value.PlanetName === "Pluto"
-          ? "10"
-          : "null";
-      console.log(planetById);
-      const buyPlanet = await myContract!.rePurchasePackage(planetById,value.beliverAddress); // No arguments passed
 
-      await buyPlanet.wait();
-      console.log(buyPlanet);
-      const transactionHash = buyPlanet.hash;
+      const isPlanetBuyBySponsor = await myContract!.GetGenerationDirectSponser(value.beliverAddress);
+
+      let directSponser = isPlanetBuyBySponsor[0];
+      console.log("first direct sponser",directSponser)
+      const isBuy = isPlanetBuyBySponsor[1];
+
+      let referrerAddress;
+
+      if(!isBuy){
+      console.log("is buy false",isBuy)
+        
+       //find new upline for this user
+       referrerAddress =  await findUpline(directSponser)
+       console.log("from findUpline function i got this referrer address",referrerAddress)
+      }
+      else{
+        referrerAddress = directSponser;
+      }
 
 
-      console.log(`Transaction hash: ${transactionHash}`);
-      // getPlanet(planetId,transactionHash);
-      setPlanetBuyRe(true);
+      console.log("is GetGenerationDirectSponsor",isPlanetBuyBySponsor[1])
+      
+  
+      let planetBuy;
 
-      const planetId = getPlanetId(value.PlanetName)
+      if(value.package === "Earth"){
+        
+        
+        const spaceAddress = await findSpace(referrerAddress);
+        console.log("space address",spaceAddress)
+  
+        if (spaceAddress) {
+          console.log("space address",spaceAddress)
+          planetBuy = await myContract!.buyPlannet_user_firstpackage(value.beliverAddress,spaceAddress);
+        } else {
+          throw new Error("No space available for new registration.");
+        }
+        
+      }
+      else{
+        planetBuy = await myContract!.buyPlannet_user(value.beliverAddress); 
+      }
 
-      getPlanetDataSC(userAddress?.toLowerCase()!,planetId,transactionHash)
+     
 
+      await planetBuy.wait();
+      const transactionReceipt = planetBuy.hash;
+      const transactionHash = transactionReceipt;
+      
+
+      referrerAddress = await fetchEventDataFromTransaction(transactionHash);
+
+      let planetId = getPlanetId(value.package)
+
+      postPlanetBuyInfo(userAddress!,Number(planetId),transactionReceipt,referrerAddress!)
+  
+  
 
       alert(
         `Planet Buy Successfully! 🚀 To See Changes On Website. Please The refersh the page.`
       );
+
       // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
     } catch (error) {
       console.log(error);
     }
   };
-
-
 
   useEffect(() => {
     setApproveRe(false);
-  }, [value]);
+  }, [value.beliverAddress,value.package]);
 
   return (
     <div className="w-full">
       <div className="flex items-center justify-center ">
         <p className="text-2xl my-5 w-fit font-semibold border-b-4 border-b-yellow-500">
-          Create New Believer
+          Buy Planet For User In Club-A
         </p>
       </div>
 
@@ -477,7 +422,7 @@ const Page = () => {
         <div className="w-fit  flex flex-col  ">
           <div className="flex items-center justify-center">
             <div className="my-3">
-              {["Buy Planet", "Re-Purchase"].map((option) => (
+              {["Buy Planet"].map((option) => (
                 <Button
                   key={option}
                   className={classNames(
@@ -496,7 +441,7 @@ const Page = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center w-full">
+          <div className="flex items-center justify-center w-auto">
             {selectedOption === "Buy Planet" ? (
               <form
                 action=""
@@ -527,18 +472,23 @@ const Page = () => {
                     setValue({ ...value, beliverAddress: e.target.value })
                   }
                 />
-                <div className="flex items-center justify-between gap-x-7">
-                  <div>
-                    <Button
-                      variant="custom_yellow"
-                      type="button"
-                      onClick={checkCurrentPlanet}
-                    >
-                      Check Believer Current Planet
-                    </Button>
-                  </div>
-                  <div>{curretnPlanetBeliever}</div>
-                </div>
+                <label>Select Planet</label>
+                <Select
+                  name="selectedPackage"
+                  value={value.package}
+                  onValueChange={handleSelectPackageChange}
+                >
+                  <SelectTrigger className="w-[180px] border border-yellow-400">
+                    <SelectValue placeholder="" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {SelectClubAData.map((item) => (
+                      <SelectItem key={item.id} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
 
                 <div className="w-full flex items-center justify-center">
                   {isApprove ? (
@@ -563,84 +513,7 @@ const Page = () => {
                 </div>
               </form>
             ) : (
-              <div className="w-[90%] md:w-ful flex flex-col items-center px-4 gap-y-5 bg-zinc-900  rounded-lg">
-                <form
-                  action=""
-                  className="relative flex flex-col gap-y-5 py-4 px-6"
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    buyPlanetUserRe();
-                  }}
-                >
-                  <label htmlFor="">Your Address</label>
-                  <Input
-                    type="text"
-                    placeholder="Enter your address"
-                    className="w-60 md:w-96 text-xs md:text-md"
-                    value={userAddress || value?.yourAddress}
-                    onChange={(e) =>
-                      setValue({ ...value, yourAddress: e.target.value })
-                    }
-                  />
-                  <label htmlFor="">Believer Address</label>
-                  <Input
-                    type="text"
-                    placeholder="Enter  believer address"
-                    value={value.beliverAddress}
-                    className="w-60 md:w-96 text-xs md:text-md"
-                    onChange={(e) =>
-                      setValue({ ...value, beliverAddress: e.target.value })
-                    }
-                  />
-                  <label>Select Planet Package</label>
-                  <Select
-                    name="selectedPackage"
-                    value={value.PlanetName}
-                    onValueChange={handleSelectPackageChange}
-                  >
-                    <SelectTrigger className="w-[180px] border border-yellow-400">
-                      <SelectValue placeholder="" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {ClubAPlanetPackage.map((item) => (
-                        <SelectItem key={item.id} value={item.value}>
-                          {item.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <div className="py-8 relative ">
-                  <div className="absolute top-[50%]  w-full flex items-center justify-center">
-                    {timerDisplay === "00:00:00" ? (
-                      isApproveRe ? (
-                        <button
-                          className="absolute top-[105%] left-[10%] bg-blue-500 py-0.5 w-3/4 mx-1 rounded-lg"
-                          type="submit"
-                       
-                        >
-                          Re-purchase
-                        </button>
-                      ) : (
-                        <button
-                          className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg"
-                          type="button"
-                          onClick={() => {
-                            approveUSDTRe();
-                          }}
-                        >
-                          Approve
-                        </button>
-                      )
-                    ) : (
-                      <button className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg">
-                        Repurchase In: {timerDisplay}
-                      </button>
-                    )}
-                  </div>
-                  </div>
-                
-                </form>
-              </div>
+              ""
             )}
           </div>
         </div>

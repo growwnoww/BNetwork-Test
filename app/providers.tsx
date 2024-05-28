@@ -9,26 +9,27 @@ import { publicProvider } from "wagmi/providers/public";
 import { WalletProvider } from "@/context/WalletContext";
 import { argentWallet, trustWallet, ledgerWallet } from "@rainbow-me/rainbowkit/wallets";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
+import { NextUIProvider } from "@nextui-org/react";
 
 const { chains, publicClient, webSocketPublicClient } = configureChains([bsc, bscTestnet], [publicProvider()]);
 
 const projectId = "9d8144e157054d061c1c58a856ba0669";
 
-const bscMa = {
-    chainId: 56,
-    name: "BSC",
-    currency: "BNB",
-    explorerUrl: "https://bscscan.com",
-    rpcUrl: "https://bsc-dataseed4.ninicoin.io/",
-};
-
-// const tbsc = {
-//     chainId: 97,
-//     name: "TBSC",
+// const bscMa = {
+//     chainId: 56,
+//     name: "BSC",
 //     currency: "BNB",
-//     explorerUrl: "https://testnet.bscscan.com/",
-//     rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
+//     explorerUrl: "https://bscscan.com",
+//     rpcUrl: "https://bsc-dataseed4.ninicoin.io/",
 // };
+
+const tbsc = {
+    chainId: 97,
+    name: "TBSC",
+    currency: "BNB",
+    explorerUrl: "https://testnet.bscscan.com/",
+    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
+};
 
 // 3. Create modal
 const metadata = {
@@ -40,7 +41,7 @@ const metadata = {
 
 createWeb3Modal({
     ethersConfig: defaultConfig({ metadata }),
-    chains: [bscMa],
+    chains: [tbsc],
     projectId,
     enableAnalytics: true, // Optional - defaults to your Cloud configuration
 });
@@ -80,6 +81,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     React.useEffect(() => setMounted(true), []);
     return (
         <WagmiConfig config={wagmiConfig}>
+            <NextUIProvider>
             <WalletProvider>
                 <RainbowKitProvider chains={chains} appInfo={demoAppInfo} theme={darkTheme()} modalSize="compact">
                     <TawkMessengerReact
@@ -90,6 +92,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     {mounted && children}
                 </RainbowKitProvider>
             </WalletProvider>
+            </NextUIProvider>
+         
         </WagmiConfig>
     );
 }

@@ -10,7 +10,9 @@ import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 //     }
 // }
 
- export const clubA_Address = "0x60533ef9d54eFA687B9D8150A911660f90b9afD9";
+ export const clubA_Address = "0xa5E231ebE8674416e4Ec8345Cb20f55C05B1a8aE";
+
+// export const clubA_Address ="0x39e045d7684Dd68FfccE1e97b81AD701B0E7F967"
 
 
 
