@@ -7,6 +7,7 @@ import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
+import ClubALanuchBanner from "../ClubABanner";
 
 const words = [
     {
@@ -65,6 +66,8 @@ const HeroContent = () => {
                 </p>
                 
             </div>
+
+            <ClubALanuchBanner/>
 
             
         </div>
