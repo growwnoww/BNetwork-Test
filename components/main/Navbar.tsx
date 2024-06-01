@@ -70,6 +70,7 @@ const Navbar = () => {
         return () => {
             window.removeEventListener("resize", closeMenuOnResize);
         };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // Add this useEffect
@@ -98,9 +99,8 @@ const Navbar = () => {
                         {navList.map((NavRoute, index) => (
                             <div
                                 key={index}
-                                className={`px-3  ${
-                                    activeNav === NavRoute.link ? "text-yellow-400" : ""
-                                } md:mx-2 text-[14px]`}
+                                className={`px-3  ${activeNav === NavRoute.link ? "text-yellow-400" : ""
+                                    } md:mx-2 text-[14px]`}
                             >
                                 <Link
                                     href={NavRoute.link}

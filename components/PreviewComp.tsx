@@ -4,6 +4,10 @@ import { Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDis
 import { Button } from "./ui/button";
 import { WalletContext } from "@/context/WalletContext";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
+import { ethers } from "ethers";
+import BNetworkABI from "@/contract/BNetwork_ABI.json";
 
 export default function PreviewComp() {
     const walletContext = useContext(WalletContext);
@@ -11,16 +15,30 @@ export default function PreviewComp() {
     const pathname = usePathname();
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { walletProvider } = useWeb3ModalProvider();
 
-    const previewAddress = () => {
+    const B_Network_Address = PlanetUpgrade_Address;
+
+    const previewAddress = async () => {
         try {
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+
             const query = walletContext?.previewAddress;
-            if (pathname === "/" || pathname === "/registration") {
-                router.replace(`/dashboard?preview=${query}`);
+            const exists = await BNetworkContract.isUserExists(query);
+            if (exists) {
+                if (pathname === "/" || pathname === "/registration") {
+                    router.replace(`/dashboard?preview=${query}`);
+                } else {
+                    router.replace(`${pathname}?preview=${query}`);
+                }
             } else {
-                router.replace(`${pathname}?preview=${query}`);
+                walletContext?.setPreviewAddress("");
+                return;
             }
         } catch (error) {
+            walletContext?.setPreviewAddress("");
             console.log(error);
         }
     };

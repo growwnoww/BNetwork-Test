@@ -3,7 +3,7 @@ import CurrentBalanceComp from "@/components/clientcomponents/CurrentBalanceComp
 import { hamaburgerAtom } from "@/store/atom";
 import { MenuList } from "@/utils/MenuList";
 import { NestedMenuList } from "@/utils/NestedMenuList";
-import { useWeb3Modal } from "@web3modal/ethers5/react";
+import { useDisconnect, useWeb3Modal } from "@web3modal/ethers5/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
@@ -13,13 +13,11 @@ import { useRecoilState } from "recoil";
 
 const HamaburgerMenu = () => {
     const [isOpen, setOpen] = useRecoilState(hamaburgerAtom);
-    const pathname = usePathname();
     const router = useRouter();
-    const { open } = useWeb3Modal();
+    const { disconnect } = useDisconnect()
 
     const handleDisconnectWallet = () => {
-        open();
-        setOpen(!isOpen);
+        disconnect()
         router.push("/");
     };
 

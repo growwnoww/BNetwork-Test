@@ -11,27 +11,28 @@ import { IoIosLock } from "react-icons/io";
 import { useRecoilState } from "recoil";
 import { Button } from "../ui/button";
 import { HomeMenu } from "@/utils/HomeMenu";
+import PreviewComp from "../PreviewComp";
 
 const HomeHamaburger = () => {
 
     const [activeNav, setActiveNav] = useState<String>("#home");
     const isUserRegister = useUserDetails();
     console.log("IS USER REGISTER", isUserRegister);
-    
+    const pathname = usePathname();
     const router = useRouter(); // Add this line
     const { open } = useWeb3Modal();
-    const {  isConnected } = useWeb3ModalAccount();
-    const {address} = useWeb3ModalAccount()
+    const { isConnected } = useWeb3ModalAccount();
+    const { address } = useWeb3ModalAccount()
     const userAddress = address;
     console.log(address, isConnected);
-    const [isOpen,setOpen] = useRecoilState(homeHamaburgerAtom);
+    const [isOpen, setOpen] = useRecoilState(homeHamaburgerAtom);
 
-   
+
     const toogleBtn = () => {
-      setOpen(!isOpen);
+        setOpen(!isOpen);
     };
-    
-    const connectHandler = () =>{
+
+    const connectHandler = () => {
         open();
         setOpen(!isOpen);
     }
@@ -64,41 +65,47 @@ const HomeHamaburger = () => {
         <>
             {isOpen ? (
                 <div className="absolute top-[80%] left-[1%]   mr-3 px-4 right-[1%] bg-black py-3 my-3  w-full z-50">
-                  
-                  <div className="flex flex-col gap-y-4 my-2">
-                  <div className="px-3  lg:hidden ">
-                        {/* <div className="bg-yellow-500 px-3  py-2.5 rounded-md">Connect Wallet</div> */}
-                        <button
-                            onClick={() => connectHandler()}
-                            type="button"
-                            className="bg-yellow-500 px-3 w-[100%]  py-1 text-lg font-medium rounded-lg whitespace-nowrap"
-                        >
-                            {!isConnected
-                                ? "Connect Wallet"
-                                : `${address?.slice(0, 6)}...${address?.slice(address.length - 6, address.length)}`}
-                        </button>
-                        
+
+                    <div className="flex flex-col gap-y-4 my-2">
+                        <div className="px-3  lg:hidden ">
+                            {/* <div className="bg-yellow-500 px-3  py-2.5 rounded-md">Connect Wallet</div> */}
+                            <button
+                                onClick={() => connectHandler()}
+                                type="button"
+                                className="bg-yellow-500 px-3 w-[100%]  py-1 text-lg font-medium rounded-lg whitespace-nowrap"
+                            >
+                                {!isConnected
+                                    ? "Connect Wallet"
+                                    : `${address?.slice(0, 6)}...${address?.slice(address.length - 6, address.length)}`}
+                            </button>
+
+                        </div>
+
+
+                        <div className=" w-full">
+                            {isUserRegister && userAddress ? (
+                                ""
+                            ) : (
+                                <div>
+                                    <Link href="/registration" onClick={() => setOpen(!isOpen)}>
+                                        <Button className=" bg-zinc-900  text-white border w-[95%] ml-3    py-1 text-lg font-medium rounded-lg border-yellow-500">
+                                            Registration
+                                        </Button>
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
                     </div>
 
-                    
-                    <div className=" w-full">
-                        {isUserRegister && userAddress ? (
-                            ""
-                        ) : (
-                            <div>
-                                <Link href="/registration" onClick={()=>setOpen(!isOpen)}>
-                                    <Button className=" bg-zinc-900  text-white border w-[95%] ml-3    py-1 text-lg font-medium rounded-lg border-yellow-500">
-                                        Registration
-                                    </Button>
-                                </Link>
-                            </div>
-                        )}
-                    </div>
-                  </div>
 
-                    
 
                     <div className="">
+
+                        {(pathname === "/" || pathname === "/registration") &&
+                            <div className="my-2 flex justify-center">
+                                <PreviewComp />
+                            </div>
+                        }
                         <ul className="grid grid-cols-2 gap-2">
                             {HomeMenu.map((item) => (
                                 <li
@@ -112,10 +119,10 @@ const HomeHamaburger = () => {
                                     <p>{item.icon2}</p>
                                 </li>
                             ))}
-                           
+
                         </ul>
 
-                    
+
                     </div>
                 </div>
             ) : (
