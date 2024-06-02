@@ -54,7 +54,7 @@ const ClubALanuchBanner = () => {
         </div>
         <div className='relative z-10'>
           <Image
-            src="/NewBanner.png"
+            src="/ClubABannerNew.jpg"
             alt="banner"
             height={700}
             width={700}
