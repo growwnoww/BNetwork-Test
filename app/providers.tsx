@@ -38,6 +38,7 @@ const metadata = {
     icons: ["https://avatars.mywebsite.com/"],
 };
 
+
 createWeb3Modal({
     ethersConfig: defaultConfig({ metadata }),
     chains: [bscMa],
@@ -45,9 +46,11 @@ createWeb3Modal({
     enableAnalytics: true, // Optional - defaults to your Cloud configuration
 });
 
+
 const demoAppInfo = {
     appName: "Believe Network",
 };
+
 
 const { wallets } = getDefaultWallets({
     appName: "Believe Network",

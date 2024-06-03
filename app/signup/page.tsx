@@ -33,7 +33,7 @@ const Page = () => {
     const {address} = useAccount()
     const [userDetails, setUserDetails] = useState<userDetailsType>();
     const router = useRouter();
-    const ownerAddress = "0x2C7f4dB6A0B1df04EA8550c219318C7f2FF3D34C";
+    const ownerAddress = "0x2c7f4db6a0b1df04ea8550c219318c7f2ff3d34c";
 
     const B_Network_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 

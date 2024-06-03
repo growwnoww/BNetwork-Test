@@ -154,16 +154,16 @@ const Page = () => {
                     uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
                 }
 
-        const payload = {
-          regAddress: userDetails?.regUser,
-          reg_time: userDetails?.regTime,
-          regId: userDetails?.regId,
-          upline_referral_address: uplineAddrLocal,
-          upline_referralId: userDetails?.regReferalId,
-          upline_referral_BNId: uplineBNIdLocal,
-          direct_count: userDetails?.teamCount,
-          reg_transaction_hash:tranxHash
-        };
+             const payload = {
+             regAddress: userDetails?.regUser,
+             reg_time: userDetails?.regTime,
+             regId: userDetails?.regId,
+             upline_referral_address: uplineAddrLocal,
+             upline_referralId: userDetails?.regReferalId,
+             upline_referral_BNId: uplineBNIdLocal,
+             direct_count: userDetails?.teamCount,
+             reg_transaction_hash:tranxHash
+             };
 
                 console.log("hellow", payload);
 
