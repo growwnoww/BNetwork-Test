@@ -23,13 +23,13 @@ const bscMa = {
     rpcUrl: "https://bsc-dataseed4.ninicoin.io/",
 };
 
-// const tbsc = {
-//     chainId: 97,
-//     name: "TBSC",
-//     currency: "BNB",
-//     explorerUrl: "https://testnet.bscscan.com/",
-//     rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
-// };
+const tbsc = {
+    chainId: 97,
+    name: "TBSC",
+    currency: "BNB",
+    explorerUrl: "https://testnet.bscscan.com/",
+    rpcUrl: "https://data-seed-prebsc-1-s1.binance.org:8545",
+};
 
 // 3. Create modal
 const metadata = {

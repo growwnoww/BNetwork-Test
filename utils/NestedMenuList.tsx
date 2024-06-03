@@ -36,11 +36,11 @@ const NestedMenuList: NestedMenuType[] = [
         icon: <IoMdArrowDropright />,
        
       },
-      // {
-      //   title: "Universe Club-A",
-      //   path: "/dashboard/universeclub-a-believer",
-      //   icon: <IoMdArrowDropright />,
-      // },
+      {
+        title: "Universe Club-A",
+        path: "/dashboard/universeclub-a-believer",
+        icon: <IoMdArrowDropright />,
+      },
     
     ],
   },
