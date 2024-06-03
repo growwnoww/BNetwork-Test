@@ -9,6 +9,8 @@ interface walletContextType {
     setUserBalance: React.Dispatch<React.SetStateAction<string | undefined>>;
     planetStatus: any | undefined;
     setPlanetStatus: React.Dispatch<React.SetStateAction<any | undefined>>;
+    previewAddress: any | undefined;
+    setPreviewAddress: React.Dispatch<React.SetStateAction<any | undefined>>;
 }
 
 export const WalletContext = createContext<walletContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     
     const [userBalance, setUserBalance] = useState<string | undefined>();
     const [planetStatus, setPlanetStatus] = useState<string | undefined>();
+    const [previewAddress, setPreviewAddress] = useState<string | undefined>();
     const { address, isConnected } = useWeb3ModalAccount();
 
     const setUserAddress = (address: string | undefined) => {
@@ -66,7 +69,16 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
 
     return (
         <WalletContext.Provider
-            value={{ userAddress, setUserAddressState, userBalance, setUserBalance, planetStatus, setPlanetStatus }}
+            value={{
+                userAddress,
+                setUserAddressState,
+                userBalance,
+                setUserBalance,
+                planetStatus,
+                setPlanetStatus,
+                previewAddress,
+                setPreviewAddress,
+            }}
         >
             {children}
         </WalletContext.Provider>

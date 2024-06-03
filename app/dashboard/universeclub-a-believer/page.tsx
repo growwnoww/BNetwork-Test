@@ -3,13 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import classNames from "classnames";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import React, { FormEvent, useContext, useEffect, useState } from "react";
 
 import { ethers } from "ethers";
@@ -17,10 +11,10 @@ import { Context } from "@/components/Context";
 import Token_ABI from "@/contract/Token_ABI.json";
 import { SelectData } from "@/utils/SelectData";
 import { WalletContext } from "@/context/WalletContext";
-import { useAccount } from "wagmi";
 import axios from "axios";
 import USDTToken from "../../../contract/USDTABI.json";
 import ClubA_ABI from "@/contract/ClubAContract/ClubA_ABI.json";
+
 
 import { ClubAPlanetPackage } from "@/utils/ClubAPlanetPackageData";
 import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
@@ -28,14 +22,14 @@ import { clubA_Address } from "@/contract/ClubAContract/ClubA_Instance";
 import { SelectClubAData } from "@/utils/SelectClubAData";
 
 interface userDetailsType {
-  regUser: string;
-  regTime: string;
-  regId: number;
-  regReferal: string;
-  regReferalId: number;
-  teamCount: number;
-  reg_transaction_hash?: string;
-  highestPlanetCount: number;
+    regUser: string;
+    regTime: string;
+    regId: number;
+    regReferal: string;
+    regReferalId: number;
+    teamCount: number;
+    reg_transaction_hash?: string;
+    highestPlanetCount: number;
 }
 
 const Page = () => {
@@ -53,10 +47,10 @@ const Page = () => {
     package: "Earth",
   });
 
-  const [curretnPlanetBeliever, setCurrentPlanetBeliever] = useState("");
+    const [curretnPlanetBeliever, setCurrentPlanetBeliever] = useState("");
 
-  const [timer, setTimer] = useState<any>(0);
-  const [timerDisplay, setTimerDisplay] = useState<string>("");
+    const [timer, setTimer] = useState<any>(0);
+    const [timerDisplay, setTimerDisplay] = useState<string>("");
 
   const { walletProvider } = useWeb3ModalProvider();
 
@@ -74,80 +68,73 @@ const Page = () => {
     }));
   };
 
-  const handleOptionChange = (option: string) => {
-    setSelectedOption(option);
-  };
-
-  const getPlanetId = (planetName: string): number => {
-    const planetNames: { [id: string]: number } = {
-      Earth: 1,
-      Moon: 2,
-      Mars: 3,
-      Mercury: 4,
-      Venus: 5,
-      Jupiter: 6,
-      Saturn: 7,
-      Uranus: 8,
-      Neptune: 9,
-      Pluto: 10,
+    const handleOptionChange = (option: string) => {
+        setSelectedOption(option);
     };
+
+    const getPlanetId = (planetName: string): number => {
+        const planetNames: { [id: string]: number } = {
+            Earth: 1,
+            Moon: 2,
+            Mars: 3,
+            Mercury: 4,
+            Venus: 5,
+            Jupiter: 6,
+            Saturn: 7,
+            Uranus: 8,
+            Neptune: 9,
+            Pluto: 10,
+        };
 
     return planetNames[planetName];
   };
 
-  const getPlanetName = (planetId: number): string | undefined => {
-    const planetNames: { [id: number]: string } = {
-      1: "Earth 0.10$",
-      2: "Moon  0.20$",
-      3: "Mars 0.30$",
-      4: "Mercury 0.40$",
-      5: "Venus 0.50$",
-      6: "Jupiter 0.60$",
-      7: "Saturn 0.70$",
-      8: "Uranus 0.80$",
-      9: "Neptune 0.90$",
-      10: "Pluto 1$",
-    };
+   
+    const getPlanetName = (planetId: number): string | undefined => {
+        const planetNames: { [id: number]: string } = {
+            1: "Earth 10$",
+            2: "Moon  25$",
+            3: "Mars 50$",
+            4: "Mercury 100$",
+            5: "Venus 250$",
+            6: "Jupiter 500$",
+            7: "Saturn 1000$",
+            8: "Uranus 2500$",
+            9: "Neptune 5000$",
+            10: "Pluto 10000$",
+        };
 
     return planetNames[planetId];
   };
 
 
 
+  
 
-  const approveUSDT = async () => {
-    try {
-      alert(
-        "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
-      );
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(
-        clubA_Address,
-        ClubA_ABI,
-        signer
-      );
-      const clubACont = clubAMainContract;
-      const getFeeTokenAddress = await clubACont!.getFeeToken();
-      console.log("USDT TOken address", getFeeTokenAddress);
-      const secondInstance = new ethers.Contract(
-        getFeeTokenAddress,
-        USDTToken,
-        signer
-      );
-      const approveAmt = await secondInstance.balanceOf(userAddress);
-      console.log("Approve", approveAmt);
-      const approve = await secondInstance.approve(
-        clubACont!.address,
-        approveAmt
-      );
-      await approve.wait();
-      console.log(approve);
-      setApprove(true);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+    const approveUSDT = async () => {
+        try {
+            alert(
+                "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
+            );
+            const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            const signer = provider.getSigner();
+            const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+            const clubACont = clubAMainContract;
+            const getFeeTokenAddress = await clubACont!.getFeeToken();
+            console.log("USDT TOken address", getFeeTokenAddress);
+            const secondInstance = new ethers.Contract(getFeeTokenAddress, USDTToken, signer);
+            const approveAmt = await secondInstance.balanceOf(userAddress);
+            console.log("Approve", approveAmt);
+            const approve = await secondInstance.approve(clubACont!.address, approveAmt);
+            await approve.wait();
+            console.log(approve);
+            setApprove(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
 
 

@@ -1,5 +1,5 @@
 "use client";
-import React, { FormEvent, useContext, useEffect, useState } from "react";
+import React, { FormEvent, Suspense, useContext, useEffect, useState } from "react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -25,6 +25,7 @@ import { SelectData } from "@/utils/SelectData";
 import { SelectLevel } from "@/utils/SelectLevel";
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
+import { useSearchParams } from "next/navigation";
 
 interface valueType {
     recycleVal: string;
@@ -46,6 +47,8 @@ interface AutoPoolTableData {
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
     const [autoPoolTableData, setAutoPoolTableData] = useState<AutoPoolTableData>({ data: [] });
     const [value, setValue] = useState<valueType>({
@@ -57,7 +60,13 @@ const Page = () => {
     const [recycleMax, setMaxRecycle] = useState<number>(0);
 
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const handleToggle = (userId: any) => {
         setExpanded((prev) => ({
@@ -148,7 +157,7 @@ const Page = () => {
         getAutoPoolData();
         getRecycleLevel();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [query]);
 
     // Function to determine the status color
 

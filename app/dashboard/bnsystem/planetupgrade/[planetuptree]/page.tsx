@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React, { useContext, useEffect, useState } from "react";
+import React, { Suspense, useContext, useEffect, useState } from "react";
 import LevelIcon from "@/components/dashboardComponents/LevelIcon";
 import { IoIosArrowForward } from "react-icons/io";
 import { treePositionData } from "@/utils/treePositionData";
@@ -11,6 +11,7 @@ import Pagination from "@/components/clientcomponents/bnsystemClientComp/Paginat
 import axios from "axios";
 import Link from "next/link";
 import useResponsiveSVGSize from "@/Hooks/useResponsiveSVGSize";
+import { useSearchParams } from "next/navigation";
 
 interface PlanetUpTreeData {
     indexMappings: any;
@@ -22,14 +23,21 @@ interface PlanetUpTreeData {
 }
 
 const Page = ({ params }: { params: { planetuptree: string } }) => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
     const [autoPoolTableData, setAutoPoolTableData] = useState<PlanetUpTreeData[]>([]);
     const [user, setUser] = useState<number>();
     const [hoverDetails, setHoverDetails] = useState<PlanetUpTreeData | null>(null);
     const currentPlanet = Object.values(params);
     const [maxRecycle, setMaxRecycle] = useState<number>();
 
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     const [currentItemIndex, setCurrentItemIndex] = useState(0); // Starts from 0 for the first item
     const items = Array.from({ length: 100 }, (_, index) => `Recycle ${index + 1}`);
     // Event handlers for item navigation
@@ -115,7 +123,7 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
         getRecycleLevel();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress, currentItemIndex]);
+    }, [userAddress, currentItemIndex, query]);
 
     const cutoffIndex = user; // Adjust based on your requirements
     console.log("cutt", cutoffIndex);

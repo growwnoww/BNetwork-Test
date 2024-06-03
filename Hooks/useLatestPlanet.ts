@@ -2,11 +2,12 @@
 
 import { useWeb3ModalAccount, useWeb3ModalProvider } from '@web3modal/ethers5/react';
 import { ethers } from 'ethers';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
+import { WalletContext } from '@/context/WalletContext';
 
 const useLatestPlanet = () => {
-
+    const walletContext = useContext(WalletContext);
     const [planetCount, setPlanetCount] = useState<number>(0)
     const { address, isConnected } = useWeb3ModalAccount();
     const { walletProvider } = useWeb3ModalProvider();

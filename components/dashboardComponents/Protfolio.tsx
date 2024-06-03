@@ -4,13 +4,21 @@ import { RiBitCoinLine } from 'react-icons/ri';
 import { BsCoin } from 'react-icons/bs';
 import axios from 'axios';
 import { WalletContext } from '@/context/WalletContext';
+import { useSearchParams } from 'next/navigation';
 
 const Protfolio = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
   const [portfolioInfo, setPortfolioInfo] = useState<any>({});
   const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+//   const userAddress = walletContext?.userAddress;
   const [isWideScreen, setIsWideScreen] = useState(process.browser ? window.innerWidth >= 1280 : true);
-
+let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
  
    useEffect(() => {
     const handleResize = () => {
@@ -43,7 +51,7 @@ const Protfolio = () => {
     if (userAddress) {
       fetchPortfolioInfo();
     }
-  }, [userAddress]);
+  }, [userAddress, query]);
 
   const dataDisplay = isWideScreen?[
     { title: "BN Max Rewards Coins", icon: <RiBitCoinLine />, field: 'maxBNRewardCoin', isCoin: true },

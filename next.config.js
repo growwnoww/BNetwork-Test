@@ -1,7 +1,7 @@
 // next.config.js
 const nextConfig = {
     images: {
-        domains: ["restcountries.com", "upload.wikimedia.org", "flagcdn.com","via.placeholder.com"],
+        domains: ["restcountries.com", "upload.wikimedia.org", "flagcdn.com", "via.placeholder.com"],
     },
     reactStrictMode: true,
 

@@ -1,8 +1,8 @@
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import BNetworkABI from "@/contract/BNetwork_ABI.json";
 import { ethers } from "ethers";
-import {  PlanetUpgrade_Address } from "@/contract/Web3_Instance";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
 
 const useUserDetails = () => {
     const [isUserRegister, setUserRegister] = useState<boolean>(false);
@@ -32,6 +32,7 @@ const useUserDetails = () => {
         };
 
         getUserDetails();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [address, isConnected]); // React to changes in address and connection status
 
     return isUserRegister;

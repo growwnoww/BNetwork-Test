@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
 import { SelectEntries } from "@/utils/SelectEntries";
+import { useSearchParams } from "next/navigation";
 
 interface DierctEarningType{
   index: any;
@@ -44,16 +45,25 @@ interface searchData{
 }
 
 const Page = () => {
+  const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
 
   const [directEarnings,setDirectEarnings] = useState<DirectEarningObject| null>()
   const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
   const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress
+  // const userAddress = walletContext?.userAddress
   const [displayUser, setDisplayUser] = useState< DierctEarningType| null>();
   const [searchUser, setSearchUser] = useState({ user: "" });
   const [sortBy, setSortBy] = useState("");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
   const [currentItemIndex, setCurrentItemIndex] = useState(0); 
+
+  let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
   const handlePreviousClick = () => {
     setCurrentItemIndex(currentItemIndex - 1);
@@ -192,7 +202,7 @@ const Page = () => {
       // Reset directEarnings to null if searchUser or displayUser is not null
       setDirectEarnings(null);
     }
-  }, [searchUser.user, displayUser, value.entries,currentItemIndex]);
+  }, [searchUser.user, displayUser, value.entries,currentItemIndex, query]);
 
 
   const sortedData:DierctEarningType[] | null= directEarnings?.users? (

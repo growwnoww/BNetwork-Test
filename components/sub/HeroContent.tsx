@@ -7,7 +7,7 @@ import useUserDetails from "@/Hooks/useUserDetails";
 import { WalletContext } from "@/context/WalletContext";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
-import ClubALanuchBanner from "../WrapperComponent/ClubALanuchBanner";
+import ClubALanuchBanner from "../ClubABanner";
 
 const words = [
     {
@@ -34,8 +34,6 @@ const words = [
 const HeroContent = () => {
     const walletContext = useContext(WalletContext);
     const isUserRegister = useUserDetails();
-
-
 
     return (
         <div className="relative flex flex-col items-center justify-center w-full h-[40rem] lg:h-screen ">
@@ -69,7 +67,7 @@ const HeroContent = () => {
                 
             </div>
 
-            {/* <ClubALanuchBanner/> */}
+            <ClubALanuchBanner/>
 
             
         </div>

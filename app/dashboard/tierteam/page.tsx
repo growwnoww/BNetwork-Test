@@ -26,6 +26,7 @@ import { SelectTierData } from "@/utils/SelectTierLevel";
 import { SelectTierTeamPackage } from "@/utils/SelectTierTeamPackage";
 import { WalletContext } from "@/context/WalletContext";
 import { SelectEntries } from "@/utils/SelectEntries";
+import { useSearchParams } from "next/navigation";
 import { tierEarningDataType } from "@/Hooks/useFetchTierEarning";
 
 interface valueType {
@@ -56,8 +57,10 @@ interface searchData{
 }
 
 const Page = () => {
+  const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
   const walletContext = useContext(WalletContext);
-  const userAddress = walletContext?.userAddress;
+  // const userAddress = walletContext?.userAddress;
   const totalBussience = walletContext?.planetStatus?.tierEarningsAmount || 0;
   const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
   const [fetchTierData, setFetchTierData] = useState<tierTeamData | null>(null);
@@ -67,6 +70,13 @@ const Page = () => {
     package: "Earth",
     entries: "10",
   });
+
+   let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
   const handleToggle = (userId: any) => {
     setExpanded((prev) => ({
@@ -189,7 +199,7 @@ const Page = () => {
       getTierTeam();
 
     }
-  }, [searchUser, displayUser?.searchedUser, value.level, value.entries, currentItemIndex]);
+  }, [searchUser, displayUser?.searchedUser, value.level, value.entries, currentItemIndex, query]);
   
 
     // Function to determine the status color

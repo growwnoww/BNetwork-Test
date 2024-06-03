@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import CustomCheckbox from "@/components/CustomeCheckbox";
 import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import axios from "axios";
-import { useAccount } from "wagmi";
 interface userDetailsType {
     regUser: string;
     regTime: string;
@@ -30,7 +29,6 @@ const Page = () => {
     const walletContext = useContext(WalletContext);
     const userAddress = walletContext?.userAddress;
     const { isConnected } = useWeb3ModalAccount();
-    const {address} = useAccount()
     const [userDetails, setUserDetails] = useState<userDetailsType>();
     const router = useRouter();
     const ownerAddress = "0x2c7f4db6a0b1df04ea8550c219318c7f2ff3d34c";
@@ -144,16 +142,16 @@ const Page = () => {
                     uplineBNIdLocal = "BN" + userDetails.regReferal.substring(userDetails.regReferal.length - 8);
                 }
 
-        const payload = {
-          regAddress: userDetails?.regUser,
-          reg_time: userDetails?.regTime,
-          regId: userDetails?.regId,
-          upline_referral_address: uplineAddrLocal,
-          upline_referralId: userDetails?.regReferalId,
-          upline_referral_BNId: uplineBNIdLocal,
-          direct_count: userDetails?.teamCount,
-          reg_transaction_hash:tranxHash
-        };
+                const payload = {
+                    regAddress: userDetails?.regUser,
+                    reg_time: userDetails?.regTime,
+                    regId: userDetails?.regId,
+                    upline_referral_address: uplineAddrLocal,
+                    upline_referralId: userDetails?.regReferalId,
+                    upline_referral_BNId: uplineBNIdLocal,
+                    direct_count: userDetails?.teamCount,
+                    reg_transaction_hash: tranxHash,
+                };
 
                 console.log("hellow", payload);
 

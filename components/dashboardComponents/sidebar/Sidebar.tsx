@@ -5,7 +5,7 @@ import { NestedMenuList } from "@/utils/NestedMenuList";
 import { useDisconnect, useWeb3Modal } from "@web3modal/ethers5/react";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { GoSidebarExpand } from "react-icons/go";
 import { IoIosLock } from "react-icons/io";
@@ -15,7 +15,8 @@ import { useRecoilState } from "recoil";
 
 const Sidebar = () => {
     const pathname = usePathname();
-
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const [isOpen, setOpen] = useRecoilState(menuAtom);
     const router = useRouter();
     const {disconnect} = useDisconnect()

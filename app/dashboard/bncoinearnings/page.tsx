@@ -14,6 +14,7 @@ import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
 import { SelectEntries } from "@/utils/SelectEntries";
+import { useSearchParams } from "next/navigation";
 
 interface BNCoinDataTye {
     fromBNId: string;
@@ -33,14 +34,23 @@ interface valueType{
 }
 
 const Page = () => {
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
+    // const userAddress = walletContext?.userAddress;
     const [bnCoinData, setBNcoinData] = useState<BNCointType>();
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
     const [currentItemIndex, setCurrentItemIndex] = useState(0); 
     const [value, setValue] = useState<valueType>({
         entries: "10",
       });
+
+      let userAddress: string;
+      if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
     
 
     const handlePreviousClick = () => {
@@ -104,7 +114,7 @@ const Page = () => {
             getBNCoinEarnedTable();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress,value.entries,currentItemIndex]);
+    }, [userAddress,value.entries,currentItemIndex, query]);
 
     // Function to determine the status color
 
