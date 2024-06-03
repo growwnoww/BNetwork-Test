@@ -153,15 +153,16 @@ const NestedMenuList: NestedMenuType[] = [
     icon2:<IoIosArrowUp />,
     list: [
       {
-        title: "Club A Global Earnings",
-        path: "/dashboard/clubAglobalearn",
+        title: "Club A Direct Earnings",
+        path: "/dashboard/clubADirectearn",
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "Club A Tier Earnings",
+        title: "Club A Working Earnings",
         path: "/dashboard/clubAtierearn",
         icon: <IoMdArrowDropright />,
       },
+      
      
     
     ],

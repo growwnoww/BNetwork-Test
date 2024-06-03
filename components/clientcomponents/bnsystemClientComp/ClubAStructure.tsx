@@ -10,12 +10,31 @@ import ClubA_ABI from '../../../contract/ClubAContract/ClubA_ABI.json'
 import axios from "axios";
 import { clubA_Address } from "@/contract/ClubAContract/ClubA_Instance";
 import { WalletContext } from "@/context/WalletContext";
+import {  Modal,   ModalContent,   ModalHeader,   ModalBody,   ModalFooter, useDisclosure} from "@nextui-org/modal";
+import { Button } from "@nextui-org/react";
+import { formatEther } from "ethers/lib/utils";
+import { PlanetUpgrade_Address } from "@/contract/Web3_Instance";
+import PlanetUpABI from '@/contract/BNetwork_ABI.json'
 
 
 interface ClubAType {
   key: string;
   PlanetName: string;
   globalCount: number;
+}
+
+interface Ethereum {
+  isMetaMask?: boolean;
+  request?: (...args: any[]) => Promise<void>;
+  on?: (...args: any[]) => void;
+  // Add other properties and methods that you expect to use
+}
+
+declare global {
+  interface Window {
+      //@ts-ignore
+      ethereum?: Ethereum;
+  }
 }
 
 const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
@@ -34,91 +53,8 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
   const [timerDisplay, setTimerDisplay] = useState<string>("");
   const [isApproveRe, setApproveRe] = useState<boolean>(false);
   const [planetBuyRe, setPlanetBuyRe] = useState<boolean>(false);
-
-
-
-
- 
-  
-  const getUserPlanetBuyTime = async (planetName:string) =>{
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const clubACont = clubAMainContract;
-     const planetId = getPlanetId(planetName)
-     const lastPlanetBuyTime = await clubACont!.getLastJoinTime(userAddress,planetId);
-     console.log("lastPlanetBuyTime",lastPlanetBuyTime)
-     const lastPlanetBuyTimeInNumber =  ethers.BigNumber.from(lastPlanetBuyTime).toNumber();
-     console.log("lastPlanetBuyTimeInNumber",lastPlanetBuyTimeInNumber)
- 
-     return lastPlanetBuyTimeInNumber;
-    } catch (error) {
-     
-    }
-   }
-
- const formatTime = (timeInSeconds: number): string => {
-  const hours = Math.floor(timeInSeconds / 3600);
-  const minutes = Math.floor((timeInSeconds % 3600) / 60);
-  const seconds = timeInSeconds % 60;
-  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
- };
-
-
-const getUserPlanetBuyTimeDiff = async () => {
-  try {
-  
-    const lastPlanetBuyTime = await getUserPlanetBuyTime(PlanetName);
-    console.log("lastPlanetBuyTime", lastPlanetBuyTime);
-
-
-    const currentTime = Math.floor(Date.now() / 1000); 
-
-
-    const timeDiffSeconds = currentTime - lastPlanetBuyTime!;
-    console.log("planet name",PlanetName,"time diff",timeDiffSeconds)
-    
-
-    if (timeDiffSeconds < 3600) {
-      setTimer(3600 - timeDiffSeconds);
-
-    
-    } else {
- 
-      setTimer(0);
-      console.log("Time expired!");
-    }
-  } catch (error) {
-    console.error("Error fetching last planet buy time:", error);
-  }
-};
-
-useEffect(() => {
-  
-  getUserPlanetBuyTimeDiff();
-
-  const intervalId = setInterval(() => {
-    setTimer((prevTimer:any) => {
-      if (prevTimer > 0) {
-        return prevTimer - 1;
-      } else {
-        clearInterval(intervalId); 
-        return 0;
-      }
-    });
-  }, 1000);
-
- 
-  return () => clearInterval(intervalId);
-}, [timer]);
-
-useEffect(() => {
-
-  setTimerDisplay(formatTime(timer));
-}, [timer]);
-
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
 
 
@@ -142,7 +78,7 @@ useEffect(() => {
   const getPlanetName = (planetId: number): string | undefined => {
     const planetNames: { [id: number]: string } = {
       1: "Earth 10$",
-      2: "Moon  25$",
+      2: "Moon 25$",
       3: "Mars 50$",
       4: "Mercury 100$",
       5: "Venus 250$",
@@ -160,9 +96,7 @@ useEffect(() => {
     regAddress:string,
     planetId:number,
     transactionHash: string,
-    universeCount:number,
-    regularId:number[],
-    repurchaseArray:number[]
+   referralAddress:string
   ) => {
     try {
       const planetNameStr = getPlanetName(planetId);
@@ -171,20 +105,20 @@ useEffect(() => {
       console.log("Planet package ", planetPack);
 
       const payload = {
-        buyId:universeCount,
         regAddress:regAddress,
         planetId: planetId,
         planetName: planetNameOnly,
         planetPackage: planetPack,
+        universeCount:1,
         transactionHash: transactionHash,
-        recycleArray:regularId,
-        repurchasePosition:repurchaseArray,
+        referralAddress:String(referralAddress).toLowerCase()
+       
       };
 
       console.log("payload", payload);
 
 
-      const response = await axios.post( `${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_URL}/clubA/buyPlanetClubA`,payload)
 
       if (response.status == 201) {
        console.log("user planet buy successfully in clubA",response.status)
@@ -200,34 +134,7 @@ useEffect(() => {
 
 
 
-  const getPlanetDataSC = async (user: string, planetId: number,transactionHash:string) => {
-    try {
-        const provider = new ethers.providers.Web3Provider(walletProvider as any);
-        const signer = provider.getSigner();
-        const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-        const myContract = clubAMainContract;
-        const details = await myContract!.MatrixDetails(planetId);
-        const universeCount = ethers.BigNumber.from(details.universalslot).toNumber();
-        console.log("repurchase count",universeCount-1)
 
-          let repurchaseArray = await myContract!.RegularUserIDS(userAddress, 1);
-            let recycleArray = await myContract!.RepuchaseUserIDS(userAddress, 1);
-            
-            const regularIdsNumbers = repurchaseArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
-
-            // Convert repurchaseIds BigNumber values to numbers
-            const repurchaseIdsNumbers = recycleArray.map((item: { id: { toNumber: () => any; }; }) => item.id.toNumber());
-            
-            // console.log("Regular IDs:", regularIdsNumbers);
-            // console.log("Repurchase IDs:", repurchaseIdsNumbers);
-           
-        
-        postPlanetBuyInfo(user,planetId,transactionHash,universeCount-1,regularIdsNumbers,repurchaseIdsNumbers);
-              
-    } catch (error) {
-        console.log("Something went wrong in getPlanetDataSC", error);
-    }
-};
 
 
   const getCurrentPlanetStatus = async () => {
@@ -293,47 +200,178 @@ useEffect(() => {
     }
   };
 
-  const approveUSDTRe = async () => {
+
+
+  const getUpline = async (userAdr:string) =>{
     try {
-      alert(
-        "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
-      );
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);;
-      const getFeeTokenAddress = await clubAMainContract!.getFeeToken();
-      console.log("USDT TOken address", getFeeTokenAddress);
-      const secondInstance = new ethers.Contract(
-        getFeeTokenAddress,
-        USDTToken,
-        signer
-      );
-      const approveAmt = await secondInstance.balanceOf(userAddress);
-      console.log("Approve", approveAmt);
-      const approve = await secondInstance.approve(
-        clubAMainContract!.address,
-        approveAmt
-      );
-      await approve.wait();
-      console.log(approve);
-      setApproveRe(true);
-      setIsButtonVisible(false);
+      const planetUpSC = new ethers.Contract(PlanetUpgrade_Address,PlanetUpABI , signer);
+      const myContract = planetUpSC;
+      
+
+      const uplineAddress = await myContract!.RegisterUserDetails(userAdr);
+
+
+      const formattedResponse = {
+        upline: uplineAddress.regReferal,
+      };
+
+      console.log("formatted response",formattedResponse.upline)
+      let uplineAdr = formattedResponse.upline;
+
+      return uplineAdr;
+
     } catch (error) {
-      console.log(error);
+      console.log("something went wrong in getUpline",error)
+    }
+
+  }
+
+  const isGenerationHasSpace = async (uplineAdr:string) =>{
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+  
+      const uplineInfo = await clubAMainContract.InternalGenStr(uplineAdr);
+  
+      const formattedResponse = {
+        leftAdr: uplineInfo.left,
+        middleAdr: uplineInfo.middle,
+        rightAdr: uplineInfo.right,
+        leftid: ethers.BigNumber.from(uplineInfo.leftid).toNumber(),
+        middleid: ethers.BigNumber.from(uplineInfo.middleid).toNumber(),
+        rightid: ethers.BigNumber.from(uplineInfo.rightid).toNumber(),
+      };
+  
+      const hasSpace = (
+        formattedResponse.leftid === 0 ||
+        formattedResponse.middleid === 0 ||
+        formattedResponse.rightid === 0
+      );
+  
+      return {
+        hasSpace,
+        leftAdr: formattedResponse.leftAdr,
+        middleAdr: formattedResponse.middleAdr,
+        rightAdr: formattedResponse.rightAdr,
+      };
+    } catch (error) {
+      console.error('Something went wrong in isGenerationHasSpace:', error);
+      // Return a default object in case of an error, indicating there's no space
+      return {
+        hasSpace: false,
+        leftAdr: null,
+        middleAdr: null,
+        rightAdr: null,
+      };
+    }
+  }
+
+
+
+  const findSpace = async (startAddress: any) => {
+    const queue = [startAddress]; // Initialize a queue with the starting address
+  
+    while (queue.length > 0) {
+      // Dequeue the first item
+      const currentAddress = queue.shift();
+  
+      // Check if the current node has space
+      const data = await isGenerationHasSpace(currentAddress);
+  
+      // If it has space, return the current address
+      if (data.hasSpace) {
+        return currentAddress;
+      }
+  
+      // If no space, add the child nodes to the queue (left, middle, right)
+      const { leftAdr, middleAdr, rightAdr } = data;
+  
+      if (leftAdr) {
+        queue.push(leftAdr);
+      }
+      if (middleAdr) {
+        queue.push(middleAdr);
+      }
+      if (rightAdr) {
+        queue.push(rightAdr);
+      }
+    }
+  
+    // If no space found, return null
+    return null;
+  };
+
+
+  const findUpline = async (referralAddress: string): Promise<string | undefined> => {
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      
+      console.log("referral address", referralAddress);
+      const data = await clubAMainContract!.GetGenerationDirectSponser(referralAddress);
+      let sponserAddress = data[0];
+      let hasBoughtPlanet = data[1];
+      
+      console.log("has boughtplanet", hasBoughtPlanet);
+  
+      if (sponserAddress === "0x241B51ad84b5a38695dC5204cA38D00Aee1D1817" || hasBoughtPlanet) {
+        console.log("sponser address", sponserAddress);
+        return sponserAddress;
+      } else {
+        return await findUpline(sponserAddress);
+      }
+    } catch (error) {
+      console.log("something went wrong in findUpline address", error);
+      return undefined;
     }
   };
+
+  const fetchEventDataFromTransaction = async (transactionHash:any) => {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
+      const receipt = await provider.getTransactionReceipt(transactionHash);
+      console.log("receipt ",receipt)
+      let receiverAddress = ""
+  
+      if (receipt && receipt.logs) {
+        const iface = new ethers.utils.Interface(ClubA_ABI);
+  
+        receipt.logs.forEach((log) => {
+          try {
+            const parsedLog = iface.parseLog(log);
+            if (parsedLog.name === 'WorkingGenerationDist') {
+              console.log('WorkingGenerationDist Event data:', parsedLog.args);
+              receiverAddress = parsedLog.args.to;
+            } else if (parsedLog.name === 'WorkingGenerationEnergyDist') {
+              console.log('WorkingGenerationEnergyDist Event data:', parsedLog.args);
+            }
+
+          } catch (error) {
+            // Log might not belong to the contract or could not be parsed, ignore it
+          }
+        });
+      }
+
+      console.log("to address",receiverAddress)
+
+      return receiverAddress;
+    } catch (error) {
+      console.error('Error fetching event data from transaction:', error);
+    }
+  };
+  
+
 
   const buyPlanetUser = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
       const signer = provider.getSigner();
       const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const myContract = clubAMainContract;
-      
-
-
-
-
+  
       const planetById =
         PlanetName === "Earth"
           ? "1"
@@ -356,101 +394,90 @@ useEffect(() => {
           : PlanetName === "Pluto"
           ? "10"
           : "null";
-      console.log(planetById);
-   
-      const buyPlanet = await myContract!.buyPlannet(); // No arguments passed
+  
 
+
+      //we have to check wheather upline has bought planet or not
+      const isPlanetBuyBySponsor = await clubAMainContract!.GetGenerationDirectSponser(userAddress);
+
+      let directSponser = isPlanetBuyBySponsor[0];
+      console.log("first direct sponser",directSponser)
+      const isBuy = isPlanetBuyBySponsor[1];
+
+      let referrerAddress;
+
+      if(!isBuy){
+      console.log("is buy false",isBuy)
+        
+       //find new upline for this user
+       referrerAddress =  await findUpline(directSponser)
+       console.log("from findUpline function i got this referrer address",referrerAddress)
+      }
+      else{
+        referrerAddress = directSponser;
+      }
+
+
+      console.log("is GetGenerationDirectSponsor",isPlanetBuyBySponsor[1])
+      
+  
+      let buyPlanet;
+  
+      if (planetById === "1") {
+        // Find a space in the hierarchy
+        const spaceAddress = await findSpace(referrerAddress);
+        console.log("space address",spaceAddress)
+  
+        if (spaceAddress) {
+          console.log("space address",spaceAddress)
+          buyPlanet = await clubAMainContract!.buyPlannet_FirstPackage(spaceAddress);
+        } else {
+          throw new Error("No space available for new registration.");
+        }
+      } else {
+        buyPlanet = await clubAMainContract!.buyPlannet(); // For other packages
+      }
+  
       await buyPlanet.wait();
-      console.log(buyPlanet);
-      const transactionHash = buyPlanet.hash;
+      const transactionReceipt = buyPlanet.hash;
+      const transactionHash = transactionReceipt;
 
-      console.log(`Transaction hash: ${transactionHash}`);
-      // getPlanet(planetId,transactionHash);
       setPlanetBuy(true);
       setIsButtonVisible(false);
+  
+       referrerAddress = await fetchEventDataFromTransaction(transactionHash);
 
-       getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
-      // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
-      alert(
-        `Planet Buy Successfully! 🚀 To See Changes On Website. Don't Refresh Screen.`
-      );
-      // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
+      postPlanetBuyInfo(userAddress!,Number(planetById),transactionReceipt,referrerAddress!)
+  
+  
+      alert(`Planet Buy Successfully! 🚀 To See Changes On Website. Don't Refresh Screen.`);
     } catch (error) {
-      console.log(error);
+      console.error("Error in buyPlanetUser:", error);
     }
   };
 
-  const buyPlanetUserRe = async () => {
-    try {
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
-      const myContract = clubAMainContract;
 
-      const planetById =
-        PlanetName === "Earth"
-          ? "1"
-          : PlanetName === "Moon"
-          ? "2"
-          : PlanetName === "Mars"
-          ? "3"
-          : PlanetName === "Mercury"
-          ? "4"
-          : PlanetName === "Venus"
-          ? "5"
-          : PlanetName === "Jupiter"
-          ? "6"
-          : PlanetName === "Saturn"
-          ? "7"
-          : PlanetName === "Uranus"
-          ? "8"
-          : PlanetName === "Neptune"
-          ? "9"
-          : PlanetName === "Pluto"
-          ? "10"
-          : "null";
-      console.log(planetById);
-      const buyPlanet = await myContract!.rePurchasePackage(planetById,userAddress); // No arguments passed
+  
+ 
 
-      await buyPlanet.wait();
-      console.log(buyPlanet);
-      const transactionHash = buyPlanet.hash;
 
-      console.log(`Transaction hash: ${transactionHash}`);
-      // getPlanet(planetId,transactionHash);
-      setPlanetBuyRe(true);
-      setIsButtonVisible(false);
-      getPlanetDataSC(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
-      // postPlanetBuyInfo(userAddress?.toLowerCase()!,Number(planetById),transactionHash)
-      alert(
-        `Planet Buy Successfully! 🚀 To See Changes On Website. Please Don't Refresh Screen.`
-      );
-      // setPlanetBuyStatus((prevStatus) => ({ ...prevStatus, [planetId]: true }));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+  const handleCloseModal = () => {
+    // Function to close the modal
+    setIsModalVisible(false);
+    setPlanetBuy(false); // Reset planetBuy if needed
+   };
+
+
 
   useEffect(() => {
     getCurrentPlanetStatus();
     setIsButtonVisible(true);
-    getUserPlanetBuyTime(PlanetName)
+    setIsModalVisible(true);
 
   }, [highestPlanetBought, planetBuy]);
 
-  useEffect(() => {
-    let timer: string | number | NodeJS.Timeout | undefined;
-    // Watch for changes in planetBuy or planetBuyRe
-    if (planetBuy || planetBuyRe) {
-      // Set a timeout to refresh the page after 4-5 seconds
-      timer = setTimeout(() => {
-        window.location.reload();
-      }, 6000); // Adjust the delay as needed
-    }
-  
-    // Clean up the timer to avoid memory leaks
-    return () => clearTimeout(timer);
-  }, [planetBuy, planetBuyRe]);
+
   
 
   return (
@@ -656,22 +683,22 @@ useEffect(() => {
 
       { 
          getPlanetId(PlanetName)! <= highestPlanetBought?(timerDisplay === "00:00:00" ? (
-          isApproveRe?(<button className="absolute top-[105%] left-[10%] bg-blue-500 py-0.5 w-3/4 mx-1 rounded-lg" onClick={()=>{buyPlanetUserRe()}} >
+          isApproveRe?(<button className="absolute top-[105%] left-[10%] bg-blue-500 py-0.5 w-3/4 mx-1 rounded-lg"  >
           Re-Purchase
         </button>):( <button className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg" onClick={() => {
-           approveUSDTRe();
+
          }}>
           Approve
         </button>)
    ) : (
-     <button className="absolute top-[105%] left-[10%] bg-yellow-500 py-0.5 w-3/4 mx-1 rounded-lg">
-       Repurchase In: {timerDisplay}
-     </button>
+     ''
    )):('')
 
 
 
        }
+
+
       
 
     </div> )}

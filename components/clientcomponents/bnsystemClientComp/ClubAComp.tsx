@@ -41,12 +41,8 @@ const ClubAComp = ({
 
   useEffect(() => {
     // Calculate the progress value based on globalCount
-    if (globalCount === 1) {
-      setValue(33.33);
-    } else if (globalCount === 2) {
-      setValue(66.66);
-    } else if (globalCount === 3) {
-      setValue(100);
+    if (globalCount >= 1 && globalCount <= 12) {
+      setValue(globalCount * 8.33);
     } else {
       setValue(0);
     }
@@ -79,7 +75,7 @@ const ClubAComp = ({
       <div className="py-3 px-2 relative">
         <Progress value={value} />
         <div className={`absolute top-1 right-[1%] bg-black rounded-xl p-1 text-xs`}>
-          {value}%
+          {Number(value).toFixed(2)}%
         </div>
       </div>
     </div>

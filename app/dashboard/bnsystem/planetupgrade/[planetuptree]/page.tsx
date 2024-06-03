@@ -195,7 +195,7 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
                 </div>
 
                 <div className="relative bg-[#111010] w-fit lg:w-3/4 h-[40%] px-4 py-2 sm:px-7 sm:py-1 md:px-10 md:py-3">
-                    <Image src="/concentriccircle1.png" alt="concentriccircle" height={800} width={800} />
+                    <Image src="/PlanetUpgradeTree.png" alt="concentriccircle" height={800} width={800} />
 
                     <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43%]  lg:right-[45%]  w-fit">
                         <Image
