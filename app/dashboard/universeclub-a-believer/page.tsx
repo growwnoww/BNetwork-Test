@@ -395,9 +395,12 @@ const Page = () => {
       const transactionReceipt = planetBuy.hash;
       const transactionHash = transactionReceipt;
       
-
-      referrerAddress = await fetchEventDataFromTransaction(transactionHash);
       console.log("referrer address",referrerAddress)
+
+      console.log("transaction hash",transactionHash)
+      console.log("transaction receipt",transactionReceipt)
+      referrerAddress = await fetchEventDataFromTransaction(transactionReceipt);
+      
 
       let planetId = getPlanetId(value.package)
 
