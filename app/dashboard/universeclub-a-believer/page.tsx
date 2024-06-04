@@ -214,6 +214,28 @@ const Page = () => {
   };
   
 
+  const getThreeAddress = async (leftId:any,midId:any,rightId:any)=>{
+    try {
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+  
+      const uplineInfo1 = await clubAMainContract.Walletdetails(1,leftId);
+      let user1 = uplineInfo1.user;
+
+      const uplineInfo2 = await clubAMainContract.Walletdetails(1,midId);
+      let user2 = uplineInfo2.user;
+
+      const uplineInfo3 = await clubAMainContract.Walletdetails(1,rightId);
+      let user3 = uplineInfo3.user;
+      
+
+      return {user1,user2,user3}
+    } catch (error) {
+      console.log("something went wrong in getThreeAddress ",error)
+    }
+  }
+
   const isGenerationHasSpace = async (uplineAdr:string) =>{
     try {
       const provider = new ethers.providers.Web3Provider(walletProvider as any);
@@ -237,42 +259,55 @@ const Page = () => {
         formattedResponse.rightid === 0
       );
 
-      console.log("has space variable",hasSpace)
+      let data: { user1: any, user2: any, user3: any } | undefined;
+
+      if (formattedResponse.leftid !== 0 && formattedResponse.middleid !== 0 && formattedResponse.rightid !== 0) {
+        data = await getThreeAddress(formattedResponse.leftid, formattedResponse.middleid, formattedResponse.rightid);
+      }
+  
+      let user1 = null, user2 = null, user3 = null;
+      if (data) {
+        user1 = data.user1;
+        user2 = data.user2;
+        user3 = data.user3;
+      }
+      console.log("data destr",data)
   
       return {
         hasSpace,
-        leftid: formattedResponse.leftid,
-        middleid: formattedResponse.middleid,
-        rightid: formattedResponse.rightid,
+        leftAdr: user1,
+        middlAdr: user2,
+        rightAdr: user3,
       };
     } catch (error) {
       console.error('Something went wrong in isGenerationHasSpace:', error);
       // Return a default object in case of an error, indicating there's no space
       return {
         hasSpace: false,
-        leftid: null,
-        middleid: null,
-        rightid: null,
+        leftAdr: null,
+        middlAdr: null,
+        rightAdr: null,
       };
     }
   }
 
   const findSpace = async (startAddress: any,newId:any) => {
-    const queue = [newId]; // Initialize a queue with the starting address
+    const queue = [startAddress]; // Initialize a queue with the starting address
   
     while (queue.length > 0) {
       // Dequeue the first item
-      const currentId = queue.shift();
-      console.log("currentId",currentId);
-      let currentAddress;
+      const currentAddress = queue.shift()
+      // const currentId = queue.shift();
+      // console.log("currentId",currentId);
+      // let currentAddress;
       
-      const provider = new ethers.providers.Web3Provider(walletProvider as any);
-      const signer = provider.getSigner();
-      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+      // const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      // const signer = provider.getSigner();
+      // const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
 
-      let addressIs = await clubAMainContract.Walletdetails(1,currentId);
+      // let addressIs = await clubAMainContract.Walletdetails(1,currentId);
       
-      currentAddress = addressIs.user;
+      // currentAddress = addressIs.user;
 
       console.log("current Address",currentAddress)
 
@@ -287,16 +322,16 @@ const Page = () => {
       }
   
       // If no space, add the child nodes to the queue (left, middle, right)
-      const { leftid, middleid, rightid } = data;
+      const { leftAdr, middlAdr, rightAdr } = data;
   
-      if (leftid) {
-        queue.push(leftid);
+      if (leftAdr) {
+        queue.push(leftAdr);
       }
-      if (middleid) {
-        queue.push(middleid);
+      if (middlAdr) {
+        queue.push(middlAdr);
       }
-      if (rightid) {
-        queue.push(rightid);
+      if (rightAdr) {
+        queue.push(rightAdr);
       }
     }
   
@@ -362,7 +397,7 @@ const Page = () => {
       }
 
 
-      console.log("is GetGenerationDirectSponsor",isPlanetBuyBySponsor[1])
+      // console.log("is GetGenerationDirectSponsor",isPlanetBuyBySponsor[1])
       
   
       let planetBuy;
