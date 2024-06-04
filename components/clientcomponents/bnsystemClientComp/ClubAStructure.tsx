@@ -441,11 +441,13 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
       await buyPlanet.wait();
       const transactionReceipt = buyPlanet.hash;
       const transactionHash = transactionReceipt;
+      console.log("transaction hash",transactionHash)
+      console.log("transaction receipt",transactionReceipt)
 
       setPlanetBuy(true);
       setIsButtonVisible(false);
   
-       referrerAddress = await fetchEventDataFromTransaction(transactionHash);
+       referrerAddress = await fetchEventDataFromTransaction(transactionReceipt);
 
       postPlanetBuyInfo(userAddress!,Number(planetById),transactionReceipt,referrerAddress!)
   
