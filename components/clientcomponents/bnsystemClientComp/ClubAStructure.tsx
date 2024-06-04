@@ -332,7 +332,7 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
 
   const fetchEventDataFromTransaction = async (transactionHash:any) => {
     try {
-      const provider = new ethers.providers.JsonRpcProvider('https://data-seed-prebsc-1-s1.binance.org:8545');
+      const provider = new ethers.providers.JsonRpcProvider('https://bsc-dataseed.binance.org/');
       const receipt = await provider.getTransactionReceipt(transactionHash);
       console.log("receipt ",receipt)
       let receiverAddress = ""
