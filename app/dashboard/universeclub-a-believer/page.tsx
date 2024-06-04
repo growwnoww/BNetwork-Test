@@ -372,7 +372,7 @@ const Page = () => {
         signer
       );
       const myContract = clubAMainContract;
-     console.log("new code updated")
+     console.log("new code updated 1")
 
       const isPlanetBuyBySponsor = await myContract!.GetGenerationDirectSponser(value.beliverAddress);
 
