@@ -195,8 +195,6 @@ const Page = () => {
             if (parsedLog.name === 'WorkingGenerationDist') {
               console.log('WorkingGenerationDist Event data:', parsedLog.args);
               receiverAddress = parsedLog.args.to;
-            } else if (parsedLog.name === 'WorkingGenerationEnergyDist') {
-              console.log('WorkingGenerationEnergyDist Event data:', parsedLog.args);
             }
 
           } catch (error) {
