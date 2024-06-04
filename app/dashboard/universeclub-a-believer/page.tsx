@@ -84,7 +84,7 @@ const Page = () => {
             Uranus: 8,
             Neptune: 9,
             Pluto: 10,
-        };
+        }; 
 
     return planetNames[planetName];
   };
@@ -236,31 +236,47 @@ const Page = () => {
         formattedResponse.middleid === 0 ||
         formattedResponse.rightid === 0
       );
+
+      console.log("has space variable",hasSpace)
   
       return {
         hasSpace,
-        leftAdr: formattedResponse.leftAdr,
-        middleAdr: formattedResponse.middleAdr,
-        rightAdr: formattedResponse.rightAdr,
+        leftid: formattedResponse.leftid,
+        middleid: formattedResponse.middleid,
+        rightid: formattedResponse.rightid,
       };
     } catch (error) {
       console.error('Something went wrong in isGenerationHasSpace:', error);
       // Return a default object in case of an error, indicating there's no space
       return {
         hasSpace: false,
-        leftAdr: null,
-        middleAdr: null,
-        rightAdr: null,
+        leftid: null,
+        middleid: null,
+        rightid: null,
       };
     }
   }
 
-  const findSpace = async (startAddress: any) => {
-    const queue = [startAddress]; // Initialize a queue with the starting address
+  const findSpace = async (startAddress: any,newId:any) => {
+    const queue = [newId]; // Initialize a queue with the starting address
   
     while (queue.length > 0) {
       // Dequeue the first item
-      const currentAddress = queue.shift();
+      const currentId = queue.shift();
+      console.log("currentId",currentId);
+      let currentAddress;
+      
+      const provider = new ethers.providers.Web3Provider(walletProvider as any);
+      const signer = provider.getSigner();
+      const clubAMainContract = new ethers.Contract(clubA_Address, ClubA_ABI, signer);
+
+      let addressIs = await clubAMainContract.Walletdetails(1,currentId);
+      
+      currentAddress = addressIs.user;
+
+      console.log("current Address",currentAddress)
+
+
   
       // Check if the current node has space
       const data = await isGenerationHasSpace(currentAddress);
@@ -271,16 +287,16 @@ const Page = () => {
       }
   
       // If no space, add the child nodes to the queue (left, middle, right)
-      const { leftAdr, middleAdr, rightAdr } = data;
+      const { leftid, middleid, rightid } = data;
   
-      if (leftAdr) {
-        queue.push(leftAdr);
+      if (leftid) {
+        queue.push(leftid);
       }
-      if (middleAdr) {
-        queue.push(middleAdr);
+      if (middleid) {
+        queue.push(middleid);
       }
-      if (rightAdr) {
-        queue.push(rightAdr);
+      if (rightid) {
+        queue.push(rightid);
       }
     }
   
@@ -337,6 +353,7 @@ const Page = () => {
       console.log("is buy false",isBuy)
         
        //find new upline for this user
+       
        referrerAddress =  await findUpline(directSponser)
        console.log("from findUpline function i got this referrer address",referrerAddress)
       }
@@ -351,9 +368,13 @@ const Page = () => {
       let planetBuy;
 
       if(value.package === "Earth"){
+
+       let newIdis = await clubAMainContract.MatrixDetails(1);
+       let newId = ethers.BigNumber.from(newIdis.universalslot).toNumber()
+
         
         
-        const spaceAddress = await findSpace(referrerAddress);
+        const spaceAddress = await findSpace(referrerAddress,newId-1);
         console.log("space address",spaceAddress)
   
         if (spaceAddress) {
