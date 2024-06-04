@@ -439,7 +439,7 @@ const Page = () => {
 
       let planetId = getPlanetId(value.package)
 
-      postPlanetBuyInfo(userAddress!,Number(planetId),transactionReceipt,referrerAddress!)
+      postPlanetBuyInfo(value.beliverAddress,Number(planetId),transactionReceipt,referrerAddress!)
   
   
 
