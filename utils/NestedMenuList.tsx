@@ -159,7 +159,12 @@ const NestedMenuList: NestedMenuType[] = [
       },
       {
         title: "Club A Working Earnings",
-        path: "/dashboard/clubAtierearn",
+        path: "/dashboard/clubAworkingtable",
+        icon: <IoMdArrowDropright />,
+      },
+      {
+        title: "Club A Working Tree",
+        path: "/dashboard/clubAUpgradeTree",
         icon: <IoMdArrowDropright />,
       },
       

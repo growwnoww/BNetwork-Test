@@ -47,20 +47,23 @@ const ClubALanuchBanner = () => {
   if (!isVisible) return null; // Don't render the component if isVisible is false
 
   return (
-    <div className="absolute top-[30%] -right-[1%] z-30 w-full flex items-center justify-center">
+    <div className="absolute top-[12%] -right-[1%] z-30 w-full flex items-center justify-center">
       <div className='relative z-20'>
         <div className='z-50 cursor-pointer absolute top-1 right-1'>
-          <IoMdClose className='cursor-pointer z-50 text-white text-4xl font-bold' onClick={handleClose}>close</IoMdClose>
+          <IoMdClose className='cursor-pointer z-50 text-black text-4xl font-bold' onClick={handleClose}>close</IoMdClose>
         </div>
-        <div className='relative z-10'>
-          <Image
-            src="/ClubABannerNew.jpg"
-            alt="banner"
-            height={700}
-            width={700}
-          />
+        <div className='relative z-10' >
+             <video
+                autoPlay
+                muted
+                height={900}
+                width={900}
+                className=''
+                >
+                <source src="/CosmosLogo.mp4"  type="video/mp4" height={300} width={300}/>
+                </video>
           <div className='absolute z-30 bottom-[29%] translate-x-[12%] md:translate-x-8'>
-            <div className='text-lg text-black font-bold px-1 lg:text-3xl'>{formatTime(timeRemaining)}</div>
+            {/* <div className='text-lg text-black font-bold px-1 lg:text-3xl'>{formatTime(timeRemaining)}</div> */}
           </div>
         </div>
       </div>

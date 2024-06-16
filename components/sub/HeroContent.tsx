@@ -67,7 +67,7 @@ const HeroContent = () => {
                 
             </div>
 
-            {/* <ClubALanuchBanner/> */}
+            <ClubALanuchBanner/>
 
             
         </div>

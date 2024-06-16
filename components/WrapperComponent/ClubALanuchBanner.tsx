@@ -51,10 +51,16 @@ const ClubALanuchBanner = () => {
                 <div className="z-50 cursor-pointer absolute top-1 left-1">
                     <IoMdClose className="cursor-pointer z-50 text-black text-4xl font-bold" onClick={handleClose}>
                         close
+
                     </IoMdClose>
                 </div>
-                <div className="relative z-10">
-                    <Image src="/ClubA_Banner.jpg" alt="banner" height={500} width={500} />
+                <div className="relative z-10"> 
+                <video
+                muted
+                autoPlay
+                >
+                <source src="/CosmosLogo.mp4"  type="video/mp4" />
+                </video>
                     <div className="absolute z-30 bottom-[4%] translate-x-[90%] md:translate-x-44">
                         <div className="text-lg text-white font-bold px-1 lg:text-xl">{formatTime(timeRemaining)}</div>
                     </div>

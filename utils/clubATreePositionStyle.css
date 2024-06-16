@@ -1,8 +1,8 @@
 /* Default styles */
 
 .img-responsive1 {
-    height: 50px;
-    width: 50px;
+    height: 30px;
+    width: 30px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
