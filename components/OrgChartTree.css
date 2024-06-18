@@ -1,0 +1,11 @@
+.org-chart-container {
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  border: 2px solid white; /* Customize border style here */
+}
+
+.tree-svg {
+  background-color: white; /* Customize background color of SVG here */
+  border: 1px solid white; /* Border color customization */
+}
