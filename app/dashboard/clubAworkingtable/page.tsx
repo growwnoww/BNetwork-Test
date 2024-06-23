@@ -15,7 +15,7 @@ import { SelectLevel } from "@/utils/SelectLevel";
 
 interface DierctEarningType {
   fromBNId: string;
-  referralAddress: string;
+  reg_user_address: string;
   time: string;
   amount: Number;
   planetName: string;
@@ -56,14 +56,7 @@ const Page = () => {
     }));
   };
 
-  const handleSort = (column: string) => {
-    if (sortBy === column) {
-      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
-    } else {
-      setSortBy(column);
-      setSortOrder("asc");
-    }
-  };
+
 
   const [value, setValue] = useState({
     entries: "10",
@@ -224,9 +217,7 @@ const Page = () => {
                       <TableHead scope="col" className="px-5 lg:px-0 py-5 text-center">
                         Planet
                       </TableHead>
-                      <TableHead scope="col" className="px-5 lg:px-0 py-5 text-center">
-                        From Id
-                      </TableHead>
+                     
                       <TableHead scope="col" className="py-3 text-center tracking-wider">
                         Date & Time
                       </TableHead>
@@ -293,9 +284,7 @@ const Page = () => {
                       <TableHead scope="col" className="px-5 lg:px-0 py-5 text-center">
                         Planet
                       </TableHead>
-                      <TableHead scope="col" className="px-5 lg:px-0 py-5 text-center">
-                        From Id
-                      </TableHead>
+                     
                       <TableHead scope="col" className="py-3 text-center tracking-wider">
                         Date & Time
                       </TableHead>
@@ -327,9 +316,7 @@ const Page = () => {
                             alt="Avatar"
                           />
                         </TableCell>
-                        <TableCell className="py-2 whitespace-nowrap text-[10px] lg:text-sm font-medium">
-                          {user.fromBNId}
-                        </TableCell>
+                        
                         <TableCell className="py-2 whitespace-nowrap">
                           {new Date(user.time).toLocaleString()}
                         </TableCell>
@@ -355,7 +342,7 @@ const Page = () => {
                             <div className="w-full  flex flex-col    gap-x-5 gap-y-1  p-4 text-md">
                               <div className="flex gap-x-2">
                                 <p className="w-fit ">
-                                  referralAddress: {user.referralAddress}
+                                  believer_address: {user.reg_user_address}
                                 </p>
                                 <div className="flex items-center gap-x-2 ">
                                   <FaRegCopy className="cursor-pointer hover:bg-slate-600 p-1 rounded-full text-2xl" />

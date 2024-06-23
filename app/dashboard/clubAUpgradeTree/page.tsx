@@ -165,6 +165,7 @@ const OrgChartTree = () => {
 
         if (response.data) {
           const transformedData = transformData(response.data.users);
+          console.log("tranformed data",response.data.users)
           setTreeData(transformedData);
           getUpline(); // Fetch upline after fetching tree data
         }
@@ -186,50 +187,61 @@ const OrgChartTree = () => {
           name: `Address: ${trimAddress(address!)}`,
           fullAddress: address,
           planetName: "Earth",
-          generation: 1,
+          generation: 1, // Set root's generation to 1
           children: [],
         },
       ],
     };
-
-    const nodesMap: { [key: number]: any } = {};
-
+  
+    const nodesMap: { [key: number]: any } = {
+      0: root.children[0], // Root's child is the user's address
+    };
+  
     users.forEach((user, index) => {
       const { reg_user_address, planetName } = user;
+      let generation;
+      if (index === 0) {
+        generation = 1; // Set generation for the first child
+      } else {
+        generation = Math.floor(Math.log((index + 2) * 2) / Math.log(3)); // Adjusted generation logic for subsequent nodes
+      }
       const node = {
         name: `${planetName} ${trimAddress(reg_user_address)}`,
         fullAddress: reg_user_address,
         planetName: planetName,
-        generation: Math.floor(Math.log2(index + 1)) + 1,
+        generation: generation,
         children: [],
       };
-
+  
       nodesMap[index + 1] = node; // Use index + 1 as position
     });
-
+  
     Object.keys(nodesMap).forEach((position) => {
       const pos = parseInt(position);
-
-      if (pos === 1) {
-        // Ensure root node has up to 3 children
-        if (root.children[0].children.length < 3) {
-          //@ts-ignore
-          root.children[0].children.push(nodesMap[pos]);
-        }
-      } else {
-        const parentPos = Math.floor((pos - 2) / 3) + 1;
-        if (nodesMap[parentPos]) {
-          // Ensure each node has up to 3 children
-          if (nodesMap[parentPos].children.length < 3) {
-            nodesMap[parentPos].children.push(nodesMap[pos]);
-          }
+  
+      if (pos === 0) {
+        // Root's direct children (address node) already added
+        return;
+      }
+  
+      const parentPos = Math.floor((pos - 1) / 3); // Calculate parent position
+      if (nodesMap[parentPos]) {
+        // Ensure each node has up to 3 children
+        if (nodesMap[parentPos].children.length < 3) {
+          nodesMap[parentPos].children.push(nodesMap[pos]);
         }
       }
     });
-
+  
     return root;
   };
-
+  
+  
+  
+  
+  
+  
+  
   return (
     <div className="org-chart-container">
       {treeData && (
