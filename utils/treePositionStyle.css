@@ -1,8 +1,8 @@
 /* Default styles */
 
 .img-responsive1 {
-    height: 50px;
-    width: 50px;
+    height:45px;
+    width: 45px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
@@ -25,8 +25,8 @@
 
 
 .img-responsive {
-    height: 34px;
-    width: 34px;
+    height: 30px;
+    width: 30px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
@@ -47,8 +47,8 @@
 }
 
 .img-responsiveM{
-    height: 38px;
-    width: 38px;
+    height: 35px;
+    width: 35px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
@@ -69,8 +69,8 @@
 }
 
 .img-responsive2 {
-    height: 27px;
-    width: 27px;
+    height: 20px;
+    width: 20px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;
@@ -93,8 +93,8 @@
 
 
 .img-responsiveTw {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
     border: 2px solid #71717A; /* equivalent to border-zinc-600 */
     padding: 2px;
     background-color: black;

@@ -22,11 +22,11 @@ interface treePositionType {
 export const treePositionData: treePositionType[] = [
   {
     divStyle: "absolute top-[32%] right-[47%]  w-fit",
-    top: "32%",
-    right: "46.5%",
+    top: "34%",
+    right: "47.5%",
     imgStyle: "img-responsive1",
-    imgHeight: 30,
-    imgWidth: 30,
+    imgHeight: 25,
+    imgWidth: 255,
     emptyHeight: 37,
     emptyWidth: 37,
     svgHeight: "38px",
@@ -36,8 +36,8 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute bottom-[32%] right-[54%]  w-fit",
-    bottom: "33%",
-    right: "46.5%",
+    bottom: "34%",
+    right: "47.5%",
     imgStyle: "img-responsive1",
     imgHeight: 30,
     imgWidth: 30,
@@ -53,8 +53,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute ",
-    top: "29%",
-    left: "34%",
+    top: "34%",
+    left: "38%",
     imgStyle: "img-responsiveTw",
     imgHeight: 27,
     imgWidth: 27,
@@ -68,8 +68,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute ",
-    top: "29%",
-    right: "34%",
+    top: "34%",
+    right: "38%",
     imgStyle: "img-responsiveTw",
     imgHeight: 27,
     imgWidth: 27,
@@ -83,8 +83,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[29%] left-[33%] ",
-    bottom: "29%",
-    left: "33%",
+    bottom: "33%",
+    left: "38%",
     imgStyle: "img-responsiveTw",
     imgHeight: 27,
     imgWidth: 27,
@@ -98,8 +98,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[29%] right-[34%]",
-    bottom: "29%",
-    right: "34%",
+    bottom: "33%",
+    right: "38%",
     imgStyle: "img-responsiveTw",
     imgHeight: 27,
     imgWidth: 27,
@@ -114,8 +114,8 @@ export const treePositionData: treePositionType[] = [
   // level3
   {
     divStyle: "absolute top-[34%] left-[19%] ",
-    top: "34%",
-    left: "21%",
+    top: "38%",
+    left: "31%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -129,8 +129,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[18%] left-[37%]",
-    top: "18%",
-    left: "37%",
+    top: "25%",
+    left: "41%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -143,8 +143,8 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute top-[18%] right-[37%]",
-    top: "18%",
-    right: "37%",
+    top: "25%",
+    right: "41%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -158,8 +158,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[34%] right-[20%] ",
-    top: "34%",
-    right: "22%",
+    top: "38%",
+    right: "31%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -173,8 +173,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[35%] left-[19%] ",
-    bottom: "35%",
-    left: "21%",
+    bottom: "38%",
+    left: "31%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -188,8 +188,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[19%] left-[37%]",
-    bottom: "19%",
-    left: "37%",
+    bottom: "25%",
+    left: "41%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -202,8 +202,8 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute bottom-[19%] right-[37%]",
-    bottom: "19%",
-    right: "37%",
+    bottom: "25%",
+    right: "41%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -217,8 +217,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[35%] right-[19%] ",
-    bottom: "35%",
-    right: "22%",
+    bottom: "38%",
+    right: "31%",
     imgStyle: "img-responsiveM",
     imgHeight: 25,
     imgWidth: 25,
@@ -234,8 +234,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[39%] left-[9%]",
-    top: "39%",
-    left: "12.4%",
+    top: "41%",
+    left: "26.4%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -249,8 +249,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[25%] left-[15%] ",
-    top: "25%",
-    left: "18%",
+    top: "30%",
+    left: "29.5%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -263,8 +263,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[15%] left-[25%]",
-    top: "15%",
-    left: "27%",
+    top: "22%",
+    left: "36%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -278,8 +278,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[9%] left-[41%]  ",
-    top: "9%",
-    left: "41%",
+    top: "17%",
+    left: "44%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -290,10 +290,11 @@ export const treePositionData: treePositionType[] = [
     mobilesvgHeight: "9px",
     mobilesvgWidth: "17px",
   },
+
   {
     divStyle: "absolute top-[9%] right-[41%] ",
-    top: "9%",
-    right: "41%",
+    top: "17%",
+    right: "44%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -307,8 +308,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[15%] right-[27%]",
-    top: "15%",
-    right: "28%",
+    top: "22%",
+    right: "36%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -322,8 +323,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[25%] right-[16%] ",
-    top: "25%",
-    right: "18%",
+    top: "31%",
+    right: "30%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -337,8 +338,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[38%] right-[10%]",
-    top: "39%",
-    right: "13%",
+    top: "41%",
+    right: "27%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -353,7 +354,7 @@ export const treePositionData: treePositionType[] = [
   {
     divStyle: "absolute bottom-[39%] left-[9%]",
     bottom: "41%",
-    left: "12%",
+    left: "26.4%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -366,8 +367,40 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute bottom-[25%] left-[15%] ",
-    bottom: "26%",
-    left: "18%",
+    bottom: "30%",
+    left: "29.5%",
+    imgStyle: "img-responsive",
+    imgHeight: 25,
+    imgWidth: 25,
+    emptyHeight: 18,
+    emptyWidth: 18,
+    svgHeight: "22px",
+    svgWidth: "29px",
+    mobilesvgHeight: "9px",
+    mobilesvgWidth: "17px",
+  },
+
+
+
+  {
+    divStyle: "absolute bottom-[9%] left-[41%]",
+    bottom: "22%",
+    left: "36%",
+    imgStyle: "img-responsive",
+    imgHeight: 25,
+    imgWidth: 25,
+    emptyHeight: 18,
+    emptyWidth: 18,
+    svgHeight: "22px",
+    svgWidth: "29px",
+    mobilesvgHeight: "9px",
+    mobilesvgWidth: "17px",
+  },
+
+  {
+    divStyle: "absolute bottom-[9%] right-[41%]  ",
+    bottom: "17%",
+    left: "44%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -382,37 +415,7 @@ export const treePositionData: treePositionType[] = [
   {
     divStyle: "absolute bottom-[16%] left-[25%] ",
     bottom: "17%",
-    left: "27%",
-    imgStyle: "img-responsive",
-    imgHeight: 25,
-    imgWidth: 25,
-    emptyHeight: 18,
-    emptyWidth: 18,
-    svgHeight: "22px",
-    svgWidth: "29px",
-    mobilesvgHeight: "9px",
-    mobilesvgWidth: "17px",
-  },
-
-  {
-    divStyle: "absolute bottom-[9%] left-[41%]",
-    bottom: "11%",
-    left: "41%",
-    imgStyle: "img-responsive",
-    imgHeight: 25,
-    imgWidth: 25,
-    emptyHeight: 18,
-    emptyWidth: 18,
-    svgHeight: "22px",
-    svgWidth: "29px",
-    mobilesvgHeight: "9px",
-    mobilesvgWidth: "17px",
-  },
-
-  {
-    divStyle: "absolute bottom-[9%] right-[41%]  ",
-    bottom: "11%",
-    right: "41%",
+    right: "44%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -426,8 +429,25 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[15%] right-[27%] ",
-    bottom: "17%",
-    right: "27%",
+    bottom: "22%",
+    right: "36%",
+    imgStyle: "img-responsive",
+    imgHeight: 25,
+    imgWidth: 25,
+    emptyHeight: 18,
+    emptyWidth: 18,
+    svgHeight: "22px",
+    svgWidth: "29px",
+    mobilesvgHeight: "9px",
+    mobilesvgWidth: "17px",
+  },
+
+ 
+
+  {
+    divStyle: "absolute bottom-[40%] right-[10%]",
+    bottom: "31%",
+    right: "30%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -441,23 +461,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute bottom-[25%] right-[16%] ",
-    bottom: "26%",
-    right: "18%",
-    imgStyle: "img-responsive",
-    imgHeight: 25,
-    imgWidth: 25,
-    emptyHeight: 18,
-    emptyWidth: 18,
-    svgHeight: "22px",
-    svgWidth: "29px",
-    mobilesvgHeight: "9px",
-    mobilesvgWidth: "17px",
-  },
-
-  {
-    divStyle: "absolute bottom-[40%] right-[10%]",
     bottom: "41%",
-    right: "13%",
+    right: "26%",
     imgStyle: "img-responsive",
     imgHeight: 25,
     imgWidth: 25,
@@ -473,8 +478,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[43%] left-[0%]",
-    top: "43%",
-    left: "5%",
+    top: "44%",
+    left: "22%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -488,8 +493,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[33%] left-[2%]",
-    top: "33%",
-    left: "7%",
+    top: "37%",
+    left: "23%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -503,8 +508,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[26%] left-[5%]  ",
-    top: "26%",
-    left: "10%",
+    top: "31%",
+    left: "25%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -518,8 +523,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[18%] left-[11%]",
-    top: "18%",
-    left: "14.5%",
+    top: "25%",
+    left: "28%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -533,8 +538,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute ",
-    top: "12%",
-    left: "20%",
+    top: "19%",
+    left: "32%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -548,8 +553,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[12%] left-[16%]",
-    top: "7%",
-    left: "27%",
+    top: "15%",
+    left: "36%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -563,8 +568,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[2%] left-[34%]",
-    top: "3%",
-    left: "35%",
+    top: "12%",
+    left: "41%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -577,8 +582,8 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute top-[0%] left-[45%]",
-    top: "1.5%",
-    left: "44%",
+    top: "11%",
+    left: "46%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -592,8 +597,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[0%] right-[45%]",
-    top: "1.5%",
-    right: "45%",
+    top: "11%",
+    right: "46%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -607,8 +612,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[6%] left-[25%]",
-    top: "4%",
-    right: "34%",
+    top: "12%",
+    right: "41%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -621,8 +626,8 @@ export const treePositionData: treePositionType[] = [
   },
   {
     divStyle: "absolute top-[6%] right-[25%]",
-    top: "8%",
-    right: "27%",
+    top: "15%",
+    right: "36%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -636,8 +641,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[12%] right-[17%]",
-    top: "13%",
-    right: "20%",
+    top: "19%",
+    right: "32%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -651,8 +656,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[18%] right-[11%]",
-    top: "19%",
-    right: "15%",
+    top: "25%",
+    right: "28%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -666,8 +671,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[26%] right-[6%] ",
-    top: "27%",
-    right: "10%",
+    top: "31%",
+    right: "25%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -681,8 +686,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[33%] right-[3%]",
-    top: "34%",
-    right: "7%",
+    top: "37%",
+    right: "23%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -696,8 +701,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute top-[43%] right-[1%]",
-    top: "43%",
-    right: "6%",
+    top: "44%",
+    right: "22%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -713,7 +718,7 @@ export const treePositionData: treePositionType[] = [
   {
     divStyle: "absolute  bottom-[43%] left-[0%]  ",
     bottom: "44%",
-    left: "5%",
+    left: "22%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -727,8 +732,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[33%] left-[2%]",
-    bottom: "34%",
-    left: "7%",
+    bottom: "37%",
+    left: "23%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -742,8 +747,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[26%] left-[5%]  ",
-    bottom: "26%",
-    left: "10%",
+    bottom: "31%",
+    left: "25%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -757,8 +762,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[18%] left-[11%]  ",
-    bottom: "18%",
-    left: "15%",
+    bottom: "25%",
+    left: "28%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -772,8 +777,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[13%] left-[16%]  ",
-    bottom: "13%",
-    left: "20%",
+    bottom: "19%",
+    left: "32%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -787,22 +792,7 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[6%] left-[25%]",
-    bottom: "8%",
-    left: "27%",
-    imgStyle: "img-responsive2",
-    imgHeight: 10,
-    imgWidth: 10,
-    emptyHeight: 18,
-    emptyWidth: 18,
-    svgHeight: "16px",
-    svgWidth: "24px",
-    mobilesvgHeight: "6px",
-    mobilesvgWidth: "14px",
-  },
-
-  {
-    divStyle: "absolute  bottom-[3%] left-[34%]  ",
-    bottom: "4%",
+    bottom: "15%",
     left: "36%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
@@ -816,9 +806,24 @@ export const treePositionData: treePositionType[] = [
   },
 
   {
+    divStyle: "absolute  bottom-[3%] left-[34%]  ",
+    bottom: "12%",
+    left: "41%",
+    imgStyle: "img-responsive2",
+    imgHeight: 10,
+    imgWidth: 10,
+    emptyHeight: 18,
+    emptyWidth: 18,
+    svgHeight: "16px",
+    svgWidth: "24px",
+    mobilesvgHeight: "6px",
+    mobilesvgWidth: "14px",
+  },
+
+  {
     divStyle: "absolute  bottom-[1%] left-[45%]",
-    bottom: "3%",
-    left: "44%",
+    bottom: "11%",
+    left: "46%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -832,8 +837,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[1%] right-[45%]",
-    bottom: "3%",
-    right: "44%",
+    bottom: "11%",
+    right: "46%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -847,8 +852,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[3%] right-[34%]  ",
-    bottom: "5%",
-    right: "34%",
+    bottom: "12%",
+    right: "41%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -862,8 +867,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[6%] right-[26%]",
-    bottom: "8%",
-    right: "28%",
+    bottom: "15%",
+    right: "36%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -877,8 +882,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[13%] right-[18%]  ",
-    bottom: "14%",
-    right: "20%",
+    bottom: "19%",
+    right: "32%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -892,8 +897,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[18%] right-[11%]  ",
-    bottom: "20%",
-    right: "14%",
+    bottom: "25%",
+    right: "28%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -907,8 +912,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[26%] right-[5%]  ",
-    bottom: "27%",
-    right: "10%",
+    bottom: "31%",
+    right: "25%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -922,8 +927,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[33%] right-[3%]",
-    bottom: "35%",
-    right: "7%",
+    bottom: "37%",
+    right: "23%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,
@@ -937,8 +942,8 @@ export const treePositionData: treePositionType[] = [
 
   {
     divStyle: "absolute  bottom-[43%] right-[1%]  ",
-    bottom: "44%",
-    right: "5%",
+    bottom: "45%",
+    right: "22%",
     imgStyle: "img-responsive2",
     imgHeight: 10,
     imgWidth: 10,

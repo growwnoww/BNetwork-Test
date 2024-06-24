@@ -12,6 +12,7 @@ import axios from "axios";
 import Link from "next/link";
 import useResponsiveSVGSize from "@/Hooks/useResponsiveSVGSize";
 import { useSearchParams } from "next/navigation";
+import { useWeb3ModalAccount, useWeb3ModalError } from "@web3modal/ethers5/react";
 
 interface PlanetUpTreeData {
     indexMappings: any;
@@ -31,6 +32,7 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
     const [hoverDetails, setHoverDetails] = useState<PlanetUpTreeData | null>(null);
     const currentPlanet = Object.values(params);
     const [maxRecycle, setMaxRecycle] = useState<number>();
+    const {address} = useWeb3ModalAccount()
 
     let userAddress: string;
     if (query) {
@@ -80,7 +82,7 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
     const getRecycleLevel = async () => {
         try {
             const response = await axios(
-                `${process.env.NEXT_PUBLIC_URL}/user/getRecycleMaxLevel/${userAddress?.toLowerCase()}/${currentPlanet}`
+                `${process.env.NEXT_PUBLIC_URL}/user/getRecycleMaxLevel/${address?.toLowerCase()}/${currentPlanet}`
             );
 
             if (response.data) {
@@ -97,7 +99,7 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
         try {
             const query = `${
                 process.env.NEXT_PUBLIC_URL
-            }/user/getPlanetTree/${userAddress?.toLowerCase()}/${currentPlanet}/${recycleCount + 1}`;
+            }/user/getPlanetTree/${address?.toLowerCase()}/${currentPlanet}/${recycleCount + 1}`;
             console.log("query", query);
             const response = await axios(query);
 
@@ -205,12 +207,12 @@ const Page = ({ params }: { params: { planetuptree: string } }) => {
                 <div className="relative bg-[#111010] w-fit lg:w-3/4 h-[40%] px-4 py-2 sm:px-7 sm:py-1 md:px-10 md:py-3">
                     <Image src="/PlanetUpgradeTree.png" alt="concentriccircle" height={800} width={800} />
 
-                    <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43%]  lg:right-[45%]  w-fit">
+                    <div className="absolute top-[42.5%] right-[43.5%] sm:top-[45%] sm:right-[47%]   lg:top-[43.4%]  lg:right-[46%]  w-fit">
                         <Image
                             src="/BNSymbol2.png"
                             alt="BNsymbol1"
-                            height={45}
-                            width={45}
+                            height={40}
+                            width={40}
                             className="md:w-full lg:w-full border-2 border-zinc-600   lg:p-2  bg-black rounded-full hover:border-yellow-400 duration-300"
                         />
                     </div>
