@@ -49,10 +49,10 @@ const ClubAStructure = ({ PlanetName, globalCount }: ClubAType) => {
   const [planetBuy, setPlanetBuy] = useState<boolean>(false);
   const [highestPlanetBought, setHighestPlanetBought] = useState<number>(0);
   const [isButtonVisible, setIsButtonVisible] = useState<boolean>(true)
-  const [timer, setTimer] = useState<any>(0);
+
   const [timerDisplay, setTimerDisplay] = useState<string>("");
   const [isApproveRe, setApproveRe] = useState<boolean>(false);
-  const [planetBuyRe, setPlanetBuyRe] = useState<boolean>(false);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 

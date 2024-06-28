@@ -1,6 +1,6 @@
 "use client";
 import useLatestPlanet from "@/Hooks/useLatestPlanet";
-import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
+import { useWeb3ModalAccount, useWeb3ModalProvider } from "@web3modal/ethers5/react";
 import { ethers } from "ethers";
 import Image from "next/image";
 import { useContext, useEffect, useState } from "react";
@@ -30,12 +30,13 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const query = searchParams.get("preview");
-    let userAddress: string;
-    if (query) {
-        userAddress = query?.toLowerCase();
-    } else {
-        userAddress = walletContext?.userAddress?.toLowerCase() || "";
-    }
+    const {address} = useWeb3ModalAccount();
+    const userAddress = address;
+    // if (query) {
+    //     userAddress = query?.toLowerCase();
+    // } else {
+    //     userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    // }
 
     const planetCountContract = walletContext?.planetStatus?.planets?.length;
     console.log("high", planetCountContract);
@@ -66,21 +67,39 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         return planetNames[planetId];
     };
 
-    const getHighestplanetCount = async () => {
-        try {
-            const res = await axios(
-                `${process.env.NEXT_PUBLIC_URL}/user/getUserDetails?reg_user_address=${userAddress?.toLowerCase()}`
-            );
+  
 
-            if (res.data) {
-                const data = await res.data;
-                const safeCount = data.planets.length ?? 0;
-                console.log("planets count", data.planets.length);
-                setPlanetCount(safeCount);
-                setHighestPlanetBought(safeCount);
-            }
-        } catch (error) {}
-    };
+    const getCurrentPlanetStatus = async () => {
+        try {
+          const provider = new ethers.providers.Web3Provider(walletProvider as any);
+          const signer = provider.getSigner();
+          const clubAMainContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+          const clubACont = clubAMainContract;
+          console.log("club A ",clubACont)
+          const isUserExist = await clubACont!.UserRegister(userAddress);
+    
+          if (!isUserExist) {
+            setHighestPlanetBought(0);
+            return;
+          }
+    
+          const currentPlanet = await clubACont!.getPackage(userAddress);
+          console.log("currentpLnaet", currentPlanet);
+    
+          if (typeof currentPlanet === "undefined") {
+            throw new Error("Unable to retrieve current planet.");
+          }
+    
+          let planetBoughtNumber = ethers.BigNumber.from(currentPlanet).toNumber();
+          console.log("planetBoughtNumber", planetBoughtNumber);
+    
+          setHighestPlanetBought(planetBoughtNumber);
+          return getPlanetName(planetBoughtNumber);
+        } catch (error) {
+          console.log("something went wrong in getCurrentPlanetStatus", error);
+          throw error; // Propagate the error
+        }
+      };
 
     const postPlanetBuyInfo = async (
         regAddress: string,
@@ -141,29 +160,42 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
         } catch (error) {}
     };
 
+
     const approveUSDT = async () => {
         try {
-            alert(
-                "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
-            );
-            const provider = new ethers.providers.Web3Provider(walletProvider as any);
-            const signer = provider.getSigner();
-            console.log("contract address",B_Network_Address)
-            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
-
-            const getFeeTokenAddress = await BNetworkContract.getFeeToken();
-            console.log("USDT TOken address", getFeeTokenAddress);
-            const secondInstance = new ethers.Contract(getFeeTokenAddress, USBTToken, signer);
-            const approveAmt = await secondInstance.balanceOf(userAddress);
-            console.log("Approve", approveAmt);
-            const approve = await secondInstance.approve(BNetworkContract.address, approveAmt);
-            await approve.wait();
-            console.log(approve);
-            setApprove(true);
+          alert(
+            "🚸The USDT approval amount must be equal to or greater than the planet purchase amount. Otherwise, your transaction will fail, and you will lose your gas fee. ⚠"
+          );
+    
+          const provider = new ethers.providers.Web3Provider(walletProvider as any);
+          const signer = provider.getSigner();
+          const clubAMainContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);;
+          const getFeeTokenAddress = await clubAMainContract!.getFeeToken();
+          console.log("USDT TOken address", getFeeTokenAddress);
+          const secondInstance = new ethers.Contract(
+            getFeeTokenAddress,
+            USBTToken,
+            signer
+          );
+          const approveAmt = await secondInstance.balanceOf(userAddress);
+          console.log("Approve", approveAmt);
+          const approve = await secondInstance.approve(
+            clubAMainContract!.address,
+            approveAmt
+          );
+          await approve.wait();
+          console.log(approve);
+          setApprove(true);
+        //   setIsButtonVisible(false);
         } catch (error) {
-            console.log("something went wrong in approve",error);
+          console.log(error);
         }
-    };
+      };
+    
+
+ 
+
+
 
     const buyPlanetUser = async () => {
         try {
@@ -221,7 +253,7 @@ const PlanetUpPackage = ({ planetId, imgURL, packageName, packagePrice }: Planet
     }, [planetCount, query]);
 
     useEffect(() => {
-        getHighestplanetCount();
+        getCurrentPlanetStatus();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [planetCount, query]);
 

@@ -47,7 +47,7 @@ const ProfileAvatar = () => {
     const [userDetails,setUserDetails] = useState<userDetailsInfo>()
     const [userAvatar,setUserAvatar] = useState("just_reg")
     const {walletProvider} = useWeb3ModalProvider()
-    const [value,setValue] = useState<valueType>({Plan:"Planet Upgrade"})
+    const [value,setValue] = useState<valueType>({Plan:"CosMos Network"})
 let userAddress: string;
     if (query) {
         userAddress = query?.toLowerCase();
@@ -94,7 +94,7 @@ let userAddress: string;
       try {
         let contractAddress = PlanetUpgrade_Address;
         let contract_ABI = PlanetUpgrade_ABI;
-        if(value.Plan == "Planet Upgrade"){
+        if(value.Plan == "CosMos Network"){
              contractAddress = PlanetUpgrade_Address;
              contract_ABI = PlanetUpgrade_ABI;
         }
@@ -165,7 +165,7 @@ let userAddress: string;
                           <SelectTrigger className="w-[180px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
                             <SelectValue placeholder="" />
                           </SelectTrigger>
-                          <SelectContent defaultValue="Planet Upgrade">
+                          <SelectContent defaultValue="CosMos Network">
                             {SelectPlan.map((item: any) => (
                               <SelectItem key={item.id} value={item.value}>
                                 {item.data}

@@ -5,7 +5,10 @@ import Navbar from "@/components/main/Navbar";
 import StarsCanvas from "@/components/main/StarBackground";
 import YoutubeEmPlanetUp from "@/components/main/YoutubeEmPlanetUp";
 import { AnimatedListDemo } from "@/components/Roadmap/AnimatedListDemo";
+import Education from "@/components/Roadmap/NewScroll";
+import Experience from "@/components/Roadmap/NewScroll";
 import NewScroll from "@/components/Roadmap/NewScroll";
+import RoadmapBN from "@/components/Roadmap/RoadmapBN";
 
 import Image from "next/image";
 import { BsTelegram, BsTwitterX } from "react-icons/bs";
@@ -48,8 +51,10 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex items-center justify-center mb-16">
-          {/* <AnimatedListDemo/> */}
+        <div className="flex   items-center justify-center mb-16">
+          {/* <RoadmapBN/> */}
+          
+           {/* <Experience/> */}
         </div>
         <FAQ />
       </div>

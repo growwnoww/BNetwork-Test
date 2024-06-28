@@ -8,8 +8,8 @@ interface SelectItemType {
 export const SelectPlan: SelectItemType[] = [
     {
         id: 1,
-        value: "Planet Upgrade",
-        data:"Planet Upgrade"
+        value: "CosMos Network",
+        data:"CosMos Network"
        
     },
     {
