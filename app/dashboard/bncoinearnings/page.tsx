@@ -4,8 +4,6 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
-
 import { Input } from "@/components/ui/input";
 import { FaRegCopy } from "react-icons/fa";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
@@ -14,7 +12,7 @@ import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
 import { SelectEntries } from "@/utils/SelectEntries";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface BNCoinDataTye {
     fromBNId: string;
@@ -23,14 +21,13 @@ interface BNCoinDataTye {
     earningThrough: string;
 }
 
-
-interface BNCointType{
-    actuallData:BNCoinDataTye[];
-    totalPages:number;
+interface BNCointType {
+    actuallData: BNCoinDataTye[];
+    totalPages: number;
 }
 
-interface valueType{
-    entries:string;
+interface valueType {
+    entries: string;
 }
 
 const Page = () => {
@@ -40,39 +37,53 @@ const Page = () => {
     // const userAddress = walletContext?.userAddress;
     const [bnCoinData, setBNcoinData] = useState<BNCointType>();
     const [expanded, setExpanded] = useState<{ [key: number]: boolean }>({});
-    const [currentItemIndex, setCurrentItemIndex] = useState(0); 
+    const [currentItemIndex, setCurrentItemIndex] = useState(0);
     const [value, setValue] = useState<valueType>({
         entries: "10",
-      });
+    });
 
-      let userAddress: string;
-      if (query) {
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    let userAddress: string;
+    if (query) {
         userAddress = query?.toLowerCase();
     } else {
         userAddress = walletContext?.userAddress?.toLowerCase() || "";
     }
-    
+
+    console.log(walletContext?.previewAddress);
 
     const handlePreviousClick = () => {
-    setCurrentItemIndex(currentItemIndex - 1);
+        setCurrentItemIndex(currentItemIndex - 1);
     };
 
     const handleNextClick = () => {
-    const safeMaxRecycle = bnCoinData?.totalPages ?? 0;
-    console.log("Safe ", safeMaxRecycle);
-    console.log("current index", currentItemIndex);
-     if (currentItemIndex < safeMaxRecycle - 1) {
-       setCurrentItemIndex(currentItemIndex + 1);
-     }
+        const safeMaxRecycle = bnCoinData?.totalPages ?? 0;
+        console.log("Safe ", safeMaxRecycle);
+        console.log("current index", currentItemIndex);
+        if (currentItemIndex < safeMaxRecycle - 1) {
+            setCurrentItemIndex(currentItemIndex + 1);
+        }
     };
 
     const handleSelectEntriesChange = (selectEntries: string) => {
         setValue((prevState: any) => ({
-          ...prevState,
-          entries: selectEntries,
+            ...prevState,
+            entries: selectEntries,
         }));
-      };
-    
+    };
 
     const handleToggle = (userId: number) => {
         setExpanded((prev) => ({
@@ -94,7 +105,9 @@ const Page = () => {
     const getBNCoinEarnedTable = async () => {
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_URL}/user/getBNcoinEarnedData/${userAddress?.toLowerCase()}/${value.entries}/${currentItemIndex+1}}`
+                `${process.env.NEXT_PUBLIC_URL}/user/getBNcoinEarnedData/${userAddress?.toLowerCase()}/${
+                    value.entries
+                }/${currentItemIndex + 1}}`
             );
 
             if (response.ok) {
@@ -114,7 +127,7 @@ const Page = () => {
             getBNCoinEarnedTable();
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userAddress,value.entries,currentItemIndex, query]);
+    }, [userAddress, value.entries, currentItemIndex]);
 
     // Function to determine the status color
 
@@ -216,54 +229,51 @@ const Page = () => {
                         </div>
 
                         <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
-              <div className="order-2 lg:order-1">
-              <div className="flex items-center justify-center">
-                    <button
-                      onClick={handlePreviousClick}
-                      disabled={currentItemIndex === 0} // Disable if this is the first item
-                      style={{ marginRight: "10px" }}
-                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
-                    >
-                      &larr;
-                    </button>
-                    <div style={{ margin: "20px", textAlign: "center" }}>
-                      {currentItemIndex + 1} / {bnCoinData?.totalPages ?? 0}{" "}
-                      {/* Show current index and total pages */}
-                    </div>
-                    <button
-                      onClick={handleNextClick}
-                      disabled={
-                        currentItemIndex ===
-                        (bnCoinData?.totalPages ?? 0) - 1
-                      } // Disable if this is the last item
-                      style={{ marginLeft: "10px" }}
-                      className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
-                    >
-                      &rarr;
-                    </button>
-                  </div>
-              </div>
+                            <div className="order-2 lg:order-1">
+                                <div className="flex items-center justify-center">
+                                    <button
+                                        onClick={handlePreviousClick}
+                                        disabled={currentItemIndex === 0} // Disable if this is the first item
+                                        style={{ marginRight: "10px" }}
+                                        className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                                    >
+                                        &larr;
+                                    </button>
+                                    <div style={{ margin: "20px", textAlign: "center" }}>
+                                        {currentItemIndex + 1} / {bnCoinData?.totalPages ?? 0}{" "}
+                                        {/* Show current index and total pages */}
+                                    </div>
+                                    <button
+                                        onClick={handleNextClick}
+                                        disabled={currentItemIndex === (bnCoinData?.totalPages ?? 0) - 1} // Disable if this is the last item
+                                        style={{ marginLeft: "10px" }}
+                                        className="border-2 border-yellow-500 h-7 p-3 flex items-center  rounded-md hover:bg-stone-700 duration-300"
+                                    >
+                                        &rarr;
+                                    </button>
+                                </div>
+                            </div>
 
-              <div className="order-1 lg:order-2 text-sm ">
-                <p>Show Entries</p>
-                <Select
-                  name="selectEntries"
-                  value={value.entries}
-                  onValueChange={handleSelectEntriesChange}
-                >
-                  <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
-                    <SelectValue placeholder="" />
-                  </SelectTrigger>
-                  <SelectContent defaultValue="10">
-                    {SelectEntries.map((item: any) => (
-                      <SelectItem key={item.id} value={item.value}>
-                        {item.data}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
+                            <div className="order-1 lg:order-2 text-sm ">
+                                <p>Show Entries</p>
+                                <Select
+                                    name="selectEntries"
+                                    value={value.entries}
+                                    onValueChange={handleSelectEntriesChange}
+                                >
+                                    <SelectTrigger className="w-[110px] text-[12px] h-7 lg:h-9 lg:w-[140px]  lg:text-md border border-yellow-400">
+                                        <SelectValue placeholder="" />
+                                    </SelectTrigger>
+                                    <SelectContent defaultValue="10">
+                                        {SelectEntries.map((item: any) => (
+                                            <SelectItem key={item.id} value={item.value}>
+                                                {item.data}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

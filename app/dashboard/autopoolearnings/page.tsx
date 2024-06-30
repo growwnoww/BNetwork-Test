@@ -25,7 +25,7 @@ import { SelectData } from "@/utils/SelectData";
 import { SelectLevel } from "@/utils/SelectLevel";
 import { WalletContext } from "@/context/WalletContext";
 import axios from "axios";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface valueType {
     recycleVal: string;
@@ -61,12 +61,28 @@ const Page = () => {
 
     const walletContext = useContext(WalletContext);
 
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     let userAddress: string;
     if (query) {
         userAddress = query?.toLowerCase();
     } else {
         userAddress = walletContext?.userAddress?.toLowerCase() || "";
     }
+
+    console.log(walletContext?.previewAddress, "auto pool earing page");
 
     const handleToggle = (userId: any) => {
         setExpanded((prev) => ({
@@ -157,7 +173,7 @@ const Page = () => {
         getAutoPoolData();
         getRecycleLevel();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query]);
+    }, [userAddress, query]);
 
     // Function to determine the status color
 
@@ -278,18 +294,12 @@ const Page = () => {
                                                 Sr No
                                             </TableHead>
 
-                  <TableHead
-                    scope="col"
-                    className=" px-5 lg:px-0 py-5 text-center "
-                  >
-                   Global Tier No
-                  </TableHead>
-                  <TableHead
-                    scope="col"
-                    className=" py-3 text-center tracking-wider"
-                  >
-                    Date & time
-                  </TableHead>
+                                            <TableHead scope="col" className=" px-5 lg:px-0 py-5 text-center ">
+                                                Global Tier No
+                                            </TableHead>
+                                            <TableHead scope="col" className=" py-3 text-center tracking-wider">
+                                                Date & time
+                                            </TableHead>
 
                                             <TableHead scope="col" className=" py-3 text-center tracking-wider">
                                                 From BN Id
@@ -373,9 +383,7 @@ const Page = () => {
                             )}
                         </div>
 
-            <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
-            
-
+                        <div className="w-3/4   my-5 flex flex-col lg:flex-row items-center justify-between gap-y-4  ">
                             <div className="order-1 lg:order-2 text-sm flex items-center gap-x-2">
                                 <p>Show Entries :</p>
                                 <Select>

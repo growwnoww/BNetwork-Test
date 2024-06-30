@@ -5,29 +5,47 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
-
 import { Button } from "@/components/ui/button";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { WalletContext } from "@/context/WalletContext";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+interface planetDataType {
+    _id: string;
+    package: string;
+    planetName: string;
+    time: string;
 
-interface planetDataType{
-    _id:string;
-    package:string;
-    planetName:string;
-    time:string;
-    
-    planetBuy_transaction_hash:string;
-
-
-  }
-  
+    planetBuy_transaction_hash: string;
+}
 
 const Page = () => {
-    const walletContext = useContext(WalletContext);
-    const userAddress = walletContext?.userAddress;
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+
+    const searchParams = useSearchParams();
+    const query = searchParams.get("preview");
+    const walletContext = useContext(WalletContext);
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    let userAddress: string;
+    if (query) {
+        userAddress = query?.toLowerCase();
+    } else {
+        userAddress = walletContext?.userAddress?.toLowerCase() || "";
+    }
 
     const handleToggle = (userId: string) => {
         setExpanded((prev) => ({
@@ -35,42 +53,38 @@ const Page = () => {
             [userId]: !prev[userId],
         }));
     };
-    const [planetData,setPlanetData] = useState<planetDataType[]>([])
+    const [planetData, setPlanetData] = useState<planetDataType[]>([]);
 
-
-    const getPlanetData = async()=>{
+    const getPlanetData = async () => {
         try {
-            const response = await fetch(`${process.env.NEXT_PUBLIC_URL}/clubA/getPlanetUpClubA/${userAddress?.toLowerCase()}`)
-            
-            if(response.ok){
+            const response = await fetch(
+                `${process.env.NEXT_PUBLIC_URL}/clubA/getPlanetUpClubA/${userAddress?.toLowerCase()}`
+            );
+
+            if (response.ok) {
                 const data = await response.json();
                 setPlanetData(data);
             }
-  
-        } catch (error) {
-            
-        }
-    }
-  
-    
-  
+        } catch (error) {}
+    };
+
     useEffect(() => {
-           getPlanetData();
+        getPlanetData();
     }, []);
-  
+
     // Function to determine the status color
 
     return (
         <div className="flex flex-col">
             <div className="w-full my-5 flex items-center justify-center">
-                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">Club-A Planet Upgrade History</p>
+                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">
+                    Club-A Planet Upgrade History
+                </p>
             </div>
 
             <div className="">
                 <div className="py-2 align-middle sm:px-6 lg:px-8 ">
                     <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-                        
-
                         <div className="w-3/4">
                             <Table className=" divide-y divide-gray-600 rounded-lg">
                                 <TableHeader className="bg-stone-900  ">
@@ -101,7 +115,7 @@ const Page = () => {
                                         <React.Fragment key={user._id}>
                                             <TableRow className="text-white text-center text-[12px] lg:text-md">
                                                 <TableCell className=" py-2  whitespace-nowrap text-[10px] lg:text-sm font-medium ">
-                                                    {index+1}
+                                                    {index + 1}
                                                 </TableCell>
 
                                                 <TableCell className=" py-2 whitespace-nowrap  font-medium flex items-center justify-center">
@@ -157,8 +171,6 @@ const Page = () => {
                                 </TableBody>
                             </Table>
                         </div>
-
-                       
                     </div>
                 </div>
             </div>

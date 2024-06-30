@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { FaRegCopy } from "react-icons/fa";
 import { WalletContext } from "@/context/WalletContext";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface planetDataType {
     _id: string;
@@ -37,6 +37,20 @@ const Page = () => {
     const searchParams = useSearchParams();
     const query = searchParams.get("preview");
     const walletContext = useContext(WalletContext);
+    const router = useRouter();
+    const pathname = usePathname();
+
+    useEffect(() => {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     let userAddress: string;
     if (query) {
         userAddress = query?.toLowerCase();
@@ -82,8 +96,6 @@ const Page = () => {
             <div className="">
                 <div className="py-2 align-middle sm:px-6 lg:px-8 ">
                     <div className="flex flex-col items-center justify-center gap-y-6   sm:rounded-lg ">
-                        
-
                         <div className="w-3/4">
                             <Table className=" divide-y divide-gray-600 rounded-lg">
                                 <TableHeader className="bg-stone-900  ">
@@ -170,8 +182,6 @@ const Page = () => {
                                 </TableBody>
                             </Table>
                         </div>
-
-                       
                     </div>
                 </div>
             </div>

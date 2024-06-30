@@ -21,13 +21,15 @@ export default function PreviewComp() {
 
     const previewAddress = async () => {
         try {
-            const provider = new ethers.providers.Web3Provider(walletProvider as any);
-            const signer = provider.getSigner();
-            const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+            // const provider = new ethers.providers.Web3Provider(walletProvider as any);
+            // const signer = provider.getSigner();
+            // const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
+            ethers.utils.getAddress(walletContext?.previewAddress);
 
             const query = walletContext?.previewAddress;
-            const exists = await BNetworkContract.isUserExists(query);
-            if (exists) {
+            console.log("🚀 ~ previewAddress ~ query:", query);
+            // const exists = await BNetworkContract.isUserExists(query);
+            if (query) {
                 if (pathname === "/" || pathname === "/registration") {
                     router.replace(`/dashboard?preview=${query}`);
                 } else {

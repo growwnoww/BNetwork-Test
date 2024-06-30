@@ -68,9 +68,16 @@ export function Providers({ children }: { children: React.ReactNode }) {
     const query = searchParams.get("preview");
 
     React.useEffect(() => {
-        if (query === null || query === undefined || query === "" || pathname === "/") {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
             router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
         }
+
+        // if (query === null || query === undefined || query === "" || pathname === "/") {
+        // }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

@@ -1,23 +1,26 @@
 "use client";
 import CurrentBalanceComp from "@/components/clientcomponents/CurrentBalanceComp";
+import { WalletContext } from "@/context/WalletContext";
 import { hamaburgerAtom } from "@/store/atom";
 import { MenuList } from "@/utils/MenuList";
 import { NestedMenuList } from "@/utils/NestedMenuList";
 import { useDisconnect, useWeb3Modal } from "@web3modal/ethers5/react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { IoIosLock } from "react-icons/io";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { useRecoilState } from "recoil";
 
 const HamaburgerMenu = () => {
+    const walletContext = useContext(WalletContext);
     const [isOpen, setOpen] = useRecoilState(hamaburgerAtom);
     const router = useRouter();
-    const { disconnect } = useDisconnect()
+    const { disconnect } = useDisconnect();
 
     const handleDisconnectWallet = () => {
-        disconnect()
+        walletContext?.setPreviewAddress("");
+        disconnect();
         router.push("/");
     };
 
@@ -49,7 +52,7 @@ const HamaburgerMenu = () => {
                         <div className="w-full flex items-center justify-center">
                             <div
                                 onClick={handleDisconnectWallet}
-                                className={`bg-yellow-500 flex  items-center py-2 px-24 rounded-md`}
+                                className={`bg-yellow-500 flex cursor-pointer items-center py-2 px-24 rounded-md`}
                             >
                                 <p className="font-semibold">Log out</p>
                                 <span>

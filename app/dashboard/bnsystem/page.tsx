@@ -13,7 +13,13 @@ const Page = () => {
     const router = useRouter();
     const pathname = usePathname();
     useEffect(() => {
-        router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 

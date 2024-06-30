@@ -8,7 +8,7 @@ import { HiArrowTopRightOnSquare } from "react-icons/hi2";
 import { tableData } from "@/utils/DirectTeamData";
 import { Button } from "@/components/ui/button";
 import { WalletContext } from "@/context/WalletContext";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface TierUplineData {
     _id: string;
@@ -19,10 +19,8 @@ interface TierUplineData {
     name: string;
     mobileNo: string;
     emailId: string;
-    level:number;
+    level: number;
 }
-
-
 
 const Page = () => {
     const searchParams = useSearchParams();
@@ -31,6 +29,19 @@ const Page = () => {
     // const userAddress = walletContext?.userAddress;
     const [fetchTierUpline, setFetchTierUpline] = useState<TierUplineData[]>([]);
     const [expanded, setExpanded] = useState<{ [key: string]: boolean }>({});
+
+    const router = useRouter();
+    const pathname = usePathname();
+    useEffect(() => {
+        if (walletContext?.previewAddress) {
+            router.replace(`${pathname}?preview=${walletContext?.previewAddress}`);
+            console.log("walletContext?.previewAddress on");
+        } else {
+            router.replace(`${pathname}`);
+            console.log("walletContext?.previewAddress off");
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     let userAddress: string;
     if (query) {
@@ -59,7 +70,8 @@ const Page = () => {
                 console.log(data);
                 const reverseData = data.reverse();
                 console.log("data", reverseData);
-                setFetchTierUpline(reverseData);1
+                setFetchTierUpline(reverseData);
+                1;
             }
         } catch (error) {
             throw error;
