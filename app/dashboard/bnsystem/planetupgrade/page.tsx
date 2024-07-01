@@ -17,7 +17,7 @@ const page = () => {
                 </div>
             </div>
             <div>
-                <HeadingWrapper text="Planet Upgrade System" />
+                <HeadingWrapper text="CosMos Network" />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2  xl:grid-cols-3 3xl:grid-cols-4 gap-y-3 mt-4">

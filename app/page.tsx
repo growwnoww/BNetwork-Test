@@ -51,7 +51,7 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex   items-center justify-center mb-16">
+        <div className="flex  items-center justify-center mb-16">
           {/* <RoadmapBN/> */}
           
            {/* <Experience/> */}

@@ -31,7 +31,7 @@ const NestedMenuList: NestedMenuType[] = [
     icon2:<IoIosArrowUp />,
     list: [
       {
-        title: "Planet Upgrade System",
+        title: "CosMos Network",
         path: "/dashboard/createnewbeliever",
         icon: <IoMdArrowDropright />,
        
@@ -52,7 +52,7 @@ const NestedMenuList: NestedMenuType[] = [
     icon2:<IoIosArrowUp />,
     list: [
       {
-        title: "P Upgrade Live Status",
+        title: "C Network Live Status",
         path: "/dashboard/planetuplive",
         icon: <IoMdArrowDropright />,
        
@@ -103,7 +103,7 @@ const NestedMenuList: NestedMenuType[] = [
     icon2:<IoIosArrowUp />,
     list: [
       {
-        title: "Planet Upgrade History",
+        title: "CosMos Network History",
         path: "/dashboard/planetranxhistory",
 
         icon: <IoMdArrowDropright />,
@@ -117,7 +117,7 @@ const NestedMenuList: NestedMenuType[] = [
   },
   {
     id: 5,
-    title: "P Upgrade Earnings",
+    title: "C Network Earnings",
     icon: <GiReceiveMoney />,
     icon1: <IoIosArrowDown />,
     icon2:<IoIosArrowUp />,

@@ -12,10 +12,10 @@ export function CardsBengali() {
 }
 export const projects = [
   {
-    title: "Planet Upgrade System",
+    title: "Cosmos Network",
     image:
       "/BELIEVE-LOGO-07.png",
-    downloadbtn: "/PlanetUpPdf.pdf",
+    downloadbtn: "/CosmosBengali.pdf",
   },
   {
     title: "Universe Club-A",

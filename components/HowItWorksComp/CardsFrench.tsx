@@ -12,10 +12,10 @@ export function CardsFrench() {
 }
 export const projects = [
   {
-    title: "Planet Upgrade System",
+    title: "CosMos Network",
     image:
       "/BELIEVE-LOGO-07.png",
-    downloadbtn: "/PlanetUpPdf.pdf",
+    downloadbtn: "/CosmosFren.pdf",
   },
   {
     title: "Universe Club-A",
