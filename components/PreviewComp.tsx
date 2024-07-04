@@ -58,7 +58,7 @@ export default function PreviewComp() {
         <div>
             <button
                 onClick={onOpen}
-                className=" bg-zinc-900  text-white border border-yellow-500 px-3  py-2.5 rounded-md"
+                className="  bg-zinc-900  text-white border w-[95%]     py-1 text-[15px] font-medium rounded-lg border-yellow-500 px-[150px] lg:px-5 lg:py-[9px]"
             >
                 Preview
             </button>

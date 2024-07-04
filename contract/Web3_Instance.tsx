@@ -7,6 +7,7 @@ import { useWeb3ModalProvider } from "@web3modal/ethers5/react";
 // export const PlanetUpgrade_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 export const PlanetUpgrade_Address = "0x5ea64Ab084722Fa8092969ED45642706978631BD";
 const USDT_Address = "0x55d398326f99059ff775485246999027b3197955";
+export const PlanetUprade_ABI = BNetworkABI;
 // const EnergyToken_Address = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
 
 // export const BNetwork = () => {

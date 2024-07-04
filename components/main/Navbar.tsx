@@ -128,7 +128,7 @@ const Navbar = () => {
 
                 {/* Wallet and Language Selection for Desktop */}
                 <div className="hidden lg:flex items-center gap-5">
-                    {(pathname === "/" || pathname === "/registration") && <PreviewComp />}
+                   
                     <button
                         onClick={() => open()}
                         type="button"
@@ -152,6 +152,8 @@ const Navbar = () => {
                             </div>
                         )}
                     </div>
+
+                    {(pathname === "/" || pathname === "/registration") && <PreviewComp />}
                 </div>
             </div>
         </div>

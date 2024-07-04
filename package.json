@@ -51,9 +51,9 @@
         "simplex-noise": "^4.0.1",
         "stream-chat": "^8.25.1",
         "styled-components": "^6.1.11",
-        "tailwind-merge": "^2.2.1",
         "tailwindcss-animate": "^1.0.7",
-        "uuid": "^9.0.1"
+        "uuid": "^9.0.1",
+        "web3modal": "^1.9.12"
     },
     "devDependencies": {
         "@react-three/drei": "^9.93.0",

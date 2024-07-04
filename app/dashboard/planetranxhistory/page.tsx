@@ -90,7 +90,7 @@ const Page = () => {
     return (
         <div className="flex flex-col">
             <div className="w-full my-5 flex items-center justify-center">
-                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">Planet Upgrade History</p>
+                <p className="border-b-2 border-b-yellow-400 w-fit text-2xl lg:text-4xl">CosMos Network History</p>
             </div>
 
             <div className="">

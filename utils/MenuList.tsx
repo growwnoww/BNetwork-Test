@@ -35,14 +35,7 @@ const MenuList = [
     icon: <TbUniverse />,
 
   },
-  {
-    id: "4",
-    title: "BN coin",
-    path: "",
-    icon: <SiBitcoinsv />,
-    icon2:<IoIosLock />
-
-  },
+  
  
 ];
 

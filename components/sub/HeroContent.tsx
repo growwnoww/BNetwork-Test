@@ -8,6 +8,7 @@ import { WalletContext } from "@/context/WalletContext";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import ClubALanuchBanner from "../ClubABanner";
+import Statistics from "./Statistics";
 
 const words = [
     {
@@ -40,6 +41,7 @@ const HeroContent = () => {
             <div className="absolute -top-[90px] sm:top-[30px] md:-top-[20px]    flex items-center justify-center  lg:top-[10px]   h-full w-full z-0">
                 <video
                     muted
+                    loop
                     autoPlay
                     className=" lg:h-full  lg:w-auto"
                 >
@@ -67,7 +69,10 @@ const HeroContent = () => {
                 
             </div>
 
+
+
             <ClubALanuchBanner/>
+
 
             
         </div>

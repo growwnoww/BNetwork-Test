@@ -114,11 +114,3 @@
 :root{
   background-color: black;
 }
-
-.node-title {
-  dx: -200;
-  fill: green;
-}
-
-.node-label {
-}

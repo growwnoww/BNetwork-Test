@@ -5,6 +5,7 @@ import { IoIosArrowDown, IoIosArrowUp, IoIosLock, IoMdArrowDropright } from 'rea
 import React from 'react';
 import { FaChartLine } from 'react-icons/fa';
 import { GrUserNew } from 'react-icons/gr';
+import { SiBitcoinsv } from 'react-icons/si';
 
 interface NestedMenuItem {
   title: string;
@@ -23,6 +24,21 @@ interface NestedMenuType {
 }
 
 const NestedMenuList: NestedMenuType[] = [
+  {
+    id: 0,
+    title: "BN coin",
+    icon: <SiBitcoinsv />,
+    icon1: <IoIosArrowDown />,
+    icon2:<IoIosArrowUp />,
+    list:[
+      {
+        title: "BN Coin Earned",
+        path: "/dashboard/bncoinearnings",
+        icon: <IoMdArrowDropright />,
+      },
+    ]
+
+  },
   {
     id: 1,
     title: "Create New Believer",
@@ -139,11 +155,6 @@ const NestedMenuList: NestedMenuType[] = [
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "BN Coin Earned",
-        path: "/dashboard/bncoinearnings",
-        icon: <IoMdArrowDropright />,
-      },
-      {
         title: "Auto Pool Earnings",
         path: "/dashboard/autopoolearnings",
         icon: <IoMdArrowDropright />,
@@ -163,12 +174,18 @@ const NestedMenuList: NestedMenuType[] = [
         icon: <IoMdArrowDropright />,
       },
       {
-        title: "Club A Working Earnings",
+        title: "Club A Upgrade Earnings",
         path: "/dashboard/clubAworkingtable",
         icon: <IoMdArrowDropright />,
       },
    
-      
+      {
+        title:"Club A Autopool Earning",
+        path: "",
+        lock:<IoIosLock/>,
+        icon: <IoMdArrowDropright />,
+
+      }
      
     
     ],

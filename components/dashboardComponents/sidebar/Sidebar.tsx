@@ -72,7 +72,6 @@ const Sidebar = () => {
                             >
                                 <span className="text-lg">{menu.icon}</span>
                                 <p className="">{menu.title}</p>
-                                {menu.icon2 ? <span>{menu.icon2}</span> : ""}
                             </Link>
                         </li>
                     ))}

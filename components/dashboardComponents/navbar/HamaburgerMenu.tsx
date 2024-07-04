@@ -73,7 +73,7 @@ const HamaburgerMenu = () => {
                                     <Link href={item.path} className=" py-2">
                                         {item.title}
                                     </Link>
-                                    <p>{item.icon2}</p>
+
                                 </li>
                             ))}
                             <li className="bg-stone-800 rounded-md">
