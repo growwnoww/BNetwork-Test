@@ -1,6 +1,7 @@
 "use client";
 import { PlanetUpgrade_Address, PlanetUprade_ABI } from '@/contract/Web3_Instance';
 import { useWeb3ModalProvider } from '@web3modal/ethers5/react';
+import axios from 'axios';
 import { ethers } from 'ethers';
 import React, { useEffect, useState } from 'react'
 import Web3Modal from 'web3modal'
@@ -13,50 +14,24 @@ function Statistics() {
 
 
     
-        const initializeWalletProvider = async () => {
-            const web3Modal = new Web3Modal({
-                cacheProvider: true, // optional
-                providerOptions: {}, // required
-            });
     
-            try {
-                const instance = await web3Modal.connect();
-                const provider = new ethers.providers.Web3Provider(instance);
-                setProvider(provider);
-                console.log("Wallet provider initialized", provider);
-            } catch (error) {
-                console.error("User denied account access or error occurred", error);
-            }
-        };
-    
-        useEffect(() => {
-            initializeWalletProvider();
-        }, []);
     
         const getParticipants = async () => {
             try {
-                if (!provider) {
-                    throw new Error("provider is undefined or not initialized");
-                }
-    
-                const signer = provider.getSigner();
-                const planetUpgradeContract = new ethers.Contract(PlanetUpgrade_Address, PlanetUprade_ABI, signer);
-                console.log("contract", planetUpgradeContract);
-    
-                const getRawValue = await planetUpgradeContract.regCounter();
-                const totalUser = ethers.BigNumber.from(getRawValue).toNumber();
-                console.log("totalUser ", totalUser);
-                setParticipants(totalUser);
+               const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/user/getTotalParticipant`)
+               if(response.data){
+                const data = response.data.totalParticipants;
+                console.log("response data ",data)
+                setParticipants(data)
+               }
             } catch (error) {
                 console.log("something went wrong in getParticipants ", error);
             }
         };
     
         useEffect(() => {
-            if (provider) {
-                getParticipants();
-            }
-        }, [provider]);
+           getParticipants()
+        }, []);
     
     
   return (

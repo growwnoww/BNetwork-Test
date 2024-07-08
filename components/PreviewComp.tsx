@@ -55,13 +55,13 @@ export default function PreviewComp() {
     };
 
     return (
-        <div>
-            <button
+        <div className="w-full flex items-center justify-center">
+            <Button
                 onClick={onOpen}
-                className="  bg-zinc-900  text-white border w-[95%]     py-1 text-[15px] font-medium rounded-lg border-yellow-500 px-[150px] lg:px-5 lg:py-[9px]"
+                className="  bg-zinc-900  text-white border text-lg font-medium  border-yellow-500 w-[95%]  lg:mr-0"
             >
                 Preview
-            </button>
+            </Button>
             <Modal
                 backdrop="blur"
                 isOpen={isOpen}

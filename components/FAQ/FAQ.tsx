@@ -32,7 +32,7 @@ const FAQ = () => {
       <div className="w-[85%]  lg:w-[75%]">
         <Accordion type="single" collapsible className="w-full ">
           <AccordionItem value="item-1">
-            <AccordionTrigger>What is Believe Network?</AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">What is Believe Network?</AccordionTrigger>
             <AccordionContent >
               Believe Network (BNetwork in short) operates as an online business
               utilizing web technology 3.0, characterized by complete
@@ -43,7 +43,7 @@ const FAQ = () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
               Is Believe Network an official company?{" "}
             </AccordionTrigger>
             <AccordionContent>
@@ -52,7 +52,7 @@ const FAQ = () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Is Believe Network secure?</AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">Is Believe Network secure?</AccordionTrigger>
             <AccordionContent>
               Believe Network prioritizes security, with its operations
               safeguarded by blockchain technology. Participants maintain their
@@ -65,7 +65,7 @@ const FAQ = () => {
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
             What do I need to start with Believe Network?
             </AccordionTrigger>
             <AccordionContent>
@@ -78,7 +78,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-5">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
             What&apos;s the minimum to start earning?
             </AccordionTrigger>
             <AccordionContent>
@@ -88,7 +88,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-6">
-            <AccordionTrigger>What is a smart contract? </AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">What is a smart contract? </AccordionTrigger>
             <AccordionContent>
               A smart contract refers to a computer protocol enabling the
               automated and managed execution of financial transactions without
@@ -99,7 +99,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-7">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
             Where are Believe Network&apos;s smart contracts?
             </AccordionTrigger>
             <AccordionContent>
@@ -110,7 +110,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-8">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
               How can I earn with Believe Network?{" "}
             </AccordionTrigger>
             <AccordionContent>
@@ -125,7 +125,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-9">
-            <AccordionTrigger>What is Royalty NFT? </AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">What is Royalty NFT? </AccordionTrigger>
             <AccordionContent>
               Royalty is a status program designed to grant Royalty bonuses,
               structured within the NFT format. This program encompasses six
@@ -135,7 +135,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-10">
-            <AccordionTrigger>How can I get Royalty NFT? </AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">How can I get Royalty NFT? </AccordionTrigger>
             <AccordionContent>
               You need to have 5 planets in each active and operational system
               to create Just Spaceship NFTs
@@ -143,7 +143,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-11">
-            <AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">
             What if my wallet gets stolen or hacked?
             </AccordionTrigger>
             <AccordionContent>
@@ -155,7 +155,7 @@ const FAQ = () => {
           </AccordionItem>
 
           <AccordionItem value="item-12">
-            <AccordionTrigger>How can I contact you? </AccordionTrigger>
+            <AccordionTrigger className="text-[12px]">How can I contact you? </AccordionTrigger>
             <AccordionContent>
               You can reach us via email at BNetwork.space.official@gmail.com We
               prioritize prompt and thorough responses. For quick answers to
