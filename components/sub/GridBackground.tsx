@@ -45,11 +45,11 @@ export function GridBackground() {
         
       </p>
        <div className="w-[100vw] flex items-center   ">
-        <ul className="grid grid-cols-1 lg:grid-cols-2   w-[100vw]    gap-x-6 gap-y-5  ">
+        <ul className="grid grid-cols-2   w-[100vw]    gap-x-6 gap-y-5  ">
         {
             MainMetorsData.map((item)=>(
                 <li key={item.id} className={` w-full p-4 flex items-center justify-center  ${item.id === 1 || item.id === 3 ? 'flex items-center justify-center ' : 'lg:block'}`}>
-                                <MainMetors logo={item.logo} title={item.title} description={item.description} />
+                                <MainMetors logo={item.logo} title={item.title} description={item.description} widthP={"35"} textSize={"md"}/>
                             </li>
             ))
         }
