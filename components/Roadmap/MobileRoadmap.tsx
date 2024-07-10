@@ -9,7 +9,7 @@ const MobileRoadmap = () => {
     <div>
 
       
-      <div className="">
+      <div className="translate-x-5">
         <div className="relative border-2 border-t-2 border-l-0  border-t-orange-400 border-r-orange-400 border-b-orange-400  border-b-2 border-white-900 rounded-r-[15px] -translate-x-3 -translate-y-[1px] h-36 w-[21rem] z-10  ">
           {/* <div className="absolute -top-5 left-28"><FcApproval className="text-4xl"/></div> */}
           <div className="absolute -top-[80%]  flex gap-x-10 translate-y-3 translate-x-3  ">
