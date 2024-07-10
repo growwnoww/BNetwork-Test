@@ -49,7 +49,7 @@ export function GridBackground() {
         {
             MainMetorsData.map((item)=>(
                 <li key={item.id} className={` w-full p-4 flex items-center justify-center  ${item.id === 1 || item.id === 3 ? 'flex items-center justify-center ' : 'lg:block'}`}>
-                                <MainMetors logo={item.logo} title={item.title} description={item.description} widthP={"35"} textSize={"md"}/>
+                                <MainMetors logo={item.logo} title={item.title} description={item.description} />
                             </li>
             ))
         }

@@ -5,10 +5,9 @@ import Navbar from "@/components/main/Navbar";
 import StarsCanvas from "@/components/main/StarBackground";
 import YoutubeEmPlanetUp from "@/components/main/YoutubeEmPlanetUp";
 import { AnimatedListDemo } from "@/components/Roadmap/AnimatedListDemo";
-import Education from "@/components/Roadmap/NewScroll";
-import Experience from "@/components/Roadmap/NewScroll";
-import NewScroll from "@/components/Roadmap/NewScroll";
-import RoadmapBN from "@/components/Roadmap/RoadmapBN";
+import MobileRoadmap from "@/components/Roadmap/MobileRoadmap";
+import NewRoadmap from "@/components/Roadmap/NewRoadmap";
+
 
 import Image from "next/image";
 import { BsTelegram, BsTwitterX } from "react-icons/bs";
@@ -22,7 +21,7 @@ export default function Home() {
         {/* <StarsCanvas /> */}
         <Navbar />
         <Hero />
-        <YoutubeEmPlanetUp />
+        {/* <YoutubeEmPlanetUp /> */}
         <div className="fixed top-[15%]  lg:top-[40%] ml-3 text-3xl gap-y-4 z-40">
           <a
             href="https://www.facebook.com/BelieveNetworkSpaceOfficial"
@@ -51,8 +50,22 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex  items-center justify-center mb-16">
+        <div className="flex flex-col  items-center justify-center mb-16">
           {/* <RoadmapBN/> */}
+          <div className="-translate-y-36 lg:-translate-y-56  mt-48 lg:mt-36 z-30">
+            <p className="text-4xl lg:text-6xl font-extrabold ">Our Roadmap</p>
+          </div>
+
+         <div className="lg:hidden">
+         <MobileRoadmap/>
+
+         </div>
+
+         <div className="hidden lg:block">
+          <NewRoadmap/>
+         </div>
+
+          {/* <NewRoadmap/> */}
           
            {/* <Experience/> */}
         </div>

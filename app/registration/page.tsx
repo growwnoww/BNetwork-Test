@@ -36,6 +36,7 @@ import { GiCoins } from "react-icons/gi";
 import { MainMetors } from "@/components/sub/MainMetors";
 import Statistics from "@/components/sub/Statistics";
 import MobStatistics from "@/components/sub/MobStatistics";
+import { RegMetors } from "@/components/sub/RegMetors";
 
 const MainMetorsData = [
   {
@@ -152,12 +153,11 @@ const Page = () => {
                       : "lg:block"
                   }`}
                 >
-                  <MainMetors
+                  <RegMetors
                     logo={item.logo}
                     title={item.title}
                     description={item.description}
-                    widthP={"28"}
-                    textSize={"sm"}
+              
                   />
                 </li>
               ))}

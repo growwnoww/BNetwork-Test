@@ -3,6 +3,31 @@
 @tailwind utilities;
  
 @layer base {
+  @layer base {
+    @keyframes moving-border {
+      0% {
+        border-color: transparent;
+      }
+      25% {
+        border-color: rgb(3, 174, 3);
+      }
+      50% {
+        border-color: transparent;
+      }
+      75% {
+        border-color: yellow;
+      }
+      100% {
+        border-color: transparent;
+      }
+    }
+  
+    .moving-border {
+      border: 2px solid transparent;
+      animation: moving-border 2s linear infinite;
+      border-radius: 1rem; /* Match the div's border radius */
+    }
+  }
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
