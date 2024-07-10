@@ -7,6 +7,7 @@ import YoutubeEmPlanetUp from "@/components/main/YoutubeEmPlanetUp";
 import { AnimatedListDemo } from "@/components/Roadmap/AnimatedListDemo";
 import MobileRoadmap from "@/components/Roadmap/MobileRoadmap";
 import NewRoadmap from "@/components/Roadmap/NewRoadmap";
+import SmatContractContainer from "@/components/sub/SmatContractContainer";
 
 
 import Image from "next/image";
@@ -65,10 +66,9 @@ export default function Home() {
           <NewRoadmap/>
          </div>
 
-          {/* <NewRoadmap/> */}
-          
-           {/* <Experience/> */}
         </div>
+
+        <SmatContractContainer/>
         <FAQ />
       </div>
       <footer>

@@ -95,6 +95,7 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
         "meteor-effect": "meteor 5s linear infinite",
+        shimmer: "shimmer 2s linear infinite",
          grid: "grid 15s linear infinite",
          spotlight: "spotlight 2s ease .75s 1 forwards",
       },
@@ -106,6 +107,14 @@ const config = {
             transform: "rotate(215deg) translateX(-500px)",
             opacity: "0",
           },
+        },
+        shimmer: {
+          from: {
+            "backgroundPosition": "0 0"
+          },
+          to: {
+            "backgroundPosition": "-200% 0"
+          }
         },
         spotlight: {
           "0%": {
