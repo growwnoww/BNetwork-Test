@@ -49,7 +49,7 @@ const HeroContent = () => {
                 </video>
             </div>
 
-            <div className="z-10 px-10 lg:p-20 mb-96   mt-[120%] sm:mt-[90%] md:mt-[90%]  lg:mt-[50%] flex flex-col gap-5 justify-center items-center w-full">
+            <div id='statistics'  className="z-10 px-10 lg:p-20 mb-96   mt-[120%] sm:mt-[90%] md:mt-[90%]  lg:mt-[50%] flex flex-col gap-5 justify-center items-center w-full">
                 <div className="flex  items-center justify-center flex-col">
                     <div className="flex flex-col items-center justify-center h-auto w-auto ">
                         <p className="text-neutral-200 text-xs md:text-lg lg:text-xl  ">

@@ -6,11 +6,12 @@ const Workslayout = ({children}:{children:React.ReactNode}) => {
     <div>
         <Navbar/>
          <div>
-         
+
+
             {children}
         
             
-         </div>
+          </div>
     </div>
   )
 }

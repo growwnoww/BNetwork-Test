@@ -209,13 +209,13 @@ const NewRoadmap = () => {
 
         <div className="relative border-2 border-t-2 border-r-0 border-b-2 border-t-gray-500 border-l-gray-500  border-b-gray-500   border-white-900 rounded-l-[15px] -translate-x-6 -translate-y-[7px] h-60">
           <div className="absolute -top-[80%] left-5 flex gap-x-32 translate-y-16">
-            <div className="relative h-[6rem] w-[14rem] bg-zinc-800 rounded-xl flex flex-col items-center justify-center">
+          <div className="relative h-[6rem] w-[14rem] bg-zinc-800 rounded-xl flex flex-col items-center justify-center">
             <div className="absolute -bottom-11 left-24">
                 <BsFillStopCircleFill className="text-3xl text-gray-500 bg-black" />
               </div>
               <div>
                 <Image
-                  src="/Forex_bot.png"
+                  src="/BN_Lottery.png"
                   alt="BN_Idea"
                   height={50}
                   width={50}
@@ -224,12 +224,10 @@ const NewRoadmap = () => {
                 />
               </div>
 
-              <p className="text-center text-[10px]">
-                {" "}
-                BNS Forex Trading AI Robot{" "}
-              </p>
-              <p className=" text-center text-[9px]">Q.3 2024</p>
+              <p className=" text-center text-[10px]"> BNS Lottery </p>
+              <p className=" text-center text-[9px]">Q.4 2024</p>
             </div>
+          
             <div className="relative h-[6rem] w-[14rem] bg-zinc-800 rounded-xl flex flex-col items-center justify-center">
             <div className="absolute -bottom-11 left-24">
                 <BsFillStopCircleFill className="text-3xl text-gray-500 bg-black" />
@@ -254,7 +252,7 @@ const NewRoadmap = () => {
               </div>
               <div>
                 <Image
-                  src="/BN_Lottery.png"
+                  src="/Forex_bot.png"
                   alt="BN_Idea"
                   height={50}
                   width={50}
@@ -263,8 +261,11 @@ const NewRoadmap = () => {
                 />
               </div>
 
-              <p className=" text-center text-[10px]"> BNS Lottery </p>
-              <p className=" text-center text-[9px]">Q.4 2024</p>
+              <p className="text-center text-[10px]">
+                {" "}
+                BNS Forex Trading AI Robot{" "}
+              </p>
+              <p className=" text-center text-[9px]">Q.3 2024</p>
             </div>
           </div>
         </div>

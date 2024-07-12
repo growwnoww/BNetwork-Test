@@ -23,25 +23,28 @@ const navList: NavItem[] = [
         title: "Home",
         link: "/",
     },
-
-    {
-        title: "Roadmap",
-        link: "#roadmap",
-    },
     {
         title: "Statistics",
-        link: "#statistics",
+        link: "/#statistics",
+    },
+    {
+        title: "Roadmap",
+        link: "/#roadmap",
     },
     {
         title: "How it works",
         link: "/howitworks",
     },
-
+    {
+        title:"Smart Contract",
+        link:"/smartcontractinfo"
+    },
     {
         title: "FAQ",
-        link: "#faq",
+        link: "/#faq",
     },
 ];
+
 
 const Navbar = () => {
     const [activeNav, setActiveNav] = useState<String>("#home");
@@ -153,7 +156,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {(pathname === "/" || pathname === "/registration") && <PreviewComp />}
+                    {(pathname === "/" || pathname === "/registration" || pathname === "/howitworks" || pathname === "/smartcontractinfo") && <PreviewComp />}
                 </div>
             </div>
         </div>

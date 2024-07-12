@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss"
+
 const { nextui } = require("@nextui-org/react");
 const svgToDataUri = require("mini-svg-data-uri");
 const defaultTheme = require("tailwindcss/defaultTheme");
@@ -12,6 +13,7 @@ const config = {
   mode: 'jit',
   darkMode: ["class"],
   content: [
+
     './pages/**/*.{ts,tsx}',
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
@@ -144,6 +146,7 @@ const config = {
     },
   },
   plugins: [
+
     require("tailwindcss-animate"),
     addVariablesForColors,
     nextui(),

@@ -2,15 +2,10 @@ import FAQ from "@/components/FAQ/FAQ";
 import Footer from "@/components/Footer/Footer";
 import Hero from "@/components/main/Hero";
 import Navbar from "@/components/main/Navbar";
-import StarsCanvas from "@/components/main/StarBackground";
-import YoutubeEmPlanetUp from "@/components/main/YoutubeEmPlanetUp";
 import { AnimatedListDemo } from "@/components/Roadmap/AnimatedListDemo";
 import MobileRoadmap from "@/components/Roadmap/MobileRoadmap";
 import NewRoadmap from "@/components/Roadmap/NewRoadmap";
 import SmatContractContainer from "@/components/sub/SmatContractContainer";
-
-
-import Image from "next/image";
 import { BsTelegram, BsTwitterX } from "react-icons/bs";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { ImWhatsapp } from "react-icons/im";
@@ -51,9 +46,9 @@ export default function Home() {
           </a>
         </div>
 
-        <div className="flex flex-col  items-center justify-center mb-16">
+        <div id="roadmap" className="flex flex-col  items-center justify-center -translate-y-96 lg:-translate-y-60">
           {/* <RoadmapBN/> */}
-          <div className="-translate-y-36 lg:-translate-y-56  mt-48 lg:mt-36 z-30">
+          <div className="-translate-y-36 lg:-translate-y-56    z-30">
             <p className="text-4xl lg:text-6xl font-extrabold ">Our Roadmap</p>
           </div>
 
@@ -67,6 +62,7 @@ export default function Home() {
          </div>
 
         </div>
+
 
         <SmatContractContainer/>
         <FAQ />

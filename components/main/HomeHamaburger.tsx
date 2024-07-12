@@ -107,16 +107,15 @@ const HomeHamaburger = () => {
                             </div>
                         }
                         <ul className="grid grid-cols-2 gap-2">
-                            {HomeMenu.map((item) => (
+                            {HomeMenu.map((item,index) => (
                                 <li
                                     onClick={() => setOpen(!isOpen)}
-                                    key={item.id}
+                                    key={index}
                                     className="bg-stone-800 rounded-md  flex items-center justify-center"
                                 >
-                                    <Link href={item.path} className=" py-2">
+                                    <Link href={item.link} className=" py-2">
                                         {item.title}
                                     </Link>
-                                    <p>{item.icon2}</p>
                                 </li>
                             ))}
 

@@ -35,7 +35,7 @@ function Statistics() {
     
     
   return (
-    <div className='flex flex-col gap-y-4  lg:flex-row items-center justify-center gap-x-3 w-full mt-7 md:mt-24 lg:mt-7 mb-8 lg:mx-2'>
+    <div  className='flex flex-col gap-y-4  lg:flex-row items-center justify-center gap-x-3 w-full mt-7 md:mt-24 lg:mt-7 mb-8 lg:mx-2'>
 
 <div className='w-full flex flex-col items-center bg-zinc-900 py-5 rounded-lg'>
         <p className='font-semibold opacity-40'>Since</p>

@@ -22,7 +22,7 @@ const NFTRoyalityDiv = () => {
               text="Soon"
               height="py-2"
               width="px-10"
-              
+              // path='/dashboard/bnsystem/royalty_nft'
             />
             <IoIosUnlock className="absolute right-[10%]" />
           </div>
