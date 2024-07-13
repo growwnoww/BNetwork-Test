@@ -16,9 +16,12 @@ const Page = ()=> {
         <div className="h-full w-full  mt-24">
 
             <div className="flex flex-col items-center justify-center">
-                <GrWorkshop className="text-9xl text-yellow-500"/>
-                <p className="text-7xl font-semibold  text-gray-200">How it Works</p>
+                <GrWorkshop className="text-7xl lg:text-9xl text-yellow-500"/>
+                <p className="text-4xl lg:text-7xl font-semibold  text-gray-200 text-center">How it Works</p>
             </div>
+
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+
          
             <div className=" flex flex-col items-center justify-center lg:block mx-8 mb-10">
                  

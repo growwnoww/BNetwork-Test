@@ -4,7 +4,7 @@ export function CardSwahili() {
   return (
    <div>
    
-     <div className="max-w-5xl mx-auto px-8">
+     <div className="lg:max-w-5xl mx-auto">
       <HoverEffect items={projects} />
     </div>
    </div>

@@ -245,7 +245,7 @@ const MobileRoadmap = () => {
                 {" "}
                 <p className="text-center text-[9px]">BNS Forex Trading AI Robot </p>
               </p>
-              <p className=" text-center text-[8px]">Q.1-2024 14/02/24</p>
+              <p className=" text-center text-[8px]">Q.3-2024</p>
             </div>
 
 

@@ -21,12 +21,12 @@ export const HoverEffect = ({
   return (
   <div className="mt-20">
     <div className="text-start">
-        <p className="text-3xl font-medium">French Language</p>
+        <p className="text-xl lg:text-3xl font-medium">French Language</p>
     </div>
       <div
       className={cn(
-        "grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4  ",
-        className
+        " grid grid-cols-2 lg:grid-cols-4 ",
+                className
       )}
     >
       {items.map((item, idx) => (
@@ -54,14 +54,14 @@ export const HoverEffect = ({
               />
             )}
           </AnimatePresence>
-          <Card className="">
+          <Card className="w-[10rem] lg:w-full flex items-center justify-center">
 
             <div className="flex items-center justify-center">
             <Image
             src={item.image}
             alt={item.title}
-            height={100}
-            width={100}
+            height={70}
+            width={70}
             className=""
             />
             </div>
