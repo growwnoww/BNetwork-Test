@@ -392,7 +392,7 @@ export function CardWithForm() {
                   <CardTitle className="text-white text-2xl">
                     Create NFTs
                   </CardTitle>
-                  <CardDescription>
+                  <CardDescription className="text-sm">
                     Creating Just Spaceship NFT will be available after gaining
                     Planet Package 5 in CosMos Network and Planet Package 5 in
                     Universe Club A. & For Earth NFT Creating Earth NFT will be
@@ -400,7 +400,7 @@ export function CardWithForm() {
                     Network and Universe Club A
                   </CardDescription>
                 </CardHeader>
-                <div className="  translate-y-[20%]">
+                <div className="  lg:translate-y-[20%]">
                   <CardContent className=" ">
                     <form className="">
                       <div className="flex items-center w-full gap-4">
@@ -413,6 +413,7 @@ export function CardWithForm() {
                             name="selectedPackage"
                             value={selectVal.nft}
                             onValueChange={handleSelectNFT}
+                            
                           >
                             <SelectTrigger className="w-[180px] border text-white border-yellow-400">
                               <SelectValue
@@ -420,7 +421,7 @@ export function CardWithForm() {
                                 placeholder=""
                               />
                             </SelectTrigger>
-                            <SelectContent className="bg-black ">
+                            <SelectContent className="bg-black z-50 ">
                               {SelectData.map((item) => (
                                 <SelectItem
                                   key={item.id}
