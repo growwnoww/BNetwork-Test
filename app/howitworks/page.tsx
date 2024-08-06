@@ -8,7 +8,6 @@ import { GrWorkshop } from "react-icons/gr";
 
 
 
-import Image from "next/image";
 
 
 const Page = ()=> {

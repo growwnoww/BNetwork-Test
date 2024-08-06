@@ -6,13 +6,13 @@ import { BsFillStopCircleFill } from "react-icons/bs";
 
 const NewRoadmap = () => {
   return (
-    <div>
+    <div className="">
 
       
-      <div className="">
+      <div className="mt-24 ">
         <div className="relative border-2 border-t-1 border-l-0  border-t-orange-400 border-r-orange-400 border-b-orange-400  border-b-1 border-white-900 rounded-r-[15px] -translate-x-3 -translate-y-[1px] h-60 w-[60rem] z-10  ">
           {/* <div className="absolute -top-5 left-28"><FcApproval className="text-4xl"/></div> */}
-          <div className="absolute -top-[80%] left-5 flex gap-x-32 translate-y-16">
+          <div className="absolute -top-[80%] left-5 flex gap-x-32 translate-y-16 ">
             <div className="relative h-[6rem] w-[14rem] bg-zinc-900 rounded-xl flex flex-col items-center justify-center moving-border">
               <div className="absolute -bottom-12 left-24">
                 <FcApproval className="text-4xl" />

@@ -47,7 +47,7 @@ const Sidebar = () => {
     };
 
     return (
-        <div className={` hidden ${isOpen ? "lg:block" : "lg:hidden"} h-full w-72  border-r-[.5px] border-r-stone-700`}>
+        <div className={` hidden ${isOpen ? "lg:block" : "lg:hidden"} h-[100vh] w-72  border-r-[.5px] border-r-stone-700`}>
             <div className="flex items-center justify-between border-b-[.5px] border-b-stone-700 h-16">
                 <div className="flex items-center mt-4  h-16 ml-4">
                     <Link href="/dashboard">

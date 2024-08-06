@@ -21,3 +21,50 @@ export const currentUser = atom({
     key:"currentUserAtom",
     default:''
 })
+
+
+export const addNFT1 = atom({
+    key:"addNft1",
+    default:false
+})
+
+export const addNFT2 = atom({
+    key:"addNft2",
+    default:false
+})
+
+export const addNFT1Name = atom({
+    key:"addNft1Name",
+    default:"Earth"
+})
+
+export const addnft1Atom = atom({
+    key: 'nftAtom1', 
+    default: 0
+  });
+
+  export const addnft2Atom = atom({
+    key: 'nftAtom2', 
+    default: 0
+  });
+
+export const selectNFTMerge = atom({
+    key:"selectNFTAtom",
+    default:false
+})
+
+
+export const selectNFTs1 = atom({
+    key:"selectNFTs2",
+    default:false
+})
+
+export const disableIdsAtom = atom<number[]>({
+    key: 'disableIdsAtom',
+    default: [],
+  });
+
+export const updateYourNFTs = atom({
+    key:"updateYourNFTs",
+    default:false
+});

@@ -40,9 +40,9 @@ const config = {
       'xl': '1280px',
       // => @media (min-width: 1280px) { ... }
 
-      '2xl': '1436px',
+      '2xl': '1600px',
 
-      '3xl': '1600px',
+      '3xl': '1900px',
       // => @media (min-width: 1536px) { ... }
     },
     extend: {

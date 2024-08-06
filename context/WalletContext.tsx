@@ -79,7 +79,9 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                 previewAddress,
                 setPreviewAddress,
             }}
+        
         >
+        
             {children}
         </WalletContext.Provider>
     );

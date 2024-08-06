@@ -16,6 +16,7 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props
+  //@ts-ignore
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [Autoplay()])
 
   const onNavButtonClick = useCallback((emblaApi: EmblaCarouselType) => {
@@ -35,6 +36,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     nextBtnDisabled,
     onPrevButtonClick,
     onNextButtonClick
+//@ts-ignore
   } = usePrevNextButtons(emblaApi, onNavButtonClick)
 
   return (

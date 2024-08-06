@@ -5,6 +5,10 @@ import Navbar from "@/components/main/Navbar";
 import { AnimatedListDemo } from "@/components/Roadmap/AnimatedListDemo";
 import MobileRoadmap from "@/components/Roadmap/MobileRoadmap";
 import NewRoadmap from "@/components/Roadmap/NewRoadmap";
+import { BentoGridSecondDemo } from "@/components/sub/BncoinInfo";
+import { FeaturesSectionDemo } from "@/components/sub/Featuresectiondemo";
+import { GlobeDemo } from "@/components/sub/Globe";
+import PieChartDemo from "@/components/sub/PieChart";
 import SmatContractContainer from "@/components/sub/SmatContractContainer";
 import { BsTelegram, BsTwitterX } from "react-icons/bs";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
@@ -46,7 +50,8 @@ export default function Home() {
           </a>
         </div>
 
-        <div id="roadmap" className="flex flex-col  items-center justify-center -translate-y-96 lg:-translate-y-60">
+
+        <div id="roadmap" className="flex flex-col  items-center justify-center -translate-y-96 lg:-translate-y-2 ">
           {/* <RoadmapBN/> */}
           <div className="-translate-y-36 lg:-translate-y-56    z-30">
             <p className="text-4xl lg:text-6xl font-extrabold ">Our Roadmap</p>
@@ -62,12 +67,14 @@ export default function Home() {
          </div>
 
         </div>
-
+         <FeaturesSectionDemo/>
 
         <SmatContractContainer/>
         <FAQ />
       </div>
+
       <footer>
+        <GlobeDemo/>
              <Footer />
       </footer>
     </main>

@@ -8,8 +8,8 @@ import {
   useWeb3ModalAccount,
 } from "@web3modal/ethers5/react";
 import { ethers } from "ethers";
-import { useRecoilState } from "recoil";
-import { addNFT1, addNFT1Name, addNFT2, addnft1Atom, disableIdsAtom, selectNFTMerge } from "@/store/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { addNFT1, addnft1Atom, addNFT1Name, addNFT2, addnft2Atom, disableIdsAtom, selectNFTMerge, selectNFTs1 } from "@/store/atom";
 import { Card, CardContent } from "@/components/ui/card"
 import {
   Carousel,
@@ -19,21 +19,20 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
+
 type AlertDialogProps = {
   title: string;
   NFTName: string;
-  disbleNFTId: number[];
   onCancel: () => void;
-  onCancelPop: () => void;
+  onCancelPop:()=> void;
 };
 interface TokenIdsState {
   [key: number]: number[];
 }
 
-const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
+const NFTAddAlertDialog2: React.FC<AlertDialogProps> = ({
   title,
   NFTName,
-  disbleNFTId,
   onCancel,
   onCancelPop
 }) => {
@@ -45,15 +44,13 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
   const provider = new ethers.providers.Web3Provider(walletProvider as any);
   const signer = provider.getSigner();
   const nftContractInstnace = new ethers.Contract(NFT_Address, NFT_ABI, signer);
-  const [selectId, setSelectId] = useState<number | null>(null)
-  const [isSelected1, setIsSelected1] = useRecoilState(addNFT1)
+  const [selectId,setSelectId] = useState<number | null>(null)
+  const [isSelected2,setIsSelected2] = useRecoilState(addNFT2)
 
-  const [selectedNFTname, setSelectedNFTname] = useRecoilState(addNFT1Name);
-  const [nftId, setNftId] = useRecoilState(addnft1Atom);
-  const [selectNFTs, setSelectNFTs] = useRecoilState(selectNFTMerge)
-  const [disbaleIds, setDisbaleIds] = useRecoilState(disableIdsAtom)
-
-  const [disableIds] = useRecoilState(disableIdsAtom);
+  const [selectedNFTname,setSelectedNFTname]  = useRecoilState(addNFT1Name);
+  const [nftId,setNftId] = useRecoilState(addnft2Atom);
+  const [selectNfts1,setSelectNfts1] = useRecoilState(selectNFTs1)
+  const [disbaleIds,setDisbaleIds] = useRecoilState(disableIdsAtom)
 
   const getBasisClass = (activeIdsLength: number) => {
     if (activeIdsLength >= 3) {
@@ -64,7 +61,8 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
       return "basis-1/1 flex items-center justify-center  translate-x-[20%]"
     }
   };
-  
+
+
   const getNFTNameById = (
     id: string
   ): "NFT1" | "NFT2" | "NFT3" | "NFT4" | "NFT5" => {
@@ -148,28 +146,28 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
         ...prevState,
         [tokenId]: extractedTokenIds,
       }));
-    } catch (error) { }
+    } catch (error) {}
   };
   const handleOnClick = async (id: number) => {
     console.log("NFT token id is", id);
+  
+     setNftId(id)
+     setDisbaleIds((prevIds) => [...prevIds, id]);
 
-    setNftId(id)
-    setDisbaleIds((prevIds) => [...prevIds, id]);
-    // Update selection states based on new selection
     setSelectId(id);
     setSelectedNFTname(NFTName);
-    setIsSelected1(true)
+    setIsSelected2(true)
+    setSelectNfts1(false)
     // Update `selectNFTs` state
-    setSelectNFTs(false);
   };
+  
+ 
+  
 
-
-
-
-  useEffect(() => {
-    console.log("recoild state of nft 1  id ", nftId)
-    console.log("selected 1 value", isSelected1)
-  }, [nftId, , isSelected1])
+ useEffect(()=>{
+  console.log("recoild state of nft 2  id ",nftId)
+  console.log("selected 2 value",isSelected2)
+ },[nftId,,isSelected2])
 
   useEffect(() => {
     getUserTotalNFTs();
@@ -177,25 +175,24 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-[2px] "></div>
-      <div className="bg-zinc-800 rounded-lg shadow-lg w-auto md:w-1/2 md:h-[30rem] p-6 z-10 flex flex-col items-center justify-center mx-9">
-        <div className="flex items-end justify-end w-full -translate-y-5 translate-x-5 lg:translate-x-0  lg:-translate-y-8">
+      <div className="bg-zinc-800 rounded-lg shadow-lg w-11/12 md:w-1/2 md:h-[30rem] p-6 z-10 flex flex-col items-center justify-center">
+        <div className="flex items-end justify-end w-full  -translate-y-12">
           <p className="rounded-full hover:bg-neutral-600">
-            <IoCloseSharp className="text-2xl lg:text-4xl" onClick={onCancelPop} />
+            <IoCloseSharp className="text-4xl" onClick={onCancelPop} />
           </p>
         </div>
         <div>
           <div>
-            <div className="-translate-y-10 flex items-center justify-center mt-10 lg:mt-0">
-              <p className="text-lg lg:text-3xl text-center  ">
+            <div className="-translate-y-10">
+              <p className="text-3xl text-center">
                 Upgrade NFT by Merging them
               </p>
             </div>
             <div className="flex gap-x-5">
-
-              <Carousel className="w-full ">
+            <Carousel className="w-full ">
                 <CarouselContent className="-ml-1">
                   {Object.entries(tokenIds).map(([tokenId, ids]) => {
-                    const activeIds = ids.filter((id: number) => !disableIds.includes(id));
+                    const activeIds = ids.filter((id: number) => !disbaleIds.includes(id));
                     const activeIdsLength = activeIds.length;
 
                     return activeIds.map((id: any) => (
@@ -228,7 +225,6 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
                 <CarouselNext  className="bg-black text-white -translate-x-8"/>
               </Carousel>
             </div>
-
           </div>
         </div>
         <h2 className="text-xl font-semibold mb-4">{title}</h2>
@@ -238,4 +234,4 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
   );
 };
 
-export default NFTAddAlertDialog;
+export default NFTAddAlertDialog2;

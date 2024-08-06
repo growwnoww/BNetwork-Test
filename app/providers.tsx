@@ -6,6 +6,9 @@ import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import { createWeb3Modal, defaultConfig } from "@web3modal/ethers5/react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import * as React from "react";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer } from "react-toastify";
 
 // 1. Get projectId at https://cloud.walletconnect.com
 const projectId = "9d8144e157054d061c1c58a856ba0669";
@@ -98,12 +101,15 @@ export function Providers({ children }: { children: React.ReactNode }) {
                         <p className="text-black font-bold">You preview this address {query}</p>
                     </div>
                 )} */}
+          
                 <TawkMessengerReact
                     propertyId={process.env.NEXT_PUBLIC_ProjectId}
                     widgetId={process.env.NEXT_PUBLIC_WidgetId}
                     ref={tawkMessengerRef}
                 />
                 {mounted && children}
+                <ToastContainer/>
+
             </WalletProvider>
         </NextUIProvider>
     );
