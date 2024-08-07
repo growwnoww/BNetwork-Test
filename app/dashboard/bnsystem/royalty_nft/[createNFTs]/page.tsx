@@ -1,6 +1,7 @@
 "use client";
 import AlertDialog from "@/components/dashboardComponents/NFT/AlertDialog";
 import Bounces from "@/components/dashboardComponents/NFT/Bounces";
+import MergeAlertDialog from "@/components/dashboardComponents/NFT/MergeAlertDialog";
 import NFTAddAlertDialog from "@/components/dashboardComponents/NFT/NFTAddAlertDialog";
 import NFTAddAlertDialog2 from "@/components/dashboardComponents/NFT/NFTAddAlertDialog2";
 import RemoveNFTAlert from "@/components/dashboardComponents/NFT/RemoveNFTAlert";
@@ -62,8 +63,8 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
   const [selectNfts1, setSelectNfts1] = useRecoilState(selectNFTs1);
   const { walletProvider } = useWeb3ModalProvider();
   const [disbaleIds, setDisbaleIds] = useRecoilState(disableIdsAtom);
-  const nft1 = useRecoilValue(addnft1Atom);
-  const nft2 = useRecoilValue(addnft2Atom);
+  const [nft1,setNft1] = useRecoilState(addnft1Atom);
+  const [nft2,setNft2] = useRecoilState(addnft2Atom);
   const provider = new ethers.providers.Web3Provider(walletProvider as any);
   const signer = provider.getSigner();
   const nftContractInstnace = new ethers.Contract(NFT_Address, NFT_ABI, signer);
@@ -185,6 +186,14 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
     }
   };
 
+  const removeNFTs = () =>{
+    setSelected1(false);
+    setSelected2(false);
+    
+    setDisbaleIds((prevIds) => prevIds.filter(id => id !== nft1 && id !== nft2 && id !== currentNFTnumber));
+    console.log("hello i am clicked")
+  }
+
   useEffect(() => {
     console.log("selected value of 2 ", isSelected2);
   }, [isSelected2]);
@@ -192,15 +201,15 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
   useEffect(() => {
     let id = currentNFTnumber;
     setDisbaleIds((prevIds) => [...prevIds, id]);
+    console.log("nft 1 is  ",nft1)
+    console.log("nft 2 is  ",nft2)
+
   }, []);
 
   return (
     <div>
       <div className="">
-        <Link href="/dashboard/bnsystem/royalty_nft" onClick={()=>{
-           setSelected1(false);
-           setSelected2(false);
-          }}>
+        <Link href="/dashboard/bnsystem/royalty_nft" onClick={removeNFTs}>
           <p className="text-xl font-medium py-3">Back to NFT List</p>
         </Link>
       </div>
@@ -208,7 +217,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
       <div className="flex flex-col lg:flex-row gap-x-4 gap-y-5 mx-4">
         <div className="lg:flex-[29%] h-auto bg-black  rounded-xl">
           <div className="bg-neutral-800 h-24 border-b-2 border-yellow-500  rounded-tl-xl rounded-tr-xl flex items-center justify-start pl-4">
-            <p className="text-2xl ">Earth # {currentNFTnumber}</p>
+            <p className="text-2xl ">{currentNFT} # {currentNFTnumber}</p>
           </div>
           <ShootingStarsAndStarsBackgroundDemo currentNFT={currentNFT} />
         </div>
@@ -291,7 +300,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
                 </p>
                 <button
                   onClick={handlemergeNFTs}
-                  className="bg-neutral-700 px-5 rounded-lg py-3"
+                  className="bg-neutral-700 px-5 rounded-lg py-3 my-3 lg:my-0"
                 >
                   Merge
                 </button>
@@ -313,9 +322,9 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
       
 
       {isDialogOpen && (
-        <AlertDialog
+        <MergeAlertDialog
           title={`${currentNFT} NFTs`}
-          message={`You have successfully minit the ${currentNFT} NFT 🎉🤟`}
+          message={`You have successfully minit the ${currentNFT}  🎉🤟`}
           onCancel={handleCancel}
           NFTName={currentNFT}
         />

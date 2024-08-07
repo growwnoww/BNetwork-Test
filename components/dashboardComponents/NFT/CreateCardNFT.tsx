@@ -31,7 +31,7 @@ import {
   PlanetUpgrade_Address,
   PlanetUprade_ABI,
 } from "@/contract/Web3_Instance";
-import { Bounce, toast, ToastContainer } from "react-toastify";
+
 import "react-toastify/dist/ReactToastify.css";
 import { escape } from "querystring";
 import Confetti from "react-confetti";
@@ -40,6 +40,7 @@ import NFTAddAlertDialog from "./NFTAddAlertDialog";
 import NFTLoader from "./NFTLoader";
 import { useRecoilState } from "recoil";
 import { updateYourNFTs } from "@/store/atom";
+import toast from "react-hot-toast";
 
 const SelectData = [
   {
@@ -176,37 +177,18 @@ export function CardWithForm() {
       const isValid = await checkUserisValid(userAddress);
       if (isValid) {
         const buyJustToken = await nftContractInstnace.purchaseJustToken();
-        toast.success("You're Verified", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+    
 
         await buyJustToken.wait();
         setLoader(false);
       } else {
-        toast.error("You don't have enough packages for NFT.", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+
+        
         setLoader(false);
       }
     } catch (error) {
       console.log("something went wrong getJustNFT ", error);
-     
+     toast.error("something went wrong")
     } finally {
       setUpdateNFT(true);
     }
@@ -214,6 +196,7 @@ export function CardWithForm() {
 
   const getEarthNFT = async () => {
     try {
+      // const energyToken = "0x9A7A2F80FD5Cf89209EC40192f481005cA3A779d"
       const energyToken = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
       const buyEarthNFT = await nftContractInstnace.mint(energyToken);
       await buyEarthNFT.wait();
@@ -222,21 +205,13 @@ export function CardWithForm() {
       if (transactionReceipt) {
         handleBuyClick();
       }
+      toast.success("Mint Successfully 🎉")
+
     } catch (error) {
       console.log("something went wrong in getEarthNFT ", error);
 
       setLoader(false);
-      toast.error("Something Went Wrong.", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        transition: Bounce,
-      });
+      toast.error("Something Went Wrong.");
      
     } finally {
       setUpdateNFT(true);
@@ -296,16 +271,7 @@ export function CardWithForm() {
   const transferNFT = async () => {
     try {
       //Register user .
-      const isRegiser = await checkReceiverRegister();
-      if (!isRegiser) {
-        return;
-      }
-      //if receiver doesn't have  planets  --> note.
-      const isReceiverHasPlanet = await checkUserisValid(value.receiverAddress);
-
-      if (!isReceiverHasPlanet) {
-        toast.info("Receiver doesn't have Just Spaceship NFT");
-      }
+      
       console.log(
         "Checking user input of transfer before sends to smart contract",
         value.receiverAddress,
@@ -324,31 +290,14 @@ export function CardWithForm() {
       const transactionReceipt = tranferNFT.hash;
 
       if (transactionReceipt) {
-        toast.success("NFT Transfer Successfully 🎉", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.success("NFT Transfer Successfully 🎉");
       } else {
-        toast.error("Something went wrong ", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.error("Something went wrong,");
       }
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Something went wrong , Check Receiver address");
+
+    }
   };
 
   const transferNFTHandle = () => {
@@ -370,6 +319,8 @@ export function CardWithForm() {
 
   return (
     <div>
+
+
       {loader ? (
         <NFTLoader />
       ) : (
@@ -503,7 +454,7 @@ export function CardWithForm() {
                   </div>
                 </CardContent>
                 <CardFooter className="flex items-start  mx-6 ">
-                  <Button variant="custom_yellow" onClick={transferNFT}>
+                  <Button variant="custom_yellow" onClick={transferNFTHandle}>
                     Transfer NFT
                   </Button>
                 </CardFooter>
@@ -522,7 +473,6 @@ export function CardWithForm() {
         </div>
       )}
 
-      <ToastContainer />
     </div>
   );
 }

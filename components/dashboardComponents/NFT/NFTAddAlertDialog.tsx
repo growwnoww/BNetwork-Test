@@ -18,6 +18,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { FadeLoader } from "react-spinners";
 
 type AlertDialogProps = {
   title: string;
@@ -41,7 +42,7 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
   const { address } = useWeb3ModalAccount();
 
   const [tokenIds, setTokenIds] = React.useState<TokenIdsState>({});
-
+  const [loader,setLoader] = React.useState(true)
   const provider = new ethers.providers.Web3Provider(walletProvider as any);
   const signer = provider.getSigner();
   const nftContractInstnace = new ethers.Contract(NFT_Address, NFT_ABI, signer);
@@ -61,7 +62,7 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
     } else if (activeIdsLength === 2) {
       return "basis-1/1 lg:basis-1/2";
     } else if (activeIdsLength === 1){
-      return "basis-1/1 flex items-center justify-center  translate-x-[20%]"
+      return "basis-1/1 flex items-center justify-center   lg:translate-x-1/3"
     }
   };
   
@@ -149,6 +150,9 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
         [tokenId]: extractedTokenIds,
       }));
     } catch (error) { }
+    finally{
+      setLoader(false)
+    }
   };
   const handleOnClick = async (id: number) => {
     console.log("NFT token id is", id);
@@ -190,44 +194,65 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
                 Upgrade NFT by Merging them
               </p>
             </div>
+
+
+            {
+              loader?
+              <div className="w-44 h-44 lg:w-56 lg:h-56 flex items-center justify-center translate-x-1/4 lg:translate-x-1/2">
+              <div className="flex items-center justify-center w-full h-full ">
+                    <p className="text-lg lg:text-3xl text-center">
+                      <div className="flex items-center justify-center"><FadeLoader color="#ffd008" /></div>
+                    <p className="text-sm lg:text-lg">Fetching you're NFTs....</p>
+                    </p>
+                  </div>
+              </div>
+              :
+
+
             <div className="flex gap-x-5">
 
-              <Carousel className="w-full ">
-                <CarouselContent className="-ml-1">
-                  {Object.entries(tokenIds).map(([tokenId, ids]) => {
-                    const activeIds = ids.filter((id: number) => !disableIds.includes(id));
-                    const activeIdsLength = activeIds.length;
+            <Carousel className="w-full ">
+              <CarouselContent className="-ml-1">
+                {Object.entries(tokenIds).map(([tokenId, ids]) => {
+                  const activeIds = ids.filter((id: number) => !disableIds.includes(id));
+                  const activeIdsLength = activeIds.length;
 
-                    return activeIds.map((id: any) => (
-                      <CarouselItem key={`${tokenId}-${id}`} className={` ${getBasisClass(activeIdsLength)} bg-transparent `}>
-                        <div className="p-1  w-fit " onClick={onCancel}>
-                          <Card className=" h-fit border-none">
-                            <CardContent className="relative flex  items-center justify-center">
-                              <div className="absolute top-0 right-6">
-                              <p className="bg-yellow-500 rounded-lg px-1 text-sm"># {id}</p>
-                              </div>
-                              <video
-                                autoPlay
-                                loop
-                                muted
-                                // height={270}
-                                // width={270}
-                                className="object-contain border border-yellow-500 rounded-xl w-44 h-44 lg:w-56 lg:h-56"
-                                onClick={(e) => handleOnClick(id)}
-                              >
-                                <source src={`/${NFTName}.mp4`} type="video/mp4" />
-                              </video>
-                            </CardContent>
-                          </Card>
-                        </div>
-                      </CarouselItem>
-                    ));
-                  })}
-                </CarouselContent>
-                <CarouselPrevious  className="bg-black text-white translate-x-8"/>
-                <CarouselNext  className="bg-black text-white -translate-x-8"/>
-              </Carousel>
-            </div>
+                  return activeIds.map((id: any) => (
+                    <CarouselItem key={`${tokenId}-${id}`} className={` ${getBasisClass(activeIdsLength)} bg-transparent `}>
+                      <div className="p-1  w-fit translate-x-1 " onClick={onCancel}>
+                        <Card className=" h-fit border-none">
+                          <CardContent className="relative flex  items-center justify-center">
+                            <div className="absolute top-0 right-6">
+                            <p className="bg-yellow-500 rounded-lg px-1 text-sm"># {id}</p>
+                            </div>
+                            <video
+                              autoPlay
+                              loop
+                              muted
+                              // height={270}
+                              // width={270}
+                              className="object-contain border border-yellow-500 rounded-xl w-44 h-44 lg:w-56 lg:h-56"
+                              onClick={(e) => handleOnClick(id)}
+                            >
+                              <source src={`/${NFTName}.mp4`} type="video/mp4" />
+                            </video>
+                          </CardContent>
+                        </Card>
+                      </div>
+                    </CarouselItem>
+                  ));
+                })}
+              </CarouselContent>
+              <CarouselPrevious  className="bg-black text-white translate-x-8"/>
+              <CarouselNext  className="bg-black text-white -translate-x-8"/>
+            </Carousel>
+          </div>
+
+
+            }
+
+          
+
 
           </div>
         </div>

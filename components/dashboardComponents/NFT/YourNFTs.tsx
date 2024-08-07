@@ -132,6 +132,7 @@ const YourNFTs = ({ isJustNFT }: { isJustNFT: boolean }) => {
     if (Object.keys(tokenType).length > 0) {
       fetchTokenIds();
     }
+    console.log("token type in state ->>>> ",tokenType)
   }, [tokenType]);
 
   useEffect(() => {
