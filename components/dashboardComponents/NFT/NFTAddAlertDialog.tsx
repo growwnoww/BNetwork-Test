@@ -202,7 +202,7 @@ const NFTAddAlertDialog: React.FC<AlertDialogProps> = ({
               <div className="flex items-center justify-center w-full h-full ">
                     <p className="text-lg lg:text-3xl text-center">
                       <div className="flex items-center justify-center"><FadeLoader color="#ffd008" /></div>
-                    <p className="text-sm lg:text-lg">Fetching you're NFTs....</p>
+                    <p className="text-sm lg:text-lg">Fetching your NFTs....</p>
                     </p>
                   </div>
               </div>
