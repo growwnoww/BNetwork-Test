@@ -320,7 +320,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
           </div>
           <div className="flex items-center justify-center h-full w-full">
             {/* <p className="text-3xl font-semibold text-center">Available Soon</p> */}
-             {/* <Bounces/> */}
+             <Bounces/>
           </div>
         </div>
       </div>
