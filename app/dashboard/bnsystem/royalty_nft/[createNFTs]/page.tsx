@@ -24,8 +24,8 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
+import toast, { Toaster } from "react-hot-toast";
 import { FaFlushed } from "react-icons/fa";
-import { Bounce, toast, ToastContainer } from "react-toastify";
 import { useRecoilState, useRecoilValue } from "recoil";
 
 function separateNumber(input: string): { nftName: string; number: number } {
@@ -56,9 +56,9 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
   const [selectNFT2, setSelectNFT2] = useState<boolean>(false);
   const [isSelected1, setSelected1] = useRecoilState(addNFT1);
   const [isSelected2, setSelected2] = useRecoilState(addNFT2);
-  const [selectedNFT, setSelectedNFT] = useRecoilState(addNFT1);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isRemoveDialogOpen, setIsRemoveDialogOpen] = useState(false);
+  const [isRemoveDialogOpen1,setIsRemoveDialogOpen1] = useState(false)
   const [selectNFTs, setSelectNFTs] = useRecoilState(selectNFTMerge);
   const [selectNfts1, setSelectNfts1] = useRecoilState(selectNFTs1);
   const { walletProvider } = useWeb3ModalProvider();
@@ -110,20 +110,29 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
   const handleNFTRemoveBought = (nftId: number) => {
     if (nftId === 1) {
       setSelected1(false);
+      console.log('hi from 1')
       setDisbaleIds((prev) => prev.filter((id) => id !== nft1));
+      setIsRemoveDialogOpen(true);
+
     } else if (nftId === 2) {
       setSelected2(false);
-
+      console.log("hi from 2")
       setDisbaleIds((prev) => prev.filter((id) => id !== nft2));
+      setIsRemoveDialogOpen1(true);
+
     }
 
-    setIsRemoveDialogOpen(true);
   };
 
-  const handleRemoveNFTCancel = () => {
+  const handleRemoveNFTCancel1 = () => {
     setIsRemoveDialogOpen(false);
-    setSelectedNFT(false);
+    setSelected1(false);
   };
+  const handleRemoveNFTCancel2 = () => {
+    setIsRemoveDialogOpen1(false);
+    setSelected2(false);
+  };
+
 
   const getNFTIdByName = (id: any) => {
     console.log("Id got ", id);
@@ -141,17 +150,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
   const handlemergeNFTs = async () => {
     try {
       if (!isSelected1 || !isSelected2) {
-        toast.error("First you have to add NFTs", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.error("First you have to add NFTs");
 
         return;
       }
@@ -167,17 +166,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
       const tranx = mergeNfts.hash;
 
       if (tranx) {
-        toast.success("Merge NFT Successfully", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          transition: Bounce,
-        });
+        toast.success("Merge NFT Successfully");
 
         handleBuyClick();
       }
@@ -205,16 +194,25 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
     console.log("selected value of 2 ", isSelected2);
   }, [isSelected2]);
 
+  useEffect(()=>{
+    console.log("nft 1 is  ",nft1)
+    console.log("nft 2 is  ",nft2)
+    console.log("disbale ids nft in main",disbaleIds)
+    },[disbaleIds])
+
   useEffect(() => {
     let id = currentNFTnumber;
     setDisbaleIds((prevIds) => [...prevIds, id]);
     console.log("nft 1 is  ",nft1)
     console.log("nft 2 is  ",nft2)
 
+  
+
   }, []);
 
   return (
     <div>
+      <Toaster/>
       <div className="">
         <Link href="/dashboard/bnsystem/royalty_nft" onClick={removeNFTs}>
           <p className="text-xl font-medium py-3">Back to NFT List</p>
@@ -322,7 +320,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
           </div>
           <div className="flex items-center justify-center h-full w-full">
             {/* <p className="text-3xl font-semibold text-center">Available Soon</p> */}
-             <Bounces/>
+             {/* <Bounces/> */}
           </div>
         </div>
       </div>
@@ -341,7 +339,16 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
           NFTName={String(currentNFT)}
           title={""}
           message={""}
-          handleRemoveNFTCancel={handleRemoveNFTCancel}
+          handleRemoveNFTCancel={handleRemoveNFTCancel1}
+          onCancelPop={removeNFTSelected}
+        />
+      )}
+       {isRemoveDialogOpen1 && (
+        <RemoveNFTAlert
+          NFTName={String(currentNFT)}
+          title={""}
+          message={""}
+          handleRemoveNFTCancel={handleRemoveNFTCancel2}
           onCancelPop={removeNFTSelected}
         />
       )}
