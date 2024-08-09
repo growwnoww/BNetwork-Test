@@ -153,7 +153,7 @@ const YourNFTs = ({ isJustNFT }: { isJustNFT: boolean }) => {
         }, 2000); // Display loader for 2 seconds
       });
     }
-  }, [updateNFT, setUpdateNFT]);
+  }, [updateNFT, setUpdateNFT,isJustNFT,setJustNFTNum]);
 
   return (
     <div className="flex gap-x-5">

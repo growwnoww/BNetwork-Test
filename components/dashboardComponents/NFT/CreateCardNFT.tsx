@@ -150,6 +150,8 @@ export function CardWithForm() {
       }
 
       return false;
+      toast.error("you don't have 5 packages in CosMos Network and Club-A")
+
     } catch (error) {
       console.log("somethin went wrong in checkUserisValid", error);
     }
@@ -180,14 +182,19 @@ export function CardWithForm() {
     
 
         await buyJustToken.wait();
-        setLoader(false);
-      } else {
+        setLoader(false)
 
-        
+
+      } else {
         setLoader(false);
+
       }
     } catch (error) {
-      console.log("something went wrong getJustNFT ", error);
+      console.log("something went wrong getJustNFT ", error);      
+      setLoader(false);
+
+
+
      toast.error("something went wrong")
     } finally {
       setUpdateNFT(true);
@@ -196,7 +203,7 @@ export function CardWithForm() {
 
   const getEarthNFT = async () => {
     try {
-      // const energyToken = "0x9A7A2F80FD5Cf89209EC40192f481005cA3A779d"
+      // const energyToken = "0x9A7A2F80FD5Cf89209EC40192f481005cA3A779d" 
       const energyToken = "0xE9Fd094111F6A79b08737058B0BF736B41BAB619";
       const buyEarthNFT = await nftContractInstnace.mint(energyToken);
       await buyEarthNFT.wait();
@@ -343,7 +350,7 @@ export function CardWithForm() {
                   <CardTitle className="text-white text-2xl">
                     Create NFTs
                   </CardTitle>
-                  <CardDescription className="text-sm">
+                  <CardDescription className="text-sm text-yellow-400 opacity-70">
                     Creating Just Spaceship NFT will be available after gaining
                     Planet Package 5 in CosMos Network and Planet Package 5 in
                     Universe Club A. & For Earth NFT Creating Earth NFT will be

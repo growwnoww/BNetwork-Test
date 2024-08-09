@@ -194,6 +194,13 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
     console.log("hello i am clicked")
   }
 
+  const removeNFTSelected = ()=>{
+    setIsRemoveDialogOpen(false);
+
+  }
+
+
+
   useEffect(() => {
     console.log("selected value of 2 ", isSelected2);
   }, [isSelected2]);
@@ -314,8 +321,8 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
             <p className="text-xs opacity-65 text-yellow-500">Your bonus can grow every day, upgrade your NFT to increase your income</p>
           </div>
           <div className="flex items-center justify-center h-full w-full">
-            <p className="text-3xl font-semibold text-center">Available Soon</p>
-             {/* <Bounces/> */}
+            {/* <p className="text-3xl font-semibold text-center">Available Soon</p> */}
+             <Bounces/>
           </div>
         </div>
       </div>
@@ -335,6 +342,7 @@ const BuyAndMergeNFTs = ({ params }: { params: { createNFTs: string } }) => {
           title={""}
           message={""}
           handleRemoveNFTCancel={handleRemoveNFTCancel}
+          onCancelPop={removeNFTSelected}
         />
       )}
 

@@ -8,25 +8,28 @@ import { ethers } from 'ethers';
 import { NFT_ABI, NFT_Address } from '@/contract/Web3_Instance';
 import { useRecoilState } from 'recoil';
 import { updateYourNFTs } from '@/store/atom';
+import JustNFTLevelIcon from '@/components/dashboardComponents/NFT/JustNFTLevelIcon';
+import NFTLevelSVG from '@/components/dashboardComponents/NFT/NFTLevelSVG';
+import NFTNotAvailable from '@/components/dashboardComponents/NFT/NFTNotAvaliable';
 
 interface TokenIdsState {
   [key: number]: number[];
 }
 
+
 const NFTRoyalityDiv = () => {
-  const levels = Array.from({ length: 6 }, (_, i) => i + 1);
+  const levels = Array.from({ length: 5 }, (_, i) => i + 1);
 
   const { walletProvider } = useWeb3ModalProvider();
   const { address } = useWeb3ModalAccount();
 
   const [tokenIds, setTokenIds] = React.useState<TokenIdsState>({});
   const [tokenType, setTokenType] = React.useState<{ [key: string]: number }>({});
-  const [updateNFT, setUpdateNFT] = useRecoilState(updateYourNFTs);
-  const [loading, setLoading] = React.useState(false);
-  const [justNftNum,setJustNFTNum] = React.useState<number>();
   const provider = new ethers.providers.Web3Provider(walletProvider as any);
   const signer = provider.getSigner();
   const nftContractInstance = new ethers.Contract(NFT_Address, NFT_ABI, signer);
+  const [availabeNFTS,setAvailableNFTs] = React.useState<number[]>()
+  const [isJustNFTBuy,setIsJustNFTBuy] = useState(false)
 
   const getNFTNameById = (id: any) => {
     console.log("Id got ", id);
@@ -41,7 +44,18 @@ const NFTRoyalityDiv = () => {
     return NFTName[id];
   };
 
-  const fetchTokenIds = async () => {
+  const getJustNft = async () =>{
+    try {
+      const methodInfo = await nftContractInstance.userMetadata(address);
+      const isBought = methodInfo._justToken;
+
+      setIsJustNFTBuy(isBought)
+    } catch (error) {
+      
+    }
+  }
+
+const fetchTokenIds = async () => {
     for (const [key, value] of Object.entries(tokenType)) {
       if (value > 0) {
         const tokenId = parseInt(key.replace('NFT', ''), 10);
@@ -105,17 +119,38 @@ const NFTRoyalityDiv = () => {
       console.error("Error fetching user total NFTs:", error);
     }
   };
-
   useEffect(() => {
     if (Object.keys(tokenType).length > 0) {
       fetchTokenIds();
-    }
-    console.log("token type in state ->>>> ",Object.keys(tokenType))
+      const keys = Object.keys(tokenType);
+      const lastKey = keys[keys.length - 1];
+      setAvailableNFTs((prev:any) => {
+        const newKeys = Object.keys(tokenType).map(key => {
+          const numberPart = parseInt(key.replace(/\D/g, ''), 10); // Extract the numeric part of the key
+          return numberPart;
+        });
+        
+        const combinedKeys = prev ? [...prev, ...newKeys] : newKeys;
+        const uniqueKeys = Array.from(new Set(combinedKeys)); // Ensure no duplicates
+        return uniqueKeys;
+      });
+       }
+    console.log("token type in state ->>>> ", Object.keys(tokenType));
   }, [tokenType]);
+
+  useEffect(() => {
+    if (availabeNFTS && availabeNFTS!.length > 0) {
+      console.log("available NFTs ids are -->", availabeNFTS);
+    }
+    console.log("available NFTs ids are -->", availabeNFTS);
+
+    
+  }, [availabeNFTS]);
 
 
   useEffect(() => {
     getUserTotalNFTs();
+    getJustNft();
     console.log("tokens ", tokenType);
 
   }, [])
@@ -124,11 +159,15 @@ const NFTRoyalityDiv = () => {
          <div className="text-2xl lg:text-xl xl:text-2xl 2xl:text-3xl  px-3"> NFT Royalty</div>
        <div className='flex flex-col lg:flex-row gap-y-5 lg:gap-y-0 items-center justify-between mr-0 lg:mr-10 gap-x-40'>
        <div className='h-fit grid grid-cols-3 w-fit gap-x-2 '>
-       {levels.map((index) => (
-            <LevelIcon key={index} level={index } id={`NFT-level-${index + 1}`} context="NFT"/>
+       <JustNFTLevelIcon isJustNFTBought={isJustNFTBuy}/>
+     
+        {levels.map((level) => (
+            availabeNFTS && availabeNFTS.includes(level) ? (
+              <NFTLevelSVG key={level.toString()} level={level} id={`NFT-level-${level}`} />
+            ) : (
+              <NFTNotAvailable key={level.toString()} level={level} id={`NFT-level-${level + 2}`} context="NFT" />
+            )
           ))}
-         
-
           
         </div>
         <div className="flex items-center relative">

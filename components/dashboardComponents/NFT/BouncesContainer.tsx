@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { NFT_Address, NFT_ABI } from "@/contract/Web3_Instance";
 import {
   useWeb3ModalAccount,
@@ -7,6 +7,7 @@ import {
 import axios from "axios";
 import { ethers } from "ethers";
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { FaCheckSquare } from "react-icons/fa";
 import { LuAlarmClock } from "react-icons/lu";
 
@@ -39,8 +40,6 @@ interface ApiType {
   data: NFTApiResponse[];
 }
 
-
-
 const BouncesContainer = ({ id, tokenId }: Props) => {
   const { address } = useWeb3ModalAccount();
   const { walletProvider } = useWeb3ModalProvider();
@@ -55,70 +54,85 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
   const nftContractInstance = new ethers.Contract(NFT_Address, NFT_ABI, signer);
   // const [filteredDataToken, setFilteredDataToken] = useState<NFTData[]>([]);
 
- const filteredDataToken:NFTData[] = [];
+  const filteredDataToken: NFTData[] = [];
 
+  const getNFTNameById = (id: any) => {
+    console.log("Id got ", id);
+    const NFTName: { [id: number]: string } = {
+      1: "Earth",
+      2: "Mars",
+      3: "Venus",
+      4: "Saturn",
+      5: "Neptune",
+    };
 
+    return NFTName[id];
+  };
 
-  function convertSecondsToDhms(seconds: number) {
-    if (seconds < 0) {
+  function convertSecondsToDhms(seconds: number): string {
+    // Get current time in seconds since the epoch
+    const now = Math.floor(Date.now() / 1000);
+  
+    // Calculate expiry time
+    const expiryTime = seconds;
+
+  
+    // Check if expiry time is in the past
+    if (expiryTime <= now) {
+      console.log("heelo ji")
       setIsTime("0d : 0h : 0m : 0s");
-      return;
+      return "0d : 0h : 0m : 0s";
     }
-    const days = Math.floor(seconds / (24 * 3600));
-    const hours = Math.floor((seconds % (24 * 3600)) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    setIsTime(`${days}d : ${hours}h : ${minutes}m : ${remainingSeconds}s`);
-    return`${days}d : ${hours}h : ${minutes}m : ${remainingSeconds}s`
+  
+    // Calculate remaining time
+    const remainingTime = expiryTime - now;
+  
 
+    // Calculate days, hours, minutes, and seconds
+    const days = Math.floor(remainingTime / (24 * 3600));
+    const hours = Math.floor((remainingTime % (24 * 3600)) / 3600);
+    const minutes = Math.floor((remainingTime % 3600) / 60);
+    const remainingSeconds = Math.floor(remainingTime % 60);
+  
+    const formattedTime = `${days}d : ${hours}h : ${minutes}m : ${remainingSeconds}s`;
+
+    setIsTime(formattedTime);
+    return formattedTime;
   }
+  
 
- const getBoughtTokenId = async (tokenType:number,tokenId:number) => {
+  const getBoughtTokenId = async (tokenType: number, tokenId: number) => {
     try {
-      
-      const getWithdrawTime = await nftContractInstance.tokenMetadata(tokenType,tokenId);
+      const getWithdrawTime = await nftContractInstance.tokenMetadata(
+        tokenType,
+        tokenId
+      );
       const getExpiryTimeOfPool = await nftContractInstance.expiryDate();
-      
-      console.log("getwithdraw time ",getWithdrawTime)
-      const rawTime = getExpiryTimeOfPool
+
+      const rawTime = getExpiryTimeOfPool;
       const rawClaimTime = getWithdrawTime._claimDate;
-      const withdrawTime = ethers.BigNumber.from(rawTime).toNumber()
-      const claimrawTime = ethers.BigNumber.from(rawClaimTime).toNumber()
-      console.log("withdraw time ",withdrawTime)
+      const withdrawTime = ethers.BigNumber.from(rawTime).toNumber();
+      const claimrawTime = ethers.BigNumber.from(rawClaimTime).toNumber();
 
-      let withTimeDhms = convertSecondsToDhms(withdrawTime)
-      let claimTimeDhms = convertSecondsToDhms(claimrawTime)
-      console.log("withTimeDhms ",withTimeDhms)
-      console.log("claim time DHMS ",claimTimeDhms)
-      console.log(`yes both time same for ${tokenId} and token type ${tokenType} `)
+      let withTimeDhms = convertSecondsToDhms(withdrawTime);
+      let claimTimeDhms = convertSecondsToDhms(claimrawTime);
 
-      if(withTimeDhms === claimTimeDhms){
-        filteredDataToken.push({nftType:tokenType,nftId:tokenId});
+      if (withTimeDhms === claimTimeDhms) {
+        filteredDataToken.push({ nftType: tokenType, nftId: tokenId });
       }
 
-      console.log('filteredDataToken',filteredDataToken)
-
-      if(filteredDataToken){
+      if (filteredDataToken) {
         const filteredData = filteredDataToken.map(({ nftId, nftType }) => ({
           nftId,
           nftType,
         }));
 
-        console.log("filterData",filteredData)
         setNftData(filteredData);
       }
-
-
-      
-
-      
-  
-
     } catch (error) {
       console.log("something went wrong ", error);
     }
   };
-
 
   const getExpiryTime = async () => {
     try {
@@ -131,7 +145,7 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
 
   const startCountdown = (expiryTime: number) => {
     const now = Math.floor(Date.now() / 1000);
-    let secondsLeft = expiryTime - now;
+    let secondsLeft = expiryTime
 
     convertSecondsToDhms(secondsLeft);
 
@@ -158,10 +172,12 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
     try {
       const rawAmt = await nftContractInstance.releasedTokenAmt();
       const bigNumberAmount = ethers.BigNumber.from(rawAmt).toBigInt();
+      console.log("big amount ", bigNumberAmount);
       const slicedString = String(bigNumberAmount).slice(0, -18);
       const rewardAmount = Number(slicedString);
+      console.log("reward amount ", rewardAmount);
 
-      const nfts = await nftContractInstance.allTokens(tokenId);
+      const nfts = await nftContractInstance.totalNFT(tokenId);
       const allNfts = ethers.BigNumber.from(nfts).toNumber();
 
       let distributeAmt: number;
@@ -195,7 +211,7 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
 
   const claimReward = async (tokenType: number, tokenId: number) => {
     try {
-      console.log(`Token type is ${tokenType} and token id is ${tokenId}`)
+      console.log(`Token type is ${tokenType} and token id is ${tokenId}`);
       setLoader(true); // Show loader
       const claimRewardRaw = await nftContractInstance.withdrawRewardByID(
         tokenType,
@@ -203,6 +219,7 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
         1
       );
       await claimRewardRaw.wait();
+      toast.success("Reward Claimed Successfully!")
       setRefetch((prev) => !prev); // Trigger refetch
     } catch (error) {
       console.log("something went wrong in claim reward", error);
@@ -215,17 +232,21 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
     getTimeOver(isTime);
   }, [isTime]);
 
-
   useEffect(() => {
     getRewardAmount(id, tokenId);
-    getExpiryTime();
-    getBoughtTokenId(tokenId,id);
+    getBoughtTokenId(tokenId, id);
   }, [refetch]); // Re-fetch data when refetch state changes
 
+
+  useEffect(()=>{
+    getExpiryTime();
+
+  },[])
   return (
     <>
+    <Toaster/>
       <div className="flex items-center justify-center">
-        <div className="flex items-center max-w-sm lg:max-w-md  space-x-3 lg:space-x-6 my-3  ">
+        <div className="flex items-center max-w-sm lg:max-w-md  space-x-5 lg:space-x-6 my-3  ">
           <div className="">
             {isTimeOver ? (
               <FaCheckSquare className="text-4xl text-green-500 " />
@@ -234,34 +255,44 @@ const BouncesContainer = ({ id, tokenId }: Props) => {
             )}
           </div>
           <div className="flex flex-col   ">
-            <p className="text-xs lg:text-lg">Time for withdraw:</p>
-            <p className="text-xs lg:text-lg">{isTime}</p>
+            <p className="text-sm lg:text-lg">Time for withdraw:</p>
+            <p className="text-sm lg:text-lg">{isTime}</p>
           </div>
           <div>
-            <p className="text-xs lg:text-lg">Reward</p>
-            <p className="text-xs  lg:text-lg">${rewardAmt}</p>
+            <p className="text-sm lg:text-lg">Reward</p>
+            <p className="text-sm  lg:text-lg">${rewardAmt}</p>
           </div>
         </div>
       </div>
 
-      <div className="w-full flex items-center justify-center">
-      {nftData.some((nft) => nft.nftId === id) ? (
-      <button
-      className="bg-green-500 px-3 py-1 font-semibold rounded-lg text-xs lg:text-md"
-      onClick={() => claimReward(tokenId, id)}
-    >
-      {loader ? "Claiming..." : "Claimed"}
-    </button>
+      <div className=" flex items-center justify-between ">
+        <div className="flex items-center justify-center  gap-x-4 ">
+          <p className="text-yellow-500 text-xs  lg:text-md">NFT Type: <span>{getNFTNameById(tokenId)}</span></p>
+          <p  className="text-yellow-500 text-xs  lg:text-md">NFT Id: {id}</p>
+        </div>
+        <div className="flex items-end justify-end ">
+        {isTimeOver ? 
+         ''
+        :
+          nftData.some((nft) => nft.nftId === id) ? (
+          <button
+            className="bg-green-500 px-3 py-1 font-semibold rounded-lg text-xs lg:text-md"
+            onClick={() => claimReward(tokenId, id)}
+          >
+            {loader ? "Claiming..." : "Claimed"}
+          </button>
         ) : (
           <button
-          className="bg-yellow-500 px-5 my-1 py-1 font-semibold rounded-lg text-xs lg:text-md"
-          onClick={() => claimReward(tokenId, id)}
-        >
-          {loader ? "Claiming..." : "Claim"}
-        </button>
-        )}
+            className="bg-yellow-500 px-5 my-1 py-1 font-semibold rounded-lg text-xs lg:text-md"
+            onClick={() => claimReward(tokenId, id)}
+          >
+            {loader ? "Claiming..." : "Claim"}
+          </button>
+        )
+        }
+        </div>
       </div>
-      <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-1 h-[1px] w-full" />
+      <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-1 h-[1px] w-full " />
     </>
   );
 };
