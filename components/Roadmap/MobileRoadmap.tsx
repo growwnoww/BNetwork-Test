@@ -6,7 +6,7 @@ import { BsFillStopCircleFill } from "react-icons/bs";
 
 const MobileRoadmap = () => {
   return (
-    <div>
+    <div className="">
 
       
       <div className="translate-x-5">

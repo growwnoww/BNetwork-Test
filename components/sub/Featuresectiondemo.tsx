@@ -8,7 +8,7 @@ import { TbCardsFilled } from "react-icons/tb";
 
 export function FeaturesSectionDemo() {
   return (
-    <div className="py-20 lg:py-40">
+    <div className="pb-20 lg:py-40">
       <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3  gap-10 md:gap-x-7 gap-y-6 max-w-7xl mx-auto">
         {grid.map((feature,index) => (
           <div

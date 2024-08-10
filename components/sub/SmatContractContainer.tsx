@@ -7,7 +7,7 @@ import { HoverBorderGradientDemo } from './HoverBorder';
 
 const SmatContractContainer = () => {
   return (
-    <div>
+    <div className='mt-36 lg:mt-0'>
         
         <div className='relative flex items-center justify-center -translate-y-48 lg:-translate-y-24'>
             <div className='absolute inset-1 h-full  lg:w-[33rem] lg:h-[15rem] bg-gradient-to-r from-yellow-400 to-yellow-500 transform scale-[0.80] bg-yellow-500 rounded-full blur-3xl opacity-40 flex -translate-y-5 3xl:translate-x-12 lg:left-1/3'>  </div>

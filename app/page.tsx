@@ -51,7 +51,7 @@ export default function Home() {
         </div>
 
 
-        <div id="roadmap" className="flex flex-col  items-center justify-center -translate-y-96 lg:-translate-y-2 ">
+        <div id="roadmap" className="flex flex-col  items-center justify-center -translate-y-24 lg:-translate-y-2 ">
           {/* <RoadmapBN/> */}
           <div className="-translate-y-36 lg:-translate-y-56    z-30">
             <p className="text-4xl lg:text-6xl font-extrabold ">Our Roadmap</p>
@@ -74,7 +74,7 @@ export default function Home() {
       </div>
 
       <footer>
-        <GlobeDemo/>
+        {/* <GlobeDemo/> */}
              <Footer />
       </footer>
     </main>
