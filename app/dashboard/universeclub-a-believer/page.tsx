@@ -540,7 +540,7 @@ const Page = () => {
                     <Button
                       type="submit"
                       variant="custom_yellow"
-                      className="w-fit px-6"
+                      className="w-fit px-7"
                     >
                       Submit
                     </Button>
