@@ -58,7 +58,7 @@ const Bounces = () => {
         console.log("Mint time is", _mintTime);
   
         // Check the mint time and push valid NFTs
-        if (_mintTime < 1723214942) {
+        if (_mintTime < 1724608560) {
           validRewardNFTs.push({
             tokenType: value.tokenType,
             tokenId: value.tokenId,
