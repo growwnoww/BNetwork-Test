@@ -91,13 +91,16 @@ const Page = () => {
             const provider = new ethers.providers.Web3Provider(walletProvider as any);
             const signer = provider.getSigner();
             const gasPrice = await signer.getGasPrice();
+            console.log("gas is->>",gasPrice)
 
             // const myContract = BNetwork();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
 
             const userExisit = await BNetworkContract.UserRegister(userAddress);
             const gasFee = await BNetworkContract.gasfees();
+            console.log("gas fee",gasFee)
             const convert = Number(gasFee?._hex).toString();
+            console.log("convert",convert)
             if (userExisit === false) {
                 console.log("cheching upline address before reg", ownerAddress);
                 const registration = await BNetworkContract.registrations(ownerAddress, {

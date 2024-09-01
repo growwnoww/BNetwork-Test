@@ -17,12 +17,7 @@ export const projects = [
       "/BELIEVE-LOGO-07.png",
     downloadbtn: "/ComosEng.pdf",
   },
-  {
-    title: "Universe Club-A",
-    image:
-      "/BELIEVE-LOGO-13.png",
-    downloadbtn: "/Universe_Club_A_BNetwork_1may24.pdf",
-  },
+
   {
     title: "NFT Royalty",
     image:

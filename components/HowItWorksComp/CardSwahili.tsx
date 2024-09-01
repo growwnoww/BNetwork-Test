@@ -17,23 +17,18 @@ export const projects = [
       "/BELIEVE-LOGO-07.png",
     downloadbtn: "/CosmosSwahili.pdf",
   },
-  {
-    title: "Universe Club-A",
-    image:
-      "/BELIEVE-LOGO-13.png",
-    downloadbtn: "/Club-A_PDF.pdf",
-  },
+
   {
     title: "NFT Royalty",
     image:
       "/NEPTUNE031.png",
-    downloadbtn: "/BNetwork_Royalty NFT.pdf",
+    downloadbtn: "/NFTSwahili.pdf",
   },
   {
     title: "White Paper of BN Coin",
     image:
       "/Coin Front.png",
-    downloadbtn: "/BNCoin White Paper.pdf",
+    downloadbtn: "/WhitePaperSwahilii.pdf",
   },
 
 ];

@@ -19,7 +19,7 @@ const Hero = () => {
     
     <div>
     <HeroContent/>
-    <Statistics/>
+    {/* <Statistics/> */}
     </div>  
     <HeroHighlightDemo/>
 

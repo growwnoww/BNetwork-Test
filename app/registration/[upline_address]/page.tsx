@@ -107,11 +107,17 @@ const Page = () => {
             const signer = provider.getSigner();
             const BNetworkContract = new ethers.Contract(B_Network_Address, BNetworkABI, signer);
             const gasPrice = await signer.getGasPrice();
+            const gasP = ethers.BigNumber.from(gasPrice).toNumber()
+            console.log("gas price",gasP)
 
             const userExisit = await BNetworkContract.isUserExists(userAddress);
 
             const gasFee = await BNetworkContract.gasfees();
+            const gf = ethers.BigNumber.from(gasFee).toNumber()
+            console.log()
+            console.log("gasFee",gf)
             const convert = Number(gasFee?._hex).toString();
+            console.log("convert",convert)
 
             if (userExisit === false) {
                 console.log("cheching upline address before reg", uplineAddressStr);

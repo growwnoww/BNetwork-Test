@@ -71,7 +71,7 @@ export const HoverEffect = ({
             </div>
 
             <div className="text-center my-2">
-          <Link className='bg-yellow-500 px-2 py-1 text-sm rounded-md font-semibold cursor-pointer' href={item.downloadbtn === "/CosmosFren.pdf"? item.downloadbtn : ''} target="_blank"  rel="noopener noreferrer">
+          <Link className='bg-yellow-500 px-2 py-1 text-sm rounded-md font-semibold cursor-pointer' href={item.downloadbtn} target="_blank"  rel="noopener noreferrer">
               View PDF
             </Link>
           </div>

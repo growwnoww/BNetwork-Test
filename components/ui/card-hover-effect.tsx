@@ -25,7 +25,7 @@ export const HoverEffect = ({
     </div>
       <div
       className={cn(
-        " grid grid-cols-2 lg:grid-cols-4 ",
+        " grid grid-cols-2 lg:grid-cols-4  ",
         className
       )}
     >
@@ -33,7 +33,7 @@ export const HoverEffect = ({
         <div
           
           key={item?.image}
-          className="relative group  block p-2 h-full w-full"
+          className="relative group p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
         >
