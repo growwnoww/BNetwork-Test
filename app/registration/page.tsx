@@ -24,6 +24,7 @@ import { MainMetors } from "@/components/sub/MainMetors";
 import Statistics from "@/components/sub/Statistics";
 import MobStatistics from "@/components/sub/MobStatistics";
 import { RegMetors } from "@/components/sub/RegMetors";
+import Footer from "@/components/Footer/Footer";
 
 const MainMetorsData = [
   {
@@ -110,10 +111,10 @@ const Page = () => {
 
   return (
     <>
-      <div className="mt-10 w-full min-h-screen rounded-md bg-neutral-950 relative">
-        <div className="hidden lg:block mt-28 mx-10">
+      <div className="mt-32 w-full min-h-screen rounded-md bg-neutral-950 relative">
+        {/* <div className="hidden lg:block mt-28 mx-10">
           <Statistics />
-        </div>
+        </div> */}
         <div className="p-4 grid grid-cols-1 lg:grid-cols-2 place-items-center gap-y-5 lg:gap-y-1">
           <div className="px-5 lg:ml-10">
             <div className="grid grid-cols-2 gap-x-10 gap-y-2 lg:gap-x-32 mt-8 lg:mt-0 w-full">
@@ -127,9 +128,9 @@ const Page = () => {
               ))}
             </div>
           </div>
-          <div className="lg:hidden w-full">
+          {/* <div className="lg:hidden w-full">
             <MobStatistics />
-          </div>
+          </div> */}
           <div className="w-full h-[30rem] lg:h-[33rem] max-w-lg lg:mx-auto bg-zinc-900 rounded-lg shadow-lg px-8 py-8 z-10 flex items-center justify-center flex-col">
             <h2 className="text-3xl lg:text-4xl bg-gradient-to-r from-orange-400 to-yellow-400 bg-clip-text text-transparent text-center font-bold mb-6">
               Registration For Believe Network
@@ -183,6 +184,7 @@ const Page = () => {
           </div>
         </div>
         <BackgroundBeams />
+        {/* <Footer/> */}
       </div>
     </>
   );

@@ -156,7 +156,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {(pathname === "/" || pathname === "/registration" || pathname === "/howitworks" || pathname === "/smartcontractinfo") && <PreviewComp />}
+                    {/* {(pathname === "/" || pathname === "/registration" || pathname === "/howitworks" || pathname === "/smartcontractinfo") && <PreviewComp />} */}
                 </div>
             </div>
         </div>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaFileContract } from 'react-icons/fa';
 import ContractInfo from '@/components/sub/ContractInfo';
+import Footer from '@/components/Footer/Footer';
 
 const contracts = [
     {
@@ -30,8 +31,8 @@ const contracts = [
     },
     {
       title: '6. BNS Royalty NFT',
-      date: '(Coming soon)',
-      address: '0xBD48FA7b107890a2F59D373F64C9d9dD9d299e03',
+      date: ' (Live August-06-2024)',
+      address: '0x8B71290A1E46765C58796fEc2c7d9A0ABB3B2409',
     },
     {
       title: '7. BN GAMIMG 🎲🎯🎮',
@@ -87,6 +88,7 @@ const SmartCInfo = () => {
           ))}
         </div>
       </div>
+      
     </div>
   );
 };

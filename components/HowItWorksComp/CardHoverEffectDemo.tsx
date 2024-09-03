@@ -15,7 +15,7 @@ export const projects = [
     title: "CosMos Network",
     image:
       "/BELIEVE-LOGO-07.png",
-    downloadbtn: "/ComosEng.pdf",
+    downloadbtn: "/CosMosEng.pdf",
   },
 
   {

@@ -1,3 +1,4 @@
+import Footer from '@/components/Footer/Footer'
 import Navbar from '@/components/main/Navbar'
 import React from 'react'
 
@@ -11,6 +12,7 @@ const SmartContractInfoLayout = ({children}:{children:React.ReactNode}) => {
         
             
          </div>
+         <Footer/>
     </div>
   )
 }
