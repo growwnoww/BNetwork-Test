@@ -110,7 +110,7 @@ const Sidebar = () => {
                     ))}
                     <li>
                         <Link
-                            href=""
+                            href="/dashboard/updateprofile"
                             className={`flex items-center ${
                                 pathname == `/dashboard/updateprofile`
                                     ? `bg-zinc-800`
@@ -128,11 +128,7 @@ const Sidebar = () => {
                     <li>
                         <div
                             onClick={handleDisconnectWallet}
-                            className={`flex items-center cursor-pointer ${
-                                pathname == `/dashboard/updateprofile`
-                                    ? `bg-zinc-800`
-                                    : "hover:bg-zinc-900 duration-400"
-                            } px-2 py-2 rounded-md mr-4 gap-x-3`}
+                            className={`flex items-center cursor-pointer  px-2 py-2 rounded-md mr-4 gap-x-3`}
                         >
                             <span>
                                 <RiLogoutCircleLine />
